@@ -1,0 +1,1898 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "SIAC SCHEMA ITEMS",
+        "version": "1.0.0",
+        "description": "API SIAC"
+    },
+    "paths": {
+        "https://sica.utpl.edu.ec/ws/api/articulos/": {
+            "get": {
+                "operationId": "listArticulosPublicados",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Articulos"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/articulos/{id}/": {
+            "get": {
+                "operationId": "retrieveArticulosPublicados",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this articulos publicados.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Articulos"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/articulos-autores/": {
+            "get": {
+                "operationId": "listArticulosAutores",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ArticulosAutores"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/articulos-autores/{id}/": {
+            "get": {
+                "operationId": "retrieveArticulosAutores",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this articulos autores.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArticulosAutores"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/libros/": {
+            "get": {
+                "operationId": "listLibrosPublicados",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Libros"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/libros/{id}/": {
+            "get": {
+                "operationId": "retrieveLibrosPublicados",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this libros publicados.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Libros"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/libros-autores/": {
+            "get": {
+                "operationId": "listLibrosAutores",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LibrosAutores"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/libros-autores/{id}/": {
+            "get": {
+                "operationId": "retrieveLibrosAutores",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this libros autores.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LibrosAutores"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/proyectos/": {
+            "get": {
+                "operationId": "listProyectos",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Proyectos"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/proyectos/{id}/": {
+            "get": {
+                "operationId": "retrieveProyectos",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this proyectos.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Proyectos"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/proyectos-participantes/": {
+            "get": {
+                "operationId": "listProyectosParticipantes",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProyectosParticipantes"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/proyectos-participantes/{id}/": {
+            "get": {
+                "operationId": "retrieveProyectosParticipantes",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this proyectos participantes.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProyectosParticipantes"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/grado-academico/": {
+            "get": {
+                "operationId": "listTitulaciones",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/GradoAcademico"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/grado-academico/{id}/": {
+            "get": {
+                "operationId": "retrieveTitulaciones",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this titulaciones.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GradoAcademico"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/capacitacion/": {
+            "get": {
+                "operationId": "listFormacionAcademicas",
+                "description": "",
+                "parameters": [{
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Capacitacion"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        },
+        "https://sica.utpl.edu.ec/ws/api/capacitacion/{id}/": {
+            "get": {
+                "operationId": "retrieveFormacionAcademica",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "A unique integer value identifying this formacion academica.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "required": false,
+                        "in": "query",
+                        "description": "A search term.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "required": false,
+                        "in": "query",
+                        "description": "Which field to use when ordering the results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Capacitacion"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "api"
+                ]
+            }
+        }
+    },
+
+    "components": {
+        "schemas": {
+            "Articulos": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "titulo": {
+                        "type": "string",
+                        "maxLength": 12000
+                    },
+                    "abstract": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "string",
+                        "maxLength": 3000
+                    },
+                    "link_articulo": {
+                        "type": "string"
+                    },
+                    "fecha_envio": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_aceptacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_publicacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_indexacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "pais": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "ciudad": {
+                        "type": "string",
+                        "maxLength": 300
+                    },
+                    "doi": {
+                        "type": "string",
+                        "maxLength": 1500
+                    },
+                    "indice": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "otro_indice": {
+                        "type": "string",
+                        "maxLength": 250
+                    },
+                    "year": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "issn": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "tipo_documento": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "nombre_conferencia": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "link_revista": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "quartil_revista": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "sjr": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.0001,
+                        "maximum": 1000000,
+                        "minimum": -1000000
+                    },
+                    "afiliacion_utpl": {
+                        "type": "string",
+                        "maxLength": 5
+                    },
+                    "volume": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "pages": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "issue": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "revista": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "eissn": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "idioma": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "titulo",
+                    "abstract",
+                    "keywords",
+                    "link_articulo",
+                    "ciudad",
+                    "doi",
+                    "otro_indice",
+                    "sjr",
+                    "afiliacion_utpl",
+                    "volume",
+                    "issue",
+                    "revista"
+                ]
+            },
+            "ArticulosAutores": {
+                "type": "object",
+                "properties": {
+                    "id_articulo": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "tipo_autor": {
+                        "type": "string",
+                        "maxLength": 25
+                    },
+                    "id_docente": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "id_externo": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "orden_autoria": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id_articulo",
+                    "tipo_autor"
+                ]
+            },
+            "Libros": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "anio": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "editorial": {
+                        "type": "string",
+                        "maxLength": 1500
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 765
+                    },
+                    "titulo": {
+                        "type": "string",
+                        "maxLength": 6000
+                    },
+                    "revision_pares": {
+                        "type": "string",
+                        "maxLength": 6
+                    },
+                    "paginas": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "primer_tiraje": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "link_descarga_1": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 6000
+                    },
+                    "link_descarga_2": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 6000
+                    },
+                    "incluye_estudiantes": {
+                        "type": "string",
+                        "maxLength": 6
+                    },
+                    "ambito_editorial": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "validate_evidencia": {
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "libro_fisico": {
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "evidencia": {
+                        "type": "string",
+                        "maxLength": 25
+                    },
+                    "eisbn": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "afiliacion_utpl": {
+                        "type": "string",
+                        "maxLength": 5
+                    },
+                    "reedicion": {
+                        "type": "string",
+                        "maxLength": 6
+                    },
+                    "item": {
+                        "type": "string",
+                        "maxLength": 10
+                    },
+                    "editor": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 250
+                    },
+                    "nombre_evento": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "edicion_evento": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "organizador_evento": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "comite_organizador": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ciudad_evento": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "fecha_evento": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "tipo_libro": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "pais_evento": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "anio",
+                    "editorial",
+                    "titulo",
+                    "revision_pares",
+                    "paginas",
+                    "incluye_estudiantes",
+                    "ambito_editorial",
+                    "validate_evidencia",
+                    "libro_fisico",
+                    "evidencia",
+                    "afiliacion_utpl",
+                    "reedicion",
+                    "item"
+                ]
+            },
+            "LibrosAutores": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "id_libro": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "tipo_autor": {
+                        "type": "string",
+                        "maxLength": 25
+                    },
+                    "id_docente": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "id_externo": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_autoria": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "capitulos_autoria": {
+                        "type": "string",
+                        "maxLength": 3000
+                    },
+                    "orden_autoria": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "codigo": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 15
+                    },
+                    "paginas": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 10
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id_libro",
+                    "tipo_autor",
+                    "capitulos_autoria",
+                    "orden_autoria"
+                ]
+            },
+            "Proyectos": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "fecha_inicio": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "fecha_cierre": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "codigo_proyecto": {
+                        "type": "string",
+                        "maxLength": 60
+                    },
+                    "nombre_proyecto": {
+                        "type": "string",
+                        "maxLength": 750
+                    },
+                    "descripcion": {
+                        "type": "string"
+                    },
+                    "tipo_proyecto": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "incluye_estudiantes": {
+                        "type": "string",
+                        "maxLength": 6
+                    },
+                    "incluye_financ_externo": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 6
+                    },
+                    "cobertura_proyecto": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "reprogramado": {
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "porcentaje_avance": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "fondo_utpl": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "fondo_externo": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "total_general": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "estado": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "programa": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "objetivos": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "moneda": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "presupuesto": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "clase_proyecto": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_investigacion": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "area_unesco": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "participacion_extranjera": {
+                        "type": "string",
+                        "maxLength": 5
+                    },
+                    "smartland": {
+                        "type": "string",
+                        "maxLength": 5
+                    },
+                    "fecha_reprogramacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "observaciones": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "fondo_externo_especie": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "fondo_externo_efectivo": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "alumnos": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "fecha_suspension": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_activacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "porcentaje_esperado": {
+                        "type": "string",
+                        "format": "decimal",
+                        "multipleOf": 0.01,
+                        "maximum": 100000000,
+                        "minimum": -100000000
+                    },
+                    "especie": {
+                        "enum": [
+                            "---",
+                            "si",
+                            "no"
+                        ],
+                        "type": "string"
+                    },
+                    "linea_investigacion": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tipo_convocatoria": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "titulacion": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "observatorio": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ods": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "organizacion": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "programa_investigacion": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "fecha_inicio",
+                    "fecha_cierre",
+                    "codigo_proyecto",
+                    "nombre_proyecto",
+                    "descripcion",
+                    "tipo_proyecto",
+                    "incluye_estudiantes",
+                    "cobertura_proyecto",
+                    "reprogramado",
+                    "porcentaje_avance",
+                    "fondo_utpl",
+                    "fondo_externo",
+                    "total_general",
+                    "estado",
+                    "presupuesto",
+                    "participacion_extranjera",
+                    "smartland",
+                    "fondo_externo_especie",
+                    "fondo_externo_efectivo",
+                    "alumnos",
+                    "porcentaje_esperado"
+                ]
+            },
+            "ProyectosParticipantes": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "id_proyecto": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "id_docente": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "rol_asumido": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "id_externo": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_participante": {
+                        "type": "string",
+                        "maxLength": 50
+                    },
+                    "fecha_inicio": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_fin": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "aporte_investigacion": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "observaciones": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "horas": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    }
+                },
+                "required": [
+                    "id_proyecto",
+                    "rol_asumido",
+                    "tipo_participante",
+                    "horas"
+                ]
+            },
+            "GradoAcademico": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "id_docente": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "fecha_emision": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "lugar_emision": {
+                        "type": "string",
+                        "maxLength": 765
+                    },
+                    "lugar_u_reconocedora": {
+                        "type": "string",
+                        "maxLength": 765
+                    },
+                    "denominacion_titulo": {
+                        "type": "string",
+                        "maxLength": 3000
+                    },
+                    "fecha_senescyt": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "registro_senescyt": {
+                        "type": "string",
+                        "maxLength": 765
+                    },
+                    "fecha_inicio": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_fin": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "tipo_titulo": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "universidad_emisora": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "pais_emision": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "universidad_reconocedora": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "pais_u_reconocedora": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "linea_investigacion": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id_docente",
+                    "lugar_emision",
+                    "lugar_u_reconocedora",
+                    "denominacion_titulo",
+                    "registro_senescyt"
+                ]
+            },
+            "Capacitacion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "id_docente": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "maxLength": 1500
+                    },
+                    "tematica": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "fecha_inicio": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_fin": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "duracion_horas": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "pais": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "ciudad": {
+                        "type": "string",
+                        "maxLength": 765
+                    },
+                    "link": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 6000
+                    },
+                    "cobertura": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_curso": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_formacion": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "tipo_participacion": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "fecha_publicacion": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "comite_organizador": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "institucion_organizadora": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sub_area_conocimiento": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area_conocimiento_especifica": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "subtipo_formacion": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id_docente",
+                    "nombre",
+                    "ciudad"
+                ]
+            }
+        }
+    }
+
+
+}

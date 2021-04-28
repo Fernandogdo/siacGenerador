@@ -1,0 +1,161 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- <div class="col-md-12" id="htmlData" #htmlData>
+                <h3>Curriculum Vitae</h3>
+             
+
+                <mat-card class="tarjeta" *ngFor="let esquema of Object.keys(claves) | ObjToArray">
+                    <span *ngIf="esquema.IsCalled">{{ loadProperty(claves[esquema]) }}</span>
+                   
+                    {{claves[esquema]}}
+                
+                    <input type="text" placeholder="{{claves[esquema]}}" [(ngModel)]="componentes[i]">
+                </mat-card>
+              
+                <br>
+             
+            </div> -->
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <form #configuracionForm="ngForm" (ngSubmit)="putConfiguracion(configuracionForm)">
+
+                        <input name="id" [(ngModel)]="configuracioncvService.selectedConfiguracion.id">
+
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="bloque" [(ngModel)]="configuracioncvService.selectedConfiguracion.bloque">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="atributo" [(ngModel)]="configuracioncvService.selectedConfiguracion.atributo">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="mapeo" [(ngModel)]="configuracioncvService.selectedConfiguracion.mapeo">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="visible_cv_completo" [(ngModel)]="configuracioncvService.selectedConfiguracion.visible_cv_completo">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Input</mat-label>
+                                <input matInput name="visible_cv_resumido" [(ngModel)]="configuracioncvService.selectedConfiguracion.visible_cv_resumido">
+                            </mat-form-field>
+                        </div>
+
+                        <button class="btn btn-primary ">
+                            Guardar
+                        </button>
+
+                        <button class="btn btn-primary mr-15" (click)="resetForm(configuracionForm)">
+                            Limpiar
+                        </button>
+
+
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-md-8">
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <!-- <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="" type="text">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="bloque" type="text">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="atributo" type="text">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div> -->
+
+
+                    <table class="table table-striped" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Bloque</th>
+                                <th>Atributo</th>
+                                <th>Orden</th>
+                                <th>Mapeo</th>
+                                <th>CompletoCV</th>
+                                <th>ResumidoCV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let configuracion of configuracioncvService.configuraciones">
+                                <!-- <td>{{configuracion.id}}</td> -->
+                                <td>{{configuracion.bloque}}</td>
+                                <td>{{configuracion.atributo}}</td>
+                                <td>{{configuracion.orden}}</td>
+                                <td>{{configuracion.mapeo}}</td>
+                                <td>{{configuracion.visible_cv_completo}}</td>
+                                <td>{{configuracion.visible_cv_resumido}}</td>
+                                <td>
+                                    <button class="btn btn-secundary" (click)="editConfiguracion(configuracion)">
+                                        <i class="material-icons">edit</i>
+
+                                    </button>
+                                    <button class="btn btn-danger" (click)="deleteConfiguracion(configuracion.id)">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- <div class="col-md-4 text-right">
+            <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
+        </div> -->
+    </div>
+</div>
