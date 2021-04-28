@@ -26,28 +26,29 @@
                     <form #configuracionForm="ngForm" (ngSubmit)="putConfiguracion(configuracionForm)">
 
                         <input name="id" [(ngModel)]="configuracioncvService.selectedConfiguracion.id">
+                        <input name="administrador" [(ngModel)]="configuracioncvService.selectedConfiguracion.administrador">
 
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
-                                <mat-label>Input</mat-label>
+                                <mat-label>Bloque</mat-label>
                                 <input matInput name="bloque" [(ngModel)]="configuracioncvService.selectedConfiguracion.bloque">
                             </mat-form-field>
                         </div>
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
-                                <mat-label>Input</mat-label>
+                                <mat-label>Atributo</mat-label>
                                 <input matInput name="atributo" [(ngModel)]="configuracioncvService.selectedConfiguracion.atributo">
                             </mat-form-field>
                         </div>
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
-                                <mat-label>Input</mat-label>
+                                <mat-label>Orden</mat-label>
                                 <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden">
                             </mat-form-field>
                         </div>
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
-                                <mat-label>Input</mat-label>
+                                <mat-label>Mapeo</mat-label>
                                 <input matInput name="mapeo" [(ngModel)]="configuracioncvService.selectedConfiguracion.mapeo">
                             </mat-form-field>
                         </div>
