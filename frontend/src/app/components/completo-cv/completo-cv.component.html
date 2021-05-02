@@ -25,8 +25,8 @@
                     </div>
                     <form #configuracionForm="ngForm" (ngSubmit)="putConfiguracion(configuracionForm)">
 
-                        <input name="id" [(ngModel)]="configuracioncvService.selectedConfiguracion.id">
-                        <input name="administrador" [(ngModel)]="configuracioncvService.selectedConfiguracion.administrador">
+                        <input name="id" type="hidden" [(ngModel)]="configuracioncvService.selectedConfiguracion.id">
+                        <input name="administrador" type="hidden" [(ngModel)]="configuracioncvService.selectedConfiguracion.administrador">
 
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
@@ -34,12 +34,12 @@
                                 <input matInput name="bloque" [(ngModel)]="configuracioncvService.selectedConfiguracion.bloque">
                             </mat-form-field>
                         </div>
-                        <div class="form-group">
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Atributo</mat-label>
-                                <input matInput name="atributo" [(ngModel)]="configuracioncvService.selectedConfiguracion.atributo">
-                            </mat-form-field>
-                        </div>
+                        <!-- <div class="form-group"> -->
+                            <!-- <mat-form-field class="col-md-12"> -->
+                                <!-- <mat-label>Atributo</mat-label> -->
+                                <input  name="atributo" type="hidden" [(ngModel)]="configuracioncvService.selectedConfiguracion.atributo">
+                            <!-- </mat-form-field> -->
+                        <!-- </div> -->
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
                                 <mat-label>Orden</mat-label>
@@ -121,8 +121,8 @@
                             <tr>
                                 <th>Bloque</th>
                                 <th>Atributo</th>
-                                <th>Orden</th>
-                                <th>Mapeo</th>
+                                <!-- <th>Orden</th> -->
+                                <!-- <th>Mapeo</th> -->
                                 <th>CompletoCV</th>
                                 <th>ResumidoCV</th>
                             </tr>
@@ -132,8 +132,8 @@
                                 <!-- <td>{{configuracion.id}}</td> -->
                                 <td>{{configuracion.bloque}}</td>
                                 <td>{{configuracion.atributo}}</td>
-                                <td>{{configuracion.orden}}</td>
-                                <td>{{configuracion.mapeo}}</td>
+                                <!-- <td>{{configuracion.orden}}</td> -->
+                                <!-- <td>{{configuracion.mapeo}}</td> -->
                                 <td>{{configuracion.visible_cv_completo}}</td>
                                 <td>{{configuracion.visible_cv_resumido}}</td>
                                 <td>
@@ -141,9 +141,9 @@
                                         <i class="material-icons">edit</i>
 
                                     </button>
-                                    <button class="btn btn-danger" (click)="deleteConfiguracion(configuracion.id)">
+                                    <!-- <button class="btn btn-danger" (click)="deleteConfiguracion(configuracion.id)">
                                         <i class="material-icons">delete</i>
-                                    </button>
+                                    </button> -->
                                 </td>
                             </tr>
                         </tbody>

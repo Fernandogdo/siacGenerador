@@ -40,47 +40,27 @@ export class ConfiguracioncvService {
       console.log('DATASERVICE', data.components.schemas);
     });
 
-    this.getConfiguraciones()
+    // this.getConfiguraciones()
     // this.postBloques().subscribe(res =>{
     //   console.log('QUEQUESAD',res);
     // })
+    // this.recorreConfiguracion()
   }
 
   postBloques(bloques) {
     const httpOptions = {
       headers: new HttpHeaders
-        ({ 'Content-Type': 'application/json;charset=UTF-8',
-        "Accept": "application/json"
-      })
+        ({
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Accept": "application/json"
+        })
     }
-
-    const object = 
-    // {
-    //   "Articulos", "ArticulosAutores", "Libros", "LibrosAutores", "Proyectos", "ProyectosParticipantes", "GradoAcademico", "Capacitacion"
-    // }
-    {0: "Articulos", 1: "ArticulosAutores", 2: "Libros", 3: "LibrosAutores", 4: "Proyectos" , 5: "ProyectosParticipantes" ,6: "GradoAcademico", 7: "Capacitacion"}
-
-    // console.log(JSON.stringify(object[0]))
-
-    // const params = new HttpParams({
-    //   fromObject: object
-    // })
-
-
-    console.log((object[0]))
-
-    let data=  object[0]
 
     const path = `${this.URL_BLOQUES}`;
 
     return this.http.post<Bloque>(path, {
       "nombre": bloques
-  })
-
-    // let params = JSON.stringify(bloque); 
-
-
-
+    })
 
   }
 
@@ -129,7 +109,7 @@ export class ConfiguracioncvService {
 
       this.claves = Object.keys(lala);
       let keys = Object.keys(lala)
-      console.log('claves',keys)
+      console.log('claves', keys)
 
       // this.postBloques(JSON.stringify(lala[0])).subscribe(res => {
       //   console.log('DATA', res)
@@ -140,25 +120,60 @@ export class ConfiguracioncvService {
         // let myjson = JSON.stringify()
         this.postBloques((lala[clave]))
           .subscribe(res => {
-          console.log('DATA', res)
-        });
+            console.log('DATA', res)
+          });
         console.log('DATA', (lala[clave]));
 
       }
-
-      // for (let bloque of this.claves) {
-
-      //   console.log('FORFOR',bloque)
-      //   this.postBloques(bloque).subscribe(
-      //     res => {
-      //       console.log('FORFOR',res);
-      //     }
-      //   )
-      // }
-
-
     });
   }
+
+  postConfiguraciones(bloque, atributo) {
+    const path = `${this.URL_CONF}`;
+
+    return this.http.post<Configuracioncv>(path, {
+      "bloque": bloque,
+      "atributo": atributo,
+      "orden": 1,
+      "visible_cv_resumido": true,
+      "visible_cv_completo": true,
+      "mapeo": atributo,
+      "administrador": 1
+    })
+  }
+
+  recorreConfiguracion() {
+    this.getJSON().subscribe(data => {
+      let lala = Object.keys(data.components.schemas)
+      let keys = Object.keys(lala)
+      console.log('ESQUEMAS', keys)
+
+      // let atributos = Object.keys(data.components.schemas.properties)
+      // console.log(atributos)
+
+      // let keys_atributos = Object.keys(atributos)
+
+      for (let i = 0; i < keys.length; i++) {
+        let clave = keys[i];
+        let acceso = lala[clave]
+        console.log('ACCESO', acceso)
+        let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
+        let keys_atributos_todos = Object.keys(atributos_todos)
+
+        for (let index = 0; index < keys_atributos_todos.length; index++) {
+          const clave_atributo = keys_atributos_todos[index];
+          // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
+
+          this.postConfiguraciones(acceso, atributos_todos[clave_atributo])
+            .subscribe(res => {
+              // console.log('DATA', res)
+            });
+          // console.log('DATA', (lala[clave]));
+        }
+      }
+    });
+  }
+
 
   public getJSON(): Observable<any> {
     return this.http.get("../../assets/esquema/esquemasiac.json")

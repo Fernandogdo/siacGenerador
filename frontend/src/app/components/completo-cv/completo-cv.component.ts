@@ -13,12 +13,12 @@ import { NgForm } from '@angular/forms'
 // import { jsPDF } from "jspdf";
 // import jsPDF from 'jspdf';
 
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
+// import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
+// import pdfMake from 'pdfmake/build/pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// import htmlToPdfmake from 'html-to-pdfmake';
 
 // import esquemasiac from '../../../assets/esquema/esquemasiac.json'
 // import * as data from '../../../assets/esquema/esquemasiac.json';
@@ -144,7 +144,6 @@ export class CompletoCvComponent implements OnInit {
     // this.getProyectos();
     this.getEsquemas();
     // this.getAtributos();
-    this.postBLoque()
     // console.log(this.model)
     this.getConfiguracion();
 
@@ -206,19 +205,19 @@ export class CompletoCvComponent implements OnInit {
       let array = Object.entries(data.components.schemas);
       // console.log(this.esquemas);
       // console.log('DATOSDA', this.esquemas)
-      this.esquemas.forEach((datos) => console.log(datos[0]));
+      //this.esquemas.forEach((datos) => console.log(datos[0]));
       // this.esquemas.forEach(element => {
       //   this.esquemas = element[0]
 
       // });
 
-      this.claves = Object.keys(lala);
-      let keys = Object.keys(lala)
-      console.log('claves', this.claves)
-      for (let i = 0; i < keys.length; i++) {
-        let clave = keys[i];
-        console.log('DATA', lala[clave]);
-      }
+      // this.claves = Object.keys(lala);
+      // let keys = Object.keys(lala)
+      // console.log('claves', this.claves)
+      // for (let i = 0; i < keys.length; i++) {
+      //   let clave = keys[i];
+      //   console.log('DATA', lala[clave]);
+      // }
 
       // for (let index = 0; index < array.length; index++) {
       //   const element = array[index];
@@ -260,83 +259,6 @@ export class CompletoCvComponent implements OnInit {
     )
   }
 
-
-  postConfiguracion() {
-
-    const configuracioncv = {
-      administrador: 1,
-      bloque: 'data',
-      atributo: 'data',
-      orden: 2,
-      visible_cv_resumido: true,
-      visible_cv_completo: true,
-      mapeo: 'data'
-    }
-
-    this.configuracioncvService.createConfigracioncv(configuracioncv)
-      .subscribe((nuevaconfiguracion) =>
-        console.log(nuevaconfiguracion));
-  }
-
-
-  postBLoque() {
-
-    this.configuracioncvService.getJSON().subscribe(data => {
-      // let array = data.components.schemas
-      // this.claves = Object.keys(array);
-      // console.log('sadsadsa', this.claves)
-      // let objeto = Object.assign({}, this.claves);
-      // console.log(objeto)
-      // this.claves = Object.keys(data.components.schemas);
-      // let lala = data.components.schemas
-      // this.claves = Object.keys(lala);
-
-      // let json = JSON.stringify(data.components.schemas)
-      // console.log('JSONSTRING', json)
-
-
-
-      // this.configuracioncvService.postBloques(JSON.stringify(array))
-      //   .subscribe(res => console.log(res))
-
-
-
-
-      // console.log(this.claves)
-
-      // console.log('claves', data.components.schemas)
-
-      // for (let clave in objeto){
-      //   console.log(objeto[clave]);
-      //   this.configuracioncvService.postBloques(objeto[clave])
-      //   .subscribe((res)=> {
-      //     console.log('RESPUESTASERV',res)
-      //   })
-      // }
-
-
-      // for (let bloque of this.claves) {
-
-      //   console.log('FORFOR', bloque)
-      //   this.configuracioncvService.postBloques(bloque)
-      //     .subscribe((res) =>
-      //       console.log('FORFOR', res)
-      //     );
-      // }
-    });
-    // const bloque = {
-    //   nombre: 'data',
-    //   orden: 1,
-    // }
-
-
-
-
-
-    // this.configuracioncvService.postBloques(bloque)
-    //   .subscribe((bloque)=> 
-    //   console.log('BLOQUE',bloque));
-  }
 
   // public openPDF(): void {
   //   let DATA = document.getElementById('htmlData');
@@ -429,10 +351,10 @@ export class CompletoCvComponent implements OnInit {
     //get table html
     const data = this.htmlData.nativeElement;
     //html to pdf format
-    var html = htmlToPdfmake(data.innerHTML);
+    // var html = htmlToPdfmake(data.innerHTML);
 
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download();
+    // const documentDefinition = { content: html };
+    // pdfMake.createPdf(documentDefinition).download();
 
 
   }
