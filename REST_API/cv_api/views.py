@@ -29,3 +29,7 @@ class ConfiguracionCv_PersonalizadoView(viewsets.ModelViewSet):
 class DocenteView(viewsets.ModelViewSet):
     queryset = models.Docente.objects.all()
     serializer_class = serializers.DocenteSerializer
+    
+class BloqueView(viewsets.ModelViewSet):
+    queryset = models.Bloque.objects.all()
+    serializer_class = serializers.BloqueSerializer

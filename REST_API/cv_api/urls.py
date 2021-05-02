@@ -7,6 +7,8 @@ router.register(r'configuracioncv', views.ConfiguracionCvView)
 router.register(r'configuracioncv_personalizado', views.ConfiguracionCv_PersonalizadoView)
 router.register(r'docente', views.DocenteView)
 router.register(r'administrador', views.AdministradorView)
+router.register(r'bloque', views.BloqueView)
+
 
 urlpatterns = [
   path('', include(router.urls))

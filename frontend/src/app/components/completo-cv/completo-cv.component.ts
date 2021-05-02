@@ -282,17 +282,17 @@ export class CompletoCvComponent implements OnInit {
   postBLoque() {
 
     this.configuracioncvService.getJSON().subscribe(data => {
-      let array = data.components.schemas
-      this.claves = Object.keys(array);
-      console.log('sadsadsa', this.claves)
-      let objeto = Object.assign({}, this.claves);
-      console.log(objeto)
-      this.claves = Object.keys(data.components.schemas);
-      let lala = data.components.schemas
-      this.claves = Object.keys(lala);
+      // let array = data.components.schemas
+      // this.claves = Object.keys(array);
+      // console.log('sadsadsa', this.claves)
+      // let objeto = Object.assign({}, this.claves);
+      // console.log(objeto)
+      // this.claves = Object.keys(data.components.schemas);
+      // let lala = data.components.schemas
+      // this.claves = Object.keys(lala);
 
-      let json = JSON.stringify(data.components.schemas)
-      console.log('JSONSTRING', json)
+      // let json = JSON.stringify(data.components.schemas)
+      // console.log('JSONSTRING', json)
 
 
 

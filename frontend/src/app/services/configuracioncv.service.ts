@@ -35,7 +35,7 @@ export class ConfiguracioncvService {
   constructor(
     private http: HttpClient
   ) {
-    this.test()
+    // this.test()
     this.getJSON().subscribe(data => {
       console.log('DATASERVICE', data.components.schemas);
     });
@@ -46,26 +46,36 @@ export class ConfiguracioncvService {
     // })
   }
 
-  postBloques(datos) {
+  postBloques(bloques) {
     const httpOptions = {
       headers: new HttpHeaders
-        ({ 'Content-Type': 'application/json' })
+        ({ 'Content-Type': 'application/json;charset=UTF-8',
+        "Accept": "application/json"
+      })
     }
 
-    const object = [
-      "Articulos", "ArticulosAutores", "Libros", "LibrosAutores", "Proyectos", "ProyectosParticipantes", "GradoAcademico", "Capacitacion"
-    ]
-    // {0: "Articulos", 1: "ArticulosAutores", 2: "Libros", 3: "LibrosAutores", 4: "Proyectos" , 5: "ProyectosParticipantes" ,6: "GradoAcademico", 7: "Capacitacion"}
+    const object = 
+    // {
+    //   "Articulos", "ArticulosAutores", "Libros", "LibrosAutores", "Proyectos", "ProyectosParticipantes", "GradoAcademico", "Capacitacion"
+    // }
+    {0: "Articulos", 1: "ArticulosAutores", 2: "Libros", 3: "LibrosAutores", 4: "Proyectos" , 5: "ProyectosParticipantes" ,6: "GradoAcademico", 7: "Capacitacion"}
 
-
+    // console.log(JSON.stringify(object[0]))
 
     // const params = new HttpParams({
     //   fromObject: object
     // })
 
+
+    console.log((object[0]))
+
+    let data=  object[0]
+
     const path = `${this.URL_BLOQUES}`;
 
-    return this.http.post(path, datos)
+    return this.http.post<Bloque>(path, {
+      "nombre": bloques
+  })
 
     // let params = JSON.stringify(bloque); 
 
@@ -105,7 +115,7 @@ export class ConfiguracioncvService {
 
       let claves = Object.keys(lala);
 
-      console.log(claves);
+      // console.log(claves);
       this.esquemas = Object.entries(data.components.schemas);
       // let array = Object.entries(data.components.schemas);
 
@@ -119,15 +129,20 @@ export class ConfiguracioncvService {
 
       this.claves = Object.keys(lala);
       let keys = Object.keys(lala)
-      // console.log('claves',keys)
+      console.log('claves',keys)
+
+      // this.postBloques(JSON.stringify(lala[0])).subscribe(res => {
+      //   console.log('DATA', res)
+      // });
 
       for (let i = 0; i < keys.length; i++) {
         let clave = keys[i];
-
-        this.postBloques(lala[clave]).subscribe(res => {
+        // let myjson = JSON.stringify()
+        this.postBloques((lala[clave]))
+          .subscribe(res => {
           console.log('DATA', res)
         });
-        console.log('DATA', lala[clave]);
+        console.log('DATA', (lala[clave]));
 
       }
 

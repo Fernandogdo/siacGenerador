@@ -29,3 +29,9 @@ class ConfiguracionCv_PersonalizadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfiguracionCv_Personalizado
         fields = ('__all__')
+        
+class BloqueSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Bloque
+        fields = ('__all__')
