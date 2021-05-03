@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './comun/components.module';
@@ -20,12 +20,15 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AdministradorComponent } from './components/administrador/administrador.component';
+import { BrowserModule } from '@angular/platform-browser';
+
 // import { ResumidoCvComponent } from './components/resumido-cv/resumido-cv.component';
-// import { PersonalizadoCvComponent } from './components/personalizado-cv/personalizado-cv.component';
+//import { PersonalizadoCvComponent } from './components/personalizado-cv/personalizado-cv.component';
 // import { CompletoCvComponent } from './components/completo-cv/completo-cv.component';
 
 @NgModule({
   imports: [
+    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -39,7 +42,7 @@ import { AdministradorComponent } from './components/administrador/administrador
     AdminLayoutComponent,
     AdministradorComponent,
     // ResumidoCvComponent,
-    // PersonalizadoCvComponent,
+    //PersonalizadoCvComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

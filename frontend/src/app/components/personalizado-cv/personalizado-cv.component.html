@@ -1,1 +1,83 @@
-<p>personalizado-cv works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+
+
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <!-- <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="" type="text">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="bloque" type="text">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="atributo" type="text">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div> -->
+
+
+                    <table class="table table-striped" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Bloque</th>
+                                <th>Atributo</th>
+                                <!-- <th>Orden</th> -->
+                                <!-- <th>Mapeo</th> -->
+                                <!-- <th>CompletoCV</th>
+                                <th>ResumidoCV</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let configuracion of configuracioncvService.configuraciones">
+                                <!-- <td>{{configuracion.id}}</td> -->
+                                <td>{{configuracion.bloque}}</td>
+                                <td>{{configuracion.atributo}}</td>
+                                <!-- <td>{{configuracion.orden}}</td> -->
+                                <!-- <td>{{configuracion.mapeo}}</td> -->
+                                <!-- <td>{{configuracion.visible_cv_completo}}</td>
+                                <td>{{configuracion.visible_cv_resumido}}</td> -->
+                                <td>
+
+                                    <mat-checkbox (click)="onSelect(configuracion)"></mat-checkbox>
+
+
+                                    <!-- <button class="btn btn-danger" (click)="deleteConfiguracion(configuracion.id)">
+                                        <i class="material-icons">delete</i>
+                                    </button> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- <div class="col-md-4 text-right">
+            <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
+        </div> -->
+    </div>
+</div>

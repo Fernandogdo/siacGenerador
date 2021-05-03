@@ -10,6 +10,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../components/user-profile/user-profile.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
+import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
 
 /* MATERIAL */
 import {MatButtonModule} from '@angular/material/button';
@@ -22,6 +23,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list'; 
 import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import {MatStepperModule} from '@angular/material/stepper'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -37,12 +39,14 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatTooltipModule,
     MatCardModule,
     MatListModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     CompletoCvComponent,
+    PersonalizadoCvComponent,
     ObjToArrayPipe
   ]
 })

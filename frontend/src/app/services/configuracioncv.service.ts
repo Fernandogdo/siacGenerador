@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { post } from 'jquery';
 import { Bloque } from 'app/models/bloque.model';
+import { ConfiguracioncvPersonalizado } from 'app/models/configuracioncvPersonalizado.model';
 
 
 @Injectable({
@@ -16,6 +17,8 @@ export class ConfiguracioncvService {
 
 
   URL_BLOQUES = 'http://127.0.0.1:8000/api/bloque/';
+
+  URL_PERS = 'http://127.0.0.1:8000/api/configuracioncv_personalizado/'
 
   claves: any = [];
   esquemas: any = [];
@@ -47,20 +50,17 @@ export class ConfiguracioncvService {
     // this.recorreConfiguracion()
   }
 
-  postBloques(bloques) {
-    const httpOptions = {
-      headers: new HttpHeaders
-        ({
-          'Content-Type': 'application/json;charset=UTF-8',
-          "Accept": "application/json"
-        })
-    }
+  public getJSON(): Observable<any> {
+    return this.http.get("../../assets/esquema/esquemasiac.json")
+  }
 
+  postBloques(bloques) {
+ 
     const path = `${this.URL_BLOQUES}`;
 
     return this.http.post<Bloque>(path, {
       "nombre": bloques
-    })
+    });
 
   }
 
@@ -175,10 +175,10 @@ export class ConfiguracioncvService {
   }
 
 
-  public getJSON(): Observable<any> {
-    return this.http.get("../../assets/esquema/esquemasiac.json")
+  postConfiguracionPersonalizada(configuracioncvPersonalizado){
+    return this.http.post<ConfiguracioncvPersonalizado>(this.URL_PERS, configuracioncvPersonalizado)
   }
-
+  
 
   getConfiguraciones() {
     return this.http.get<Configuracioncv[]>(this.URL_CONF)
