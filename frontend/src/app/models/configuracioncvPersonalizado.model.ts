@@ -7,7 +7,7 @@ export class ConfiguracioncvPersonalizado {
         public idDocente: number,
         public bloque: string,
         public atributo: string,
-        public orden: number,
+        // public orden: number,
         public visible_cv_personalizado: Boolean,
         public mapeo: string,
         public cv: string,

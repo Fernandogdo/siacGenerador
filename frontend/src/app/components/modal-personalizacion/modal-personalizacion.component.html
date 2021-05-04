@@ -1,0 +1,57 @@
+<div class="contenedor" id="formulario">
+
+    <!-- <div class="container"> -->
+
+    <mat-card class="example-card">
+        <!-- <mat-card-header id="titulo"> -->
+
+        <h3 class="titulo">
+            <strong>
+                Actualizar Categoría
+            </strong>
+        </h3>
+
+
+        <form [formGroup]="form" #categoryForm="ngForm">
+            <input value="{{idConfiguracion}}">
+
+
+
+            <!-- <input type="text" value="{{imagen}}"> -->
+            <mat-form-field class="example-full-width">
+                <mat-label>Bloque</mat-label>
+                <input type="text" matInput formControlName="bloque">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Atributo</mat-label>
+                <input type="text" matInput formControlName="atributo">
+            </mat-form-field> 
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Visible CV</mat-label>
+                <input type="text" matInput formControlName="visible_cv_personalizado">
+            </mat-form-field> 
+            <mat-form-field class="example-full-width">
+                <mat-label>idCV</mat-label>
+                <input type="text" matInput formControlName="cv">
+            </mat-form-field> 
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre CV</mat-label>
+                <input type="text" matInput formControlName="nombre_cv">
+            </mat-form-field> 
+
+            <div class="row">
+                <div class="col text-center">
+                    <button mat-raised-button color="primary" mat-dialog-close (click)="editConfiguracion()">Actualizar</button>
+                    <button mat-raised-button class="botones" color="warn" mat-dialog-close>Cerrar</button>
+                </div>
+            </div>
+        </form>
+
+        <br>
+        <!-- </mat-card-header> -->
+
+    </mat-card>
+    <!-- </div> -->
+</div>

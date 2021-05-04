@@ -24,6 +24,8 @@ import {MatListModule} from '@angular/material/list';
 import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import {MatStepperModule} from '@angular/material/stepper'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
 
 @NgModule({
   imports: [
@@ -40,13 +42,16 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatCardModule,
     MatListModule,
     MatStepperModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
+    
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     CompletoCvComponent,
     PersonalizadoCvComponent,
+    ModalPersonalizacionComponent,
     ObjToArrayPipe
   ]
 })

@@ -1,6 +1,9 @@
 import { sharedStylesheetJitUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
+import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
 
 @Component({
   selector: 'app-personalizado-cv',
@@ -9,25 +12,44 @@ import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 })
 export class PersonalizadoCvComponent implements OnInit {
 
-  constructor(
-    public configuracioncvService: ConfiguracioncvService,
-  ) {
+  form: FormGroup;
 
+  dialogEditPersonalizacion: MatDialogRef<ModalPersonalizacionComponent>;
+
+  constructor(
+    public fb: FormBuilder,
+    public configuracioncvService: ConfiguracioncvService,
+    private dialog: MatDialog
+
+  ) {
+    this.form = this.fb.group({
+      nombrecv: ['', Validators.required]
+    })
   }
 
   ngOnInit(): void {
-    this.getConfiguracion()
+    this.getConfiguracionPersonalizada()
   }
 
-  getConfiguracion() {
-    this.configuracioncvService.getConfiguraciones().subscribe(
+  getConfiguracionPersonalizada() {
+    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
       res => {
-        this.configuracioncvService.configuraciones = res;
+        this.configuracioncvService.configuracionesPersonalizadas = res;
         console.log(res);
       },
       err => console.log(err)
     )
   }
+
+  // putConfiguracion(form: NgForm) {
+  //   console.log('FORMULARIO FORMULARIO', form.value);
+  //   if(form.value.id){
+  //     this.configuracioncvService.putConfiguracion(form.value)
+  //       .subscribe(
+  //         res => console.log('CONFIACTUALIZAD',res)
+  //       )
+  //   }
+  // }
 
   onSelect(selectedItem: any) {
 
@@ -43,14 +65,30 @@ export class PersonalizadoCvComponent implements OnInit {
       nombre_cv: 'ssad'
     };
 
-    this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
-      .subscribe(res =>{
-        console.log('GUARDADOPERSO',res)
-      })
+    // this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
+    //   .subscribe(res =>{
+    //     console.log('GUARDADOPERSO',res)
+    //   })
+  }
+  
+  ModalEditPersonalizacion(id, articulo, atributo, orden ){
+    this.dialogEditPersonalizacion = this.dialog.open(ModalPersonalizacionComponent, {
+      data: {
+        idConfPersonalizada: id,
+        articulo: articulo,
+        atributo: atributo,
+        orden: orden
+      }
+    });
+    this.dialogEditPersonalizacion.afterClosed().subscribe(()=> {
+      this.getConfiguracionPersonalizada();
+    });
   }
 
   postConfiguracionPersonalizada(){
 
   }
+
+
 
 }

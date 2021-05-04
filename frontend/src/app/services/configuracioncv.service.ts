@@ -34,6 +34,7 @@ export class ConfiguracioncvService {
     visible_cv_resumido: true,
   };
   configuraciones: Configuracioncv[];
+  configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
 
   constructor(
     private http: HttpClient
@@ -48,6 +49,7 @@ export class ConfiguracioncvService {
     //   console.log('QUEQUESAD',res);
     // })
     // this.recorreConfiguracion()
+    // this.recorreConfiguracionPersonalizada();
   }
 
   public getJSON(): Observable<any> {
@@ -55,7 +57,7 @@ export class ConfiguracioncvService {
   }
 
   postBloques(bloques) {
- 
+
     const path = `${this.URL_BLOQUES}`;
 
     return this.http.post<Bloque>(path, {
@@ -175,17 +177,69 @@ export class ConfiguracioncvService {
   }
 
 
-  postConfiguracionPersonalizada(configuracioncvPersonalizado){
-    return this.http.post<ConfiguracioncvPersonalizado>(this.URL_PERS, configuracioncvPersonalizado)
+  postConfiguracionPersonalizada(bloque, atributo) {
+    const path = `${this.URL_PERS}`;
+    return this.http.post<ConfiguracioncvPersonalizado>(path, {
+      "bloque": bloque,
+      "atributo": atributo,
+      "visible_cv_personalizado": false,
+      "mapeo": atributo,
+      "cv": 1,
+      "nombre_cv": "default",
+      "idDocente": 1
+    });
   }
-  
+
+  recorreConfiguracionPersonalizada(){
+    this.getJSON().subscribe(data => {
+      let lala = Object.keys(data.components.schemas)
+      let keys = Object.keys(lala)
+      console.log('ESQUEMAS', keys)
+
+      // let atributos = Object.keys(data.components.schemas.properties)
+      // console.log(atributos)
+
+      // let keys_atributos = Object.keys(atributos)
+
+      for (let i = 0; i < keys.length; i++) {
+        let clave = keys[i];
+        let acceso = lala[clave]
+        console.log('ACCESO', acceso)
+        let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
+        let keys_atributos_todos = Object.keys(atributos_todos)
+
+        for (let index = 0; index < keys_atributos_todos.length; index++) {
+          const clave_atributo = keys_atributos_todos[index];
+          // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
+
+          this.postConfiguracionPersonalizada(acceso, atributos_todos[clave_atributo])
+            .subscribe(res => {
+              console.log('DATA', res)
+            });
+          // console.log('DATA', (lala[clave]));
+        }
+      }
+    });
+  }
 
   getConfiguraciones() {
-    return this.http.get<Configuracioncv[]>(this.URL_CONF)
+    return this.http.get<Configuracioncv[]>(this.URL_CONF);
+  }
+
+  getConfiguracionesPersonalizadas(){
+    return this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS);
+  }
+
+  getConfiguracionPersonalizada(id){
+    return this.http.get(this.URL_PERS + id)
   }
 
   putConfiguracion(configuracion: Configuracioncv) {
     return this.http.put(this.URL_CONF + configuracion.id + '/', configuracion)
+  }
+
+  putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado){
+    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + '/', configuracionPersonalizada )
   }
 
   deleteConfiguracion(id: string) {
