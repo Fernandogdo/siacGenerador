@@ -177,50 +177,42 @@ export class ConfiguracioncvService {
   }
 
 
-  postConfiguracionPersonalizada(bloque, atributo) {
+  postConfiguracionPersonalizada(configuracionPersonalizada) {
     const path = `${this.URL_PERS}`;
-    return this.http.post<ConfiguracioncvPersonalizado>(path, {
-      "bloque": bloque,
-      "atributo": atributo,
-      "visible_cv_personalizado": false,
-      "mapeo": atributo,
-      "cv": 1,
-      "nombre_cv": "default",
-      "idDocente": 1
-    });
+    return this.http.post<ConfiguracioncvPersonalizado>(path, configuracionPersonalizada);
   }
 
-  recorreConfiguracionPersonalizada(){
-    this.getJSON().subscribe(data => {
-      let lala = Object.keys(data.components.schemas)
-      let keys = Object.keys(lala)
-      console.log('ESQUEMAS', keys)
+  // recorreConfiguracionPersonalizada(){
+  //   this.getJSON().subscribe(data => {
+  //     let lala = Object.keys(data.components.schemas)
+  //     let keys = Object.keys(lala)
+  //     console.log('ESQUEMAS', keys)
 
-      // let atributos = Object.keys(data.components.schemas.properties)
-      // console.log(atributos)
+  //     // let atributos = Object.keys(data.components.schemas.properties)
+  //     // console.log(atributos)
 
-      // let keys_atributos = Object.keys(atributos)
+  //     // let keys_atributos = Object.keys(atributos)
 
-      for (let i = 0; i < keys.length; i++) {
-        let clave = keys[i];
-        let acceso = lala[clave]
-        console.log('ACCESO', acceso)
-        let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
-        let keys_atributos_todos = Object.keys(atributos_todos)
+  //     for (let i = 0; i < keys.length; i++) {
+  //       let clave = keys[i];
+  //       let acceso = lala[clave]
+  //       console.log('ACCESO', acceso)
+  //       let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
+  //       let keys_atributos_todos = Object.keys(atributos_todos)
 
-        for (let index = 0; index < keys_atributos_todos.length; index++) {
-          const clave_atributo = keys_atributos_todos[index];
-          // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
+  //       for (let index = 0; index < keys_atributos_todos.length; index++) {
+  //         const clave_atributo = keys_atributos_todos[index];
+  //         // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
 
-          this.postConfiguracionPersonalizada(acceso, atributos_todos[clave_atributo])
-            .subscribe(res => {
-              console.log('DATA', res)
-            });
-          // console.log('DATA', (lala[clave]));
-        }
-      }
-    });
-  }
+  //         this.postConfiguracionPersonalizada(acceso, atributos_todos[clave_atributo])
+  //           .subscribe(res => {
+  //             console.log('DATA', res)
+  //           });
+  //         // console.log('DATA', (lala[clave]));
+  //       }
+  //     }
+  //   });
+  // }
 
   getConfiguraciones() {
     return this.http.get<Configuracioncv[]>(this.URL_CONF);

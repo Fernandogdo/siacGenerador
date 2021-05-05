@@ -42,20 +42,22 @@
                             <tr>
                                 <th>Bloque</th>
                                 <th>Atributo</th>
-                                <th>Visualizacion CV</th>
+                                <!-- <th>Visualizacion CV</th> -->
                                 <th>Configuración CV</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let configuracionPersonalizada of configuracioncvService.configuracionesPersonalizadas">
+                            <tr *ngFor="let configuracion of configuracioncvService.configuraciones">
                                 <!-- <td>{{configuracion.id}}</td> -->
-                                <td>{{configuracionPersonalizada.bloque}}</td>
-                                <td>{{configuracionPersonalizada.atributo}}</td>
-                                <td>
+                                <td>{{configuracion.bloque}}</td>
+                                <td>{{configuracion.atributo}}</td>
+                                <!-- <td>
                                     <mat-checkbox [disabled]="true" [checked]="configuracionPersonalizada.visible_cv_personalizado"></mat-checkbox>   
-                                </td>
+                                </td> -->
                                 <td>
-                                    <button (click)="ModalEditPersonalizacion(configuracionPersonalizada.id, configuracionPersonalizada.bloque, configuracionPersonalizada.atributo, configuracionPersonalizada.orden)">Edit</button>
+                                    <button class="btn btn-secundary" (click)="ModalEditPersonalizacion(configuracion.bloque, configuracion.atributo, configuracion.mapeo)">
+                                        <i class="material-icons">settings</i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

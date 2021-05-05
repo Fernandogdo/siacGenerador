@@ -28,13 +28,13 @@ export class ModalPersonalizacionComponent implements OnInit {
   
   constructor(
     public fb: FormBuilder,
-    public configuracionService: ConfiguracioncvService,
+    public configuracioncvService: ConfiguracioncvService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { 
     // Reactive Form
     this.form = this.fb.group({
-      bloque: ['', Validators.required],
-      atributo: ['', Validators.required],
+      // bloque: ['', Validators.required],
+      // atributo: ['', Validators.required],
       visible_cv_personalizado:['', Validators.required],
       mapeo:['', Validators.required],
       cv:['', Validators.required],
@@ -43,32 +43,60 @@ export class ModalPersonalizacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.idConfiguracion = this.data.idConfPersonalizada
-    console.log('IDCATEGORIA:', this.idConfiguracion);
-
-    this.configuracionPersonalizadaSelected = this.idConfiguracion;
-    this.getConfiguracion(this.configuracionPersonalizadaSelected)
-
+    this.bloque = this.data.bloque
+    console.log('BLOQUE:', this.bloque);
+    this.atributo = this.data.atributo
+    console.log('ATRIBUTO:', this.atributo);
+    this.mapeo = this.data.mapeo
+    console.log('MAPEO:', this.mapeo);
+    // this.configuracionPersonalizadaSelected = this.idConfiguracion;
+    // this.getConfiguracion(this.configuracionPersonalizadaSelected)
+    // this.PostConfiguracionPersonalizada();
 
   }
 
-  getConfiguracion(idConfiguracion){
-    this.configuracionService.getConfiguracionPersonalizada(idConfiguracion)
-      .subscribe(res => {
-        this.oneConfiguracion = res as ConfiguracioncvPersonalizado[]
-        this.form.patchValue({
-          bloque: this.oneConfiguracion.bloque,
-          atributo: this.oneConfiguracion.atributo,
-          // orden: this.oneConfiguracion.orden,
-          visible_cv_personalizado: this.oneConfiguracion.visible_cv_personalizado,
-          mapeo: this.oneConfiguracion.mapeo,
-          cv: this.oneConfiguracion.cv,
-          nombre_cv: this.oneConfiguracion.nombre_cv
-        });
-       
+  PostConfiguracionPersonalizada() {
+
+    console.log("Selected item Id: ", this.bloque,this.atributo, this.mapeo); // You get the Id of the selected item here
+    const configuracionPersonalizada = {
+      idDocente: 1,
+      bloque: this.bloque,
+      atributo: this.atributo,
+      // orden: selectedItem.orden,
+      visible_cv_personalizado: this.form.value.visible_cv_personalizado,
+      mapeo: this.mapeo,
+      cv: this.form.value.cv,
+      nombre_cv: this.form.value.nombre_cv
+    };
+
+    if (this.form.value.visible_cv_personalizado == true) {
+      this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
+      .subscribe(res =>{
+        console.log('GUARDADOPERSO',res)
       });
-      // this.getCategories();
+    } else{
+      console.log('ERROR')
+    }
+    
   }
+
+  // getConfiguracion(idConfiguracion){
+  //   this.configuracioncvService.getConfiguracionPersonalizada(idConfiguracion)
+  //     .subscribe(res => {
+  //       this.oneConfiguracion = res as ConfiguracioncvPersonalizado[]
+  //       this.form.patchValue({
+  //         bloque: this.oneConfiguracion.bloque,
+  //         atributo: this.oneConfiguracion.atributo,
+  //         // orden: this.oneConfiguracion.orden,
+  //         visible_cv_personalizado: this.oneConfiguracion.visible_cv_personalizado,
+  //         mapeo: this.oneConfiguracion.mapeo,
+  //         cv: this.oneConfiguracion.cv,
+  //         nombre_cv: this.oneConfiguracion.nombre_cv
+  //       });
+       
+  //     });
+  //     // this.getCategories();
+  // }
 
   editConfiguracion() {
 
@@ -84,9 +112,9 @@ export class ModalPersonalizacionComponent implements OnInit {
       nombre_cv: this.form.value.nombre_cv
     }
 
-    this.configuracionService.putConfiguracionPersonalizada(data)
+    this.configuracioncvService.postConfiguracionPersonalizada(data)
       .subscribe(res=> {
-        console.log('SEACTUALIZO', res)
+        console.log('SEGUARDO', res)
       })
       // .subscribe(res => {
       //   console.log(res);

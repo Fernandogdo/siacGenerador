@@ -11,6 +11,8 @@ import { DashboardComponent } from '../../components/dashboard/dashboard.compone
 import { UserProfileComponent } from '../../components/user-profile/user-profile.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
+import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
+import { GuardadosComponent } from 'app/components/guardados/guardados.component';
 
 /* MATERIAL */
 import {MatButtonModule} from '@angular/material/button';
@@ -25,7 +27,6 @@ import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import {MatStepperModule} from '@angular/material/stepper'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { ModalPersonalizacionComponent } from 'app/components/modal-personalizac
     CompletoCvComponent,
     PersonalizadoCvComponent,
     ModalPersonalizacionComponent,
+    GuardadosComponent,
     ObjToArrayPipe
   ]
 })

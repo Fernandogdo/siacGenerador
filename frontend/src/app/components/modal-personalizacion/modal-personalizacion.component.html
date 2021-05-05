@@ -7,18 +7,16 @@
 
         <h3 class="titulo">
             <strong>
-                Actualizar Categoría
+                Configurar CV
             </strong>
         </h3>
 
 
         <form [formGroup]="form" #categoryForm="ngForm">
-            <input value="{{idConfiguracion}}">
-
-
+            <input value="{{bloque}}">
 
             <!-- <input type="text" value="{{imagen}}"> -->
-            <mat-form-field class="example-full-width">
+            <!-- <mat-form-field class="example-full-width">
                 <mat-label>Bloque</mat-label>
                 <input type="text" matInput formControlName="bloque">
             </mat-form-field>
@@ -26,7 +24,7 @@
             <mat-form-field class="example-full-width">
                 <mat-label>Atributo</mat-label>
                 <input type="text" matInput formControlName="atributo">
-            </mat-form-field> 
+            </mat-form-field>  -->
 
             <mat-form-field class="example-full-width">
                 <mat-label>Visible CV</mat-label>
@@ -43,7 +41,7 @@
 
             <div class="row">
                 <div class="col text-center">
-                    <button mat-raised-button color="primary" mat-dialog-close (click)="editConfiguracion()">Actualizar</button>
+                    <button mat-raised-button color="primary" mat-dialog-close (click)="PostConfiguracionPersonalizada()">Guardar</button>
                     <button mat-raised-button class="botones" color="warn" mat-dialog-close>Cerrar</button>
                 </div>
             </div>

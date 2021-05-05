@@ -1,4 +1,3 @@
-import { sharedStylesheetJitUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -28,13 +27,24 @@ export class PersonalizadoCvComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getConfiguracionPersonalizada()
+    // this.getConfiguracionPersonalizada();
+    this.getConfiguracion();
   }
 
   getConfiguracionPersonalizada() {
     this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
       res => {
         this.configuracioncvService.configuracionesPersonalizadas = res;
+        console.log(res);
+      },
+      err => console.log(err)
+    )
+  }
+
+  getConfiguracion() {
+    this.configuracioncvService.getConfiguraciones().subscribe(
+      res => {
+        this.configuracioncvService.configuraciones = res;
         console.log(res);
       },
       err => console.log(err)
@@ -71,13 +81,15 @@ export class PersonalizadoCvComponent implements OnInit {
     //   })
   }
   
-  ModalEditPersonalizacion(id, articulo, atributo, orden ){
+  ModalEditPersonalizacion(bloque, atributo, mapeo){
+    console.log("Bloque: ", bloque)
+    console.log("Atributo ",  atributo)
+    console.log("Mapeo: ", mapeo)
     this.dialogEditPersonalizacion = this.dialog.open(ModalPersonalizacionComponent, {
       data: {
-        idConfPersonalizada: id,
-        articulo: articulo,
+        bloque: bloque,
         atributo: atributo,
-        orden: orden
+        mapeo: mapeo
       }
     });
     this.dialogEditPersonalizacion.afterClosed().subscribe(()=> {

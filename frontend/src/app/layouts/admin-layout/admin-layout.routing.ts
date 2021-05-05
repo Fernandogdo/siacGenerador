@@ -6,6 +6,7 @@ import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.
 import { ResumidoCvComponent } from './../../components/resumido-cv/resumido-cv.component';
 import { PersonalizadoCvComponent } from './../../components/personalizado-cv/personalizado-cv.component';
 import { AdministradorComponent } from 'app/components/administrador/administrador.component';
+import { GuardadosComponent } from 'app/components/guardados/guardados.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -15,5 +16,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'cv-completo',   component: CompletoCvComponent },
     { path: 'cv-resumido',   component: ResumidoCvComponent },
     { path: 'cv-personalizado',   component: PersonalizadoCvComponent },
-    { path: 'administrador',   component: AdministradorComponent }
+    { path: 'administrador',   component: AdministradorComponent },
+    { path: 'cv-guardado',   component: GuardadosComponent }
 ];

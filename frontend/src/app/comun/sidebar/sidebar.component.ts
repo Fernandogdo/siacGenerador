@@ -13,6 +13,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/cv-completo', title: 'CV Completo',  icon:'account_box', class: '' },
     { path: '/cv-resumido', title: 'CV Resumido',  icon:'contact_page', class: '' },
     { path: '/cv-personalizado', title: 'CV Personalizable',  icon:'manage_accounts', class: '' },
+    { path: '/cv-guardado', title: 'CV Guardado',  icon:'manage_accounts', class: '' },
+
     // { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
 ];
 
