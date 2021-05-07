@@ -88,17 +88,22 @@
                                 <th>Editar</th>
                             </tr>
                         </thead>
+
+
                         <tbody>
-                            <tr *ngFor="let configuracionPersonalizada of configuracioncvService.configuracionesPersonalizadas">
+                            <tr
+                                *ngFor="let configuracionPersonalizada of configuracioncvService.configuracionesPersonalizadas">
                                 <!-- <td>{{configuracion.id}}</td> -->
                                 <td>
-                                    <mat-checkbox [disabled]="true" [checked]="configuracionPersonalizada.visible_cv_personalizado"></mat-checkbox>   
+                                    <mat-checkbox [disabled]="true"
+                                        [checked]="configuracionPersonalizada.visible_cv_personalizado"></mat-checkbox>
                                 </td>
                                 <td>{{configuracionPersonalizada.bloque}}</td>
                                 <td>{{configuracionPersonalizada.atributo}}</td>
                                 <td>{{configuracionPersonalizada.nombre_cv}}</td>
                                 <td>
-                                    <button class="btn btn-secundary" (click)="ModalEditPersonalizacion(configuracionPersonalizada.id, configuracionPersonalizada.bloque, configuracionPersonalizada.atributo, configuracionPersonalizada.orden)">
+                                    <button class="btn btn-secundary"
+                                        (click)="ModalEditPersonalizacion(configuracionPersonalizada.id, configuracionPersonalizada.bloque, configuracionPersonalizada.atributo, configuracionPersonalizada.orden)">
                                         <i class="material-icons">edit</i>
                                     </button>
                                 </td>
@@ -106,8 +111,27 @@
                         </tbody>
                     </table>
 
+
+
                 </div>
 
+                <!-- <span *ngFor="let item of data | keyvalue">
+                    NomreCV: {{item.key}}<br>
+                    
+                    <b>Propiedades</b>
+                    <span *ngFor="let propiedad of data[item.key] ">
+                        - {{propiedad.atributo}}
+                    </span>
+                </span> -->
+
+                    <div class="card" *ngFor="let item of arreglo | keyvalue">
+                        NombreCV: {{item.key}}
+                        <div *ngFor="let propiedad of arreglo[item.key] ">
+                          {{propiedad.bloque}}  {{propiedad.atributo}} |  {{propiedad.visible_cv_personalizado}}
+                        </div>
+                    </div>
+
+                   
             </div>
 
 

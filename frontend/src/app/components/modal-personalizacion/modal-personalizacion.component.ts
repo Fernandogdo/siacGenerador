@@ -57,7 +57,7 @@ export class ModalPersonalizacionComponent implements OnInit {
 
   PostConfiguracionPersonalizada() {
 
-    console.log("Selected item Id: ", this.bloque,this.atributo, this.mapeo); // You get the Id of the selected item here
+    console.log("Selected item Id: ", this.bloque,this.atributo, this.mapeo,  this.form.value.visible_cv_personalizado); // You get the Id of the selected item here
     const configuracionPersonalizada = {
       idDocente: 1,
       bloque: this.bloque,
@@ -69,14 +69,15 @@ export class ModalPersonalizacionComponent implements OnInit {
       nombre_cv: this.form.value.nombre_cv
     };
 
-    if (this.form.value.visible_cv_personalizado == true) {
+    // if (this.form.value.visible_cv_personalizado = true) {
       this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
       .subscribe(res =>{
         console.log('GUARDADOPERSO',res)
       });
-    } else{
-      console.log('ERROR')
-    }
+    // } 
+    // else{
+    //   console.log('ERROR')
+    // }
     
   }
 
