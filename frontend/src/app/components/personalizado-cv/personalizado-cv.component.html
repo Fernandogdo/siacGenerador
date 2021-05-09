@@ -4,73 +4,82 @@
 
             <div class="col-md-12">
 
+                <form [formGroup]="form" #categoryForm="ngForm">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Nombre CV</mat-label>
+                        <input type="text" matInput formControlName="nombrecv">
+                    </mat-form-field>
+                </form>
 
-                <div class="card">
-                    <div class="card-header card-header-danger">
-                        <h4 class="card-title">Edit Profile</h4>
-                        <p class="card-category">Complete your profile</p>
-                    </div>
-                    <!-- <div class="card-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="" type="text">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="bloque" type="text">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="atributo" type="text">
-                                </mat-form-field>
-                            </div>
-                        </div>
+                <div class="col-md-6 col-lg-6 col-6" *ngFor="let configuracion of configuracioncvService.configuraciones; let i = index">
+                    <input class="form-check-input" type="checkbox" name= "miDataInterior" [(ngModel)]="configuracion.isSelected" (change)="$event.target.checked ? agregar(configuracion.isSelected, configuracion.bloque, configuracion.atributo, configuracion.mapeo) : quitar(configuracion.isSelected)">
+                    <label class="form-check-label" for="inlineCheckbox1">{{configuracion.bloque}} | {{configuracion.atributo}}</label>
+                    <!-- Quita las plecas para descomentar cuando uses el objeto {name: string}[] -->
+                  </div>
 
+                  <button (click)="PostConfiguracionPersonalizada()">Guardar</button>
+                <!-- <form [formGroup]="form" #categoryForm="ngForm">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Nombre CV</mat-label>
+                        <input type="text" matInput formControlName="nombrecv">
+                    </mat-form-field>
 
-                        <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
-                        <div class="clearfix"></div>
-                    </form>
-                </div> -->
-
-
-                    <table class="table table-striped" id="tabla">
+                    <table>
                         <thead>
-                            <tr>
-                                <th>Bloque</th>
-                                <th>Atributo</th>
-                                <!-- <th>Visualizacion CV</th> -->
-                                <th>Configuración CV</th>
-                            </tr>
+                            <th>S.No</th>
+                            <th>Visible</th>
+                            <th>Bloque</th>
+                            <th>Atributo</th>
+
                         </thead>
+
                         <tbody>
-                            <tr *ngFor="let configuracion of configuracioncvService.configuraciones">
-                                <!-- <td>{{configuracion.id}}</td> -->
+                            <tr *ngFor="let configuracion of configuracioncvService.configuraciones; let i = index">
+                                <td> {{i+1}} </td>
+                                <td> <input type="checkbox" [(ngModel)]="configuracion.isSelected"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (change)="getProduct(configuracion.isSelected, configuracion.bloque, configuracion.atributo, configuracion.mapeo)">
+                                </td>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" name= "miDataInterior" 
+                                    (change)="$event.target.checked ? agregar(data) : quitar(data)">
+                                </td>
                                 <td>{{configuracion.bloque}}</td>
                                 <td>{{configuracion.atributo}}</td>
-                                <!-- <td>
-                                    <mat-checkbox [disabled]="true" [checked]="configuracionPersonalizada.visible_cv_personalizado"></mat-checkbox>   
-                                </td> -->
-                                <td>
-                                    <button class="btn btn-secundary" (click)="ModalEditPersonalizacion(configuracion.bloque, configuracion.atributo, configuracion.mapeo)">
-                                        <i class="material-icons">settings</i>
-                                    </button>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
-
-                </div>
+                    <button (click)="guardar()">
+                        Guardar
+                    </button>
+                </form> -->
 
             </div>
 
 
+            <!-- <table>
+                <thead>
+                    <th>S.No</th>
+                    <th>Visible</th>
+                    <th>Bloque</th>
+                    <th>Atributo</th>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let configuracion of configuracioncvService.configuraciones; let i = index">
+                        <td> {{i+1}} </td>
+                        <td> <input type="checkbox" [(ngModel)]="configuracion.isSelected"
+                                (change)="PostConfiguracionPersonalizada(getProduct(configuracion.isSelected, configuracion.bloque, configuracion.atributo, configuracion.mapeo))">
+                        </td>
+                        <td>{{configuracion.bloque}}</td>
+                        <td>{{configuracion.atributo}}</td>
+                    </tr>
+                </tbody>
+                <button (click)="PostConfiguracionPersonalizada()">
+                    Guardar
+                </button>
+
+            </table> -->
         </div>
-        <!-- <div class="col-md-4 text-right">
-            <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
-        </div> -->
     </div>
 </div>

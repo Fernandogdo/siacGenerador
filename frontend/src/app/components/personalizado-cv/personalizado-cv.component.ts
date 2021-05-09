@@ -15,6 +15,14 @@ export class PersonalizadoCvComponent implements OnInit {
 
   dialogEditPersonalizacion: MatDialogRef<ModalPersonalizacionComponent>;
 
+  bloque;
+  atributo;
+  orden;
+  visible_cv_personalizado;
+  mapeo;
+  cv;
+  nombre_cv;
+
   constructor(
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
@@ -29,6 +37,39 @@ export class PersonalizadoCvComponent implements OnInit {
   ngOnInit(): void {
     // this.getConfiguracionPersonalizada();
     this.getConfiguracion();
+  }
+
+ miDataInterior = [];
+
+  agregar(visible: string, bloque:string, atributo:string, mapeo:string) {
+    const data ={
+      idDocente: 1,
+      bloque: bloque,
+      atributo: atributo,
+      visible_cv_personalizado: visible,
+      mapeo: mapeo,
+      cv: 1,
+      nombre_cv: this.form.value.nombrecv
+    }
+    this.miDataInterior.push(data);
+  }
+
+  quitar(data) {
+    this.miDataInterior = this.miDataInterior.filter(s => s !== data);
+  }
+
+  PostConfiguracionPersonalizada() {
+    console.log(this.miDataInterior);
+
+    for (let i = 0; i < this.miDataInterior.length; i++) {
+      let clave = this.miDataInterior[i];
+      console.log('CLAVE',clave)
+      this.configuracioncvService.postConfiguracionPersonalizada(clave)
+        .subscribe(res=> {
+          console.log('SEGUARDO',res)
+        })
+    }
+    this.miDataInterior
   }
 
   getConfiguracionPersonalizada() {
@@ -60,26 +101,6 @@ export class PersonalizadoCvComponent implements OnInit {
   //       )
   //   }
   // }
-
-  onSelect(selectedItem: any) {
-
-    console.log("Selected item Id: ", selectedItem.bloque, selectedItem.atributo); // You get the Id of the selected item here
-    const configuracionPersonalizada = {
-      idDocente: 1,
-      bloque: selectedItem.bloque,
-      atributo: selectedItem.atributo,
-      orden: selectedItem.orden,
-      visible_cv_personalizado: true,
-      mapeo: selectedItem.mapeo,
-      cv: 1,
-      nombre_cv: 'ssad'
-    };
-
-    // this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
-    //   .subscribe(res =>{
-    //     console.log('GUARDADOPERSO',res)
-    //   })
-  }
   
   ModalEditPersonalizacion(bloque, atributo, mapeo){
     console.log("Bloque: ", bloque)
@@ -97,9 +118,38 @@ export class PersonalizadoCvComponent implements OnInit {
     });
   }
 
-  postConfiguracionPersonalizada(){
+  // getProduct(isVisible, bloque, atributo, mapeo){
+  //   console.log('Nombrecv', this.form.value.nombrecv)
+  //   console.log(isVisible, bloque, atributo, mapeo)
+    
+  //   // const configuracionPersonalizada = {
+  //   //   idDocente: 1,
+  //   //   bloque: bloque,
+  //   //   atributo: atributo,
+  //   //   visible_cv_personalizado: isVisible,
+  //   //   mapeo: mapeo,
+  //   //   cv: 1,
+  //   //   nombre_cv: this.form.value.nombrecv
+  //   // }
+  //   // this.configuracioncvService.postConfiguracionPersonalizada(configuracionPersonalizada)
+  //   //   .subscribe(res=>{
+  //   //     console.log('SEGUARDA', res)
+  //   //   })
+  //   this.PostConfiguracionPersonalizada(isVisible, bloque, atributo, mapeo)
+  // }
 
-  }
+  // PostConfiguracionPersonalizada(isVisible, bloque, atributo, mapeo) {
+  //   const configuracionPersonalizada = {
+  //     idDocente: 1,
+  //     bloque: bloque,
+  //     atributo: atributo,
+  //     visible_cv_personalizado: isVisible,
+  //     mapeo: mapeo,
+  //     cv: 1,
+  //     nombre_cv: this.form.value.nombrecv
+  //   };
+  //   console.log('PARECEQUESEGUARD',configuracionPersonalizada)
+  // }
 
 
 
