@@ -30,8 +30,8 @@ export class GuardadosComponent implements OnInit {
         const filteredCategories = [];
         data.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
-            const { nombre_cv, bloque, atributo, visible_cv_personalizado } = configuracion;
-            filteredCategories.push({ nombre_cv, bloque, atributo, visible_cv_personalizado });
+            const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, idDocente} = configuracion;
+            filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, idDocente});
           }
         });
 

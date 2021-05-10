@@ -9,11 +9,9 @@
                         <p class="card-category">Complete your profile</p>
                     </div>
                     <form #configuracionForm="ngForm" (ngSubmit)="putConfiguracion(configuracionForm)">
-
                         <input name="id" type="hidden" [(ngModel)]="configuracioncvService.selectedConfiguracion.id">
                         <input name="administrador" type="hidden"
                             [(ngModel)]="configuracioncvService.selectedConfiguracion.administrador">
-
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
                                 <mat-label>Bloque</mat-label>
@@ -21,13 +19,8 @@
                                     [(ngModel)]="configuracioncvService.selectedConfiguracion.bloque">
                             </mat-form-field>
                         </div>
-                        <!-- <div class="form-group"> -->
-                        <!-- <mat-form-field class="col-md-12"> -->
-                        <!-- <mat-label>Atributo</mat-label> -->
                         <input name="atributo" type="hidden"
                             [(ngModel)]="configuracioncvService.selectedConfiguracion.atributo">
-                        <!-- </mat-form-field> -->
-                        <!-- </div> -->
                         <div class="form-group">
                             <mat-form-field class="col-md-12">
                                 <mat-label>Orden</mat-label>
@@ -64,11 +57,7 @@
                         <button class="btn btn-primary mr-15" (click)="resetForm(configuracionForm)">
                             Limpiar
                         </button>
-
-
-
                     </form>
-
                 </div>
             </div>
 
@@ -81,33 +70,7 @@
                         <h4 class="card-title">Edit Profile</h4>
                         <p class="card-category">Complete your profile</p>
                     </div>
-                    <!-- <div class="card-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="" type="text">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="bloque" type="text">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="atributo" type="text">
-                                </mat-form-field>
-                            </div>
-                        </div>
-
-
-                        <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
-                        <div class="clearfix"></div>
-                    </form>
-                </div> -->
-
-
+        
                     <table class="table table-striped" id="tabla">
                         <thead>
                             <tr>

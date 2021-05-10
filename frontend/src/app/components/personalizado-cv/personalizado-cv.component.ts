@@ -41,10 +41,16 @@ export class PersonalizadoCvComponent implements OnInit {
     this.getConfiguracion();
   }
 
- miDataInterior = [];
+  public showDiv(): boolean {
+    const name = this.form.value.nombrecv;
+    return !!name;
+  }
 
-  agregar(visible: string, bloque:string, atributo:string, mapeo:string) {
-    const data ={
+  miDataInterior = [];
+
+  agregar(visible: string, bloque: string, atributo: string, mapeo: string) {
+    console.log(this.form.value.nombrecv)
+    const data = {
       idDocente: 1,
       bloque: bloque,
       atributo: atributo,
@@ -53,11 +59,14 @@ export class PersonalizadoCvComponent implements OnInit {
       cv: 1,
       nombre_cv: this.form.value.nombrecv
     }
-    this.miDataInterior.push(data);
+
+    let conf = this.miDataInterior.push(data);
+    console.log(conf);
   }
 
-  quitar(data) {
-    this.miDataInterior = this.miDataInterior.filter(s => s !== data);
+  quitar(atributo) {
+    this.miDataInterior.splice(this.miDataInterior.indexOf(atributo), 1);
+    console.log(this.miDataInterior)
   }
 
   PostConfiguracionPersonalizada() {
@@ -65,13 +74,12 @@ export class PersonalizadoCvComponent implements OnInit {
 
     for (let i = 0; i < this.miDataInterior.length; i++) {
       let clave = this.miDataInterior[i];
-      console.log('CLAVE',clave)
+      console.log('CLAVE', clave)
       this.configuracioncvService.postConfiguracionPersonalizada(clave)
-        .subscribe(res=> {
-          console.log('SEGUARDO',res)
+        .subscribe(res => {
+          console.log('SEGUARDO', res)
         })
     }
-    this.miDataInterior
   }
 
   getConfiguracionPersonalizada() {
@@ -94,7 +102,7 @@ export class PersonalizadoCvComponent implements OnInit {
         res.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
             const { bloque, atributo, mapeo } = configuracion;
-            filteredCategories.push({bloque, atributo, mapeo });
+            filteredCategories.push({ bloque, atributo, mapeo });
           }
         });
 
@@ -107,7 +115,7 @@ export class PersonalizadoCvComponent implements OnInit {
         }, Object.create(null));
 
 
-        console.log('BLOQUES',this.arregloBloques);
+        console.log('BLOQUES', this.arregloBloques);
       },
       err => console.log(err)
     )
@@ -122,10 +130,10 @@ export class PersonalizadoCvComponent implements OnInit {
   //       )
   //   }
   // }
-  
-  ModalEditPersonalizacion(bloque, atributo, mapeo){
+
+  ModalEditPersonalizacion(bloque, atributo, mapeo) {
     console.log("Bloque: ", bloque)
-    console.log("Atributo ",  atributo)
+    console.log("Atributo ", atributo)
     console.log("Mapeo: ", mapeo)
     this.dialogEditPersonalizacion = this.dialog.open(ModalPersonalizacionComponent, {
       data: {
@@ -134,7 +142,7 @@ export class PersonalizadoCvComponent implements OnInit {
         mapeo: mapeo
       }
     });
-    this.dialogEditPersonalizacion.afterClosed().subscribe(()=> {
+    this.dialogEditPersonalizacion.afterClosed().subscribe(() => {
       this.getConfiguracionPersonalizada();
     });
   }
@@ -142,7 +150,7 @@ export class PersonalizadoCvComponent implements OnInit {
   // getProduct(isVisible, bloque, atributo, mapeo){
   //   console.log('Nombrecv', this.form.value.nombrecv)
   //   console.log(isVisible, bloque, atributo, mapeo)
-    
+
   //   // const configuracionPersonalizada = {
   //   //   idDocente: 1,
   //   //   bloque: bloque,
