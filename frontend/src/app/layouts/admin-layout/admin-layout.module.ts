@@ -27,6 +27,7 @@ import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import {MatStepperModule} from '@angular/material/stepper'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatListModule,
     MatStepperModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule
     
   ],
   declarations: [

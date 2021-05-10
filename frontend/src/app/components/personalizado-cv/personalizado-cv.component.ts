@@ -23,6 +23,8 @@ export class PersonalizadoCvComponent implements OnInit {
   cv;
   nombre_cv;
 
+  arregloBloques = [];
+
   constructor(
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
@@ -86,7 +88,26 @@ export class PersonalizadoCvComponent implements OnInit {
     this.configuracioncvService.getConfiguraciones().subscribe(
       res => {
         this.configuracioncvService.configuraciones = res;
-        console.log(res);
+        // this.configuracioncvService.configuracionesPersonalizadas = data;
+
+        const filteredCategories = [];
+        res.forEach(configuracion => {
+          if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
+            const { bloque, atributo, mapeo } = configuracion;
+            filteredCategories.push({bloque, atributo, mapeo });
+          }
+        });
+
+        this.configuracioncvService.configuraciones = filteredCategories;
+
+        this.arregloBloques = filteredCategories.reduce(function (r, a) {
+          r[a.bloque] = r[a.bloque] || [];
+          r[a.bloque].push(a);
+          return r;
+        }, Object.create(null));
+
+
+        console.log('BLOQUES',this.arregloBloques);
       },
       err => console.log(err)
     )

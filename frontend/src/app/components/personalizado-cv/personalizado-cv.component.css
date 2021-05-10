@@ -1,3 +1,12 @@
+.example-card {
+    max-width: 100%;
+  }
+  
+
 .nombre{
     width: 50%;
+}
+
+.valores{
+    margin: 60px;
 }

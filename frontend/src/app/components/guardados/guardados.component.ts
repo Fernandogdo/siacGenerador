@@ -28,9 +28,9 @@ export class GuardadosComponent implements OnInit {
         this.configuracioncvService.configuracionesPersonalizadas = data;
 
         const filteredCategories = [];
-        data.forEach(category => {
-          if (!filteredCategories.find(cat => cat.nombre_cv == category.nombre_cv && cat.atributo == category.atributo)) {
-            const { nombre_cv, bloque, atributo, visible_cv_personalizado } = category;
+        data.forEach(configuracion => {
+          if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
+            const { nombre_cv, bloque, atributo, visible_cv_personalizado } = configuracion;
             filteredCategories.push({ nombre_cv, bloque, atributo, visible_cv_personalizado });
           }
         });
