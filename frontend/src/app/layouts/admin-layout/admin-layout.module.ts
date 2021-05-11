@@ -28,6 +28,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatStepperModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatIconModule
     
   ],
   declarations: [

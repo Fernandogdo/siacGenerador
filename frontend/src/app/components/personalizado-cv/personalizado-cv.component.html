@@ -7,10 +7,10 @@
                     <form [formGroup]="form" #categoryForm="ngForm">
                         <mat-form-field class="example-full-width">
                             <mat-label>Nombre CV</mat-label>
-                            <input matInput formControlName="nombrecv" placeholder="Ingrese el nombre de su cv para realizar la configuración" value="Personalizado" >
+                            <input matInput formControlName="nombrecv" placeholder="Ingrese el nombre de su cv para realizar la configuración" value="Personalizado">
                         </mat-form-field>
                         <mat-accordion *ngIf="showDiv()">
-                            <mat-expansion-panel hideToggle *ngFor="let bloque of arregloBloques | keyvalue">
+                            <mat-expansion-panel class="expansion" hideToggle *ngFor="let bloque of arregloBloques | keyvalue">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         Bloque: {{bloque.key}}
@@ -19,18 +19,14 @@
                                         Despliegue para obtener mayor información
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
-                                <mat-card>
-                                    <div *ngFor="let propiedad of arregloBloques[bloque.key] ">
+                                <mat-card class="tarjeta-informacion">
+                                    <div class="informacion" *ngFor="let propiedad of arregloBloques[bloque.key] ">
 
-                                        <input class="form-check-input" type="checkbox" name="miDataInterior"
-                                            [(ngModel)]="propiedad.isSelected" [ngModelOptions]="{standalone: true}"
-                                            (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
+                                        <input class="form-check-input" type="checkbox" name="miDataInterior" [(ngModel)]="propiedad.isSelected" [ngModelOptions]="{standalone: true}" (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
                                         <p class="nombre">
-                                            <b>Bloque:</b>
-                                            {{propiedad.bloque}}
+                                            <b>Bloque:</b> {{propiedad.bloque}}
 
-                                            <b>Atributo:</b>
-                                            {{propiedad.atributo}}
+                                            <b>Atributo:</b> {{propiedad.atributo}}
                                         </p>
 
                                     </div>
@@ -42,8 +38,7 @@
                             </mat-expansion-panel>
                         </mat-accordion>
                         <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary" [disabled]='!form.valid'
-                                (click)="PostConfiguracionPersonalizada()">Guardar</button>
+                            <button mat-raised-button class="botones" color="primary" [disabled]='!form.valid' (click)="PostConfiguracionPersonalizada()">Guardar</button>
                         </div>
                     </form>
                 </mat-card>

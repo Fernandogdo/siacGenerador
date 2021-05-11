@@ -52,14 +52,38 @@
                     </span>
                 </span> -->
 
-                    <div class="card" *ngFor="let item of arreglo | keyvalue">
-                        NombreCV: {{item.key}}
-                        <div *ngFor="let propiedad of arreglo[item.key] ">
-                          {{propiedad.bloque}}  {{propiedad.atributo}} |  {{propiedad.visible_cv_personalizado}}
+                <mat-card *ngFor="let item of arreglo | keyvalue">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image">
+                            <span class="material-icons">
+                                description
+                            </span>
+
+                        </div>
+                        <mat-card-title> NombreCV: {{item.key}}</mat-card-title>
+                        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                    </mat-card-header>
+
+                    <!-- <table>
+                        <th>
+    
+                        </th>
+                    </table> -->
+
+                    <div *ngFor="let propiedad of arreglo[item.key] ">
+                        <div class="row" id="informacion">
+                            <div class="col-md-4">
+                                {{propiedad.bloque}}
+                            </div>
+                            <div class="col-md-4">
+                                {{propiedad.atributo}}
+                            </div>
+                            <div class="col-md-4">
+                                {{propiedad.visible_cv_personalizado}}
+                            </div>
                         </div>
                     </div>
-
-                   
+                </mat-card>
             </div>
 
 

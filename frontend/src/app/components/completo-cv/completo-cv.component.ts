@@ -150,7 +150,11 @@ export class CompletoCvComponent implements OnInit {
   }
 
   editConfiguracion(configuracion: Configuracioncv){
-    this.configuracioncvService.selectedConfiguracion = configuracion;
+    // this.configuracioncvService.selectedConfiguracion = configuracion;
+    this.configuracioncvService.putConfiguracion(configuracion).subscribe
+      (res =>{
+        console.log('SEDITA', res);
+      })
   }
 
   getEsquemas() {

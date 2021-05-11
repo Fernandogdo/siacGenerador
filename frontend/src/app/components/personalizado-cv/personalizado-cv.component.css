@@ -1,10 +1,23 @@
 .example-card {
     max-width: 100%;
-  }
+}
 
-.nombre{
+.nombre {
     margin-left: 30px;
 }
+
+.expansion {
+    margin: 5px;
+}
+
+.tarjeta-informacion {
+    background-color: beige;
+}
+
+.informacion {
+    margin: 40px;
+}
+
 .botones {
     margin: 20px !important;
 }
