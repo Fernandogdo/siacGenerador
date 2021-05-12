@@ -51,7 +51,7 @@ class ConfiguracionCv_Personalizado(models.Model):
         
 class Bloque(models.Model):
     nombre = models.CharField(max_length=100)
-    
+    orden = models.IntegerField(default=1)
     class Meta:
         db_table = 'bloque'
 

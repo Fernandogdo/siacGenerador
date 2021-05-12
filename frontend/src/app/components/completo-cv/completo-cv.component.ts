@@ -10,6 +10,7 @@ import { ConfiguracioncvService } from './../../services/configuracioncv.service
 import { HttpClient } from "@angular/common/http";
 
 import { NgForm } from '@angular/forms'
+import { ActivatedRoute, Params } from '@angular/router';
 // import { jsPDF } from "jspdf";
 // import jsPDF from 'jspdf';
 
@@ -34,6 +35,53 @@ export class CompletoCvComponent implements OnInit {
 
   PDF_Width;
   PDF_Height;
+  data = {
+    Articulos: [
+      {
+        bloque: "Articulos",
+        atributo: "test",
+        mapeo: "test"
+      },
+      {
+        bloque: "Articulos",
+        atributo: "titulo",
+        mapeo: "titulo"
+      }
+    ],
+    Libros: [
+      {
+        bloque: "Libros",
+        atributo: "test",
+        mapeo: "test"
+      },
+      {
+        bloque: "Libros",
+        atributo: "test",
+        mapeo: "test"
+      }
+    ],
+
+    lala: [
+      {
+        orden: 1,
+        properties: [
+          {
+            bloque: "Libros",
+            atributo: "test",
+            mapeo: "test"
+          },
+          {
+            bloque: "Libros",
+            atributo: "test",
+            mapeo: "test"
+          }
+        ]
+
+      }
+    ]
+
+  }
+
   USERS = [
     {
       "id": 1,
@@ -92,7 +140,8 @@ export class CompletoCvComponent implements OnInit {
     private articulosService: ArticulosService,
     private proyectosService: ProyectosService,
     public configuracioncvService: ConfiguracioncvService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -103,11 +152,12 @@ export class CompletoCvComponent implements OnInit {
     // this.getAtributos();
     // console.log(this.model)
     this.getConfiguracion();
-
+    this.getBloques()
+    
   }
 
 
-  resefForm(form:NgForm){
+  resefForm(form: NgForm) {
     form.reset();
   }
 
@@ -123,16 +173,28 @@ export class CompletoCvComponent implements OnInit {
 
   putConfiguracion(form: NgForm) {
     console.log('FORMULARIO FORMULARIO', form.value);
-    if(form.value.id){
+    if (form.value.id) {
       this.configuracioncvService.putConfiguracion(form.value)
         .subscribe(
-          res => console.log('CONFIACTUALIZAD',res)
+          res => console.log('CONFIACTUALIZAD', res)
         )
     }
   }
 
+  getBloques() {
+    this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.configuracioncvService.bloques = res;
+        console.log('BLOQUESRESTAPI', res)
+      })
+  }
 
-  deleteConfiguracion(id:string) {
+  entrarBloque(){
+
+  }
+
+
+  deleteConfiguracion(id: string) {
     // if (confirm('Estás seguro de querer eliminar?')){
 
     // }
@@ -141,18 +203,18 @@ export class CompletoCvComponent implements OnInit {
       .subscribe(res => {
         this.getConfiguracion()
       },
-        
-        
+
+
         err => console.error(err)
-        
+
       );
 
   }
 
-  editConfiguracion(configuracion: Configuracioncv){
+  editConfiguracion(configuracion: Configuracioncv) {
     // this.configuracioncvService.selectedConfiguracion = configuracion;
     this.configuracioncvService.putConfiguracion(configuracion).subscribe
-      (res =>{
+      (res => {
         console.log('SEDITA', res);
       })
   }

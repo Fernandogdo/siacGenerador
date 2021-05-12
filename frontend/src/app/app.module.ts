@@ -22,6 +22,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AdministradorComponent } from './components/administrador/administrador.component';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 // import { ResumidoCvComponent } from './components/resumido-cv/resumido-cv.component';
 //import { PersonalizadoCvComponent } from './components/personalizado-cv/personalizado-cv.component';
 // import { CompletoCvComponent } from './components/completo-cv/completo-cv.component';

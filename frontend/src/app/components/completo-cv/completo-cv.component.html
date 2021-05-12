@@ -54,7 +54,39 @@
                 </div>
             </div> -->
 
+
             <div class="col-md-12">
+
+                <mat-card>
+                    <table class="table" id="tabla">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-3">Bloque</th>
+                                <th class="col-3">Orden</th>
+                                <th class="col-3">Orden</th>
+                                <th class="col-2">Orden</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex" *ngFor="let bloque of configuracioncvService.bloques">
+                                <!-- <td>{{configuracion.id}}</td> -->
+                                <td class="col-md-3">{{bloque.nombre}}</td>
+                                <td class="col-md-3">{{bloque.orden}}</td>
+                                <td class="col-md-3">
+                                    <button class="btn btn-secundary" (click)="editConfiguracion(configuracion)">
+                                            <i class="material-icons">save</i>
+                                    </button>
+                                </td>
+                                <td class="col-md-2">
+                                    <button class="btn btn-secundary" (click)=entrarBloque(bloque.nombre) [routerLink]="['/bloque/', bloque.nombre]">
+                                            <i class="material-icons">Ingresar</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card>
+
 
                 <div class="card">
                     <div class="card-header card-header-danger">
@@ -62,23 +94,23 @@
                         <p class="card-category">Complete your profile</p>
                     </div>
 
-                    <table class="table table-striped table-bordered" id="tabla">
+                    <table class="table" id="tabla">
                         <thead>
                             <tr class="d-flex">
                                 <th class="col-1">Bloque</th>
                                 <th class="col-2">Atributo</th>
                                 <th class="col-1">Orden</th>
                                 <th class="col-2">Mapeo</th>
-                                <th class="col-2">Completo</th>
-                                <th class="col-2">Resumido</th>
+                                <th class="col-1">Completo</th>
+                                <th class="col-1">Resumido</th>
                             </tr>
                         </thead>
-                        <tbody id="tabla">
+                        <tbody>
                             <tr class="d-flex" *ngFor="let configuracion of configuracioncvService.configuraciones">
                                 <!-- <td>{{configuracion.id}}</td> -->
-                                <td class="col-sm-1">{{configuracion.bloque}}</td>
-                                <td class="col-sm-2">{{configuracion.atributo}}</td>
-                                <td class="col-sm-1">
+                                <td class="col-md-1">{{configuracion.bloque}}</td>
+                                <td class="col-md-2">{{configuracion.atributo}}</td>
+                                <td class="col-md-1">
                                     <div>
                                         <mat-form-field>
                                             <mat-label>Orden</mat-label>
@@ -88,22 +120,39 @@
                                     </div>
                                 </td>
                                 <!-- {{configuracion.orden}}</td> -->
-                                <td class="col-sm-2">
-                                    <div>
-                                        <mat-form-field class="col-md-12">
-                                            <mat-label>Mapeo</mat-label>
-                                            <input matInput placeholder="Name" [value]="configuracion.mapeo" [(ngModel)]="configuracion.mapeo">
-                                            <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
-                                        </mat-form-field>
-                                    </div>
-                                    <!-- {{configuracion.mapeo}}</td> -->
-                                    <td class="col-sm-2">{{configuracion.visible_cv_completo}}</td>
-                                    <td class="col-sm-2">{{configuracion.visible_cv_resumido}}</td>
-                                    <td class="col-sm-2">
-                                        <button class="btn btn-secundary" (click)="editConfiguracion(configuracion)">
+                                <td class="col-md-2">
+
+                                    <mat-form-field>
+                                        <mat-label>Mapeo</mat-label>
+                                        <input matInput placeholder="Name" [value]="configuracion.mapeo" [(ngModel)]="configuracion.mapeo">
+                                        <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                                    </mat-form-field>
+
+                                </td>
+                                <!-- {{configuracion.mapeo}}</td> -->
+                                <td class="col-md-1">
+
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="configuracion.visible_cv_completo">
+                                            <mat-option [value]="true">Visible</mat-option>
+                                            <mat-option [value]="false">No Visible</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </td>
+                                <td class="col-md-1">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="configuracion.visible_cv_resumido">
+                                            <mat-option [value]="true">Visible</mat-option>
+                                            <mat-option [value]="false">No Visible</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="col-md-1">
+                                    <button class="btn btn-secundary" (click)="editConfiguracion(configuracion)">
                                             <i class="material-icons">save</i>
-                                        </button>
-                                    </td>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

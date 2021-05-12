@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 
+/*PIPE */
+import { ObjToArrayPipe } from 'app/objToArray.pipe';
 /* Components */
 
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
@@ -13,6 +15,7 @@ import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.
 import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
 import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
 import { GuardadosComponent } from 'app/components/guardados/guardados.component';
+import { BloqueComponent } from '../../components/bloque/bloque.component';
 
 /* MATERIAL */
 import {MatButtonModule} from '@angular/material/button';
@@ -23,12 +26,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatListModule} from '@angular/material/list'; 
-import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import {MatStepperModule} from '@angular/material/stepper'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   imports: [
@@ -58,7 +61,8 @@ import {MatIconModule} from '@angular/material/icon';
     PersonalizadoCvComponent,
     ModalPersonalizacionComponent,
     GuardadosComponent,
-    ObjToArrayPipe
+    BloqueComponent
+    
   ]
 })
 

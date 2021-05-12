@@ -50,6 +50,7 @@ export class PersonalizadoCvComponent implements OnInit {
 
   agregar(visible: string, bloque: string, atributo: string, mapeo: string) {
     console.log(this.form.value.nombrecv)
+   
     const data = {
       idDocente: 1,
       bloque: bloque,

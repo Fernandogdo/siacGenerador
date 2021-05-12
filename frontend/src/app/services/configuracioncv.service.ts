@@ -33,8 +33,10 @@ export class ConfiguracioncvService {
     visible_cv_completo: true,
     visible_cv_resumido: true,
   };
+
   configuraciones: Configuracioncv[];
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
+  bloques: Bloque[];
 
   constructor(
     private http: HttpClient
@@ -232,6 +234,10 @@ export class ConfiguracioncvService {
 
   putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado){
     return this.http.put(this.URL_PERS + configuracionPersonalizada.id + '/', configuracionPersonalizada )
+  }
+
+  getBloques(){
+    return this.http.get<Bloque[]>(this.URL_BLOQUES)
   }
 
   deleteConfiguracion(id: string) {
