@@ -233,12 +233,18 @@ export class ConfiguracioncvService {
   }
 
   putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado){
-    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + '/', configuracionPersonalizada )
+    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + '/', configuracionPersonalizada);
   }
 
+  /* Bloque */
   getBloques(){
     return this.http.get<Bloque[]>(this.URL_BLOQUES)
   }
+
+  putBloque(bloque: Bloque){
+    return this.http.put(this.URL_BLOQUES + bloque.id + '/', bloque);
+  }
+
 
   deleteConfiguracion(id: string) {
     const headers = new HttpHeaders({

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Bloque } from 'app/models/bloque.model';
 import { Configuracioncv } from 'app/models/configuracioncv.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 
@@ -59,6 +60,13 @@ export class BloqueComponent implements OnInit {
     this.configuracioncvService.putConfiguracion(configuracion).subscribe
       (res => {
         console.log('SEDITA', res);
+      })
+  }
+
+  editBloque(bloque: Bloque){
+    this.configuracioncvService.putBloque(bloque).subscribe
+      (res =>{
+        console.log('SEDITABLOQUE', res)
       })
   }
 

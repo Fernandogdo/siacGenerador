@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http";
 
 import { NgForm } from '@angular/forms'
 import { ActivatedRoute, Params } from '@angular/router';
+import { Bloque } from 'app/models/bloque.model';
 // import { jsPDF } from "jspdf";
 // import jsPDF from 'jspdf';
 
@@ -189,11 +190,6 @@ export class CompletoCvComponent implements OnInit {
       })
   }
 
-  entrarBloque(){
-
-  }
-
-
   deleteConfiguracion(id: string) {
     // if (confirm('Estás seguro de querer eliminar?')){
 
@@ -215,7 +211,14 @@ export class CompletoCvComponent implements OnInit {
     // this.configuracioncvService.selectedConfiguracion = configuracion;
     this.configuracioncvService.putConfiguracion(configuracion).subscribe
       (res => {
-        console.log('SEDITA', res);
+        console.log('SEDITACONFI', res);
+      })
+  }
+
+  editBloque(bloque: Bloque){
+    this.configuracioncvService.putBloque(bloque).subscribe
+      (res =>{
+        console.log('SEDITABLOQUE', res)
       })
   }
 
