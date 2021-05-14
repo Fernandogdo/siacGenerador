@@ -16,21 +16,25 @@ import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/person
 import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
 import { GuardadosComponent } from 'app/components/guardados/guardados.component';
 import { BloqueComponent } from '../../components/bloque/bloque.component';
+import { ResumidoCvComponent } from 'app/components/resumido-cv/resumido-cv.component';
+import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque-resumido.component';
+import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
+
 
 /* MATERIAL */
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCardModule} from '@angular/material/card'; 
-import {MatListModule} from '@angular/material/list'; 
-import {MatStepperModule} from '@angular/material/stepper'; 
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card'; 
+import { MatListModule } from '@angular/material/list'; 
+import { MatStepperModule } from '@angular/material/stepper'; 
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatIconModule} from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -61,8 +65,10 @@ import {MatIconModule} from '@angular/material/icon';
     PersonalizadoCvComponent,
     ModalPersonalizacionComponent,
     GuardadosComponent,
-    BloqueComponent
-    
+    BloqueComponent,
+    BloqueResumidoComponent,
+    ResumidoCvComponent,
+    EditaPersonalizadoComponent
   ]
 })
 

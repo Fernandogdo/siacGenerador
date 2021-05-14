@@ -5,7 +5,7 @@
 
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-completo" routerLinkActive="active">Bloques</button>
+                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-resumido" routerLinkActive="active">Regresar a Bloques</button>
                     </div>
                 </div>
 
@@ -22,7 +22,7 @@
                                 <th class="col-3">Atributo</th>
                                 <th class="col-2">Orden</th>
                                 <th class="col-3">Mapeo</th>
-                                <th class="col-2">Completo</th>
+                                <th class="col-2">Resumido</th>
                                 <!-- <th class="col-2">Resumido</th> -->
                                 <th class="col-2">Editar</th>
                             </tr>
@@ -50,22 +50,22 @@
                                         <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
                                     </mat-form-field>
                                 </td>
-                                <td class="col-sm-2">
+                                <!-- <td class="col-sm-2">
                                     <mat-form-field>
                                         <mat-select [(ngModel)]="bloque.visible_cv_completo">
                                             <mat-option [value]="true">Visible</mat-option>
                                             <mat-option [value]="false">No Visible</mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                </td>
-                                <!-- <td class="col-sm-2">
+                                </td> -->
+                                <td class="col-sm-2">
                                     <mat-form-field>
                                         <mat-select [(ngModel)]="bloque.visible_cv_resumido">
                                             <mat-option [value]="true">Visible</mat-option>
                                             <mat-option [value]="false">No Visible</mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                </td> -->
+                                </td>
                                 <td class="col-sm-2">
                                     <!-- <button class="btn btn-secundary" (click)="editConfiguracion(bloque)">
                                         <i class="material-icons">save</i>

@@ -8,6 +8,8 @@ import { PersonalizadoCvComponent } from './../../components/personalizado-cv/pe
 import { AdministradorComponent } from 'app/components/administrador/administrador.component';
 import { GuardadosComponent } from 'app/components/guardados/guardados.component';
 import { BloqueComponent } from 'app/components/bloque/bloque.component';
+import { BloqueResumidoComponent } from 'app/components/bloque-resumido/bloque-resumido.component';
+import { EditaPersonalizadoComponent } from 'app/components/edita-personalizado/edita-personalizado.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -19,5 +21,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'cv-personalizado',   component: PersonalizadoCvComponent },
     { path: 'administrador',   component: AdministradorComponent },
     { path: 'cv-guardado',   component: GuardadosComponent },
-    { path: 'bloque/:nombre',   component: BloqueComponent }
+    { path: 'bloque-completo/:nombre',   component: BloqueComponent },
+    { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
+    { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent },
 ];

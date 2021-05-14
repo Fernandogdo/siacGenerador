@@ -39,6 +39,7 @@ class ConfiguracionCv_Personalizado(models.Model):
     idDocente = models.ForeignKey(Docente, related_name='Docente',  on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
+    orden = models.IntegerField(default=1)
     visible_cv_personalizado = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150)
     cv = models.IntegerField(default=None)

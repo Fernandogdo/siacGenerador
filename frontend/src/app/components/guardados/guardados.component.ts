@@ -11,11 +11,13 @@ import { dataflow } from 'googleapis/build/src/apis/dataflow';
 })
 export class GuardadosComponent implements OnInit {
 
+  arreglo = [];
+  
   constructor(
     public configuracioncvService: ConfiguracioncvService
   ) { }
 
-  arreglo = [];
+  
 
   ngOnInit(): void {
     this.getConfiguracionPersonalizada()

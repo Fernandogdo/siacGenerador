@@ -52,16 +52,30 @@
                     </span>
                 </span> -->
 
-                <mat-card *ngFor="let item of arreglo | keyvalue">
+                <div class="container" id="formulario">
+                    <div class="col text-center">
+                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV</button>
+                    </div>
+                </div>
+
+                <mat-card *ngFor="let item of arreglo | keyvalue" class="tarjeta-cv">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image">
                             <span class="material-icons">
                                 description
                             </span>
-
                         </div>
                         <mat-card-title> NombreCV: {{item.key}}</mat-card-title>
                         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                        <div class="col text-center">
+                            <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV</button>
+                            <button mat-raised-button class="botones" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
+                                <i class=" material-icons ">edit</i>
+                            </button>
+                            <button mat-raised-button class="botones" color="warn" routerLink="/cv-personalizado" routerLinkActive="active">
+                                <i class=" material-icons ">delete</i>
+                            </button>
+                        </div>
                     </mat-card-header>
 
                     <!-- <table>
@@ -70,7 +84,7 @@
                         </th>
                     </table> -->
 
-                    <div *ngFor="let propiedad of arreglo[item.key] ">
+                    <!-- <div *ngFor="let propiedad of arreglo[item.key] ">
                         <div class="row" id="informacion">
                             <div class="col-md-4">
                                 {{propiedad.bloque}}
@@ -82,11 +96,9 @@
                                 {{propiedad.visible_cv_personalizado}}
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </mat-card>
             </div>
-
-
         </div>
         <!-- <div class="col-md-4 text-right">
             <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>

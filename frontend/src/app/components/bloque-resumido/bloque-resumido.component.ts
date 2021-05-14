@@ -5,12 +5,11 @@ import { Configuracioncv } from 'app/models/configuracioncv.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 
 @Component({
-  selector: 'app-bloque',
-  templateUrl: './bloque.component.html',
-  styleUrls: ['./bloque.component.css']
+  selector: 'app-bloque-resumido',
+  templateUrl: './bloque-resumido.component.html',
+  styleUrls: ['./bloque-resumido.component.css']
 })
-export class BloqueComponent implements OnInit {
-
+export class BloqueResumidoComponent implements OnInit {
 
   nombreBloque;
   arregloBloques = [];
@@ -18,9 +17,7 @@ export class BloqueComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public configuracioncvService: ConfiguracioncvService
-
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.nombreBloque = this.route.snapshot.params['nombre']
@@ -58,13 +55,5 @@ export class BloqueComponent implements OnInit {
         console.log('SEDITA', res);
       })
   }
-
-  editBloque(bloque: Bloque){
-    this.configuracioncvService.putBloque(bloque).subscribe
-      (res =>{
-        console.log('SEDITABLOQUE', res)
-      })
-  }
-
 
 }

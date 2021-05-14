@@ -1,0 +1,48 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <mat-card>
+                    <form [formGroup]="form" #categoryForm="ngForm">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Nombre CV</mat-label>
+                            <input matInput formControlName="nombre_cv" placeholder="Ingrese el nombre de su cv para realizar la configuración">
+                        </mat-form-field>
+                        <!-- <mat-form-field class="example-full-width">
+                            <mat-label>Grupo Alimentario</mat-label>
+                            <input matInput formControlName="categoria">
+                        </mat-form-field> -->
+                        <mat-accordion *ngIf="showDiv()">
+                            <mat-expansion-panel class="expansion" hideToggle *ngFor="let bloque of ConfPersonalizadaNombre | keyvalue">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Bloque: {{bloque.key}}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Despliegue para obtener mayor información
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <!-- <mat-card class="tarjeta-informacion">
+                                    <div class="informacion" *ngFor="let propiedad of arregloBloques[bloque.key] ">
+
+                                        <input class="form-check-input" type="checkbox" name="miDataInterior" [(ngModel)]="propiedad.isSelected" [ngModelOptions]="{standalone: true}" (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
+                                        <p class="nombre">
+                                            <b>Bloque:</b> {{propiedad.bloque}}
+
+                                            <b>Atributo:</b> {{propiedad.atributo}}
+                                        </p>
+
+                                    </div>
+                                </mat-card> -->
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <!-- <div class="col text-center">
+                            <button mat-raised-button class="botones" color="primary" [disabled]='!form.valid' (click)="PostConfiguracionPersonalizada()">Guardar</button>
+                        </div> -->
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

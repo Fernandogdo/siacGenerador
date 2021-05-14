@@ -1,1 +1,122 @@
-<p>resumido-cv works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <mat-card>
+                    <mat-card-header>
+                        <b>Configuración de Bloques</b>
+                    </mat-card-header>
+                    <table class="table" id="tabla">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-3">Bloque</th>
+                                <th class="col-3">Orden</th>
+                                <th class="col-3">Guardar</th>
+                                <th class="col-3">Ingresar a Bloque</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex" *ngFor="let bloque of configuracioncvService.bloques">
+                                <!-- <td>{{configuracion.id}}</td> -->
+                                <td class="col-md-3">{{bloque.nombre}}</td>
+                                <td class="col-md-3">
+                                    <mat-form-field>
+                                        <!-- <mat-label>Orden</mat-label> -->
+                                        <input type="number" matInput placeholder="Orden" [value]="bloque.orden" [(ngModel)]="bloque.orden">
+                                        <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                                    </mat-form-field>
+                                    <!-- {{bloque.orden}} -->
+                                </td>
+                                <td class="col-md-3">
+                                    <button class="btn btn-secundary" (click)="editBloque(bloque)">
+                                            <i class="material-icons">save</i>
+                                    </button>
+                                </td>
+                                <td class="col-md-3">
+                                    <!-- <button mat-raised-button class="botones" color="primary" routerLink="/cv-completo" routerLinkActive="active">
+                                        <i class="material-icons">save</i>
+                                    </button> -->
+                                    <button mat-raised-button color="primary" [routerLink]="['/bloque-resumido/', bloque.nombre]">
+                                            <i class="material-icons">visibility</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card>
+
+
+                <!-- <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+
+                    <table class="table" id="tabla">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-1">Bloque</th>
+                                <th class="col-2">Atributo</th>
+                                <th class="col-1">Orden</th>
+                                <th class="col-2">Mapeo</th>
+                                <th class="col-1">Completo</th>
+                                <th class="col-1">Resumido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex" *ngFor="let configuracion of configuracioncvService.configuraciones">
+                                <td class="col-md-1">{{configuracion.bloque}}</td>
+                                <td class="col-md-2">{{configuracion.atributo}}</td>
+                                <td class="col-md-1">
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label>Orden</mat-label>
+                                            <input matInput placeholder="Name" [value]="configuracion.orden" [(ngModel)]="configuracion.orden">
+                                        </mat-form-field>
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+
+                                    <mat-form-field>
+                                        <mat-label>Mapeo</mat-label>
+                                        <input matInput placeholder="Name" [value]="configuracion.mapeo" [(ngModel)]="configuracion.mapeo">
+                                    </mat-form-field>
+
+                                </td>
+                                <td class="col-md-1">
+
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="configuracion.visible_cv_completo">
+                                            <mat-option [value]="true">Visible</mat-option>
+                                            <mat-option [value]="false">No Visible</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </td>
+                                <td class="col-md-1">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="configuracion.visible_cv_resumido">
+                                            <mat-option [value]="true">Visible</mat-option>
+                                            <mat-option [value]="false">No Visible</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="col-md-1">
+                                    <button class="btn btn-secundary" (click)="editConfiguracion(configuracion)">
+                                            <i class="material-icons">save</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+            </div>
+
+
+        </div>
+        <!-- <div class="col-md-4 text-right">
+            <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
+        </div> -->
+    </div>
+</div>

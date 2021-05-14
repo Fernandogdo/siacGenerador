@@ -1,0 +1,26 @@
+.main-content {
+    width: 100%;
+    height: fit-content;
+}
+
+.container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    /* margin: auto; */
+}
+
+.example-card {
+    max-width: 100%;
+    /* margin-top: 25px; */
+    margin: auto;
+}
+
+#tabla {
+    margin-left: 5px;
+}
+
+
+/* #formulario {
+    min-width: 150px;
+    max-width: 550px;
+} */

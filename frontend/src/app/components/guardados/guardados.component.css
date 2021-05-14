@@ -1,7 +1,15 @@
+.tarjeta-cv {
+    margin: 25px;
+}
+
 #informacion {
     margin: 5px;
     padding: 5px;
     /* border: 2px solid #ccc; */
     /* IMPORTANTE */
     text-align: center;
+}
+
+.botones {
+    margin: 15px;
 }

@@ -186,7 +186,7 @@ export class CompletoCvComponent implements OnInit {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.configuracioncvService.bloques = res;
-        console.log('BLOQUESRESTAPI', res)
+        console.log('BLOQUESRESTAPI', res.sort())
       })
   }
 
