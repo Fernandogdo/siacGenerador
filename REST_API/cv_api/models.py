@@ -42,10 +42,10 @@ class ConfiguracionCv_Personalizado(models.Model):
     orden = models.IntegerField(default=1)
     visible_cv_personalizado = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150)
-    cv = models.IntegerField(default=None)
+    cv = models.CharField(max_length=11)
     nombre_cv = models.CharField(max_length=100)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    
+    cedula = models.TextField(max_length=10)
     class Meta:
         db_table = 'configuracioncvPersonalizado'
         

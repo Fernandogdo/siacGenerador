@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 
 @Component({
@@ -12,16 +12,20 @@ export class EditaPersonalizadoComponent implements OnInit {
 
   form: FormGroup;
   nombre_cv;
+  cv;
   ConfPersonalizadaNombre = [];
+  arregloBloques = [];
 
   constructor(
     public fb: FormBuilder,
-    public configuracioncvService:ConfiguracioncvService,
+    public configuracioncvService: ConfiguracioncvService,
     private route: ActivatedRoute,
-  ) { 
+  ) {
     this.form = this.fb.group({
-      nombre_cv: ['', Validators.required]
-    })
+      nombre_cv: ['', Validators.required],
+      // propiedad: ['']
+      propiedades: this.fb.array([])
+    });
   }
 
   ngOnInit(): void {
@@ -35,39 +39,100 @@ export class EditaPersonalizadoComponent implements OnInit {
     return !!name;
   }
 
+  get propiedadForms() {
+    return this.form.get("propiedades") as FormArray;
+  }
+
+  addPropiedades(arregloBloques:any[]) {
+    arregloBloques.forEach((arreglo, index) => {
+      const group = {};
+      group[arreglo.id] = new FormControl(null);
+      this.propiedadForms.push(new FormGroup(group));
+    });
+  }
+
+  // addPropiedades() {
+  //   this.arregloBloques.forEach(arreglo => {
+  //     const propiedad = this.fb.group({
+  //       valor: [""],
+  //     });
+  //     this.propiedadForms.push(propiedad);
+  //   });
+  // }
+
+  miDataInterior = [];
+
+  agregar(bloque: string, atributo: string, mapeo: string) {
+    console.log(this.form.value.nombre_cv)
+    console.log(this.form.value.propiedad)
+
+    const data = {
+      idDocente: 1,
+      bloque: bloque,
+      atributo: atributo,
+      visible_cv_personalizado: this.form.value.visible_cv_personalizado,
+      mapeo: mapeo,
+      cv: 1,
+      nombre_cv: this.form.value.nombre_cv
+    }
+
+    let conf = this.miDataInterior.push(data);
+    console.log(conf);
+  }
+
+  quitar(atributo) {
+    this.miDataInterior.splice(this.miDataInterior.indexOf(atributo), 1);
+    console.log(this.miDataInterior)
+  }
+
   getConfiguracionPersonalizada() {
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
+    this.configuracioncvService.getConfiguraciones().subscribe(
       res => {
-        this.configuracioncvService.configuracionesPersonalizadas = res;
-        console.log('RESERVISE',res)
-        const filteredCategories = [];
-        res.forEach(configuracion => {
-          if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
-            const { id, nombre_cv, bloque, atributo, orden, mapeo, fecha_registro, visible_cv_personalizado, idDocente } = configuracion;
-            filteredCategories.push({ id, nombre_cv, bloque, atributo, orden, mapeo, visible_cv_personalizado, idDocente });
-          }
-        });
+        this.configuracioncvService.configuraciones = res;
+        console.log('RESERVISE', res)
 
-        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
-       
-        console.log('FILTRANOMBRECV', filteredCategories);
+        this.arregloBloques = res.reduce(function (r, a) {
+          r[a.bloque] = r[a.bloque] || [];
+          r[a.bloque].push(a);
+          return r;
+        }, Object.create(null));
 
-        
-        this.ConfPersonalizadaNombre = filteredCategories.filter(user => user.nombre_cv === this.nombre_cv)
-        
-        console.log('FILTRANOMBRECV', this.ConfPersonalizadaNombre);
+        console.log('BLOQUESTODOS', this.arregloBloques);
+                  this.addPropiedades(res);
 
-        let oneAlimento;
-        oneAlimento = this.ConfPersonalizadaNombre
+        this.configuracioncvService.getConfiguracionesPersonalizadas()
+          .subscribe(res => {
+            this.configuracioncvService.configuracionesPersonalizadas = res;
+            console.log('PERSONALIZADAS', res)
 
-        console.log('FILTRANOMBRECVFIL',  oneAlimento[0].bloque);
+            this.ConfPersonalizadaNombre = res.filter(user => user.nombre_cv === this.nombre_cv)
+            // this.ConfPersonalizadaNombre = res.filter(user => user.cv === this.cv);
+            console.log('FILTRANOMBRECV', this.ConfPersonalizadaNombre);
+            let oneAlimento;
+            oneAlimento = this.ConfPersonalizadaNombre
 
-        this.form.patchValue({
-          nombre_cv: oneAlimento[0].nombre_cv, 
-        });
+            this.form.patchValue({
+              nombre_cv: this.ConfPersonalizadaNombre[0].nombre_cv,
+              // propiedad: this.ConfPersonalizadaNombre[1].visible_cv_personalizado,
+            });
+            
+          });
+    
       },
       err => console.log(err)
     )
   }
 
+  PostConfiguracionPersonalizada() {
+    console.log(this.miDataInterior);
+
+    for (let i = 0; i < this.miDataInterior.length; i++) {
+      let clave = this.miDataInterior[i];
+      console.log('CLAVE', clave)
+      this.configuracioncvService.postConfiguracionPersonalizada(clave)
+        .subscribe(res => {
+          console.log('SEGUARDO', res)
+        })
+    }
+  }
 }

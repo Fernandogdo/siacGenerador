@@ -41,17 +41,18 @@ export class ConfiguracioncvService {
   constructor(
     private http: HttpClient
   ) {
-    // this.test()
+    //this.test()
     this.getJSON().subscribe(data => {
       console.log('DATASERVICE', data.components.schemas);
     });
 
     // this.getConfiguraciones()
     // this.postBloques().subscribe(res =>{
-    //   console.log('QUEQUESAD',res);
+    //   console.log('QUEQUESAD',res);cambiar idioma de teclado ubuntu
     // })
-    // this.recorreConfiguracion()
+    //this.recorreConfiguracion()
     // this.recorreConfiguracionPersonalizada();
+    
   }
 
   public getJSON(): Observable<any> {

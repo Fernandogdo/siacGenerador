@@ -32,7 +32,8 @@ export class PersonalizadoCvComponent implements OnInit {
 
   ) {
     this.form = this.fb.group({
-      nombrecv: ['', Validators.required]
+      nombrecv: ['', Validators.required],
+      orden: ['', Validators.required]
     })
   }
 
@@ -48,6 +49,7 @@ export class PersonalizadoCvComponent implements OnInit {
 
   miDataInterior = [];
 
+  //Agregar 
   agregar(visible: string, bloque: string, atributo: string, mapeo: string) {
     console.log(this.form.value.nombrecv)
    
@@ -55,10 +57,12 @@ export class PersonalizadoCvComponent implements OnInit {
       idDocente: 1,
       bloque: bloque,
       atributo: atributo,
+      orden: 1,
       visible_cv_personalizado: visible,
       mapeo: mapeo,
       cv: 1,
-      nombre_cv: this.form.value.nombrecv
+      nombre_cv: this.form.value.nombrecv,
+      cedula: "123"
     }
 
     let conf = this.miDataInterior.push(data);
