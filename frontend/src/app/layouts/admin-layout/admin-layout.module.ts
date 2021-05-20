@@ -55,7 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatDialogModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
     
   ],
   declarations: [

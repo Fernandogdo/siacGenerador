@@ -1,138 +1,109 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { NgForm, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import { ConfiguracioncvService } from "app/services/configuracioncv.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import * as _ from "lodash";
+import { Configuracioncv } from "app/models/configuracioncv.model";
+import { ConfiguracioncvPersonalizado } from "app/models/configuracioncvPersonalizado.model";
 
 @Component({
-  selector: 'app-edita-personalizado',
-  templateUrl: './edita-personalizado.component.html',
-  styleUrls: ['./edita-personalizado.component.css']
+  selector: "app-edita-personalizado",
+  templateUrl: "./edita-personalizado.component.html",
+  styleUrls: ["./edita-personalizado.component.css"],
 })
-export class EditaPersonalizadoComponent implements OnInit {
-
-  form: FormGroup;
+export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
+  formPersonalizado: FormGroup;
   nombre_cv;
-  cv;
-  ConfPersonalizadaNombre = [];
-  arregloBloques = [];
+  private _unsubscribeAll: Subject<any>;
+  configuraciones: Configuracioncv[];
+  configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
+  configuracionesClas: any;
+  miDataInterior = [];
 
   constructor(
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
-    this.form = this.fb.group({
-      nombre_cv: ['', Validators.required],
-      // propiedad: ['']
-      propiedades: this.fb.array([])
-    });
+    this._unsubscribeAll = new Subject();
   }
 
   ngOnInit(): void {
-    this.nombre_cv = this.route.snapshot.params['nombre']
-    console.log('NOMBREBLOQUE', this.nombre_cv);
-    this.getConfiguracionPersonalizada();
+    this.nombre_cv = this.route.snapshot.params["nombre"];
+    console.log("NOMBREBLOQUE", this.nombre_cv);
+    this.configuracioncvService.onConfiguracionesChanged
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((configuraciones) => {
+        this.configuraciones = configuraciones;
+        this.configuracionesClas = _.groupBy(configuraciones, "bloque");
+      });
+    this.configuracioncvService.onConfigPersonalizadasChanged
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((configuracionesPersonalizadas) => {
+        this.configuracionesPersonalizadas = configuracionesPersonalizadas;
+      });
+    this.formPersonalizado = this.addPropiedades();
   }
 
-  public showDiv(): boolean {
-    const name = this.form.value.nombre_cv;
-    return !!name;
-  }
 
-  get propiedadForms() {
-    return this.form.get("propiedades") as FormArray;
-  }
-
-  addPropiedades(arregloBloques:any[]) {
-    arregloBloques.forEach((arreglo, index) => {
-      const group = {};
-      group[arreglo.id] = new FormControl(null);
-      this.propiedadForms.push(new FormGroup(group));
+  addPropiedades() {
+    const group = {};
+    group["nombre_cv"] = new FormControl(this.nombre_cv, Validators.required);
+    const seleccionados = [
+      { id: 1, usarioId: 2, configuracionId: 21 },
+      { id: 1, usarioId: 2, configuracionId: 1 },
+      { id: 1, usarioId: 2, configuracionId: 5 },
+      { id: 1, usarioId: 2, configuracionId: 100 },
+      { id: 1, usarioId: 2, configuracionId: 54 },
+    ];
+    this.configuraciones.forEach((arreglo: any, index) => {
+      const seleccionado = seleccionados.find(
+        (c) => c.configuracionId === arreglo.id
+      );
+      group[arreglo.id] = this.fb.group({
+        valor: [seleccionado ? true : false],
+        orden: [null],
+      });
     });
+    return new FormGroup(group);
   }
 
-  // addPropiedades() {
-  //   this.arregloBloques.forEach(arreglo => {
-  //     const propiedad = this.fb.group({
-  //       valor: [""],
-  //     });
-  //     this.propiedadForms.push(propiedad);
-  //   });
-  // }
+  guardar() {
+    const form = this.formPersonalizado.getRawValue();
+    const resultados = [];
+    _.map(form, (element, key) => {
+      if (element.valor !== false && key !== "nombre_cv") {
+        delete element.valor;
+        resultados.push({ id: key, ...element });
+      }
+    });
+    console.log(
+      "🚀 ~ file: edita-personalizado.component.ts ~ line 97 ~ EditaPersonalizadoComponent ~ guardar ~ resultados",
+      resultados
+    );
+    this.postConfiguracionPersonalizada(resultados);
+  }
 
-  miDataInterior = [];
-
-  agregar(bloque: string, atributo: string, mapeo: string) {
-    console.log(this.form.value.nombre_cv)
-    console.log(this.form.value.propiedad)
-
-    const data = {
-      idDocente: 1,
-      bloque: bloque,
-      atributo: atributo,
-      visible_cv_personalizado: this.form.value.visible_cv_personalizado,
-      mapeo: mapeo,
-      cv: 1,
-      nombre_cv: this.form.value.nombre_cv
+  postConfiguracionPersonalizada(resultados) {
+    const promesas = [];
+    for (let i = 0; i < resultados.length; i++) {
+      let clave = resultados[i];
+      console.log("🚀 ~ file: edita-personalizado.component.ts ~ line 98 ~ EditaPersonalizadoComponent ~ postConfiguracionPersonalizada ~ clave", clave)
+      // promesas.push(this.configuracioncvService
+      //   .postConfiguracionPersonalizada(clave));
     }
-
-    let conf = this.miDataInterior.push(data);
-    console.log(conf);
+    return Promise.all(promesas);
   }
 
-  quitar(atributo) {
-    this.miDataInterior.splice(this.miDataInterior.indexOf(atributo), 1);
-    console.log(this.miDataInterior)
-  }
-
-  getConfiguracionPersonalizada() {
-    this.configuracioncvService.getConfiguraciones().subscribe(
-      res => {
-        this.configuracioncvService.configuraciones = res;
-        console.log('RESERVISE', res)
-
-        this.arregloBloques = res.reduce(function (r, a) {
-          r[a.bloque] = r[a.bloque] || [];
-          r[a.bloque].push(a);
-          return r;
-        }, Object.create(null));
-
-        console.log('BLOQUESTODOS', this.arregloBloques);
-                  this.addPropiedades(res);
-
-        this.configuracioncvService.getConfiguracionesPersonalizadas()
-          .subscribe(res => {
-            this.configuracioncvService.configuracionesPersonalizadas = res;
-            console.log('PERSONALIZADAS', res)
-
-            this.ConfPersonalizadaNombre = res.filter(user => user.nombre_cv === this.nombre_cv)
-            // this.ConfPersonalizadaNombre = res.filter(user => user.cv === this.cv);
-            console.log('FILTRANOMBRECV', this.ConfPersonalizadaNombre);
-            let oneAlimento;
-            oneAlimento = this.ConfPersonalizadaNombre
-
-            this.form.patchValue({
-              nombre_cv: this.ConfPersonalizadaNombre[0].nombre_cv,
-              // propiedad: this.ConfPersonalizadaNombre[1].visible_cv_personalizado,
-            });
-            
-          });
-    
-      },
-      err => console.log(err)
-    )
-  }
-
-  PostConfiguracionPersonalizada() {
-    console.log(this.miDataInterior);
-
-    for (let i = 0; i < this.miDataInterior.length; i++) {
-      let clave = this.miDataInterior[i];
-      console.log('CLAVE', clave)
-      this.configuracioncvService.postConfiguracionPersonalizada(clave)
-        .subscribe(res => {
-          console.log('SEGUARDO', res)
-        })
-    }
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

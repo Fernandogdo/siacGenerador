@@ -10,6 +10,7 @@ import { GuardadosComponent } from 'app/components/guardados/guardados.component
 import { BloqueComponent } from 'app/components/bloque/bloque.component';
 import { BloqueResumidoComponent } from 'app/components/bloque-resumido/bloque-resumido.component';
 import { EditaPersonalizadoComponent } from 'app/components/edita-personalizado/edita-personalizado.component';
+import { EditaPersonalizadoService } from 'app/services/edita-personalizado/edita-personalizado.service';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -23,5 +24,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'cv-guardado',   component: GuardadosComponent },
     { path: 'bloque-completo/:nombre',   component: BloqueComponent },
     { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
-    { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent },
+    { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}},
 ];

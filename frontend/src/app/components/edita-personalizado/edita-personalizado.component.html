@@ -1,47 +1,94 @@
 You sent Today at 9:11 PM
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-
-            <div class="col-md-12">
-                <mat-card>
-                    <form [formGroup]="form" #categoryForm="ngForm">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Nombre CV</mat-label>
-                            <input matInput formControlName="nombre_cv" placeholder="Ingrese el nombre de su cv para realizar la configuración">
-                        </mat-form-field>
-                        <mat-accordion *ngIf="showDiv()">
-                            <mat-expansion-panel class="expansion" hideToggle *ngFor="let bloque of arregloBloques | keyvalue">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Bloque: {{bloque.key}}
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Despliegue para obtener mayor información
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <div formArrayName="propiedades" >
-                                <mat-card class="tarjeta-informacion">
-                                    <div class="informacion" *ngFor="let propiedad of arregloBloques[bloque.key] ">
-                                        <input class="form-check-input" type="checkbox">
-                                        <p class="nombre">
-                                            <b>Bloque:</b> {{propiedad.bloque}}
-
-                                            <b>Atributo:</b> {{propiedad.atributo}}
-                                            <!-- <b>Atributo:</b> {{propiedad.visible_cv_personalizado}} -->
-                                        </p>
-                                    </div>
-                                </mat-card>
-                            </div>
-
-                            </mat-expansion-panel>
-                        </mat-accordion>
-                        <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary" (click)="PostConfiguracionPersonalizada()">Guardar</button>
-                        </div>
-                    </form>
-                </mat-card>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <form [formGroup]="formPersonalizado">
+            <mat-form-field appearance="outline">
+              <mat-label>Outline form field</mat-label>
+              <input
+                matInput
+                placeholder="Placeholder"
+                formControlName="nombre_cv"
+              />
+              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+            <!-- <div *ngFor="let configuracion of configuraciones">
+   
+              <mat-checkbox
+                class="example-margin"
+                [formControlName]="configuracion.id"
+                >{{ configuracion.id }}:{{ configuracion.bloque }}:
+                {{ configuracion.atributo }}</mat-checkbox
+              >
             </div>
-        </div>
+          
+            <div class="col text-center">
+              <button
+                mat-raised-button
+                class="botones"
+                color="primary"
+                (click)="guardar()"
+              >
+                Guardar
+              </button>
+            </div> -->
+            <mat-accordion>
+              <mat-expansion-panel
+                class="expansion"
+                hideToggle
+                *ngFor="let bloque of configuracionesClas | keyvalue"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Bloque: {{ bloque.key }} </mat-panel-title>
+                  <mat-panel-description>
+                    Despliegue para obtener mayor información
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card class="tarjeta-informacion">
+                  <div
+                    class="informacion"
+                    *ngFor="let propiedad of configuracionesClas[bloque.key]"
+                  >
+                    <div [formGroupName]="propiedad.id">
+                      <!-- <input type="checkbox" [formControl]="prop" />
+                      {{ user.skills[i].name }} -->
+                      <mat-checkbox
+                        class="example-margin"
+                        formControlName="valor"
+                      >
+                        <b>Bloque:</b> {{ propiedad.bloque }}
+
+                        <b>Atributo:</b> {{ propiedad.atributo }}</mat-checkbox
+                      >
+                      <mat-form-field appearance="outline">
+                        <mat-label>Orden</mat-label>
+                        <input
+                          matInput
+                          placeholder="Placeholder"
+                          formControlName="orden"
+                        />
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        <mat-hint>Hint</mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-card>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <button
+              mat-raised-button
+              color="accent"
+              [disabled]="formPersonalizado.invalid"
+              (click)="guardar()"
+            >
+              Guardar
+            </button>
+          </form>
+        </mat-card>
+      </div>
     </div>
+  </div>
 </div>

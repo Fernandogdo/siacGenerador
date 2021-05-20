@@ -1,35 +1,32 @@
-import { Observable } from 'rxjs/Observable';
-import { Configuracioncv } from './../models/configuracioncv.model';
-import { Injectable } from '@angular/core';
+import { Observable } from "rxjs/Observable";
+import { Configuracioncv } from "./../models/configuracioncv.model";
+import { Injectable } from "@angular/core";
 
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { post } from 'jquery';
-import { Bloque } from 'app/models/bloque.model';
-import { ConfiguracioncvPersonalizado } from 'app/models/configuracioncvPersonalizado.model';
-
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { post } from "jquery";
+import { Bloque } from "app/models/bloque.model";
+import { ConfiguracioncvPersonalizado } from "app/models/configuracioncvPersonalizado.model";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ConfiguracioncvService {
+  URL_CONF = "http://127.0.0.1:8000/api/configuracioncv/";
 
-  URL_CONF = 'http://127.0.0.1:8000/api/configuracioncv/'
+  URL_BLOQUES = "http://127.0.0.1:8000/api/bloque/";
 
-
-  URL_BLOQUES = 'http://127.0.0.1:8000/api/bloque/';
-
-  URL_PERS = 'http://127.0.0.1:8000/api/configuracioncv_personalizado/'
+  URL_PERS = "http://127.0.0.1:8000/api/configuracioncv_personalizado/";
 
   claves: any = [];
   esquemas: any = [];
 
-
   selectedConfiguracion: Configuracioncv = {
     administrador: 1,
-    bloque: '',
-    atributo: '',
+    bloque: "",
+    atributo: "",
     orden: 0,
-    mapeo: '',
+    mapeo: "",
     visible_cv_completo: true,
     visible_cv_resumido: true,
   };
@@ -37,13 +34,16 @@ export class ConfiguracioncvService {
   configuraciones: Configuracioncv[];
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
   bloques: Bloque[];
+  onConfiguracionesChanged: BehaviorSubject<any>;
+  onConfigPersonalizadasChanged: BehaviorSubject<any>;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
+    this.onConfiguracionesChanged = new BehaviorSubject([]);
+    this.onConfigPersonalizadasChanged = new BehaviorSubject([]);
+
     //this.test()
-    this.getJSON().subscribe(data => {
-      console.log('DATASERVICE', data.components.schemas);
+    this.getJSON().subscribe((data) => {
+      console.log("DATASERVICE", data.components.schemas);
     });
 
     // this.getConfiguraciones()
@@ -52,28 +52,25 @@ export class ConfiguracioncvService {
     // })
     //this.recorreConfiguracion()
     // this.recorreConfiguracionPersonalizada();
-    
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get("../../assets/esquema/esquemasiac.json")
+    return this.http.get("../../assets/esquema/esquemasiac.json");
   }
 
   postBloques(bloques) {
-
     const path = `${this.URL_BLOQUES}`;
 
     return this.http.post<Bloque>(path, {
-      "nombre": bloques
+      nombre: bloques,
     });
-
   }
 
   test() {
-    this.getJSON().subscribe(data => {
-      // this.datos= data.components. 
-      let lala = Object.keys(data.components.schemas)
-      let array = Object.assign({}, lala)
+    this.getJSON().subscribe((data) => {
+      // this.datos= data.components.
+      let lala = Object.keys(data.components.schemas);
+      let array = Object.assign({}, lala);
       console.log(array);
 
       // this.postBloques(array);
@@ -89,14 +86,10 @@ export class ConfiguracioncvService {
       //   // )
       // }
 
-
       // array.forEach((datos) =>
       //   this.postBloques(datos[0]).subscribe(res => {
       //     console.log('GAGAGAGAG', res)
       //   }));
-
-
-
 
       let claves = Object.keys(lala);
 
@@ -113,8 +106,8 @@ export class ConfiguracioncvService {
       // });
 
       this.claves = Object.keys(lala);
-      let keys = Object.keys(lala)
-      console.log('claves', keys)
+      let keys = Object.keys(lala);
+      console.log("claves", keys);
 
       // this.postBloques(JSON.stringify(lala[0])).subscribe(res => {
       //   console.log('DATA', res)
@@ -123,12 +116,10 @@ export class ConfiguracioncvService {
       for (let i = 0; i < keys.length; i++) {
         let clave = keys[i];
         // let myjson = JSON.stringify()
-        this.postBloques((lala[clave]))
-          .subscribe(res => {
-            console.log('DATA', res)
-          });
-        console.log('DATA', (lala[clave]));
-
+        this.postBloques(lala[clave]).subscribe((res) => {
+          console.log("DATA", res);
+        });
+        console.log("DATA", lala[clave]);
       }
     });
   }
@@ -137,21 +128,21 @@ export class ConfiguracioncvService {
     const path = `${this.URL_CONF}`;
 
     return this.http.post<Configuracioncv>(path, {
-      "bloque": bloque,
-      "atributo": atributo,
-      "orden": 1,
-      "visible_cv_resumido": true,
-      "visible_cv_completo": true,
-      "mapeo": atributo,
-      "administrador": 1
-    })
+      bloque: bloque,
+      atributo: atributo,
+      orden: 1,
+      visible_cv_resumido: true,
+      visible_cv_completo: true,
+      mapeo: atributo,
+      administrador: 1,
+    });
   }
 
   recorreConfiguracion() {
-    this.getJSON().subscribe(data => {
-      let lala = Object.keys(data.components.schemas)
-      let keys = Object.keys(lala)
-      console.log('ESQUEMAS', keys)
+    this.getJSON().subscribe((data) => {
+      let lala = Object.keys(data.components.schemas);
+      let keys = Object.keys(lala);
+      console.log("ESQUEMAS", keys);
 
       // let atributos = Object.keys(data.components.schemas.properties)
       // console.log(atributos)
@@ -160,29 +151,35 @@ export class ConfiguracioncvService {
 
       for (let i = 0; i < keys.length; i++) {
         let clave = keys[i];
-        let acceso = lala[clave]
-        console.log('ACCESO', acceso)
-        let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
-        let keys_atributos_todos = Object.keys(atributos_todos)
+        let acceso = lala[clave];
+        console.log("ACCESO", acceso);
+        let atributos_todos = Object.keys(
+          data.components.schemas[acceso].properties
+        );
+        let keys_atributos_todos = Object.keys(atributos_todos);
 
         for (let index = 0; index < keys_atributos_todos.length; index++) {
           const clave_atributo = keys_atributos_todos[index];
           // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
 
-          this.postConfiguraciones(acceso, atributos_todos[clave_atributo])
-            .subscribe(res => {
-              // console.log('DATA', res)
-            });
+          this.postConfiguraciones(
+            acceso,
+            atributos_todos[clave_atributo]
+          ).subscribe((res) => {
+            // console.log('DATA', res)
+          });
           // console.log('DATA', (lala[clave]));
         }
       }
     });
   }
 
-
   postConfiguracionPersonalizada(configuracionPersonalizada) {
     const path = `${this.URL_PERS}`;
-    return this.http.post<ConfiguracioncvPersonalizado>(path, configuracionPersonalizada);
+    return this.http.post<ConfiguracioncvPersonalizado>(
+      path,
+      configuracionPersonalizada
+    );
   }
 
   // recorreConfiguracionPersonalizada(){
@@ -221,43 +218,68 @@ export class ConfiguracioncvService {
     return this.http.get<Configuracioncv[]>(this.URL_CONF);
   }
 
-  getConfiguracionesPersonalizadas(){
+  getConfiguracionesPromise(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get<Configuracioncv[]>(this.URL_CONF).subscribe((data) => {
+        this.configuraciones = data;
+        console.log("🚀 ~ file: configuracioncv.service.ts ~ line 222 ~ ConfiguracioncvService ~ this.http.get<Configuracioncv[]> ~ data", data)
+        this.onConfiguracionesChanged.next(this.configuraciones);
+        resolve(this.configuraciones);
+      }, reject);
+    });
+  }
+
+  getConfiguracionesPersonalizadasPromise(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS).subscribe((data) => {
+        this.configuracionesPersonalizadas = data;
+        console.log("🚀 ~ file: configuracioncv.service.ts ~ line 236 ~ ConfiguracioncvService ~ this.http.get<ConfiguracioncvPersonalizado[]> ~ data", data)
+        this.onConfigPersonalizadasChanged.next(this.configuracionesPersonalizadas);
+        resolve(this.configuracionesPersonalizadas);
+      }, reject);
+    });
+  }
+
+  getConfiguracionesPersonalizadas() {
     return this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS);
   }
 
-  getConfiguracionPersonalizada(id){
-    return this.http.get(this.URL_PERS + id)
+  getConfiguracionPersonalizada(id) {
+    return this.http.get(this.URL_PERS + id);
   }
 
   putConfiguracion(configuracion: Configuracioncv) {
-    return this.http.put(this.URL_CONF + configuracion.id + '/', configuracion)
+    return this.http.put(this.URL_CONF + configuracion.id + "/", configuracion);
   }
 
-  putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado){
-    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + '/', configuracionPersonalizada);
+  putConfiguracionPersonalizada(
+    configuracionPersonalizada: ConfiguracioncvPersonalizado
+  ) {
+    return this.http.put(
+      this.URL_PERS + configuracionPersonalizada.id + "/",
+      configuracionPersonalizada
+    );
   }
 
   /* Bloque */
-  getBloques(){
-    return this.http.get<Bloque[]>(this.URL_BLOQUES)
+  getBloques() {
+    return this.http.get<Bloque[]>(this.URL_BLOQUES);
   }
 
-  putBloque(bloque: Bloque){
-    return this.http.put(this.URL_BLOQUES + bloque.id + '/', bloque);
+  putBloque(bloque: Bloque) {
+    return this.http.put(this.URL_BLOQUES + bloque.id + "/", bloque);
   }
-
 
   deleteConfiguracion(id: string) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     });
-    return this.http.delete(this.URL_CONF + id)
+    return this.http.delete(this.URL_CONF + id);
   }
 
-
-  public createConfigracioncv(configuracioncv: Configuracioncv): Observable<Configuracioncv> {
-
+  public createConfigracioncv(
+    configuracioncv: Configuracioncv
+  ): Observable<Configuracioncv> {
     return this.http.post<Configuracioncv>(this.URL_CONF, configuracioncv);
-
   }
 }
