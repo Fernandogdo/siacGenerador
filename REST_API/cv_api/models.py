@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 # Create your models here.
 
 
@@ -25,17 +25,24 @@ class ConfiguracionCv(models.Model):
         db_table = 'configuracionCV'
         
 
-class Docente(models.Model):
+class Docente(AbstractUser):
 
-    idDocente = models.AutoField(primary_key=True)
-    
+    id_user = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100, default="testname")
+    last_name = models.CharField(max_length=100, default="test_lastname")
+    username = models.CharField(max_length=100, unique=True, default="username")
+    # password =  models.CharField(max_length=50)
 
+    USERNAME_FIELD = 'username'
+
+    REQUIRED_FIELDS = ['id_user', 'first_name', 'last_name']
     class Meta:
         db_table = 'docente'
 
 
 class ConfiguracionCv_Personalizado(models.Model):
     id = models.AutoField(primary_key=True)
+    configuracionId = models.IntegerField()
     idDocente = models.ForeignKey(Docente, related_name='Docente',  on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
@@ -53,6 +60,8 @@ class ConfiguracionCv_Personalizado(models.Model):
 class Bloque(models.Model):
     nombre = models.CharField(max_length=100)
     orden = models.IntegerField(default=1)
+    ordenResumido = models.IntegerField(default=0)
+    ordenPersonalizable = models.IntegerField(default=0)
     class Meta:
         db_table = 'bloque'
 

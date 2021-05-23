@@ -11,10 +11,11 @@ import { BloqueComponent } from 'app/components/bloque/bloque.component';
 import { BloqueResumidoComponent } from 'app/components/bloque-resumido/bloque-resumido.component';
 import { EditaPersonalizadoComponent } from 'app/components/edita-personalizado/edita-personalizado.component';
 import { EditaPersonalizadoService } from 'app/services/edita-personalizado/edita-personalizado.service';
+import { LoginComponent } from 'app/components/login/login.component';
 
 
 export const AdminLayoutRoutes: Routes = [
-    
+
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'cv-completo',   component: CompletoCvComponent },
@@ -25,4 +26,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'bloque-completo/:nombre',   component: BloqueComponent },
     { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
     { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}},
+    {}
 ];

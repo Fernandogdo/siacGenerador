@@ -26,6 +26,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
   configuracionesClas: any;
   miDataInterior = [];
+  confPersonalizadaNombre = [];
 
   constructor(
     public fb: FormBuilder,
@@ -37,7 +38,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.nombre_cv = this.route.snapshot.params["nombre"];
-    console.log("NOMBREBLOQUE", this.nombre_cv);
+    // console.log("NOMBREBLOQUE", this.nombre_cv);
     this.configuracioncvService.onConfiguracionesChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((configuraciones) => {
@@ -48,28 +49,29 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((configuracionesPersonalizadas) => {
         this.configuracionesPersonalizadas = configuracionesPersonalizadas;
+        // console.log('personalizadas', this.configuracionesPersonalizadas[0].id)
       });
     this.formPersonalizado = this.addPropiedades();
   }
 
-
   addPropiedades() {
     const group = {};
     group["nombre_cv"] = new FormControl(this.nombre_cv, Validators.required);
-    const seleccionados = [
-      { id: 1, usarioId: 2, configuracionId: 21 },
-      { id: 1, usarioId: 2, configuracionId: 1 },
-      { id: 1, usarioId: 2, configuracionId: 5 },
-      { id: 1, usarioId: 2, configuracionId: 100 },
-      { id: 1, usarioId: 2, configuracionId: 54 },
-    ];
+
+    this.confPersonalizadaNombre = this.configuracionesPersonalizadas.filter(
+      (data) => data.nombre_cv === this.nombre_cv
+    );
+    console.log("filtradonombre", this.confPersonalizadaNombre);
+
     this.configuraciones.forEach((arreglo: any, index) => {
-      const seleccionado = seleccionados.find(
+      const seleccionado = this.confPersonalizadaNombre.find(
         (c) => c.configuracionId === arreglo.id
       );
+
       group[arreglo.id] = this.fb.group({
         valor: [seleccionado ? true : false],
-        orden: [null],
+        orden: [1],
+        // bloque: bloque
       });
     });
     return new FormGroup(group);
@@ -77,11 +79,17 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
   guardar() {
     const form = this.formPersonalizado.getRawValue();
+    console.log("FORM", form);
     const resultados = [];
     _.map(form, (element, key) => {
       if (element.valor !== false && key !== "nombre_cv") {
-        delete element.valor;
-        resultados.push({ id: key, ...element });
+        // delete element.valor;
+        resultados.push({
+          configuracionId: key,
+          // ...element,
+          nombre_cv: this.nombre_cv,
+          visible_cv_personalizado: element.valor,
+        });
       }
     });
     console.log(
@@ -93,9 +101,83 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
   postConfiguracionPersonalizada(resultados) {
     const promesas = [];
-    for (let i = 0; i < resultados.length; i++) {
-      let clave = resultados[i];
-      console.log("🚀 ~ file: edita-personalizado.component.ts ~ line 98 ~ EditaPersonalizadoComponent ~ postConfiguracionPersonalizada ~ clave", clave)
+    const data = [
+      {
+        configuracionId: 3,
+        id: 1,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: false,
+      },
+
+      {
+        configuracionId: 5,
+        id: 2,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: true,
+      },
+
+      {
+        configuracionId: 7,
+        id: 3,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: true,
+      },
+
+      {
+        configuracionId: 9,
+        id: 5,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: true,
+      },
+
+      {
+        configuracionId: 11,
+        id: 6,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: true,
+      },
+
+      {
+        configuracionId: 13,
+        id: 7,
+        idDocente: 1,
+        nombre_cv: "data",
+        orden: 1,
+        visible_cv_personalizado: true,
+      },
+
+      // {configuracionId: 3, id: 2,
+      // idDocente: 1, nombre_cv: "data", orden: 1,
+      // visible_cv_personalizado: true}
+    ];
+    var iguales=0;
+    for (let i = 0; i < data.length; i++) {
+      // let clave = data[i];
+
+      for (var j = 0; j < data.length; j++) {
+        if (data[i] == resultados[j]) iguales++;
+      }
+
+      console.log(
+        "🚀 ~ file: edita-personalizado.component.ts ~ line 98 ~ EditaPersonalizadoComponent ~ postConfiguracionPersonalizada ~ clave",
+        iguales
+      );
+
+      // this.configuracioncvService
+      //   .putConfiguracionPersonalizada(clave)
+      //   .subscribe((res) => {
+      //     console.log("SEEDITA", res);
+      //   });
       // promesas.push(this.configuracioncvService
       //   .postConfiguracionPersonalizada(clave));
     }

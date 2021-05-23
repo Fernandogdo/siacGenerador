@@ -4,6 +4,7 @@ import { Administrador } from './administrador.model';
 export class ConfiguracioncvPersonalizado {
     
     constructor(
+        public configuracionId?: number,
         public idDocente?: number,
         public bloque?: string,
         public atributo?: string,
@@ -14,9 +15,10 @@ export class ConfiguracioncvPersonalizado {
         public nombre_cv?: string,
         public fecha_registro?: Date,
         public cedula?: string,
-        public id?: string,
+        public id?: number,
 
     ) {
+        this.configuracionId = configuracionId,
         this.idDocente = idDocente,
         this.bloque = this.bloque,
         this.atributo = this.atributo,

@@ -50,10 +50,11 @@ export class PersonalizadoCvComponent implements OnInit {
   miDataInterior = [];
 
   //Agregar 
-  agregar(visible: string, bloque: string, atributo: string, mapeo: string) {
+  agregar(visible: string, idSeleccionado, bloque: string, atributo: string, mapeo: string) {
     console.log(this.form.value.nombrecv)
    
     const data = {
+      configuracionId: idSeleccionado,
       idDocente: 1,
       bloque: bloque,
       atributo: atributo,
@@ -106,10 +107,12 @@ export class PersonalizadoCvComponent implements OnInit {
         const filteredCategories = [];
         res.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
-            const { bloque, atributo, mapeo } = configuracion;
-            filteredCategories.push({ bloque, atributo, mapeo });
+            const { id, bloque, atributo, mapeo } = configuracion;
+            filteredCategories.push({ id, bloque, atributo, mapeo });
           }
+         
         });
+        console.log('asdsad', filteredCategories)
 
         this.configuracioncvService.configuraciones = filteredCategories;
 

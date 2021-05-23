@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from . import views
+# from  import LoginView
 
 router = routers.DefaultRouter()
 router.register(r'configuracioncv', views.ConfiguracionCvView)
@@ -11,6 +12,7 @@ router.register(r'bloque', views.BloqueView)
 
 
 urlpatterns = [
-  path('', include(router.urls))
+  path('', include(router.urls)),
+  path('login/', views.LoginView.as_view()),
   # path('configuracioncv/<int:id>/', views.ConfiguracionCvView.as_view()),
 ]

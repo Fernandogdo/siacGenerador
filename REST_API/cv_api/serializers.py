@@ -1,7 +1,13 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
+from rest_framework import exceptions
 
 from .models import *
 
+class PatchModelSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        kwargs['partial'] = True
+        super(PatchModelSerializer, self).__init__(*args, **kwargs)
 
 class AdministradorSerializer(serializers.ModelSerializer):
 
@@ -21,10 +27,43 @@ class DocenteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Docente()
-        fields = ('__all__')
+        fields = ('id_user', 'username', 'first_name', 'last_name', 'password')
+        # extra_kwargs = {'password' : {'write_only': True, 'required': True}}
 
+    def save(self):
+        user = Docente(
+                    id_user=self.validated_data['id_user'],
+                    username=self.validated_data['username'],
+                    first_name=self.validated_data['first_name'],
+                    last_name=self.validated_data['last_name'],
+            )
+        password = self.validated_data['password']
+        user.set_password(password)
+        user.save()
+        return user
 
-class ConfiguracionCv_PersonalizadoSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        username = data.get("username", "")
+        password = data.get("password", "")
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    data["user"] = user
+                else:
+                    raise exceptions.ValidationError("Usuario esta desactivado")
+            else:
+                raise exceptions.ValidationError("Los datos son incorrectos")
+        else:
+            raise exceptions.ValidationError("No se deben dejar campos sin llenar")
+        return data
+
+class ConfiguracionCv_PersonalizadoSerializer(PatchModelSerializer):
 
     class Meta:
         model = ConfiguracionCv_Personalizado

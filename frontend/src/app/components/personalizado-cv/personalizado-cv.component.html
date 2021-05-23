@@ -27,10 +27,10 @@
 
                                         <input class="form-check-input" type="checkbox" name="miDataInterior"
                                             [(ngModel)]="propiedad.isSelected" [ngModelOptions]="{standalone: true}"
-                                            (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
+                                            (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.id, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
                                         <p class="nombre">
                                             <b>Bloque:</b> {{propiedad.bloque}}
-
+                                            <b>id:</b> {{propiedad.id}}
                                             <b>Atributo:</b> {{propiedad.atributo}}
                                             <b>Orden:</b>
                                             <input type="text" formControlName="orden" type="number"
@@ -46,7 +46,7 @@
                             </mat-expansion-panel>
                         </mat-accordion>
                         <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary" [disabled]='!form.valid'
+                            <button mat-raised-button class="botones" color="primary"
                                 (click)="PostConfiguracionPersonalizada()">Guardar</button>
                         </div>
                     </form>
