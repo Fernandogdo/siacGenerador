@@ -41,7 +41,7 @@ export class ConfiguracioncvService {
     this.onConfiguracionesChanged = new BehaviorSubject([]);
     this.onConfigPersonalizadasChanged = new BehaviorSubject([]);
 
-    //this.recorreBloques()
+    // this.recorreBloques()
     this.getJSON().subscribe((data) => {
       console.log("DATASERVICE", data.components.schemas);
     });
@@ -50,7 +50,8 @@ export class ConfiguracioncvService {
     // this.postBloques().subscribe(res =>{
     //   console.log('QUEQUESAD',res);cambiar idioma de teclado ubuntu
     // })
-    //this.recorreConfiguracion()
+    // this.recorreConfiguracion()
+
     // this.recorreConfiguracionPersonalizada();
   }
 

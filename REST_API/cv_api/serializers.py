@@ -27,7 +27,7 @@ class DocenteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Docente()
-        fields = ('id_user', 'username', 'first_name', 'last_name', 'password')
+        fields = ('id_user', 'is_staff', 'username', 'first_name', 'last_name', 'password')
         # extra_kwargs = {'password' : {'write_only': True, 'required': True}}
 
     def save(self):
@@ -69,6 +69,10 @@ class ConfiguracionCv_PersonalizadoSerializer(PatchModelSerializer):
         model = ConfiguracionCv_Personalizado
         fields = ('__all__')
         
+
+# class ConfiguracionUsuario_PersonalizadoSerializer(ConfiguracionCv_PersonalizadoSerializer):
+#     configuracion = ConfiguracionCv_PersonalizadoSerializer(many=False, read_only=True)
+#     asignacion = DocenteSerializer(many=False, read_only=True)
 class BloqueSerializer(serializers.ModelSerializer):
     
     class Meta:

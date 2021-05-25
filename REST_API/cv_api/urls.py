@@ -9,7 +9,7 @@ router.register(r'configuracioncv_personalizado', views.ConfiguracionCv_Personal
 router.register(r'docente', views.DocenteView)
 router.register(r'administrador', views.AdministradorView)
 router.register(r'bloque', views.BloqueView)
-
+router.register(r'personalizacion_usuario', views.PersonalizacionUsuario, basename='mymodel')
 
 urlpatterns = [
   path('', include(router.urls)),

@@ -10,7 +10,6 @@ import { ObjToArrayPipe } from 'app/objToArray.pipe';
 /* Components */
 
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
-import { UserProfileComponent } from '../../components/user-profile/user-profile.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
 import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
@@ -60,7 +59,6 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
     CompletoCvComponent,
     PersonalizadoCvComponent,
     ModalPersonalizacionComponent,

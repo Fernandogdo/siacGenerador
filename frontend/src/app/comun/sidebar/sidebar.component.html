@@ -19,13 +19,44 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div> 
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
+        <li class=" nav-item">
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+                <i class="material-icons">dashboard</i>
+                <p>Dashboard</p>
             </a>
         </li>
+        <!-- <li class=" nav-item">
+            <a class="nav-link" routerLink="/user-profile" routerLinkActive="active">
+                <i class="material-icons">person</i>
+                <p>User Profile</p>
+            </a>
+        </li> -->
+        <li class=" nav-item"  *ngIf="seMuestra">
+            <a class="nav-link" routerLink="/cv-completo" routerLinkActive="active">
+                <i class="material-icons">account_box</i>
+                <p>CV Completo</p>
+            </a>
+        </li> 
+       
+        <li class=" nav-item"   *ngIf="seMuestra">
+            <a class="nav-link" routerLink="/cv-resumido" routerLinkActive="active">
+                <i class="material-icons">contact_page</i>
+                <p>CV Resumido</p>
+            </a>
+        </li>
+        <li class=" nav-item">
+            <a class="nav-link"  *ngIf="!seMuestra" routerLink="/cv-guardado" routerLinkActive="active">
+                <i class="material-icons">manage_accounts</i>
+                <p>CV Personalizable</p>
+            </a>
+        </li>
+        <!-- <li routerLinkActive="active"  *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p> {{menuItem.title}}</p>
+            </a>
+        </li> -->
     </ul>
 </div>

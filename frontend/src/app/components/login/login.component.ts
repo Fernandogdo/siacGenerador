@@ -17,8 +17,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
-    // "#003F72";
+   
+    // this.ngAfterViewInit()
     this.loginForm = this.fb.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   }
 
   // ngAfterViewInit() {
-   
+  //   this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
+  //   "#003F72";
   // }
 
   signIn() {

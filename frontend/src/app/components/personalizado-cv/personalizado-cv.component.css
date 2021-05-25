@@ -1,23 +1,35 @@
 .example-card {
-    max-width: 100%;
+  max-width: 100%;
 }
 
+.bloques{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 15px;
+}
+/* .bloque {
+  height: 50px;
+  margin-bottom: 1px;
+  text-align: center;
+  line-height: 50px;
+} */
+
 .nombre {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .expansion {
-    margin: 5px;
+  margin: 5px;
 }
 
 .tarjeta-informacion {
-    background-color: beige;
+  background-color: beige;
 }
 
 .informacion {
-    margin: 40px;
+  margin: 40px;
 }
 
 .botones {
-    margin: 20px !important;
+  margin: 20px !important;
 }

@@ -4,6 +4,8 @@ export class Bloque {
     
         public nombre: string,
         public orden: number,
+        public ordenResumido: number,
+        public ordenPersonalizable : number,
         public id?: number,
 
     ) {

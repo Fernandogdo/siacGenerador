@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorizationService } from 'app/services/login/authorization.service';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -25,11 +26,15 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-
-  constructor() { }
+  seMuestra: Boolean
+  userdata;
+  constructor(
+    public authorizationService: AuthorizationService
+  ) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.getRol()
   }
   isMobileMenu() {
       if ($(window).width() > 991) {
@@ -37,5 +42,39 @@ export class SidebarComponent implements OnInit {
       }
       return true;
   };
+
+  public getRol():void{
+      let staff = localStorage.getItem('is_staff')
+      console.log("🚀 ~ file: sidebar.component.ts ~ line 45 ~ SidebarComponent ~ getRol ~ staff", staff)
+      
+      let iduser =  localStorage.getItem("id_user");
+      this.authorizationService.getOneUser(iduser)
+        .subscribe(res => {
+          this.userdata = res; 
+          console.log("🚀 ~ file: sidebar.component.ts ~ line 54 ~ SidebarComponent ~ getRol ~ this.userdata", this.userdata)
+
+          if (this.userdata.is_staff === true) {
+            this.seMuestra = true
+            console.log(this.seMuestra)
+          } else{
+            this.seMuestra = false
+            console.log('falso',this.seMuestra)
+          }
+
+        });
+       
+
+
+      // if (staff = 'true') {
+      //   this.seMuestra = true
+      //   console.log("🚀 ~ file: sidebar.component.ts ~ line 47 ~ SidebarComponent ~ getRol ~ seMuestra", this.seMuestra)
+      // }else{
+      //   this.seMuestra = false
+      //   console.log("🚀 ~ file: sidebar.component.ts ~ line 52 ~ SidebarComponent ~ getRol ~  this.seMuestra",  this.seMuestra)
+      // } 
+        
+      
+        
+  }
 
 }

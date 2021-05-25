@@ -10,7 +10,7 @@ export class AuthorizationService {
 
 
   URL_LOGIN = 'http://127.0.0.1:8000/api/login/'
-
+  URL_DOCENTE = 'http://localhost:8000/api/docente/'; 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -34,6 +34,11 @@ export class AuthorizationService {
     });
   }
 
+  privilegios(){
+    let rol = localStorage.getItem('is_staff');
+    console.log("🚀 ~ file: authorization.service.ts ~ line 39 ~ AuthorizationService ~ privilegios ~ rol", rol) 
+  }
+
   obtenerToken() {
     return localStorage.getItem('token');
   }
@@ -41,6 +46,11 @@ export class AuthorizationService {
   obtenerIdDocente() {
     return localStorage.getItem('id_user');
   }
+
+  ObtenerRol() {
+    return localStorage.getItem('is_staff');
+  }
+
 
   obtenerNombresDocente() {
     return localStorage.getItem('username');
@@ -54,6 +64,7 @@ export class AuthorizationService {
     return localStorage.getItem('first_name');
   }
 
+  
    //Envia datos de usuario al storage 
    iniciarSesionDocente(usuario) {
     localStorage.setItem('token', usuario.token);
@@ -61,6 +72,7 @@ export class AuthorizationService {
     localStorage.setItem('username', usuario.username.username);
     localStorage.setItem('first_name', usuario.username.first_name);
     localStorage.setItem('last_name', usuario.username.first_name);
+    localStorage.setItem('is_staff', usuario.username.is_staff);
   }
 
   cerrarSesionDocente() {
@@ -68,6 +80,9 @@ export class AuthorizationService {
     this.router.navigate(['/login']);
   }
 
+  getOneUser(id: string) {
+    return this.http.get(this.URL_DOCENTE + `${id}`);
+  }
 
   async errorLogueo() {
     console.log("🚀 ~ file: authorization.service.ts ~ line 56 ~ AuthorizationService ~ errorLogueo ~ l")

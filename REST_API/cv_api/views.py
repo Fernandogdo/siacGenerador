@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 
-from .serializers import LoginSerializer
+from .serializers import ConfiguracionCv_PersonalizadoSerializer, LoginSerializer
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .serializers import DocenteSerializer
@@ -62,3 +62,14 @@ class LoginView(APIView):
 class BloqueView(viewsets.ModelViewSet):
     queryset = models.Bloque.objects.all()
     serializer_class = serializers.BloqueSerializer
+
+class PersonalizacionUsuario(viewsets.ModelViewSet):
+    serializer_class = ConfiguracionCv_PersonalizadoSerializer
+    queryset = models.ConfiguracionCv_Personalizado.objects.all()
+
+    def get_queryset(self):
+        # queryset = models.ConfiguracionCv_Personalizado.objects.all()
+        id_user = self.request.query_params.get('id_user', None)
+        if id_user:
+           return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
+        return models.ConfiguracionCv_Personalizado.none()

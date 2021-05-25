@@ -3,6 +3,8 @@ import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
+import { Bloque } from 'app/models/bloque.model';
+import { AuthorizationService } from 'app/services/login/authorization.service';
 
 @Component({
   selector: 'app-personalizado-cv',
@@ -23,9 +25,13 @@ export class PersonalizadoCvComponent implements OnInit {
   cv;
   nombre_cv;
 
+  data_user;
+  id_user;
+
   arregloBloques = [];
 
   constructor(
+    public authorizationService: AuthorizationService,
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
     private dialog: MatDialog
@@ -40,6 +46,13 @@ export class PersonalizadoCvComponent implements OnInit {
   ngOnInit(): void {
     // this.getConfiguracionPersonalizada();
     this.getConfiguracion();
+    this.getBloques();
+    this.id_user = localStorage.getItem("id_user");
+    this.authorizationService.getOneUser(this.id_user)
+      .subscribe(res =>{
+      console.log("🚀 ~ file: personalizado-cv.component.ts ~ line 52 ~ PersonalizadoCvComponent ~ ngOnInit ~ res", res)
+      this.data_user = res;
+      })
   }
 
   public showDiv(): boolean {
@@ -55,7 +68,7 @@ export class PersonalizadoCvComponent implements OnInit {
    
     const data = {
       configuracionId: idSeleccionado,
-      idDocente: 1,
+      id_user: this.id_user,
       bloque: bloque,
       atributo: atributo,
       orden: 1,
@@ -127,6 +140,21 @@ export class PersonalizadoCvComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+  getBloques() {
+    this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.configuracioncvService.bloques = res;
+        console.log('BLOQUESRESTAPI', res)
+      })
+  }
+
+  editBloque(bloque: Bloque){
+    this.configuracioncvService.putBloque(bloque).subscribe
+      (res =>{
+        console.log('SEDITABLOQUE', res)
+      })
   }
 
   // putConfiguracion(form: NgForm) {

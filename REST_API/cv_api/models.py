@@ -43,7 +43,7 @@ class Docente(AbstractUser):
 class ConfiguracionCv_Personalizado(models.Model):
     id = models.AutoField(primary_key=True)
     configuracionId = models.IntegerField()
-    idDocente = models.ForeignKey(Docente, related_name='Docente',  on_delete=models.CASCADE)
+    id_user = models.ForeignKey(Docente, related_name='Docente',  on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
     orden = models.IntegerField(default=1)

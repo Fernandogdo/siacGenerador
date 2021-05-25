@@ -1,57 +1,140 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="bloques">
+          <mat-card-header>
+            <b>Configuración de Bloques Personalizables</b>
+          </mat-card-header>
+          <table class="table" id="tabla">
+            <thead>
+              <tr class="d-flex">
+                <th class="col-4">Bloque</th>
+                <th class="col-4">Orden</th>
+                <th class="col-4">Guardar</th>
+                <!-- <th class="col-3">Ingresar a Bloque</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="d-flex"
+                *ngFor="let bloque of configuracioncvService.bloques"
+              >
+                <!-- <td>{{configuracion.id}}</td> -->
+                <td class="col-md-4">{{ bloque.nombre }}</td>
+                <td class="col-md-4">
+                  <mat-form-field>
+                    <!-- <mat-label>Orden</mat-label> -->
+                    <input
+                      type="number"
+                      matInput
+                      placeholder="Orden"
+                      [value]="bloque.ordenPersonalizable"
+                      [(ngModel)]="bloque.ordenPersonalizable"
+                    />
+                    <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                  </mat-form-field>
+                  <!-- {{bloque.orden}} -->
+                </td>
+                <td class="col-md-4">
+                  <button
+                    class="btn btn-secundary"
+                    (click)="editBloque(bloque)"
+                  >
+                    <i class="material-icons">save</i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
+      </div>
 
-            <div class="col-md-12">
-                <mat-card>
-                    <form [formGroup]="form" #categoryForm="ngForm">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Nombre CV</mat-label>
-                            <input matInput formControlName="nombrecv"
-                                placeholder="Ingrese el nombre de su cv para realizar la configuración"
-                                value="Personalizado">
-                        </mat-form-field>
-                        <mat-accordion *ngIf="showDiv()">
-                            <mat-expansion-panel class="expansion" hideToggle
-                                *ngFor="let bloque of arregloBloques | keyvalue">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Bloque: {{bloque.key}}
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Despliegue para obtener mayor información
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-card class="tarjeta-informacion">
-                                    <div class="informacion" *ngFor="let propiedad of arregloBloques[bloque.key] ">
-
-                                        <input class="form-check-input" type="checkbox" name="miDataInterior"
-                                            [(ngModel)]="propiedad.isSelected" [ngModelOptions]="{standalone: true}"
-                                            (change)="$event.target.checked ? agregar(propiedad.isSelected, propiedad.id, propiedad.bloque, propiedad.atributo, propiedad.mapeo) : quitar(propiedad.isSelected, propiedad.bloque, propiedad.atributo, propiedad.mapeo)">
-                                        <p class="nombre">
-                                            <b>Bloque:</b> {{propiedad.bloque}}
-                                            <b>id:</b> {{propiedad.id}}
-                                            <b>Atributo:</b> {{propiedad.atributo}}
-                                            <b>Orden:</b>
-                                            <input type="text" formControlName="orden" type="number"
-                                                value="{{propiedad.orden}}">
-                                        </p>
-
-                                    </div>
-                                </mat-card>
-                                <!-- <label class="form-check-label" for="inlineCheckbox1">
+      <!-- DESDE AQUI FORM DINAMICO-->
+      <div class="col-md-12">
+        <mat-card>
+          <form [formGroup]="form" #categoryForm="ngForm">
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre CV</mat-label>
+              <input
+                matInput
+                formControlName="nombrecv"
+                placeholder="Ingrese el nombre de su cv para realizar la configuración"
+                value="Personalizado"
+              />
+            </mat-form-field>
+            <mat-accordion *ngIf="showDiv()">
+              <mat-expansion-panel
+                class="expansion"
+                hideToggle
+                *ngFor="let bloque of arregloBloques | keyvalue"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Bloque: {{ bloque.key }} </mat-panel-title>
+                  <mat-panel-description>
+                    Despliegue para obtener mayor información
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card class="tarjeta-informacion">
+                  <div
+                    class="informacion"
+                    *ngFor="let propiedad of arregloBloques[bloque.key]"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="miDataInterior"
+                      [(ngModel)]="propiedad.isSelected"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="
+                        $event.target.checked
+                          ? agregar(
+                              propiedad.isSelected,
+                              propiedad.id,
+                              propiedad.bloque,
+                              propiedad.atributo,
+                              propiedad.mapeo
+                            )
+                          : quitar(
+                              propiedad.isSelected,
+                              propiedad.bloque,
+                              propiedad.atributo,
+                              propiedad.mapeo
+                            )
+                      "
+                    />
+                    <p class="nombre">
+                      <b>Bloque:</b> {{ propiedad.bloque }} <b>id:</b>
+                      {{ propiedad.id }} <b>Atributo:</b>
+                      {{ propiedad.atributo }}
+                      <b>Orden:</b>
+                      <input
+                        type="text"
+                        formControlName="orden"
+                        type="number"
+                        value="{{ propiedad.orden }}"
+                      />
+                    </p>
+                  </div>
+                </mat-card>
+                <!-- <label class="form-check-label" for="inlineCheckbox1">
 
                                     </label> -->
-
-                            </mat-expansion-panel>
-                        </mat-accordion>
-                        <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary"
-                                (click)="PostConfiguracionPersonalizada()">Guardar</button>
-                        </div>
-                    </form>
-                </mat-card>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <div class="col text-center">
+              <button
+                mat-raised-button
+                class="botones"
+                color="primary"
+                (click)="PostConfiguracionPersonalizada()"
+              >
+                Guardar
+              </button>
             </div>
-        </div>
+          </form>
+        </mat-card>
+      </div>
     </div>
+  </div>
 </div>
