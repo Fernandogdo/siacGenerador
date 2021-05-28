@@ -5,7 +5,7 @@ export class ConfiguracioncvPersonalizado {
     
     constructor(
         public configuracionId?: number,
-        public idDocente?: number,
+        public id_user?: number,
         public bloque?: string,
         public atributo?: string,
         public orden?: number,
@@ -19,7 +19,7 @@ export class ConfiguracioncvPersonalizado {
 
     ) {
         this.configuracionId = configuracionId,
-        this.idDocente = idDocente,
+        this.id_user = id_user,
         this.bloque = this.bloque,
         this.atributo = this.atributo,
         this.orden = this.orden,

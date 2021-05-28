@@ -107,14 +107,26 @@
                       <b>Bloque:</b> {{ propiedad.bloque }} <b>id:</b>
                       {{ propiedad.id }} <b>Atributo:</b>
                       {{ propiedad.atributo }}
-                      <b>Orden:</b>
+                      <!-- <b>Orden:</b>
                       <input
                         type="text"
                         formControlName="orden"
                         type="number"
                         value="{{ propiedad.orden }}"
-                      />
+                      /> -->
                     </p>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Orden</mat-label>
+                      <input
+                        type="number"
+                        matInput
+                        placeholder="Placeholder"
+                        formControlName="orden"
+                        value="{{ propiedad.orden }}"
+                      />
+                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      <mat-hint>Hint</mat-hint> -->
+                    </mat-form-field>
                   </div>
                 </mat-card>
                 <!-- <label class="form-check-label" for="inlineCheckbox1">

@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
 import { Bloque } from 'app/models/bloque.model';
 import { AuthorizationService } from 'app/services/login/authorization.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-personalizado-cv',
@@ -29,17 +30,19 @@ export class PersonalizadoCvComponent implements OnInit {
   id_user;
 
   arregloBloques = [];
+  
 
   constructor(
     public authorizationService: AuthorizationService,
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
 
   ) {
     this.form = this.fb.group({
       nombrecv: ['', Validators.required],
-      orden: ['', Validators.required]
+      orden: [1]
     })
   }
 
@@ -65,16 +68,17 @@ export class PersonalizadoCvComponent implements OnInit {
   //Agregar 
   agregar(visible: string, idSeleccionado, bloque: string, atributo: string, mapeo: string) {
     console.log(this.form.value.nombrecv)
-   
+    let iduser =  localStorage.getItem("id_user");
+    let hash = Math.random().toString(36).substring(2);
     const data = {
       configuracionId: idSeleccionado,
-      id_user: this.id_user,
+      id_user: iduser,
       bloque: bloque,
       atributo: atributo,
       orden: 1,
       visible_cv_personalizado: visible,
       mapeo: mapeo,
-      cv: 1,
+      cv: hash,
       nombre_cv: this.form.value.nombrecv,
       cedula: "123"
     }
@@ -154,6 +158,9 @@ export class PersonalizadoCvComponent implements OnInit {
     this.configuracioncvService.putBloque(bloque).subscribe
       (res =>{
         console.log('SEDITABLOQUE', res)
+        this._snackBar.open('Guardado Correctamente', "Cerrar", {
+          duration: 2000,
+        });
       })
   }
 
@@ -167,21 +174,6 @@ export class PersonalizadoCvComponent implements OnInit {
   //   }
   // }
 
-  ModalEditPersonalizacion(bloque, atributo, mapeo) {
-    console.log("Bloque: ", bloque)
-    console.log("Atributo ", atributo)
-    console.log("Mapeo: ", mapeo)
-    this.dialogEditPersonalizacion = this.dialog.open(ModalPersonalizacionComponent, {
-      data: {
-        bloque: bloque,
-        atributo: atributo,
-        mapeo: mapeo
-      }
-    });
-    this.dialogEditPersonalizacion.afterClosed().subscribe(() => {
-      this.getConfiguracionPersonalizada();
-    });
-  }
 
   // getProduct(isVisible, bloque, atributo, mapeo){
   //   console.log('Nombrecv', this.form.value.nombrecv)

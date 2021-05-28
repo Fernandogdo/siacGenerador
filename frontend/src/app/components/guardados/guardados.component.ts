@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfiguracioncvPersonalizado } from 'app/models/configuracioncvPersonalizado.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
-import { dataflow } from 'googleapis/build/src/apis/dataflow';
-
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-guardados',
@@ -12,6 +11,8 @@ import { dataflow } from 'googleapis/build/src/apis/dataflow';
 export class GuardadosComponent implements OnInit {
 
   arreglo = [];
+  confPersoDocente;
+  confPersoDocenteClas = [];
   
   constructor(
     public configuracioncvService: ConfiguracioncvService
@@ -21,6 +22,7 @@ export class GuardadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConfiguracionPersonalizada()
+    this.getConfigurcionPersonalizadaDocente()
   }
 
   getConfiguracionPersonalizada() {
@@ -32,8 +34,8 @@ export class GuardadosComponent implements OnInit {
         const filteredCategories = [];
         data.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
-            const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, idDocente} = configuracion;
-            filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, idDocente});
+            const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user} = configuracion;
+            filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user});
           }
         });
 
@@ -48,5 +50,17 @@ export class GuardadosComponent implements OnInit {
         console.log('RESUKLTRESUKT', this.arreglo);
       }),
       err => console.log(err);
+  }
+
+  getConfigurcionPersonalizadaDocente(){
+    let iduser =  localStorage.getItem("id_user");
+    console.log("🚀 ~ file: guardados.component.ts ~ line 55 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ iduser", iduser)
+    
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
+      .subscribe(confPersoDocente =>{
+        this.confPersoDocente = confPersoDocente;
+        this.confPersoDocenteClas = _.groupBy(confPersoDocente, "nombre_cv");
+      console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas)
+      })
   }
 }

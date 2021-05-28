@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';import { Router } from '@angular/router';
 import { Docente } from 'app/models/docente';
 
 @Injectable({
@@ -21,12 +21,16 @@ export class AuthorizationService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private _snackBar: MatSnackBar
   ) { }
 
   consultarUsuarioIngreso(usuario: Docente) {
     this.http.post<Docente>(this.URL_LOGIN, usuario, this.httpOptions).subscribe( res => {
       this.iniciarSesionDocente(res);
       // this.presentToast()
+      this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
+        duration: 2000,
+      });
       this.router.navigate(['/dashboard']);
       
     }, error => {
@@ -86,6 +90,9 @@ export class AuthorizationService {
 
   async errorLogueo() {
     console.log("🚀 ~ file: authorization.service.ts ~ line 56 ~ AuthorizationService ~ errorLogueo ~ l")
+    this._snackBar.open('Usuario o Contrasena Incorrectos', "Cerrar", {
+      duration: 2000,
+    });
   }
 }
 

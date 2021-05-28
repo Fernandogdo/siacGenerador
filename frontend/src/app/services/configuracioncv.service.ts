@@ -7,6 +7,7 @@ import { post } from "jquery";
 import { Bloque } from "app/models/bloque.model";
 import { ConfiguracioncvPersonalizado } from "app/models/configuracioncvPersonalizado.model";
 import { BehaviorSubject } from "rxjs";
+import { AuthorizationService } from "./login/authorization.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +18,8 @@ export class ConfiguracioncvService {
   URL_BLOQUES = "http://127.0.0.1:8000/api/bloque/";
 
   URL_PERS = "http://127.0.0.1:8000/api/configuracioncv_personalizado/";
+  
+  URL_PERS_DOCENTE = 'http://localhost:8000/api/personalizacion_usuario/';
 
   claves: any = [];
   esquemas: any = [];
@@ -37,10 +40,11 @@ export class ConfiguracioncvService {
   onConfiguracionesChanged: BehaviorSubject<any>;
   onConfigPersonalizadasChanged: BehaviorSubject<any>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    ) {
     this.onConfiguracionesChanged = new BehaviorSubject([]);
     this.onConfigPersonalizadasChanged = new BehaviorSubject([]);
-
     // this.recorreBloques()
     this.getJSON().subscribe((data) => {
       console.log("DATASERVICE", data.components.schemas);
@@ -139,7 +143,7 @@ export class ConfiguracioncvService {
             acceso,
             atributos_todos[clave_atributo]
           ).subscribe((res) => {
-            // console.log('DATA', res)
+            // console.log('DATA', res)••••••••••
           });
           // console.log('DATA', (lala[clave]));
         }
@@ -207,6 +211,11 @@ export class ConfiguracioncvService {
   putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado) {
     return this.http.put(this.URL_PERS + configuracionPersonalizada.id + "/",configuracionPersonalizada
     );
+  }
+
+
+  listaConfiguracionPersonalizadaDocente(idUsuario){
+    return this.http.get(this.URL_PERS_DOCENTE + idUsuario)
   }
 
   /* Bloque */
@@ -287,4 +296,7 @@ export class ConfiguracioncvService {
   public createConfigracioncv(configuracioncv: Configuracioncv): Observable<Configuracioncv> {
     return this.http.post<Configuracioncv>(this.URL_CONF, configuracioncv);
   }
+
+
+  
 }

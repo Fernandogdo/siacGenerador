@@ -4,7 +4,16 @@
       <div class="col-md-12">
         <mat-card>
           <form [formGroup]="formPersonalizado">
-            <mat-form-field appearance="outline">
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre CV</mat-label>
+              <input
+                matInput
+                formControlName="nombre_cv"
+                placeholder="Ingrese el nombre de su cv para realizar la configuración"
+                value="Personalizado"
+              />
+            </mat-form-field>
+            <!-- <mat-form-field appearance="outline">
               <mat-label>Outline form field</mat-label>
               <input
                 matInput
@@ -13,7 +22,7 @@
               />
               <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
               <mat-hint>Hint</mat-hint>
-            </mat-form-field>
+            </mat-form-field> -->
             <!-- <div *ngFor="let configuracion of configuraciones">
    
               <mat-checkbox
@@ -70,22 +79,26 @@
                           placeholder="Placeholder"
                           formControlName="orden"
                         />
-                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                        <mat-hint>Hint</mat-hint>
+                        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        <mat-hint>Hint</mat-hint> -->
                       </mat-form-field>
                     </div>
                   </div>
                 </mat-card>
               </mat-expansion-panel>
             </mat-accordion>
-            <button
-              mat-raised-button
-              color="accent"
-              [disabled]="formPersonalizado.invalid"
-              (click)="guardar()"
-            >
-              Guardar
-            </button>
+
+            <div class="col text-center">
+              <button
+                mat-raised-button
+                class="botones"
+                color="primary"
+                [disabled]="formPersonalizado.invalid"
+                (click)="guardar()"
+              >
+                Guardar
+              </button>
+            </div>
           </form>
         </mat-card>
       </div>

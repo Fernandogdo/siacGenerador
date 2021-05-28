@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from django.contrib.auth import login as django_login, logout as django_logout
 from rest_framework.authtoken.models import Token
@@ -63,13 +63,16 @@ class BloqueView(viewsets.ModelViewSet):
     queryset = models.Bloque.objects.all()
     serializer_class = serializers.BloqueSerializer
 
-class PersonalizacionUsuario(viewsets.ModelViewSet):
+class PersonalizacionUsuario(generics.ListAPIView):
     serializer_class = ConfiguracionCv_PersonalizadoSerializer
-    queryset = models.ConfiguracionCv_Personalizado.objects.all()
+    # queryset = models.ConfiguracionCv_Personalizado.objects.all()
 
     def get_queryset(self):
+        id_user = self.kwargs['id_user']
+        return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
+
         # queryset = models.ConfiguracionCv_Personalizado.objects.all()
-        id_user = self.request.query_params.get('id_user', None)
-        if id_user:
-           return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
-        return models.ConfiguracionCv_Personalizado.none()
+        # id_user = self.request.query_params.get('id_user', None)
+        # if id_user:
+        #    return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
+        # return models.ConfiguracionCv_Personalizado.none()

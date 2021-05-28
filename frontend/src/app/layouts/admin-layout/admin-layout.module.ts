@@ -36,6 +36,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
 
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 @NgModule({
   imports: [
     CommonModule,
@@ -55,6 +56,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,
+    MatSnackBarModule
     
   ],
   declarations: [

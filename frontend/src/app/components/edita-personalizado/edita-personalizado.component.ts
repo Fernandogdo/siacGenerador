@@ -103,6 +103,11 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
     const promesas = [];
     const data = [
       {
+        configuracionId: 1,
+        nombre_cv: "data",
+        visible_cv_personalizado: true
+      },
+      {
         configuracionId: 3,
         id: 1,
         idDocente: 1,
@@ -160,14 +165,8 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
       // idDocente: 1, nombre_cv: "data", orden: 1,
       // visible_cv_personalizado: true}
     ];
-    var iguales=0;
-    for (let i = 0; i < data.length; i++) {
-      // let clave = data[i];
-
-      for (var j = 0; j < data.length; j++) {
-        if (data[i] == resultados[j]) iguales++;
-      }
-
+    var iguales = 0;
+    for (let i = 0; i < resultados; i++) {
       console.log(
         "🚀 ~ file: edita-personalizado.component.ts ~ line 98 ~ EditaPersonalizadoComponent ~ postConfiguracionPersonalizada ~ clave",
         iguales
