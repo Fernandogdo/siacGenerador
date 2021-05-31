@@ -68,7 +68,7 @@
                         <mat-card-title> NombreCV: {{item.key}}</mat-card-title>
                         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
                         <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear PDF</button>
+                            <button mat-raised-button class="botones" color="primary" (click)="modalPdf(item.key)">Crear PDF</button>
                             <button mat-raised-button class="botones" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
                                 <i class=" material-icons ">edit</i>
                             </button>

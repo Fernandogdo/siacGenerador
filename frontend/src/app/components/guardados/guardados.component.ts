@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ConfiguracioncvPersonalizado } from 'app/models/configuracioncvPersonalizado.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import * as _ from "lodash";
+import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-guardados',
@@ -14,8 +16,11 @@ export class GuardadosComponent implements OnInit {
   confPersoDocente;
   confPersoDocenteClas = [];
   
+  dialogEditCategoria: MatDialogRef<ModalPersonalizacionComponent>;
+
   constructor(
-    public configuracioncvService: ConfiguracioncvService
+    public configuracioncvService: ConfiguracioncvService,
+    private dialog: MatDialog
   ) { }
 
   
@@ -62,5 +67,16 @@ export class GuardadosComponent implements OnInit {
         this.confPersoDocenteClas = _.groupBy(confPersoDocente, "nombre_cv");
       console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas)
       })
+  }
+
+  modalPdf(id){
+    this.dialogEditCategoria = this.dialog.open(ModalPersonalizacionComponent, {
+      data: {
+        idCategoria: id,
+      }
+    });
+    this.dialogEditCategoria.afterClosed().subscribe(()=> {
+      // this.getCategories();
+    });
   }
 }

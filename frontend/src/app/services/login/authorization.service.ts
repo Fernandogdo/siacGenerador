@@ -10,7 +10,7 @@ export class AuthorizationService {
 
 
   URL_LOGIN = 'http://127.0.0.1:8000/api/login/'
-  URL_DOCENTE = 'http://localhost:8000/api/docente/'; 
+  URL_DOCENTE = 'http://localhost:8000/api/usuario/'; 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

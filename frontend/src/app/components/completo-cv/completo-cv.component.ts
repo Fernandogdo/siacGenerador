@@ -16,11 +16,11 @@ import { Bloque } from 'app/models/bloque.model';
 // import jsPDF from 'jspdf';
 
 // import { jsPDF } from 'jspdf';
-// import html2canvas from 'html2canvas';
-// import pdfMake from 'pdfmake/build/pdfmake';
-// import pdfFonts from 'pdfmake/build/vfs_fonts';
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
-// import htmlToPdfmake from 'html-to-pdfmake';
+import html2canvas from 'html2canvas';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 // import esquemasiac from '../../../assets/esquema/esquemasiac.json'
 // import * as data from '../../../assets/esquema/esquemasiac.json';
@@ -377,10 +377,10 @@ export class CompletoCvComponent implements OnInit {
     //get table html
     const data = this.htmlData.nativeElement;
     //html to pdf format
-    // var html = htmlToPdfmake(data.innerHTML);
+    var html = htmlToPdfmake(data.innerHTML);
 
-    // const documentDefinition = { content: html };
-    // pdfMake.createPdf(documentDefinition).download();
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).download();
 
 
   }
