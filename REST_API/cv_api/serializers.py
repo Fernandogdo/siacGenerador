@@ -9,6 +9,8 @@ class PatchModelSerializer(serializers.ModelSerializer):
         kwargs['partial'] = True
         super(PatchModelSerializer, self).__init__(*args, **kwargs)
 
+
+
 class AdministradorSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -63,12 +65,19 @@ class LoginSerializer(serializers.Serializer):
             raise exceptions.ValidationError("No se deben dejar campos sin llenar")
         return data
 
-class ConfiguracionCv_PersonalizadoSerializer(PatchModelSerializer):
-
+class ConfiguracionCv_PersonalizadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfiguracionCv_Personalizado
         fields = ('__all__')
         
+
+# class AppointmentSerializer(serializers.ModelSerializer):
+#     customer = ConfiguracionCv_PersonalizadoSerializer(required=False, allow_null=True)
+
+#     class Meta:
+#         model = ConfiguracionCv_Personalizado
+#         fields = ('id', 'customer', 'status', 'etc...')
+#         related_object = 'customer'
 
 # class ConfiguracionUsuario_PersonalizadoSerializer(ConfiguracionCv_PersonalizadoSerializer):
 #     configuracion = ConfiguracionCv_PersonalizadoSerializer(many=False, read_only=True)

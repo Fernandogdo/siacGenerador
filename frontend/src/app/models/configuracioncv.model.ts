@@ -6,8 +6,8 @@ export class Configuracioncv {
     public bloque: string,
     public atributo: string,
     public orden: number,
-    public visible_cv_resumido: Boolean,
-    public visible_cv_completo: Boolean,
+    public visible_cv_resumido: boolean,
+    public visible_cv_completo: boolean,
     public mapeo: string,
     public id?: string
   ) {}
