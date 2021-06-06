@@ -1,0 +1,23 @@
+<html>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm 20mm;
+    }
+    .data{
+     text-align: justify; 
+    }
+  </style>
+  <header>Home Page</header>
+  <body>
+    <h1>Hello !!!</h1>
+    <p>First Pdf Generation using Weasyprint.</p>
+    <div>
+      {% for result in datos %} {% for res, valor in result.items %}
+      <p class="data"><b>{{ res }}</b> : {{valor}}</p>
+      {% endfor %}
+      <br /><br />
+      {% endfor %}
+    </div>
+  </body>
+</html>

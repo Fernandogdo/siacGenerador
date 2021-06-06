@@ -6,7 +6,7 @@ class PDF(FPDF):
         # Logo
         self.image("https://www.utpl.edu.ec/manual_imagen/images/vertical/UTPL-INSTITUCIONAL-AZUL.png", 180, 3, 15)
         # Arial bold 15
-        self.set_font('helvetica', 'B', 13)
+        self.set_font('Arial', 'B', 13)
         # Move to the right
         self.cell(80)
         # Title
@@ -30,7 +30,7 @@ class PDFCOMPLETO(FPDF):
         # Logo
         self.image("https://www.utpl.edu.ec/manual_imagen/images/vertical/UTPL-INSTITUCIONAL-AZUL.png", 180, 3, 15)
         # Arial bold 15
-        self.set_font('helvetica', 'B', 13)
+        self.set_font('Arial', 'B', 13)
         # Move to the right
         self.cell(80)
         # Title
