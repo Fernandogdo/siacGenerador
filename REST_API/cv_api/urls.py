@@ -18,7 +18,7 @@ urlpatterns = [
   path('login/', views.LoginView.as_view()),
   # path('prueba/', views.getUsuarios, name="prueba"),
   # path('pdf-perso/', views.generaPdfPersonalizado),
-  path('pdf-completo/', views.generaPdfCompleto),
+  path('pdf-completo/', views.pdf_generation),
   path('pdf-resumido/', views.PdfCompleto),
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]

@@ -1,3 +1,4 @@
+import os
 from .generapdf import PDF, PDFCOMPLETO
 from django.shortcuts import render
 from rest_framework import generics, viewsets
@@ -18,11 +19,7 @@ import requests
 
 import pandas as pd
 from pandas import Series
-# from config.wsgi import *
-# from django.template.loader import get_template
-# import webbrowser
 
-# from pyfpdf import FPDF
 from fpdf import FPDF
 from django.http import HttpResponse
 
@@ -32,6 +29,10 @@ from django.template import Context
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from xhtml2pdf import pisa
+# from weasyprint import HTML, CSS
+from django.conf import settings
+
+# from cv_api.models import *
 
 class AdministradorView(viewsets.ModelViewSet):
     queryset = models.Administrador.objects.all()
@@ -680,16 +681,14 @@ def generaPdfCompleto(request, id):
 
 
 
-
-
-
 '''GENERA PDF COMPLETO'''
 
 def PdfCompleto(request):
 
     model_dict = models.ConfiguracionCv.objects.all().values()
-    
-    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/11/',
+    model_bloques = models.Bloque.objects.all().values()
+
+    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/112/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
 
@@ -711,6 +710,7 @@ def PdfCompleto(request):
         listaArticulosDocente.append(todos)
     #   print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaArticulosDocente)
 
+
     '''Cambia valores None por cadena ('None') '''
     for i in listaArticulosDocente:
         for key, value in i.items():
@@ -719,263 +719,46 @@ def PdfCompleto(request):
             i[key] = value
 
 
-    personalizados = [
-        {
-        "id": 6,
-        "configuracionId": 1,
-        "bloque": "Articulos",
-        "atributo": "id",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "id",
-        "cv": "1",
-        "nombre_cv": "data",
-        "fecha_registro": "2021-05-27T17:48:00.574681Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 7,
-        "configuracionId": 2,
-        "bloque": "Articulos",
-        "atributo": "titulo",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Titulo",
-        "cv": "1",
-        "nombre_cv": "data",
-        "fecha_registro": "2021-05-27T17:48:00.598868Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 8,
-        "configuracionId": 1,
-        "bloque": "Articulos",
-        "atributo": "id",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "id",
-        "cv": "1",
-        "nombre_cv": "data",
-        "fecha_registro": "2021-05-27T17:48:00.896109Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 9,
-        "configuracionId": 4,
-        "bloque": "Articulos",
-        "atributo": "keywords",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "keywords",
-        "cv": "1",
-        "nombre_cv": "data",
-        "fecha_registro": "2021-05-27T17:48:00.900139Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 10,
-        "configuracionId": 1,
-        "bloque": "Articulos",
-        "atributo": "id",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "id",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.225864Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 11,
-        "configuracionId": 2,
-        "bloque": "Articulos",
-        "atributo": "titulo",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Titulo",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.252568Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 12,
-        "configuracionId": 3,
-        "bloque": "Articulos",
-        "atributo": "descripcion",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Descripcion",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.267238Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 13,
-        "configuracionId": 4,       
-        "bloque": "Articulos",
-        "atributo": "nombre_proyecto",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Nombre Proyecto",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.460508Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 14,
-        "configuracionId": 5,
-        "bloque": "Articulos",
-        "atributo": "link_articulo",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Link Articulo",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.540325Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 14,
-        "configuracionId": 5,
-        "bloque": "Proyectos",
-        "atributo": "codigo_proyecto",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Codigo Proyecto",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.540325Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    {
-        "id": 14,
-        "configuracionId": 5,
-        "bloque": "Capacitacion",
-        "atributo": "ciudad",
-        "orden": 1,
-        "visible_cv_personalizado": True,
-        "mapeo": "Ciudad",
-        "cv": "1",
-        "nombre_cv": "test",
-        "fecha_registro": "2021-05-27T17:50:22.540325Z",
-        "cedula": "123",
-        "id_user": 3
-    },
-    ]
-
-    proyectos = [
-           {
-              "id": 1,
-              "fecha_inicio": "2005-02-01",
-              "fecha_cierre": "2012-01-01",
-              "codigo_proyecto": "",
-              "nombre_proyecto": "Diferentes Investigaciones dentro del Marco del Convenio Interinstitucional con la DPS-L, para el Rescate y Validacion del Conocimiento Tradicional del Pueblo Saraguro",
-              "descripcion": "Asadsadsadsadsa sadsadsadsa",
-              "tipo_proyecto": 65,
-              "incluye_estudiantes": "si",
-              "incluye_financ_externo": "no",
-              "cobertura_proyecto": 63,
-              "reprogramado": "No",
-              "porcentaje_avance": "100.00",
-              "fondo_utpl": "0.00",
-              "fondo_externo": "0.00",
-              "total_general": "0.00",
-              "estado": "finalizado",
-              "programa": "Biológica",
-              "objetivos": "",
-              "moneda": "",
-              "presupuesto": "0.00",
-              "clase_proyecto": "",
-              "tipo_investigacion": "",
-              "area_unesco": "",
-              "participacion_extranjera": "no",
-              "smartland": "no",
-              "fecha_reprogramacion": "",
-              "observaciones": "",
-              "fondo_externo_especie": "0.00",
-              "fondo_externo_efectivo": "0.00",
-              "alumnos": 0,
-              "fecha_suspension": "",
-              "fecha_activacion": "",
-              "porcentaje_esperado": "0.00",
-              "especie": "no",
-              "linea_investigacion": "",
-              "tipo_convocatoria": "",
-              "area_conocimiento": "",
-              "sub_area_conocimiento": "",
-              "area_conocimiento_especifica": "",
-              "titulacion": "",
-              "observatorio": "",
-              "ods": "",
-              "organizacion": "",
-              "programa_investigacion": ""
-          },
-      ]
-
-
-    Capacitacion = [
-        {
-            "id": 302,
-            "id_docente": 352,
-            "nombre": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD",
-            "tematica": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD: Logros y desafíos de la EaD inclusión e innovación en el espacio iberoamericano del conocimiento.",
-            "fecha_inicio": "2011-09-28",
-            "fecha_fin": "2011-09-30",
-            "duracion_horas": 20,
-            "pais": 8064,
-            "ciudad": "Loja",
-            "link": "",
-            "cobertura": 62,
-            "tipo_curso": 6020,
-            "tipo_formacion": 181,
-            "tipo_participacion": 503,
-            "fecha_publicacion": "",
-            "comite_organizador": "",
-            "institucion_organizadora": "",
-            "area_conocimiento": "",
-            "sub_area_conocimiento": "",
-            "area_conocimiento_especifica": "",
-            "subtipo_formacion": 171
-        },
-    ]
+    proyectos = []
+    Capacitacion = []
     ArticulosAutores = []
     Libros = []
     LibrosAutores = []
     GradoAcademico = []
     ProyectosParticipantes = []
 
-    bloque = [ d["bloque"] for d in model_dict ]
-    bloques = pd.unique(bloque)
+    '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
+    ordenadosBloques = sorted(model_bloques, key=lambda orden: orden['ordenCompleto'])
+    bloqueOrdenApi = [ {b['nombre']: b['ordenCompleto']} for b in ordenadosBloques]
+    print(bloqueOrdenApi)
+
+    # bloque = [ d["bloque"] for d in model_dict ]
+    # bloques = pd.unique(bloque)
     # print('bloques--->>>>>', bloques)
+
+    listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi ]
+    listaBloquesOrdenados = [y for x in listaBloques for y in x]
     
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
-    for i in bloques:
-      visibles = [ d["atributo"]  for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-      visibilizados = pd.unique(visibles)
-    #   print('visibilizados', visibilizados)
-      diccionario[i] = visibilizados
-    # print('visiblesArticulos========>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', diccionario)
+    for i in listaBloquesOrdenados:
+      # visibles = [ d["atributo"]  for d in completos if d.get("visible_cv_completo") and d.get('bloque') == i]
+      # atributo = [ a['atributo'] for a in model_dict]  
+      visibles = [ {'nombre' : d['atributo'], 'orden' : d['orden']}  for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
+      # print('visibilizados', visibles)
+      ordenadosAtributos = sorted(visibles , key=lambda orden: orden['orden'])
+      # print(ordenadosAtributos)
+      listaatrvisibles = [[valor for clave, valor in i.items() if clave == 'nombre'] for i in ordenadosAtributos ]
+      listaVisiblesAtr = [y for x in listaatrvisibles  for y in x]
+      print('listaatrvisibles', listaVisiblesAtr, '\n')  
+      diccionario[i] = listaVisiblesAtr   
 
     '''SACA MAPEO SI ATRIBUTO ES TRUE'''
     listadoBloques = dict()
     listaMapeados = dict()
     bloquesInformacion = dict()
     
-    '''Tendria que recuperar la informacion de los bloques que estan como visibles'''
+    '''Tendria que recuperar los bloques que estan como visibles'''
     bloquesInformacion['Articulos']= listaArticulosDocente
     bloquesInformacion['Proyectos']=proyectos
     bloquesInformacion['Capacitacion']=Capacitacion
@@ -983,74 +766,90 @@ def PdfCompleto(request):
     bloquesInformacion['ArticulosAutores']=ArticulosAutores
     bloquesInformacion['Libros']=Libros
     bloquesInformacion['LibrosAutores']=LibrosAutores
-    bloquesInformacion['GradoAcademico']=GradoAcademico
+    bloquesInformacion['GradoAcademico']=GradoAcademico  
+    
+    for i in listaBloquesOrdenados:
+        mapeo = [ {'mapeo' : d['mapeo'], 'orden' : d['orden']}  for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
+        ordenadosMapeo = sorted(mapeo , key=lambda orden: orden['orden'])
 
+        listamapeoisibles = [[valor for clave, valor in i.items() if clave == 'mapeo'] for i in ordenadosMapeo ]
+        listaVisiblesmapeo = [y for x in listamapeoisibles  for y in x]
 
-    for i in bloques:
-        # print('bloque-------------------->>>>>>>>>>>>>>',i)
-        mapeo = [ d["mapeo"] for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        mapeados = pd.unique(mapeo)
-        # print("mapeados", mapeados)
+        mapeados = pd.unique(listaVisiblesmapeo)
         listaMapeados[i]= mapeados
         filtrados = [ { atributo: d.get(atributo) for atributo in diccionario[i] if d.get(atributo) != None} for d in bloquesInformacion[i]]
         # print('filtrados---___________>>>>>>>>>>>>>>>>>>>',filtrados)
         listadoBloques[i]=filtrados
+    print('listaMapeados--->>>>>', listaMapeados)
+    print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', listadoBloques) 
     # print('listaMapeados--->>>>>', listaMapeados)
     # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', listadoBloques)    
-    
+            
     
     bloqueAtributos = dict()
     for listadoBloque in listadoBloques:
       bloqueAtributos[listadoBloque] = [ { atributo: d.get(atributo) for atributo in diccionario[listadoBloque] if d.get(atributo) != None} for d in bloquesInformacion[listadoBloque]]
     # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', bloqueAtributos)
 
-
     i = []
-    contador = 0
-    for i in bloques:
+    for i in listaBloquesOrdenados:
       for filtrado in bloqueAtributos[i]:
         # print('filtrado', filtrado)
         filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
         # filtrado["orden"] = [filtrado for filtrado in mapeados]
     # print('bloqueAtributos----___>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',bloqueAtributos)
-
+    
+    
     listaTitulo = []
     listaResultados = []
     listaClave = []
     listaValor = []
 
-    for i in bloques:
+    for i in listadoBloques:
       listaTitulo.append(i)
       for bloqueInformacion in bloqueAtributos[i]:
-        # print('bloqueinformacionvalores------>>>>>',bloqueInformacion)
         resultados = dict(zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
         listaResultados.append(resultados)
         # print('resultados------->>>>>', resultados)
         for clave in resultados.keys():
             listaClave.append(clave)
             listaValor.append(resultados[clave])
-            # print(f"{clave}: {resultados[clave]}")
+    
             pass
-        # print('\n')
 
     # print('Bloques',listaTitulo)
-    # print('Datos', listaResultados)
+    print('Datos---->>>>>>>>>>>>>>', listaResultados)
     # print('CLAVES--->>>>>>>', listaClave)
     # print('VALOR--->>>>>>>',listaValor)
  
-        
-    report = models.ConfiguracionCv_Personalizado.objects.all()
-    template_path = 'home_page.html'
+    '''Generacion de PDF'''
+    # OVERLAY_LAYOUT = '@page {size: A4 portrait; margin: 0;}'
+    
+    
+    # template_path = 'home_page.html'
+    # response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="Report.pdf"'
+    # context = {'datos': listaResultados, 'bloques': listaTitulo, 'claves': listaClave, 'valor': listaValor}
+    # html = render_to_string(template_path, context)
+    # pisaStatus = pisa.CreatePDF(html, dest=response)
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="Report.pdf"'
-
-    # context = {'report': report}
-
-    context = {'report': report, 'datos': listaResultados, 'bloques': listaTitulo, 'claves': listaClave, 'valor': listaValor}
-    html = render_to_string(template_path, context)
-    # print (html)
-
-    pisaStatus = pisa.CreatePDF(html, dest=response)
+    logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
+    context = {'datos': listaResultados, 'logo': logo, 'docente': docente, 'bloquesOrdenados': listaBloquesOrdenados}
+    html_string = render_to_string('home_page.html', context)
+    html = HTML(string=html_string)
+    pdf = html.write_pdf(stylesheets=[CSS(str(settings.BASE_DIR) +  '/cv_api/templates/css/pdf_gen.css')], presentational_hints=True)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
 
     return response 
+
+
+def pdf_generation(request):
+    logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
+    context = {'studid':"assadsad", 'logo': logo}
+    html_string = render_to_string('home_page.html', context)
+    html = HTML(string=html_string, base_url=request.build_absolute_uri())
+    pdf = html.write_pdf(stylesheets=[CSS(str(settings.BASE_DIR) +  '/cv_api/templates/css/pdf_gen.css')], presentational_hints=True)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
+    return response
