@@ -19,7 +19,7 @@ class ConfiguracionCv(models.Model):
     orden = models.IntegerField()
     visible_cv_resumido = models.BooleanField(default=True)
     visible_cv_completo = models.BooleanField(default=True)
-    mapeo = models.CharField(max_length=150)
+    mapeo = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         db_table = 'configuracionCV'

@@ -31,6 +31,7 @@ from weasyprint import HTML, CSS
 from xhtml2pdf import pisa
 # from weasyprint import HTML, CSS
 from django.conf import settings
+from django.template.defaulttags import register
 
 # from cv_api.models import *
 
@@ -688,7 +689,7 @@ def PdfCompleto(request):
     model_dict = models.ConfiguracionCv.objects.all().values()
     model_bloques = models.Bloque.objects.all().values()
 
-    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/112/',
+    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/110/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
 
@@ -710,9 +711,27 @@ def PdfCompleto(request):
         listaArticulosDocente.append(todos)
     #   print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaArticulosDocente)
 
+    '''Saca id Articulos '''
+    listaidLibros = []
+    for infoLibros in docente['related']['libros']:
+      # print ("id: {}".format(i['id']))
+      listaidLibros.append(infoLibros)
+
+    idsLibros = [fila['id'] for fila in listaidLibros ]
+
+
+    ''' Saca libros de docentes por ID'''
+    listaLibrosDocente = []
+    for idLibro in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/'+ str(idLibro) + "/",
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                   )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+        print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaLibrosDocente)
 
     '''Cambia valores None por cadena ('None') '''
-    for i in listaArticulosDocente:
+    for i in listaLibrosDocente:
         for key, value in i.items():
             if value is None:
               value = 'None'
@@ -730,7 +749,7 @@ def PdfCompleto(request):
     '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
     ordenadosBloques = sorted(model_bloques, key=lambda orden: orden['ordenCompleto'])
     bloqueOrdenApi = [ {b['nombre']: b['ordenCompleto']} for b in ordenadosBloques]
-    print(bloqueOrdenApi)
+    # print(bloqueOrdenApi)
 
     # bloque = [ d["bloque"] for d in model_dict ]
     # bloques = pd.unique(bloque)
@@ -750,7 +769,7 @@ def PdfCompleto(request):
       # print(ordenadosAtributos)
       listaatrvisibles = [[valor for clave, valor in i.items() if clave == 'nombre'] for i in ordenadosAtributos ]
       listaVisiblesAtr = [y for x in listaatrvisibles  for y in x]
-      print('listaatrvisibles', listaVisiblesAtr, '\n')  
+    #   print('listaatrvisibles', listaVisiblesAtr, '\n')  
       diccionario[i] = listaVisiblesAtr   
 
     '''SACA MAPEO SI ATRIBUTO ES TRUE'''
@@ -764,7 +783,7 @@ def PdfCompleto(request):
     bloquesInformacion['Capacitacion']=Capacitacion
     bloquesInformacion['ProyectosParticipantes']=ProyectosParticipantes
     bloquesInformacion['ArticulosAutores']=ArticulosAutores
-    bloquesInformacion['Libros']=Libros
+    bloquesInformacion['Libros']=listaLibrosDocente
     bloquesInformacion['LibrosAutores']=LibrosAutores
     bloquesInformacion['GradoAcademico']=GradoAcademico  
     
@@ -780,8 +799,8 @@ def PdfCompleto(request):
         filtrados = [ { atributo: d.get(atributo) for atributo in diccionario[i] if d.get(atributo) != None} for d in bloquesInformacion[i]]
         # print('filtrados---___________>>>>>>>>>>>>>>>>>>>',filtrados)
         listadoBloques[i]=filtrados
-    print('listaMapeados--->>>>>', listaMapeados)
-    print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', listadoBloques) 
+    # print('listaMapeados--->>>>>', listaMapeados)
+    # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', listadoBloques) 
     # print('listaMapeados--->>>>>', listaMapeados)
     # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', listadoBloques)    
             
@@ -799,26 +818,39 @@ def PdfCompleto(request):
         # filtrado["orden"] = [filtrado for filtrado in mapeados]
     # print('bloqueAtributos----___>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',bloqueAtributos)
     
-    
-    listaTitulo = []
+    bloquesInfoRestante = {k:v for k,v in bloqueAtributos.items() if v !=[]}
+    # print('loquesquedan---------__>>>>>>>>>>>>', bloquesInfoRestante)
+
+    bloquesRestantes = []
+
+    for bloqueInfRes in bloquesInfoRestante:
+      bloquesRestantes.append(bloqueInfRes)
+    # print('listadoBloques-----------__>>>>>>>>>>>>>>>>>',listadoBloques)
+    # print(bloquesRestantes)
+
     listaResultados = []
-    listaClave = []
-    listaValor = []
+    listaData = {}
+    listaFinal = list()
+    tituloDic = dict()
+    for i in bloquesRestantes: 
+      tituloDic[''] =  i
+      listaResultados.append(tituloDic)
+      for bloqueInformacion in bloquesInfoRestante[i]:
+          resultados = dict(zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
+          listaResultados.append(resultados)
 
-    for i in listadoBloques:
-      listaTitulo.append(i)
-      for bloqueInformacion in bloqueAtributos[i]:
-        resultados = dict(zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
-        listaResultados.append(resultados)
-        # print('resultados------->>>>>', resultados)
-        for clave in resultados.keys():
-            listaClave.append(clave)
-            listaValor.append(resultados[clave])
-    
-            pass
+      listaFinal.append(listaResultados)
+      listaResultados = []
+      tituloDic = {}
+            
+            # for clave in resultados.keys():
+            #     listaClave.append(clave)
+            #     listaValor.append(resultados[clave])
 
-    # print('Bloques',listaTitulo)
-    print('Datos---->>>>>>>>>>>>>>', listaResultados)
+            #     pass
+
+    # print('Bloques---------->>>>>>>',listaTituloBloque)
+    # print('Datos---->>>>>>>>>>>>>>', listaResultados)
     # print('CLAVES--->>>>>>>', listaClave)
     # print('VALOR--->>>>>>>',listaValor)
  
@@ -834,7 +866,7 @@ def PdfCompleto(request):
     # pisaStatus = pisa.CreatePDF(html, dest=response)
 
     logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
-    context = {'datos': listaResultados, 'logo': logo, 'docente': docente, 'bloquesOrdenados': listaBloquesOrdenados}
+    context = {'datos': listaResultados, 'logo': logo, 'docente': docente, 'listaFinal': listaFinal}
     html_string = render_to_string('home_page.html', context)
     html = HTML(string=html_string)
     pdf = html.write_pdf(stylesheets=[CSS(str(settings.BASE_DIR) +  '/cv_api/templates/css/pdf_gen.css')], presentational_hints=True)
@@ -853,3 +885,8 @@ def pdf_generation(request):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
     return response
+
+
+@register.filter
+def get_item(listaData, key):
+    return listaData.get(key)
