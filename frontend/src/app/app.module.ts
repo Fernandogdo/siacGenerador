@@ -32,7 +32,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
- import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+// import {MatMenuModule} from '@angular/material/menu';
+
 
 @NgModule({
   imports: [
@@ -49,7 +51,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatRippleModule,
     MatFormFieldModule,
     // MatSnackBar,
-    MatSnackBarModule
+    MatSnackBarModule,
+
   ],
   declarations: [
     AppComponent,

@@ -9,7 +9,6 @@ class Administrador(models.Model):
     class Meta:
         db_table = 'administrador'
 
-
 class ConfiguracionCv(models.Model):
     id = models.AutoField(primary_key=True)
     administrador = models.ForeignKey(
@@ -24,7 +23,6 @@ class ConfiguracionCv(models.Model):
     class Meta:
         db_table = 'configuracionCV'
         
-
 class Docente(AbstractUser):
 
     id_user = models.AutoField(primary_key=True)
@@ -38,7 +36,6 @@ class Docente(AbstractUser):
     REQUIRED_FIELDS = ['id_user', 'first_name', 'last_name']
     class Meta:
         db_table = 'docente'
-
 
 class ConfiguracionCv_Personalizado(models.Model):
     id = models.AutoField(primary_key=True)
@@ -55,8 +52,7 @@ class ConfiguracionCv_Personalizado(models.Model):
     cedula = models.TextField(max_length=10)
     class Meta:
         db_table = 'configuracioncvPersonalizado'
-        
-        
+                
 class Bloque(models.Model):
     nombre = models.CharField(max_length=100)
     ordenCompleto = models.IntegerField(default=1 )

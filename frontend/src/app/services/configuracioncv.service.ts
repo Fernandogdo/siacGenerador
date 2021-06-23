@@ -167,7 +167,7 @@ export class ConfiguracioncvService {
       this.http.get<Configuracioncv[]>(this.URL_CONF).subscribe((data) => {
         this.configuraciones = data;
         console.log(
-          "🚀 ~ file: configuracioncv.service.ts ~ line 222 ~ ConfiguracioncvService ~ this.http.get<Configuracioncv[]> ~ data",
+          "🚀 ~ file: configuracioncv.service.ts ~ line 236 ~ ConfiguracioncvService ~ this.http.get<ConfiguracioncvPersonalizado[]> ~ data",
           data
         );
         this.onConfiguracionesChanged.next(this.configuraciones);

@@ -1,134 +1,140 @@
+/* @page { @top-right{ content: "Page " counter(page) " of " counter(pages); } }  */
 @page {
   size: "A4";
-  margin: 1.8cm 1.5cm 3.5cm 1.5cm;
+  margin: 2cm 2.2cm 3.5cm 2cm;
+  @bottom-right {
+    content: "Página " counter(page) "/" counter(pages);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
-  body {
+  @bottom-left {
+    content: "SIAC UTPL";
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+}
+
+body {
   width: 100% !important;
   height: 100%;
   background: #fff;
   color: black;
   font-size: 90%;
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: none; 
-  } 
-
-#fila_resaltada{
-  background-color: #F5F2F1;
-}
-  body{     
-      font-family: 'Helvetica', sans-serif !important; 
+  -webkit-text-size-adjust: none;
 }
 
-  .text-primary{
-    color: #003f72 !important;
-    margin-left: 40px;
-    font-weight: 700 !important;
-  }
+#fila_resaltada {
+  background-color: #f5f2f1;
+}
+body {
+  font-family: "Helvetica", sans-serif !important;
+}
 
-  h4.text-primary{
-    font-weight: bold;
-  }
+.text-primary {
+  color: #003f72 !important;
+  margin-left: 40px;
+  font-weight: 700 !important;
+}
 
-  h4.informaciontitulo{
-    color: #003f72 !important;
-    margin-left: -80px;
-    margin-top: 60px;
-  }
-  /* .titulo{
+h4.text-primary {
+  font-weight: bold;
+}
+
+h4.informaciontitulo {
+  color: #003f72 !important;
+  margin-left: -80px;
+  margin-top: 60px;
+}
+/* .titulo{
     color: blue;
     text-align: center;
   } */
 
-  .titulo{
-    color: #003f72;
-    text-align: center;
-  }
-
-  
-  .data{
-    margin-top:-20px !important;
-    /* margin-bottom: ; */
-    text-align: justify;
-    margin-left: 100px !important;
-  }
-
-  #contenedor {
-    text-align: left;
-    width: 100%;
-    margin: auto;
-   }
-
-   #principal {
-    width: 70%;
-    float: left;
-    margin-left: 70px;
-    background-color: #FFFFFF;
-   }
-   
-   #lateral {
-    width: 30%;  
-    float:right; 
-   }
-   
-   #columnas{
-       margin-top: 60px;
-   }
-   .clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-   #logo{
-    width: 30%;
-    float:right;
-    margin-top: -90px;
-  }
-
-  /* Informacion docente */
-  #informacionDocente{
-    width: 150%;
-    margin-left: -70px;
-    margin-bottom: 30px;
+.titulo {
+  color: #003f72;
+  text-align: center;
 }
-  #fotoDocente{
-      width: 65%;
-      height: 160px;
-      float:left;
-      margin-left: -90px;
-      margin-top: 10px;
-  }
-  #columnas{
-      margin-left: 70px;
-  }
 
-  .informacionArticulo{
-    color: #003f72;
-    margin-top: 40px;
-  }
+.data {
+  margin-top: -20px !important;
+  /* margin-bottom: ; */
+  text-align: justify;
+  margin-left: 100px !important;
+}
 
+#contenedor {
+  text-align: left;
+  width: 100%;
+  margin: auto;
+}
 
-  .data p{
-    text-align: justify;
-    margin-top: -3px;
-  }
+#principal {
+  width: 70%;
+  float: left;
+  margin-left: 70px;
+  background-color: #ffffff;
+}
 
-  
- 
-  #informacionDatos{
-      /* margin-top: 30px; */
-      text-align: justify;
-  }
+#lateral {
+  width: 30%;
+  float: right;
+}
 
-  #informacionDatos h3{
-    color: #003f72;
-  }
-  
-  .separadorArticulos{
-    margin-left: 100px;
-    margin-top: 10px !important;
-  }
-   /* Para limpiar los floats */
-   
+#columnas {
+  margin-top: 60px;
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#logo {
+  width: 30%;
+  float: right;
+  margin-top: -90px;
+}
+
+/* Informacion docente */
+#informacionDocente {
+  width: 150%;
+  margin-left: -70px;
+  margin-bottom: 30px;
+}
+#fotoDocente {
+  width: 65%;
+  height: 160px;
+  float: left;
+  margin-left: -90px;
+  margin-top: 10px;
+}
+#columnas {
+  margin-left: 70px;
+}
+
+.informacionArticulo {
+  color: #003f72;
+  margin-top: 40px;
+}
+
+.data p {
+  text-align: justify;
+  margin-top: -3px;
+}
+
+#informacionDatos {
+  /* margin-top: 30px; */
+  text-align: justify;
+}
+
+#informacionDatos h3 {
+  color: #003f72;
+  font-style: italic;
+}
+
+.separadorArticulos {
+  margin-left: 100px;
+  margin-top: 10px !important;
+}
+/* Para limpiar los floats */

@@ -37,6 +37,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 import {MatSnackBarModule} from '@angular/material/snack-bar'; 
+import { MatMenuModule } from '@angular/material/menu';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
     
   ],
   declarations: [

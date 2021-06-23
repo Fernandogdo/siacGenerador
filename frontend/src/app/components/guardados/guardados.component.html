@@ -68,7 +68,13 @@
                         <mat-card-title> NombreCV: {{item.key}}</mat-card-title>
                         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
                         <div class="col text-center">
-                            <button mat-raised-button class="botones" color="primary" (click)="modalPdf(item.key)">Crear PDF</button>
+                            <!-- <button mat-raised-button class="botones" color="primary" >Crear PDF</button> -->
+                            <button class="botones" color="primary" mat-raised-button [matMenuTriggerFor]="menu">Crear PDF</button>
+                            <mat-menu #menu="matMenu">
+                              <button mat-menu-item (click)="generaPdfCompleto()">Completo</button>
+                              <button mat-menu-item (click)="generaPdfResumido()">Resumido</button>
+                              <button mat-menu-item (click)="generaPdfPersonalizado()">Personalizado</button>
+                            </mat-menu>
                             <button mat-raised-button class="botones" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
                                 <i class=" material-icons ">edit</i>
                             </button>

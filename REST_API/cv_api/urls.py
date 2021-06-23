@@ -13,12 +13,14 @@ router.register(r'administrador', views.AdministradorView)
 router.register(r'bloque', views.BloqueView)
 # router.register(r'vistapdf', views.data, basename='mymodel')
 
+
 urlpatterns = [
   path('', include(router.urls)),
   path('login/', views.LoginView.as_view()),
-  # path('prueba/', views.getUsuarios, name="prueba"),
-  # path('pdf-perso/', views.generaPdfPersonalizado),
-  path('pdf-completo/', views.pdf_generation),
-  path('pdf-resumido/', views.PdfCompleto),
+  path('pdf-completo/', views.PdfCompleto),
+  path('pdf-resumido/<int:id>', views.PdfResumido), 
+  path('pdf-personalizado/<int:id>', views.PdfPersonalizado),
+  re_path('^datausuario/(?P<id_user>.+)/$', views.getdata),
+
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]
