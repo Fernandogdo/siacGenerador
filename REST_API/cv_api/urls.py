@@ -16,11 +16,16 @@ router.register(r'bloque', views.BloqueView)
 
 urlpatterns = [
   path('', include(router.urls)),
-  path('login/', views.LoginView.as_view()),
+  path('login/', views.LoginView.as_view()),   
   path('pdf-completo/', views.PdfCompleto),
   path('pdf-resumido/<int:id>', views.PdfResumido), 
   path('pdf-personalizado/<int:id>', views.PdfPersonalizado),
+  path('doc-completo/', views.DocCompleto),
+  path('doc-resumido/<int:id>', views.DocResumido),
+  path('doc-personalizado/', views.DocCompleto),
+  path('json-completo/', views.JsonCompleto),
+  path('json-resumido/<int:id>', views.JsonResumido),
+  path('json-personalizado/', views.DocCompleto),
   re_path('^datausuario/(?P<id_user>.+)/$', views.getdata),
-
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]

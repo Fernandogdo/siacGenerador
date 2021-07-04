@@ -47,7 +47,7 @@
             </a>
         </li>
         <li class=" nav-item">
-            <a class="nav-link"  *ngIf="!seMuestra" routerLink="/cv-guardado" routerLinkActive="active">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', id_docente]" routerLinkActive="active">
                 <i class="material-icons">manage_accounts</i>
                 <p>CV Personalizable</p>
             </a>

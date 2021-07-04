@@ -20,7 +20,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'cv-resumido',   component: ResumidoCvComponent },
     { path: 'cv-personalizado',   component: PersonalizadoCvComponent },
     { path: 'administrador',   component: AdministradorComponent },
-    { path: 'cv-guardado',   component: GuardadosComponent },
+    { path: 'cv-guardado/:id_user',   component: GuardadosComponent },
     { path: 'bloque-completo/:nombre',   component: BloqueComponent },
     { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
     { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}},

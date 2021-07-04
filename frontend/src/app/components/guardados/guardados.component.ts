@@ -6,9 +6,10 @@ import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-pe
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { InfoDocenteService } from 'app/services/info-docente/info-docente.service';
 import { PdfService } from 'app/services/creador-pdf/crea-pdf.service';
-import { Docente } from 'app/models/docente';
+// import { Docente } from 'app/models/docente';
 import { Usuario } from 'app/models/user';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreaJsonService } from 'app/services/creador-json/crea-json.service';
 
 @Component({
   selector: 'app-guardados',
@@ -21,6 +22,7 @@ export class GuardadosComponent implements OnInit {
   confPersoDocente;
   confPersoDocenteClas = [];
   docente: Usuario[];
+  idUser;
   
   blob: any;
   pdfGenerado: any;
@@ -31,15 +33,23 @@ export class GuardadosComponent implements OnInit {
     public configuracioncvService: ConfiguracioncvService,
     public infoDocenteService: InfoDocenteService,
     public pdfService: PdfService,
-    private dialog: MatDialog
+    public creaJsonService: CreaJsonService,
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) { }
 
   
 
   ngOnInit(): void {
+    this.idUser = this.activatedRoute.snapshot.paramMap.get("id_user");
+    console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
+
+    // this.idUser = 112
+    // console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
     this.getConfiguracionPersonalizada()
     this.getConfigurcionPersonalizadaDocente()
-    this.infoDocente()
+    // this.infoDocente()
   }
 
   getConfiguracionPersonalizada() {
@@ -92,14 +102,14 @@ export class GuardadosComponent implements OnInit {
     });
   }
 
-  infoDocente(){
-    this.infoDocenteService.getInfoDocente().subscribe(res=>{
-       console.log('datadatadata--->>>>>>>',res )
-       this.docente = res
-      //  console.log('sadsadsada------>>>>',this.docente.cedula)
+  // infoDocente(){
+  //   this.infoDocenteService.getInfoDocente().subscribe(res=>{
+  //      console.log('datadatadata--->>>>>>>',res )
+  //      this.docente = res
+  //     //  console.log('sadsadsada------>>>>',this.docente.cedula)
        
-    })
-  }
+  //   })
+  // }
 
   generaPdfCompleto(){
     this.pdfService.generaPdfCompleto().subscribe((data) => {
@@ -118,9 +128,10 @@ export class GuardadosComponent implements OnInit {
 
 
   generaPdfResumido(){
-    this.pdfService.generaPdfResumido(19).subscribe((data) => {
+    this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
       window.open(downloadURL)
       
       // var link = document.createElement('a');
@@ -133,10 +144,44 @@ export class GuardadosComponent implements OnInit {
   }
 
   generaPdfPersonalizado(){
-    this.pdfService.generaPdfPersonalizado(19).subscribe((data) => {
+    this.pdfService.generaPdfPersonalizado(this.idUser).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
       window.open(downloadURL)
     })
+  }
+
+  generaDocCompleto(){
+
+
+  }
+
+  generaDocResumido(){
+
+  }
+
+  generaJsonCompleto(){
+    this.creaJsonService.generaJsonCompleto().subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "cv_completo.json";
+      link.click();
+    });
+  }
+
+  generaJsonResumido(){
+    this.creaJsonService.generaJsonResumido().subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "cv_completo.json";
+      link.click();
+    }) 
   }
 }
