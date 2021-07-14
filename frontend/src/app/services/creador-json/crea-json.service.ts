@@ -8,23 +8,23 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class CreaJsonService {
 
   URL_JSON_COMPLETO = 'http://localhost:8000/api/json-completo/';
-  URL_JSON_RESUMIDO = 'http://localhost:8000/api/json-resumido/'
+  URL_JSON_RESUMIDO = 'http://localhost:8000/api/json-resumido/';
 
 
   constructor(private http: HttpClient) { }
 
-  generaJsonCompleto() {
+  generaJsonCompleto(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_JSON_COMPLETO, httpOptions);
+    return this.http.get(this.URL_JSON_COMPLETO + id_user, httpOptions);
   }
-
-  generaJsonResumido() {
+  
+  generaJsonResumido(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_JSON_RESUMIDO, httpOptions);
+    return this.http.get(this.URL_JSON_RESUMIDO + id_user, httpOptions);
   }
 
 

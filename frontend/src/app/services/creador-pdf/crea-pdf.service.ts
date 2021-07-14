@@ -13,11 +13,11 @@ export class PdfService {
 
   constructor(private http: HttpClient) {}
 
-  generaPdfCompleto() {
+  generaPdfCompleto(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_PDF_COMPLETO, httpOptions);
+    return this.http.get(this.URL_PDF_COMPLETO + id_user, httpOptions);
   }
 
   generaPdfResumido(id_user) {

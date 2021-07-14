@@ -26,13 +26,13 @@ from weasyprint import HTML, CSS
 from django.conf import settings
 from htmldocx import HtmlToDocx
 from docx import Document
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
 from docx.opc.part import Part
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 import json, pypandoc
 from pathlib import Path
 from django.shortcuts import render
+import json
+from datetime import datetime
 
 class AdministradorView(viewsets.ModelViewSet):
     queryset = models.Administrador.objects.all()
@@ -98,12 +98,12 @@ def getdata(self):
 '''GENERA PDF COMPLETO'''
 
 
-def PdfCompleto(request):
+def PdfCompleto(request, id):
 
     model_dict = models.ConfiguracionCv.objects.all().values()
     model_bloques = models.Bloque.objects.all().values()
 
-    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/23/',
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
 
@@ -162,6 +162,9 @@ def PdfCompleto(request):
         model_bloques, key=lambda orden: orden['ordenCompleto'])
     bloqueOrdenApi = [{b['nombre']: b['ordenCompleto']}
                       for b in ordenadosBloques]
+
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+
 
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
@@ -325,6 +328,8 @@ def PdfResumido(request, id):
         model_bloques, key=lambda orden: orden['ordenResumido'])
     bloqueOrdenApi = [{b['nombre']: b['ordenResumido']}
                       for b in ordenadosBloques]
+
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
 
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
@@ -493,6 +498,8 @@ def PdfPersonalizado(request, id):
     bloqueOrdenApi = [{b['nombre']: b['ordenPersonalizable']}
                       for b in ordenadosBloques]
 
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
 
@@ -592,11 +599,11 @@ def PdfPersonalizado(request, id):
 '''GENERACION DE DOCUMENTOS WORD'''
 
 '''DOCUMENTO WORD COMPLETO'''
-def DocCompleto(request):
+def DocCompleto(request, id):
     model_dict = models.ConfiguracionCv.objects.all().values()
     model_bloques = models.Bloque.objects.all().values()
 
-    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/378/',
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
 
@@ -655,6 +662,8 @@ def DocCompleto(request):
         model_bloques, key=lambda orden: orden['ordenCompleto'])
     bloqueOrdenApi = [{b['nombre']: b['ordenCompleto']}
                       for b in ordenadosBloques]
+
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
 
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
@@ -816,6 +825,8 @@ def DocResumido(request, id):
     bloqueOrdenApi = [{b['nombre']: b['ordenResumido']}
                       for b in ordenadosBloques]
 
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
 
@@ -915,11 +926,11 @@ def DocResumido(request, id):
 
 
 '''GENERA JSON COMPLETO'''
-def JsonCompleto(request):
+def JsonCompleto(request, id):
     model_dict = models.ConfiguracionCv.objects.all().values()
     model_bloques = models.Bloque.objects.all().values()
 
-    r = requests.get('https://sica.utpl.edu.ec/ws/api/docentes/23/',
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
 
@@ -975,6 +986,8 @@ def JsonCompleto(request):
     bloqueOrdenApi = [{b['nombre']: b['ordenCompleto']}
                       for b in ordenadosBloques]
 
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
 
@@ -998,10 +1011,7 @@ def JsonCompleto(request):
     bloquesInformacion['Articulos'] = listaArticulosDocente
     bloquesInformacion['Proyectos'] = proyectos
     bloquesInformacion['Capacitacion'] = Capacitacion
-    # bloquesInformacion['ProyectosParticipantes']=ProyectosParticipantes
-    # bloquesInformacion['ArticulosAutores']=ArticulosAutores
     bloquesInformacion['Libros'] = listaLibrosDocente
-    # bloquesInformacion['LibrosAutores']=LibrosAutores
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
@@ -1051,7 +1061,16 @@ def JsonCompleto(request):
         listaResultados = []
         tituloBloque = {}
 
-    response = HttpResponse(listaFinal, content_type='application/json')
+    listaDocente = []
+    del docente['related']
+    listaDocente.append('Docente')
+    listaDocente.append(docente)
+    listaFinal.append(listaDocente)
+
+
+    jsonString = json.dumps(listaFinal,  ensure_ascii=False).encode('utf8')
+    print(jsonString)
+    response = HttpResponse(jsonString.decode(), content_type='application/json')
     response['Content-Disposition'] = 'attachment; filename=export.json'
    
     return response
@@ -1094,7 +1113,6 @@ def JsonResumido(request, id):
                          )
         todos = r.json()
         listaArticulosDocente.append(todos)
-    #   print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaArticulosDocente)
 
     ''' Saca libros de docentes por ID'''
     listaLibrosDocente = []
@@ -1105,7 +1123,6 @@ def JsonResumido(request, id):
                          )
         todos = r.json()
         listaLibrosDocente.append(todos)
-        # print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaLibrosDocente)
 
     '''Cambia valores None por cadena ('None') '''
     for i in listaLibrosDocente:
@@ -1124,6 +1141,8 @@ def JsonResumido(request, id):
     bloqueOrdenApi = [{b['nombre']: b['ordenResumido']}
                       for b in ordenadosBloques]
 
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+    
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
 
@@ -1163,7 +1182,6 @@ def JsonResumido(request, id):
         listaMapeados[i] = mapeados
         filtrados = [{atributo: d.get(atributo) for atributo in diccionario[i] if d.get(
             atributo) != None} for d in bloquesInformacion[i]]
-        # print('filtrados---___________>>>>>>>>>>>>>>>>>>>',filtrados)
 
         listadoBloques[i] = filtrados
 
@@ -1176,18 +1194,13 @@ def JsonResumido(request, id):
     for i in listaBloquesOrdenados:
         for filtrado in bloqueAtributos[i]:
             filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
-            # filtrado["orden"] = [filtrado for filtrado in mapeados]
-    # print('bloqueAtributos----___>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',bloqueAtributos)
-
+         
     bloquesInfoRestante = {k: v for k, v in bloqueAtributos.items() if v != []}
-    # print('loquesquedan---------__>>>>>>>>>>>>', bloquesInfoRestante)
 
     bloquesRestantes = []
 
     for bloqueInfRes in bloquesInfoRestante:
         bloquesRestantes.append(bloqueInfRes)
-    # print('listadoBloques-----------__>>>>>>>>>>>>>>>>>',listadoBloques)
-    # print(bloquesRestantes)
 
     listaResultados = []
     listaFinal = list()
@@ -1208,5 +1221,58 @@ def JsonResumido(request, id):
     response['Content-Disposition'] = 'attachment; filename=export.json'
    
     return response
+
+
+
+
+'''GENERA PDF RESUMIDO'''
+def Informacion(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidArticulos = []
+    for infobloque in docente['related']['articulos']:
+        listaidArticulos.append(infobloque)
+
+    idsArticulos = [fila['id'] for fila in listaidArticulos]
+
+
+    ''' Saca articulos de docentes por ID'''
+    listaArticulosDocente = []
+    for id in idsArticulos:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/articulos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaArticulosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaArticulosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+
+    lines = []
+    for articulo in listaArticulosDocente:
+        fecha = datetime.now()
+        titulo = articulo['titulo']
+        revista = articulo['revista']
+        link_articulo = articulo['link_articulo']
+        doi = articulo['doi']
+        tipo_documento = articulo['tipo_documento']
+        publication_stage = articulo['estado']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_articulo}\nDOI:{doi}\nDOCUMENT TYPE:{tipo_documento}\nPUBLICATION STAGE:{publication_stage}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+
+
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+   
+    response.writelines(lines)
 
     return response

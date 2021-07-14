@@ -271,12 +271,12 @@ export class CompletoCvComponent implements OnInit {
 
   }
 
-  getArticulos() {
-    this.articulosService.getArticulos().subscribe(
-      res => console.log(res),
-      err => console.log(err)
-    )
-  }
+  // getArticulos() {
+  //   this.articulosService.getArticulos().subscribe(
+  //     res => console.log(res),
+  //     err => console.log(err)
+  //   )
+  // }
 
   getProyectos() {
     this.proyectosService.getProyectos().subscribe(

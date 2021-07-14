@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
+// import { ModalPersonalizacionComponent } from '../modal-personalizacion/modal-personalizacion.component';
 import { Bloque } from 'app/models/bloque.model';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +16,7 @@ export class PersonalizadoCvComponent implements OnInit {
 
   form: FormGroup;
 
-  dialogEditPersonalizacion: MatDialogRef<ModalPersonalizacionComponent>;
+  // dialogEditPersonalizacion: MatDialogRef<ModalPersonalizacionComponent>;
 
   bloque;
   atributo;

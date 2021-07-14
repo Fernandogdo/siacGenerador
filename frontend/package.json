@@ -30,6 +30,7 @@
         "@angular/platform-server": "10.1.4",
         "@angular/router": "10.1.4",
         "ajv": "6.12.5",
+        "angular2-csv": "^0.2.9",
         "arrive": "2.4.1",
         "bootstrap": "4.5.2",
         "bootstrap-material-design": "4.1.3",

@@ -9,8 +9,6 @@
                     </div>
                 </div>
 
-
-
                 <mat-card>
                     <mat-card-header>
                         <b>Configuración de Bloque {{nombreBloque}} </b>
@@ -24,7 +22,7 @@
                                 <th class="col-3">Mapeo</th>
                                 <th class="col-2">Resumido</th>
                                 <!-- <th class="col-2">Resumido</th> -->
-                                <th class="col-2">Editar</th>
+                                <!-- <th class="col-2">Editar</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +35,7 @@
                                     <div>
                                         <mat-form-field>
                                             <mat-label>Orden</mat-label>
-                                            <input matInput type="number" placeholder="Name" [value]="bloque.ordenResumido" [(ngModel)]="bloque.ordenResumido">
+                                            <input matInput type="number" placeholder="Name" [value]="bloque.orden" [(ngModel)]="bloque.orden">
                                             <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
                                         </mat-form-field>
                                     </div>
@@ -50,14 +48,6 @@
                                         <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
                                     </mat-form-field>
                                 </td>
-                                <!-- <td class="col-sm-2">
-                                    <mat-form-field>
-                                        <mat-select [(ngModel)]="bloque.visible_cv_completo">
-                                            <mat-option [value]="true">Visible</mat-option>
-                                            <mat-option [value]="false">No Visible</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td> -->
                                 <td class="col-sm-2">
                                     <mat-form-field>
                                         <mat-select [(ngModel)]="bloque.visible_cv_resumido">
@@ -66,17 +56,12 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </td>
-                                <td class="col-sm-2">
-                                    <!-- <button class="btn btn-secundary" (click)="editConfiguracion(bloque)">
-                                        <i class="material-icons">save</i>
-                                    </button> -->
-                                    <button mat-raised-button class="botones" color="primary" (click)="editConfiguracion(bloque)">
-                                        <i class=" material-icons ">save</i>
-                                    </button>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="col text-center">
+                        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+                    </div>
                 </mat-card>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
+import { Angular2CsvModule } from 'angular2-csv';
 
 /*PIPE */
 import { ObjToArrayPipe } from 'app/objToArray.pipe';
@@ -12,7 +13,7 @@ import { ObjToArrayPipe } from 'app/objToArray.pipe';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
-import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
+// import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
 import { GuardadosComponent } from 'app/components/guardados/guardados.component';
 import { BloqueComponent } from '../../components/bloque/bloque.component';
 import { ResumidoCvComponent } from 'app/components/resumido-cv/resumido-cv.component';
@@ -59,14 +60,15 @@ import { MatMenuModule } from '@angular/material/menu';
     MatExpansionModule,
     MatIconModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    Angular2CsvModule
     
   ],
   declarations: [
     DashboardComponent,
     CompletoCvComponent,
     PersonalizadoCvComponent,
-    ModalPersonalizacionComponent,
+    // ModalPersonalizacionComponent,
     GuardadosComponent,
     BloqueComponent,
     BloqueResumidoComponent,

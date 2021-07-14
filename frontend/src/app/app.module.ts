@@ -34,6 +34,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 // import {MatMenuModule} from '@angular/material/menu';
+import { Angular2CsvModule } from 'angular2-csv';
 
 
 @NgModule({
@@ -52,6 +53,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     // MatSnackBar,
     MatSnackBarModule,
+    Angular2CsvModule
+
+    
 
   ],
   declarations: [

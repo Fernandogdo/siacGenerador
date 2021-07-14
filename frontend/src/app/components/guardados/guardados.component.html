@@ -121,5 +121,16 @@
         <!-- <div class="col-md-4 text-right">
             <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
         </div> -->
+        <angular2csv [data]="arregloArticulos" filename="test.csv" [options]="options">
+            <button type="button" class="btn btn-secondary"><span class="fa fa-download"></span> Download Template</button>
+
+        </angular2csv>
+        <!-- <button [data]="data" filename="test.csv" [options]="options"></button> -->
+
+        <!-- <div *ngFor="let item of arregloArticulos">
+            {{item.estado}}
+        </div> -->
+
+        
     </div>
 </div>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Bloque } from 'app/models/bloque.model';
 import { Configuracioncv } from 'app/models/configuracioncv.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
-
+import {MatSnackBar} from '@angular/material/snack-bar';import { Router } from '@angular/router';
+import * as _ from "lodash";
 @Component({
   selector: 'app-bloque-resumido',
   templateUrl: './bloque-resumido.component.html',
@@ -13,16 +13,17 @@ export class BloqueResumidoComponent implements OnInit {
 
   nombreBloque;
   arregloBloques = [];
+  atributosOriginal;
 
   constructor(
     private route: ActivatedRoute,
-    public configuracioncvService: ConfiguracioncvService
+    public configuracioncvService: ConfiguracioncvService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.nombreBloque = this.route.snapshot.params['nombre']
     console.log('NOMBREBLOQUE', this.nombreBloque);
-    // this.filtrarBloques()
     this.getConfiguracion()
   }
 
@@ -41,19 +42,42 @@ export class BloqueResumidoComponent implements OnInit {
         this.configuracioncvService.configuraciones = filteredCategories;
         
         this.arregloBloques = filteredCategories.filter(user => user.bloque === this.nombreBloque)
-        
-        console.log('FILTRADOBLOQUE', this.arregloBloques);
+        let atributosOrdenados = _.orderBy(this.arregloBloques,['orden'], ['asc'])
+        this.arregloBloques = atributosOrdenados
+
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+
+        // console.log('FILTRADOBLOQUE', this.arregloBloques);
       },
       err => console.log(err)
     )
   }
 
-  editConfiguracion(configuracion: Configuracioncv) {
-    // this.configuracioncvService.selectedConfiguracion = configuracion;
-    this.configuracioncvService.putConfiguracion(configuracion).subscribe
-      (res => {
-        console.log('SEDITA', res);
-      })
+
+  guardar() {
+    // iterar cada uno de los bloques
+    this.arregloBloques.forEach((atributo) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      // console.log(bloque)
+      let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
+      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && 
+        atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido ) return;
+
+      // si el bloque se modificó proceder a guardarlo
+      this.configuracioncvService
+        .putConfiguracion(atributo)
+        .subscribe((res) => {
+          console.log("editado", res);
+          this.getConfiguracion();
+        });
+        this._snackBar.open("Se guardo correctamente", "Cerrar", {
+          duration: 2000,
+        });
+    });
   }
 
 }
