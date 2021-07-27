@@ -3,54 +3,6 @@
         <div class="row">
 
             <div class="col-md-12">
-
-                <!-- <div class="card">
-                    <div class="card-header card-header-danger">
-                        <h4 class="card-title">CVs Guardados</h4>
-                        <p class="card-category">Complete your profile</p>
-                    </div>
-
-                    <table class="table table-striped" id="tabla">
-                        <thead>
-                            <tr>
-                                <th>Visualizacion</th>
-                                <th>Bloque</th>
-                                <th>Atributo</th>
-                                <th>Nombre</th>
-                                <th>Editar</th>
-                            </tr>
-                        </thead>
-
-
-                        <tbody>
-                            <tr
-                                *ngFor="let configuracionPersonalizada of configuracioncvService.configuracionesPersonalizadas">
-                                <td>
-                                    <mat-checkbox [disabled]="true"
-                                        [checked]="configuracionPersonalizada.visible_cv_personalizado"></mat-checkbox>
-                                </td>
-                                <td>{{configuracionPersonalizada.bloque}}</td>
-                                <td>{{configuracionPersonalizada.atributo}}</td>
-                                <td>{{configuracionPersonalizada.nombre_cv}}</td>
-                                <td>
-                                    <button class="btn btn-secundary"
-                                        (click)="ModalEditPersonalizacion(configuracionPersonalizada.id, configuracionPersonalizada.bloque, configuracionPersonalizada.atributo, configuracionPersonalizada.orden)">
-                                        <i class="material-icons">edit</i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
-
-                <!-- <span *ngFor="let item of data | keyvalue">
-                    NomreCV: {{item.key}}<br>
-                    
-                    <b>Propiedades</b>
-                    <span *ngFor="let propiedad of data[item.key] ">
-                        - {{propiedad.atributo}}
-                    </span>
-                </span> -->
                 <div class="container" id="formulario">
                     <div class="col text-center">
                         <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV</button>
@@ -71,10 +23,26 @@
                               <button mat-menu-item (click)="generaJsonCompleto()">Completo</button>
                               <button mat-menu-item (click)="generaJsonResumido()">Resumido</button>                            
                             </mat-menu>
+
+                        <button class="botones" id="btn-documento" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación</button>
+                            <mat-menu #menuexportacion="matMenu">
+                              <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
+                              <button mat-menu-item color="primary" (click)="generaTxtInformacion()">TXT</button> 
+                            </mat-menu>
+
+                        <button class="botones" id="btn-documento" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
+                            <mat-menu #menuexportacionTXT="matMenu">
+                              <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
+                              <button mat-menu-item color="primary" (click)="generaTxtInformacion()">TXT</button> 
+                            </mat-menu>
+
+                            <!-- <angular2csv [data]="arregloArticulos" filename="test.csv" [options]="options">
+                                <button type="button" class="btn btn-secondary"><span class="fa fa-download"></span> Download Template</button>
+                            </angular2csv> -->
                     </div>
                 </div>
 
-                <mat-card *ngFor="let item of confPersoDocenteClas | keyvalue" class="tarjeta-cv">
+                <mat-card *ngFor="let item of confPersoDocenteClas | keyvalue" class="tarjeta-cv" id="tarjeta_cv">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image">
                             <span class="material-icons">
@@ -85,7 +53,7 @@
                         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
                         <div class="col text-center">
                             <!-- <button mat-raised-button class="botones" color="primary" >Crear PDF</button> -->
-                            <button class="botones" color="primary" mat-raised-button (click)="generaPdfPersonalizado()">Crear PDF Personalizado</button>
+                            <button class="botones" color="primary" mat-raised-button (click)="generaPdfPersonalizado()">Visualizar PDF Personalizado</button>
                 
                             <button mat-raised-button class="botones" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
                                 <i class=" material-icons ">edit</i>
@@ -95,42 +63,8 @@
                             </button>
                         </div>
                     </mat-card-header>
-
-                    <!-- <table>
-                        <th>
-    
-                        </th>
-                    </table> -->
-
-                    <!-- <div *ngFor="let propiedad of arreglo[item.key] ">
-                        <div class="row" id="informacion">
-                            <div class="col-md-4">
-                                {{propiedad.bloque}}
-                            </div>
-                            <div class="col-md-4">
-                                {{propiedad.atributo}}
-                            </div>
-                            <div class="col-md-4">
-                                {{propiedad.visible_cv_personalizado}}
-                            </div>
-                        </div>
-                    </div> -->
                 </mat-card>
             </div>
         </div>
-        <!-- <div class="col-md-4 text-right">
-            <button class="btn btn-success btn-block" (click)="getPDF()">Download PDF</button>
-        </div> -->
-        <angular2csv [data]="arregloArticulos" filename="test.csv" [options]="options">
-            <button type="button" class="btn btn-secondary"><span class="fa fa-download"></span> Download Template</button>
-
-        </angular2csv>
-        <!-- <button [data]="data" filename="test.csv" [options]="options"></button> -->
-
-        <!-- <div *ngFor="let item of arregloArticulos">
-            {{item.estado}}
-        </div> -->
-
-        
     </div>
 </div>

@@ -16,8 +16,21 @@
 }
 
 #tabla {
-    margin-left: 5px;
+    margin-left: 40px;
+    color: #003F72;
 }
+
+
+.tarjeta {
+    background-color: #E0DED8;
+    color: #003F72;
+}
+
+.botones{
+    background-color: #003F72;
+    color: white;
+}
+
 
 
 /* #formulario {

@@ -9,56 +9,57 @@
                     </div>
                 </div>
 
-                <mat-card>
+                <mat-card class="tarjeta">
                     <mat-card-header>
-                        <b>Configuración de Bloque {{nombreBloque}} </b>
+                        <h3>
+                            <b>Configuración de Bloque {{nombreBloque}} </b>
+                        </h3>
                     </mat-card-header>
-                    <table class="table" id="tabla">
-                        <thead>
-                            <tr class="d-flex">
-                                <!-- <th class="col-2">Bloque</th> -->
-                                <th class="col-3">Atributo</th>
-                                <th class="col-2">Orden</th>
-                                <th class="col-3">Mapeo</th>
-                                <th class="col-2">Resumido</th>
-                                <!-- <th class="col-2">Resumido</th> -->
-                                <!-- <th class="col-2">Editar</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="d-flex" *ngFor="let bloque of arregloBloques">
-                                <!-- <td>{{configuracion.id}}</td> -->
-                                <input type="hidden" [value]="bloque.administrador">
-                                <!-- <td class="col-sm-2">{{bloque.bloque}}</td> -->
-                                <td class="col-sm-3">{{bloque.atributo}}</td>
-                                <td class="col-sm-2">
-                                    <div>
+                    <div class="col text-center">
+                        <table class="table" id="tabla">
+                            <thead>
+                                <tr class="d-flex">
+                                    <th class="col-3">  <h4><b>Atributo</b></h4>  </th>
+                                    <th class="col-2">  <h4> <b>Orden</b> </h4> </th>
+                                    <th class="col-3"> <h4> <b>Mapeo</b> </h4> </th>
+                                    <th class="col-2"> <h4> <b>Visualización</b> </h4> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-flex" *ngFor="let bloque of arregloBloques">
+                                    <!-- <td>{{configuracion.id}}</td> -->
+                                    <input type="hidden" [value]="bloque.administrador">
+                                    <!-- <td class="col-sm-2">{{bloque.bloque}}</td> -->
+                                    <td class="col-sm-3">{{bloque.atributo}}</td>
+                                    <td class="col-sm-2">
+                                        <div>
+                                            <mat-form-field>
+                                                <mat-label>Orden</mat-label>
+                                                <input matInput type="number" placeholder="Name" [value]="bloque.orden" [(ngModel)]="bloque.orden">
+                                                <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </td>
+                                    <!-- {{configuracion.orden}}</td> -->
+                                    <td class="col-sm-3">
                                         <mat-form-field>
-                                            <mat-label>Orden</mat-label>
-                                            <input matInput type="number" placeholder="Name" [value]="bloque.orden" [(ngModel)]="bloque.orden">
+                                            <mat-label>Mapeo</mat-label>
+                                            <input matInput placeholder="Name" [value]="bloque.mapeo" [(ngModel)]="bloque.mapeo">
                                             <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
                                         </mat-form-field>
-                                    </div>
-                                </td>
-                                <!-- {{configuracion.orden}}</td> -->
-                                <td class="col-sm-3">
-                                    <mat-form-field>
-                                        <mat-label>Mapeo</mat-label>
-                                        <input matInput placeholder="Name" [value]="bloque.mapeo" [(ngModel)]="bloque.mapeo">
-                                        <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
-                                    </mat-form-field>
-                                </td>
-                                <td class="col-sm-2">
-                                    <mat-form-field>
-                                        <mat-select [(ngModel)]="bloque.visible_cv_resumido">
-                                            <mat-option [value]="true">Visible</mat-option>
-                                            <mat-option [value]="false">No Visible</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td class="col-sm-2">
+                                        <mat-form-field>
+                                            <mat-select [(ngModel)]="bloque.visible_cv_resumido">
+                                                <mat-option [value]="true" class="visualizacion">Visible</mat-option>
+                                                <mat-option [value]="false" class="visualizacion">No Visible</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="col text-center">
                         <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
                     </div>

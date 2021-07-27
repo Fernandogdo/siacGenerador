@@ -9,3 +9,23 @@
     display: block;
     margin: auto;
 }
+
+#tarjeta_informacion {
+    background-color: #E0DED8;
+}
+
+
+#tarjeta {
+    background-color: #EAAB00;
+}
+
+
+#texto_cv {
+    color: #003F72;
+}
+
+
+#botones {
+    background-color:#E0DED8;
+    color: #003F72;
+}

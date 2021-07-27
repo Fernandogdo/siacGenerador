@@ -72,8 +72,8 @@ export class BloqueComponent implements OnInit {
         );
         this.atributosOrdenados = _.orderBy(
           this.arregloBloques,
-          ["orden"],
-          ["asc"]
+          ["orden", "atributo"],
+          ["asc", "asc"]
         );
         this.arregloBloques = this.atributosOrdenados;
 

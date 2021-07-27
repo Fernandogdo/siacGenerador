@@ -1,3 +1,24 @@
 #tabla {
     margin-left: 40px;
+    color: #003F72;
+}
+
+#btnInformacion{
+    background-color: #003F72;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btnIngresoBloque{
+    background-color: #E0DED8;
+    color: black;
+}
+
+.tarjeta {
+    background-color: #EAAB00;
+    color: #003F72;
+}
+
+.botones{
+    background-color: #003F72;
 }

@@ -48,8 +48,6 @@ export class BloqueResumidoComponent implements OnInit {
         this.atributosOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
-
-        // console.log('FILTRADOBLOQUE', this.arregloBloques);
       },
       err => console.log(err)
     )
@@ -74,7 +72,7 @@ export class BloqueResumidoComponent implements OnInit {
           console.log("editado", res);
           this.getConfiguracion();
         });
-        this._snackBar.open("Se guardo correctamente", "Cerrar", {
+        this._snackBar.open("Se guardó correctamente", "Cerrar", {
           duration: 2000,
         });
     });

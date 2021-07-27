@@ -35,7 +35,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-
+import {MatTableModule} from '@angular/material/table';
 
 import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 import { MatMenuModule } from '@angular/material/menu';
@@ -61,7 +61,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatSnackBarModule,
     MatMenuModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    MatTableModule
     
   ],
   declarations: [

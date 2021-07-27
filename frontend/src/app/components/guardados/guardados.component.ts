@@ -14,6 +14,8 @@ import { CreaDocxService } from 'app/services/creador-docx/crea-docx.service';
 import { LibrosService } from 'app/services/libros.service';
 import { Angular2CsvModule } from 'angular2-csv';
 import { ArticulosService } from 'app/services/articulos.service';
+import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
+import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
 
 @Component({
   selector: 'app-guardados',
@@ -43,6 +45,8 @@ export class GuardadosComponent implements OnInit {
     public pdfService: PdfService,
     public creaJsonService: CreaJsonService,
     public creaDocxService: CreaDocxService,
+    public creacvService: CreaCsvService,
+    public creatxtService: CreaTxtService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -166,12 +170,19 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "doc_completo.docx";
       link.click();
-    })
-
+    });
   }
 
   generaDocResumido(){
-
+    this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "doc_resumido.docx";
+      link.click();
+    });
   }
 
   generaJsonCompleto(){
@@ -199,17 +210,32 @@ export class GuardadosComponent implements OnInit {
     }) 
   }
 
-  
-  generaTxt(){
-    //  this.blob = new Blob([data as BlobPart], {type: 'application/json'});
-    //   var downloadURL = window.URL.createObjectURL(data);
-    //   console.log(downloadURL)
-    //   var link = document.createElement('a');
-    //   link.href = downloadURL;
-    //   link.download = "cv_resumido.json";
-    //   link.click();
+
+  generaCvInformacion(){
+    this.creacvService.generaCsv(this.idUser).subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'text/csv'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "indormacion_csv.csv";
+      link.click();
+    });
   }
-  
+
+  generaTxtInformacion(){  
+    this.creatxtService.generaTxt(this.idUser).subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "indormacion_txt.txt";
+      link.click();
+    });
+  }
+ 
+
   getLibros(){
     this.librosService.getDocente(this.idUser).subscribe(res =>{
       console.log('INFODOCENTE', res)
@@ -237,12 +263,5 @@ export class GuardadosComponent implements OnInit {
       }
     }
   }
-
-  
-
-
-
-  
-
 
 }

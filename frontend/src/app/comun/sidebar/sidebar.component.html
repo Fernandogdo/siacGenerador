@@ -2,13 +2,15 @@
     <a href="https://www.utpl.edu.ec" class="simple-text">
         <div class="logo-img">
             <img src="/assets/img/utpl.png" />
-        </div><br> SIAC UTPL
+        </div><br> 
+
+        <h4 style="color:#EAAB00;">SIAC UTPL</h4>
     </a>
 </div>
 <div class="sidebar-wrapper">
     <div *ngIf="isMobileMenu()">
 
-        <ul class="nav navbar-nav nav-mobile-menu">
+        <!-- <ul class="nav navbar-nav nav-mobile-menu">
 
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">
@@ -18,13 +20,13 @@
                     </p>
                 </a>
             </li>
-        </ul>
+        </ul> -->
     </div> 
     <ul class="nav">
         <li class=" nav-item">
             <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
-                <i class="material-icons">dashboard</i>
-                <p>Dashboard</p>
+                <i id="icono" class="material-icons">dashboard</i>
+                <p style="color:#EAAB00;">Dashboard</p>
             </a>
         </li>
         <!-- <li class=" nav-item">
@@ -35,21 +37,21 @@
         </li> -->
         <li class=" nav-item"  *ngIf="seMuestra">
             <a class="nav-link" routerLink="/cv-completo" routerLinkActive="active">
-                <i class="material-icons">account_box</i>
-                <p>CV Completo</p>
+                <i id="icono" class="material-icons">account_box</i>
+                <p style="color:#EAAB00;"> CV Completo</p>
             </a>
         </li> 
        
         <li class=" nav-item"   *ngIf="seMuestra">
             <a class="nav-link" routerLink="/cv-resumido" routerLinkActive="active">
-                <i class="material-icons">contact_page</i>
-                <p>CV Resumido</p>
+                <i id="icono" class="material-icons">contact_page</i>
+                <p style="color:#EAAB00;">CV Resumido</p>
             </a>
         </li>
         <li class=" nav-item">
             <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', id_docente]" routerLinkActive="active">
-                <i class="material-icons">manage_accounts</i>
-                <p>CV Personalizable</p>
+                <i id="icono" class="material-icons">manage_accounts</i>
+                <p style="color:#EAAB00;">CV Personalizable</p>
             </a>
         </li>
         <!-- <li routerLinkActive="active"  *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">

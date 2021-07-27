@@ -33,8 +33,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card'; 
+
 // import {MatMenuModule} from '@angular/material/menu';
 import { Angular2CsvModule } from 'angular2-csv';
+import { ModalNotaComponent } from './components/modal-nota/modal-nota.component';
 
 
 @NgModule({
@@ -53,9 +56,9 @@ import { Angular2CsvModule } from 'angular2-csv';
     MatFormFieldModule,
     // MatSnackBar,
     MatSnackBarModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    MatCardModule
 
-    
 
   ],
   declarations: [
@@ -63,6 +66,7 @@ import { Angular2CsvModule } from 'angular2-csv';
     AdminLayoutComponent,
     AdministradorComponent,
     LoginComponent,
+    ModalNotaComponent,
    
     // ResumidoCvComponent,
     //PersonalizadoCvComponent,

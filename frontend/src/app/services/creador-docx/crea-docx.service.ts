@@ -19,4 +19,11 @@ export class CreaDocxService {
     };
     return this.http.get(this.URL_DOC_COMPLETO + id_user, httpOptions);
   }
+
+  generaDocResumido(id_user) {
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+    return this.http.get(this.URL_DOC_RESUMIDO + id_user, httpOptions);
+  }
 }
