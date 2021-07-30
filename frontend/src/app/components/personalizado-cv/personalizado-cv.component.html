@@ -2,51 +2,57 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <mat-card class="bloques">
+        <mat-card class="tarjeta">
           <mat-card-header>
-            <b>Configuración de Bloques Personalizables</b>
+            <h3> <b>Configuración de Bloques Personalizables</b> </h3>
           </mat-card-header>
-          <table class="table" id="tabla">
-            <thead>
-              <tr class="d-flex">
-                <th class="col-4">Bloque</th>
-                <th class="col-4">Orden</th>
-                <th class="col-4">Guardar</th>
-                <!-- <th class="col-3">Ingresar a Bloque</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                class="d-flex"
-                *ngFor="let bloque of configuracioncvService.bloques"
-              >
-                <!-- <td>{{configuracion.id}}</td> -->
-                <td class="col-md-4">{{ bloque.nombre }}</td>
-                <td class="col-md-4">
-                  <mat-form-field>
-                    <!-- <mat-label>Orden</mat-label> -->
-                    <input
-                      type="number"
-                      matInput
-                      placeholder="Orden"
-                      [value]="bloque.ordenPersonalizable"
-                      [(ngModel)]="bloque.ordenPersonalizable"
-                    />
-                    <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
-                  </mat-form-field>
-                  <!-- {{bloque.orden}} -->
-                </td>
-                <td class="col-md-4">
-                  <button
-                    class="btn btn-secundary"
-                    (click)="editBloque(bloque)"
-                  >
-                    <i class="material-icons">save</i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="col text-center">
+            <table class="table" id="tabla">
+              <thead>
+                <tr class="d-flex">
+                  <th class="col-4">Bloque</th>
+                  <th class="col-4">Orden</th>
+                  <!-- <th class="col-4">Guardar</th> -->
+                  <!-- <th class="col-3">Ingresar a Bloque</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="d-flex"
+                  *ngFor="let bloque of arregloBloques"
+                >
+                  <!-- <td>{{configuracion.id}}</td> -->
+                  <td class="col-md-4">{{ bloque.nombre }}</td>
+                  <td class="col-md-4">
+                    <mat-form-field>
+                      <!-- <mat-label>Orden</mat-label> -->
+                      <input
+                        type="number"
+                        matInput
+                        placeholder="Orden"
+                        [value]="bloque.ordenPersonalizable"
+                        [(ngModel)]="bloque.ordenPersonalizable"
+                      />
+                      <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                    </mat-form-field>
+                    <!-- {{bloque.orden}} -->
+                  </td>
+                  <!-- <td class="col-md-4">
+                    <button
+                      class="btn btn-secundary"
+                      (click)="editBloque(bloque)"
+                    >
+                      <i class="material-icons">save</i>
+                    </button>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="col text-center">
+            <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+          </div>
         </mat-card>
       </div>
 
@@ -67,7 +73,7 @@
               <mat-expansion-panel
                 class="expansion"
                 hideToggle
-                *ngFor="let bloque of arregloBloques | keyvalue"
+                *ngFor="let bloque of arregloBloquesConfiguracion | keyvalue"
               >
                 <mat-expansion-panel-header>
                   <mat-panel-title> Bloque: {{ bloque.key }} </mat-panel-title>
@@ -78,7 +84,7 @@
                 <mat-card class="tarjeta-informacion">
                   <div
                     class="informacion"
-                    *ngFor="let propiedad of arregloBloques[bloque.key]"
+                    *ngFor="let propiedad of arregloBloquesConfiguracion[bloque.key]"
                   >
                     <input
                       class="form-check-input"
@@ -150,3 +156,5 @@
     </div>
   </div>
 </div>
+
+

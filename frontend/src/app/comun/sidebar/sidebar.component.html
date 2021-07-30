@@ -54,11 +54,52 @@
                 <p style="color:#EAAB00;">CV Personalizable</p>
             </a>
         </li>
-        <!-- <li routerLinkActive="active"  *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p> {{menuItem.title}}</p>
+     
+        <li class="nav-item">
+            <a class="nav-link"  *ngIf="!seMuestra"  routerLinkActive="active">
+                <i id="icono" class="material-icons">manage_accounts</i>
+                <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
+                <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Crear Formato</p> </button>
+                    <mat-menu #animals="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="pdf">Formato Pdf</button>
+                      <button mat-menu-item [matMenuTriggerFor]="docx">Formato docx</button>
+                      <button mat-menu-item [matMenuTriggerFor]="json">Formato Json</button>
+                    </mat-menu>
+                    <mat-menu #pdf="matMenu">
+                        <button mat-menu-item (click)="generaPdfCompleto()">Pdf Completo</button>
+                        <button mat-menu-item (click)="generaPdfResumido()">Pdf Resumido</button>
+                    </mat-menu>
+
+                    <mat-menu #docx="matMenu">
+                        <button mat-menu-item (click)="generaDocCompleto()">Docx Completo</button>
+                        <button mat-menu-item (click)="generaDocResumido()">Docx Resumido</button> 
+                    </mat-menu>
+
+                    <mat-menu #json="matMenu">
+                        <button mat-menu-item (click)="generaJsonCompleto()">Json Completo</button>
+                        <button mat-menu-item (click)="generaJsonResumido()">Json Resumido</button>         
+                    </mat-menu>       
             </a>
-        </li> -->
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', id_docente]" routerLinkActive="active">
+                <i id="icono" class="material-icons">manage_accounts</i>
+                <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
+                <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Exportar Formato</p> </button>
+                    <mat-menu #animals="matMenu">
+                      <button mat-menu-item color="primary" (click)="generaCvInformacion()">Exportacion CSV</button>
+                      <button mat-menu-item [matMenuTriggerFor]="txt">Exportacion TXT</button>
+                      <!-- <button mat-menu-item [matMenuTriggerFor]="json">Formato Json</button> -->
+                    </mat-menu>
+
+                    <mat-menu #txt="matMenu">
+                        <button mat-menu-item>Articulos</button>
+                        <button mat-menu-item>Autores</button>
+                    </mat-menu>       
+            </a>
+        </li>
     </ul>
 </div>
+        
+  

@@ -21,6 +21,8 @@ export class ConfiguracioncvService {
   
   URL_PERS_DOCENTE = 'http://localhost:8000/api/personalizacion_usuario/';
 
+  URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json '
+
   claves: any = [];
   esquemas: any = [];
 
@@ -60,8 +62,11 @@ export class ConfiguracioncvService {
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get("../../assets/esquema/esquemasiac.json");
+    // return this.http.get("../../assets/esquema/esquemasiac.json");
+    return this.http.get(this.URL_ESQUEMA);
   }
+
+  
 
   // recorreConfiguracionPersonalizada(){
   //   this.getJSON().subscribe(data => {

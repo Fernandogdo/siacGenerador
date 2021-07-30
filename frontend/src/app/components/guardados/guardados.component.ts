@@ -16,6 +16,7 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { ArticulosService } from 'app/services/articulos.service';
 import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
 import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
+import { AuthorizationService } from 'app/services/login/authorization.service';
 
 @Component({
   selector: 'app-guardados',
@@ -47,25 +48,25 @@ export class GuardadosComponent implements OnInit {
     public creaDocxService: CreaDocxService,
     public creacvService: CreaCsvService,
     public creatxtService: CreaTxtService,
-    private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
+    public authorizationService: AuthorizationService
   ) { }
 
   
 
   ngOnInit(): void {
     this.idUser = this.activatedRoute.snapshot.paramMap.get("id_user");
+    this.authorizationService.enviarIdUsuario(this.idUser)
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
     // this.infoDocenteService.getInfoDocente(this.idUser);
     this.librosService.getDocente(this.idUser)
-    this.librosService.getLibros().subscribe(res =>{
-      console.log(res)
-    })
 
     this.getConfiguracionPersonalizada()
     this.getConfigurcionPersonalizadaDocente()
     this.getLibros();
+    this.configuracioncvService.getJSON().subscribe(res=>{
+      console.log(res)
+    })
   }
 
   options = {
@@ -224,13 +225,37 @@ export class GuardadosComponent implements OnInit {
   }
 
   generaTxtInformacion(){  
-    this.creatxtService.generaTxt(this.idUser).subscribe((data) =>{
+    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
       var link = document.createElement('a');
       link.href = downloadURL;
       link.download = "indormacion_txt.txt";
+      link.click();
+    });
+  }
+
+  generaTxtArticulos(){
+    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "articulos_informacion_txt.txt";
+      link.click();
+    })
+  }
+
+  generaTxtLibros(){
+    this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "libros_informacion_txt.txt";
       link.click();
     });
   }

@@ -46,16 +46,4 @@ export class LibrosService {
     
   }
 
-  getLibros () {
-    console.log('asdsadsadDATA->>>>>>>>>>..', this.data)
-    let token = '54fc0dc20849860f256622e78f6868d7a04fbd30'
-
-    const headers = new HttpHeaders({
-      'Content-Type':'application/json',
-      'Authorization':'token ' + token,
-    });
-    
-    return this.http.get(this.URL_LIBROS + 4321 + '/', {headers:headers});
-   
-  }
 }

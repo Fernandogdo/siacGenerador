@@ -34,6 +34,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card'; 
+// import { MatMenuModule } from '@angular/material/menu';
 
 // import {MatMenuModule} from '@angular/material/menu';
 import { Angular2CsvModule } from 'angular2-csv';
@@ -54,11 +55,10 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     MatInputModule,
     MatRippleModule,
     MatFormFieldModule,
-    // MatSnackBar,
     MatSnackBarModule,
     Angular2CsvModule,
-    MatCardModule
-
+    MatCardModule,
+    // MatMenuModule
 
   ],
   declarations: [

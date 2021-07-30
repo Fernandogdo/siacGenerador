@@ -10,6 +10,29 @@
     text-align: center;
 }
 
+#iconoPersonalizado{
+    color: #003F72;
+}
+
+.tituloPersonalizado{
+    color: #003F72;
+}
+
+#iconoPersonalizadoPdf{
+    color: black;
+}
+
+
+.btnPersonalizado{
+    margin: 15px;
+    background-color: #003F72;
+}
+
+.btnEditar{
+    background-color: #E0DED8;
+    color: #003F72;
+}
+
 .botones {
     margin: 15px;
 }
@@ -18,6 +41,13 @@
     background-color: white;
 }
 
+#btn-txt{
+    color: #9AA097;
+}
+
+#btn-csv{
+    color: #66AB46;
+}
 #tarjeta_cv {
     background-color: #EAAB00;
 }

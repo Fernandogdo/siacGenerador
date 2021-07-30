@@ -1226,7 +1226,7 @@ def JsonResumido(request, id):
 
 
 '''GENERA PDF RESUMIDO'''
-def InformacionTxt(request, id):
+def InformacionTxtArticulos(request, id):
 
     r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
@@ -1277,6 +1277,57 @@ def InformacionTxt(request, id):
 
     return response
 
+
+def InformacionTxtLibros(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidLibros = []
+    for infobloque in docente['related']['libros']:
+        listaidLibros.append(infobloque)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+
+    ''' Saca articulos de docentes por ID'''
+    listaLibrosDocente = []
+    for id in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+
+    lines = []
+    for libro in listaLibrosDocente:
+        fecha = datetime.now()
+        titulo = libro['titulo']
+        revista = libro['editorial']
+        link_libro = libro['link_descarga_1']
+        isbn = libro['isbn']
+        tipo_documento = libro['tipo_libro']
+        ambito_editorial = libro['ambito_editorial']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_libro}\nISBN:{isbn}\nDOCUMENT TYPE:{tipo_documento}\nEDITORIAL SCOPE:{ambito_editorial}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+
+
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+   
+    response.writelines(lines)
+
+    return response
 
 
 

@@ -14,6 +14,18 @@
   line-height: 50px;
 } */
 
+.tarjeta {
+  background-color: #EAAB00;
+  color: #003F72;
+  margin: 20px;
+}
+
+#tabla {
+  margin-left: 40px;
+  color: #003F72;
+}
+
+
 .nombre {
   margin-left: 30px;
 }

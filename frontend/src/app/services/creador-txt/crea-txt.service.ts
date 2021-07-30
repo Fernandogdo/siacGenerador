@@ -7,17 +7,24 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 export class CreaTxtService {
 
-  URL_TXT = 'http://localhost:8000/api/informacion_txt/';
-
+  URL_TXT_ARTICULOS = 'http://localhost:8000/api/informacion_txt_articulos/';
+  URL_TXT_LIBROS = 'http://localhost:8000/api/informacion_txt_libros/'
   constructor(private http: HttpClient) { }
 
 
 
-  generaTxt(id_user) {
+  generaTxtArticulos(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_TXT + id_user, httpOptions);
+    return this.http.get(this.URL_TXT_ARTICULOS + id_user, httpOptions);
+  }
+
+  generaTxtLibros(id_user) {
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+    return this.http.get(this.URL_TXT_LIBROS + id_user, httpOptions);
   }
 
 }

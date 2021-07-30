@@ -11,3 +11,22 @@
 #icono {
     color: #EAAB00;
 }
+
+.btnMenu{
+    background-color: #003F72;
+}
+
+
+
+#menu #desple{
+    display: none;
+}
+
+#btn-txt{
+    border: none;
+    background-color: #003F72;
+}
+
+#btn-txt:hover{
+    background-color: none;
+}

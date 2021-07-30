@@ -79,6 +79,14 @@ export class AuthorizationService {
     localStorage.setItem('is_staff', usuario.username.is_staff);
   }
 
+  enviarIdUsuario(idDocente){
+    localStorage.setItem('idDocente', idDocente)
+  }
+
+  obtenerIdUsuario(){
+    return localStorage.getItem('idDocente')
+  }
+
   cerrarSesionDocente() {
     localStorage.clear();
     this.router.navigate(['/login']);

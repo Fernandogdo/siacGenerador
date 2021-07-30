@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Bloque } from 'app/models/bloque.model';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-personalizado-cv',
@@ -13,6 +14,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./personalizado-cv.component.css']
 })
 export class PersonalizadoCvComponent implements OnInit {
+
+  arregloBloques = [];
+  arregloBloquesConfiguracion = []
+  bloquesOriginal;
 
   form: FormGroup;
 
@@ -25,11 +30,8 @@ export class PersonalizadoCvComponent implements OnInit {
   mapeo;
   cv;
   nombre_cv;
-
   data_user;
   id_user;
-
-  arregloBloques = [];
   
 
   constructor(
@@ -133,25 +135,37 @@ export class PersonalizadoCvComponent implements OnInit {
 
         this.configuracioncvService.configuraciones = filteredCategories;
 
-        this.arregloBloques = filteredCategories.reduce(function (r, a) {
+        this.arregloBloquesConfiguracion = filteredCategories.reduce(function (r, a) {
           r[a.bloque] = r[a.bloque] || [];
           r[a.bloque].push(a);
           return r;
         }, Object.create(null));
 
 
-        console.log('BLOQUES', this.arregloBloques);
+        console.log('BLOQUES', this.arregloBloquesConfiguracion);
       },
       err => console.log(err)
     )
   }
 
+  // getBloques() {
+  //   this.configuracioncvService.getBloques()
+  //     .subscribe(res => {
+  //       this.configuracioncvService.bloques = res;
+  //       console.log('BLOQUESRESTAPI', res)
+  //     })
+  // }
+
   getBloques() {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
-        this.configuracioncvService.bloques = res;
-        console.log('BLOQUESRESTAPI', res)
-      })
+        this.arregloBloques = res
+        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenPersonalizable', ], ['asc'])
+        this.arregloBloques = atributosOrdenados
+        this.bloquesOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      });
   }
 
   editBloque(bloque: Bloque){
@@ -162,6 +176,29 @@ export class PersonalizadoCvComponent implements OnInit {
           duration: 2000,
         });
       })
+  }
+
+  guardar() {
+    // iterar cada uno de los bloques
+    this.arregloBloques.forEach((bloque) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      // console.log(bloque)
+      let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+      if(bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable) return
+
+      // si el bloque se modificó proceder a guardarlo
+      this.configuracioncvService
+        .putBloque(bloque)
+        .subscribe((res) => {
+          console.log("editado", res);
+          this.getBloques();
+        });
+        this._snackBar.open("Se guardo correctamente", "Cerrar", {
+          duration: 2000,
+        });
+    });
   }
 
   // putConfiguracion(form: NgForm) {
