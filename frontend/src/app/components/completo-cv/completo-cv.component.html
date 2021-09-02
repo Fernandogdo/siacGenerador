@@ -46,3 +46,60 @@
         </div>
     </div>
 </div>
+
+
+<div class="example-container mat-elevation-z8">
+	<div class="example-header">
+		<mat-form-field>
+			<input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+			<button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
+        <mat-icon>close</mat-icon>
+      </button>
+		</mat-form-field>
+	</div>
+
+	<mat-table #table [dataSource]="dataSource">
+
+		<!-- Position Column -->
+		<ng-container matColumnDef="nombre">
+			<mat-header-cell *matHeaderCellDef>  <h3><b>Bloque</b></h3>  </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+		</ng-container>
+
+		<!-- Name Column -->
+		<ng-container matColumnDef="ordenCompleto">
+			<mat-header-cell *matHeaderCellDef>  <h3><b>Orden</b></h3>  </mat-header-cell>
+			<mat-cell *matCellDef="let element">
+				<mat-form-field floatLabel="never">
+					<input matInput placeholder="Orden" type="number" [value]="element.ordenCompleto" [(ngModel)]="element.ordenCompleto">
+				</mat-form-field>
+			</mat-cell>
+		</ng-container>
+
+        <ng-container matColumnDef="visible_cv_bloque">
+			<mat-header-cell *matHeaderCellDef>  <h3><b>Visibilidad</b></h3>  </mat-header-cell>
+			<mat-cell *matCellDef="let element">
+                <mat-checkbox  [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+				<!-- <mat-form-field floatLabel="never">
+					<input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+				</mat-form-field> -->
+			</mat-cell>
+		</ng-container>
+
+        <ng-container matColumnDef="ingreso">
+			<mat-header-cell *matHeaderCellDef>  <h3><b>Ingresar a Bloque</b></h3>  </mat-header-cell>
+			<mat-cell *matCellDef="let element">
+                <button class="btnIngresoBloque" mat-raised-button color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
+                    <i class="material-icons">east</i>
+            </button>
+			</mat-cell>
+		</ng-container>
+
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+	</mat-table>
+    <div class="col text-center">
+        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+    </div>
+</div>

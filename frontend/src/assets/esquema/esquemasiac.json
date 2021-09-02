@@ -1105,42 +1105,6 @@
                     "revista"
                 ]
             },
-            "ArticulosAutores": {
-                "type": "object",
-                "properties": {
-                    "id_articulo": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    },
-                    "tipo_autor": {
-                        "type": "string",
-                        "maxLength": 25
-                    },
-                    "id_docente": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "id_externo": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "orden_autoria": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    }
-                },
-                "required": [
-                    "id_articulo",
-                    "tipo_autor"
-                ]
-            },
             "Libros": {
                 "type": "object",
                 "properties": {
@@ -1297,85 +1261,7 @@
                     "item"
                 ]
             },
-            "LibrosAutores": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
-                    "id_libro": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    },
-                    "tipo_autor": {
-                        "type": "string",
-                        "maxLength": 25
-                    },
-                    "id_docente": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "id_externo": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "tipo_autoria": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "capitulos_autoria": {
-                        "type": "string",
-                        "maxLength": 3000
-                    },
-                    "orden_autoria": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    },
-                    "codigo": {
-                        "type": "string",
-                        "nullable": true,
-                        "maxLength": 15
-                    },
-                    "paginas": {
-                        "type": "string",
-                        "nullable": true,
-                        "maxLength": 10
-                    },
-                    "area_conocimiento": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "sub_area_conocimiento": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "area_conocimiento_especifica": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    }
-                },
-                "required": [
-                    "id_libro",
-                    "tipo_autor",
-                    "capitulos_autoria",
-                    "orden_autoria"
-                ]
-            },
+    
             "Proyectos": {
                 "type": "object",
                 "properties": {
@@ -1620,71 +1506,6 @@
                     "fondo_externo_efectivo",
                     "alumnos",
                     "porcentaje_esperado"
-                ]
-            },
-            "ProyectosParticipantes": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
-                    "id_proyecto": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    },
-                    "id_docente": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "rol_asumido": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    },
-                    "id_externo": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648,
-                        "nullable": true
-                    },
-                    "tipo_participante": {
-                        "type": "string",
-                        "maxLength": 50
-                    },
-                    "fecha_inicio": {
-                        "type": "string",
-                        "format": "date",
-                        "nullable": true
-                    },
-                    "fecha_fin": {
-                        "type": "string",
-                        "format": "date",
-                        "nullable": true
-                    },
-                    "aporte_investigacion": {
-                        "type": "string",
-                        "nullable": true,
-                        "maxLength": 50
-                    },
-                    "observaciones": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "horas": {
-                        "type": "integer",
-                        "maximum": 2147483647,
-                        "minimum": -2147483648
-                    }
-                },
-                "required": [
-                    "id_proyecto",
-                    "rol_asumido",
-                    "tipo_participante",
-                    "horas"
                 ]
             },
             "GradoAcademico": {

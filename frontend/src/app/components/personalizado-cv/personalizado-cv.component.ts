@@ -102,6 +102,9 @@ export class PersonalizadoCvComponent implements OnInit {
       console.log('CLAVE', clave)
       this.configuracioncvService.postConfiguracionPersonalizada(clave)
         .subscribe(res => {
+          this._snackBar.open('Guardado Correctamente', "Cerrar", {
+            duration: 2000,
+          });
           console.log('SEGUARDO', res)
         })
     }

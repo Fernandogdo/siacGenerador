@@ -47,7 +47,7 @@ export class ConfiguracioncvService {
     ) {
     this.onConfiguracionesChanged = new BehaviorSubject([]);
     this.onConfigPersonalizadasChanged = new BehaviorSubject([]);
-    // this.recorreBloques()
+    
     this.getJSON().subscribe((data) => {
       console.log("DATASERVICE", data.components.schemas);
     });
@@ -57,13 +57,13 @@ export class ConfiguracioncvService {
     //   console.log('QUEQUESAD',res);cambiar idioma de teclado ubuntu
     // })
     // this.recorreConfiguracion()
-
+    // this.recorreBloques()
     // this.recorreConfiguracionPersonalizada();
   }
 
   public getJSON(): Observable<any> {
-    // return this.http.get("../../assets/esquema/esquemasiac.json");
-    return this.http.get(this.URL_ESQUEMA);
+    return this.http.get("../../assets/esquema/esquemasiac.json");
+    // return this.http.get(this.URL_ESQUEMA);
   }
 
   
@@ -243,45 +243,13 @@ export class ConfiguracioncvService {
       let array = Object.assign({}, lala);
       console.log(array);
 
-      // this.postBloques(array);
-
-      // for (let bloque of lala) {
-
-      //   console.log('FORFOR',bloque)
-      //   this.postBloques(bloque)
-      //   // .subscribe(
-      //   //   res => {
-      //   //     console.log('FORFOR',res);
-      //   //   }
-      //   // )
-      // }
-
-      // array.forEach((datos) =>
-      //   this.postBloques(datos[0]).subscribe(res => {
-      //     console.log('GAGAGAGAG', res)
-      //   }));
-
       let claves = Object.keys(lala);
 
-      // console.log(claves);
       this.esquemas = Object.entries(data.components.schemas);
-      // let array = Object.entries(data.components.schemas);
-
-      // console.log(Object.entries(data.components.schemas['Articulos']['properties']));
-      // console.log('DATOSDA', this.esquemas)
-
-      // this.esquemas.forEach(element => {
-      //   this.esquemas = element[0]
-
-      // });
-
+    
       this.claves = Object.keys(lala);
       let keys = Object.keys(lala);
       console.log("claves", keys);
-
-      // this.postBloques(JSON.stringify(lala[0])).subscribe(res => {
-      //   console.log('DATA', res)
-      // });
 
       for (let i = 0; i < keys.length; i++) {
         let clave = keys[i];

@@ -20,7 +20,10 @@ class ConfiguracionCv(models.Model):
     visible_cv_completo = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150, null=True, blank=True)
 
+    # unique_together = ["bloque", "atributo"] 
+
     class Meta:
+        unique_together = ["bloque", "atributo"] 
         db_table = 'configuracionCV'
         
 class Docente(AbstractUser):
@@ -54,10 +57,12 @@ class ConfiguracionCv_Personalizado(models.Model):
         db_table = 'configuracioncvPersonalizado'
                 
 class Bloque(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True)
     ordenCompleto = models.IntegerField(default=1 )
     ordenResumido = models.IntegerField(default=0)
     ordenPersonalizable = models.IntegerField(default=0)
+    visible_cv_bloque = models.BooleanField(default=True)
+
     class Meta:
         db_table = 'bloque'
 

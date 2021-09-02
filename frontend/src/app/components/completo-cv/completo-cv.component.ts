@@ -9,6 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 
 import * as _ from "lodash";
 import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
+import { Bloque } from 'app/models/bloque.model';
 
 @Component({
   selector: 'app-completo-cv',
@@ -18,11 +19,11 @@ import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 export class CompletoCvComponent implements OnInit {
 
   
-  arregloBloques = [];
+  arregloBloques: Bloque[]= [];
   bloquesOriginal;
  
-  displayedColumns: string[] = ['nombre', 'ordenCompleto', 'nombre'];
-  dataSource = new MatTableDataSource(this.arregloBloques);
+  displayedColumns: string[] = ['nombre', 'ordenCompleto', 'visible_cv_bloque', 'ingreso'];
+  dataSource;
 
 
   claves: any = [];
@@ -45,17 +46,20 @@ export class CompletoCvComponent implements OnInit {
     this.getBloques()
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   getBloques() {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
-        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenCompleto', ], ['asc'])
-        this.arregloBloques = atributosOrdenados
+        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenCompleto', ], ['asc']);
+        this.arregloBloques = atributosOrdenados;
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
@@ -70,7 +74,8 @@ export class CompletoCvComponent implements OnInit {
       // no es necesario guardarlo
       // console.log(bloque)
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
-      if(bloqueOriginal.ordenCompleto == bloque.ordenCompleto) return
+      if(bloqueOriginal.ordenCompleto == bloque.ordenCompleto && 
+        bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
 
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService
@@ -92,3 +97,4 @@ export class CompletoCvComponent implements OnInit {
   
 
 }
+

@@ -17,6 +17,7 @@ export class BloqueComponent implements OnInit {
   arregloBloques = [];
   atributosOrdenados;
   atributosOriginal;
+  databloques;
 
   constructor(
     private route: ActivatedRoute,
@@ -107,8 +108,7 @@ export class BloqueComponent implements OnInit {
           this.getConfiguracion();
         });
         // this.getConfiguracion();
-    });
-    
+    }); 
   }
 
 }

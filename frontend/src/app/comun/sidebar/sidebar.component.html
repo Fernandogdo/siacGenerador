@@ -56,7 +56,7 @@
         </li>
      
         <li class="nav-item">
-            <a class="nav-link"  *ngIf="!seMuestra"  routerLinkActive="active">
+            <a class="nav-link"  *ngIf="!seMuestra">
                 <i id="icono" class="material-icons">manage_accounts</i>
                 <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
                 <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Crear Formato</p> </button>
@@ -83,7 +83,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', id_docente]" routerLinkActive="active">
+            <a class="nav-link"  *ngIf="!seMuestra">
                 <i id="icono" class="material-icons">manage_accounts</i>
                 <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
                 <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Exportar Formato</p> </button>
@@ -94,8 +94,8 @@
                     </mat-menu>
 
                     <mat-menu #txt="matMenu">
-                        <button mat-menu-item>Articulos</button>
-                        <button mat-menu-item>Autores</button>
+                        <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
+                        <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button> 
                     </mat-menu>       
             </a>
         </li>
