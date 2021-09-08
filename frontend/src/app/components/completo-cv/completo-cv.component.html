@@ -48,58 +48,85 @@
 </div>
 
 
-<div class="example-container mat-elevation-z8">
-	<div class="example-header">
-		<mat-form-field>
-			<input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-			<button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
-        <mat-icon>close</mat-icon>
-      </button>
-		</mat-form-field>
-	</div>
+<!-- <div class="example-container mat-elevation-z8"> -->
+    <!-- <mat-checkbox [(ngModel)]="novisible_cv_bloque" (change)="FiltroNoVisibles()">Mostrar Atributos No Visibes</mat-checkbox>
+    <mat-checkbox  *ngIf="novisible_cv_bloque === false" [(ngModel)]="visible_cv_bloque" (change)="FiltroVisibles()">Mostrar Atributos Visibles</mat-checkbox> -->
 
-	<mat-table #table [dataSource]="dataSource">
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+    
+                <div class="col-md-12" >
 
-		<!-- Position Column -->
-		<ng-container matColumnDef="nombre">
-			<mat-header-cell *matHeaderCellDef>  <h3><b>Bloque</b></h3>  </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
-		</ng-container>
-
-		<!-- Name Column -->
-		<ng-container matColumnDef="ordenCompleto">
-			<mat-header-cell *matHeaderCellDef>  <h3><b>Orden</b></h3>  </mat-header-cell>
-			<mat-cell *matCellDef="let element">
-				<mat-form-field floatLabel="never">
-					<input matInput placeholder="Orden" type="number" [value]="element.ordenCompleto" [(ngModel)]="element.ordenCompleto">
-				</mat-form-field>
-			</mat-cell>
-		</ng-container>
-
-        <ng-container matColumnDef="visible_cv_bloque">
-			<mat-header-cell *matHeaderCellDef>  <h3><b>Visibilidad</b></h3>  </mat-header-cell>
-			<mat-cell *matCellDef="let element">
-                <mat-checkbox  [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
-				<!-- <mat-form-field floatLabel="never">
-					<input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
-				</mat-form-field> -->
-			</mat-cell>
-		</ng-container>
-
-        <ng-container matColumnDef="ingreso">
-			<mat-header-cell *matHeaderCellDef>  <h3><b>Ingresar a Bloque</b></h3>  </mat-header-cell>
-			<mat-cell *matCellDef="let element">
-                <button class="btnIngresoBloque" mat-raised-button color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
-                    <i class="material-icons">east</i>
-            </button>
-			</mat-cell>
-		</ng-container>
-
-
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</mat-table>
-    <div class="col text-center">
-        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+                    <mat-card class="tarjeta">
+                        <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="1" color="primary" (click)="getBloques()">Todo</mat-radio-button> <br>
+                            <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+                            <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+                        </mat-radio-group>
+                    
+                         <!-- <mat-checkbox (change)="metodo($event)"> asasd</mat-checkbox> -->
+                    
+                    <br>
+                    <!-- <mat-checkbox [(ngModel)]="firstName" (change)="applyFilter('name', firstName ? 'amelia': '')">Show all first name - Amelia</mat-checkbox> -->
+                        <div class="example-header">
+                            <mat-form-field>
+                                <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                                <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                            </mat-form-field>
+                        </div>
+                    
+                        <mat-table id="tabla" #table [dataSource]="dataSource">
+                    
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="nombre">
+                                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Bloque</b></h4>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+                            </ng-container>
+                    
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="ordenCompleto">
+                                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-form-field floatLabel="never">
+                                        <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenCompleto" [(ngModel)]="element.ordenCompleto">
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="visible_cv_bloque">
+                                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                    <!-- <mat-form-field floatLabel="never">
+                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                    </mat-form-field> -->
+                                </mat-cell>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="ingreso">
+                                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <button class="btnIngresoBloque" mat-raised-button color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
+                                        <i class="material-icons">east</i>
+                                </button>
+                                </mat-cell>
+                            </ng-container>
+                    
+                    
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                        
+                        <div class="col text-center">
+                            <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+                        </div>
+                    </mat-card>
+                
+                </div>
+            </div>        
+        </div>
     </div>
-</div>
+<!-- </div> -->

@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 import * as _ from "lodash";
 import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 import { Bloque } from 'app/models/bloque.model';
+import { event } from 'jquery';
 
 @Component({
   selector: 'app-completo-cv',
@@ -24,14 +25,19 @@ export class CompletoCvComponent implements OnInit {
  
   displayedColumns: string[] = ['nombre', 'ordenCompleto', 'visible_cv_bloque', 'ingreso'];
   dataSource;
-
-
+  filterValues: any = {};
+  nombre: boolean;
+  visible_cv_bloque: boolean;
+  novisible_cv_bloque: boolean;
   claves: any = [];
   esquemas: any = [];
   atributos_articulos: any = [];
   componentes: string[] = [];
   configuracioncv: any;
 
+
+  checked: boolean = true;
+  valor = false
 
   Object = Object;
 
@@ -44,6 +50,7 @@ export class CompletoCvComponent implements OnInit {
 
   ngOnInit() {
     this.getBloques()
+    
   }
 
 
@@ -52,6 +59,48 @@ export class CompletoCvComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+
+
+  FiltroNoVisibles() {
+    //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
+    // if (event.checked) {
+      console.log('asdsa')
+      this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.arregloBloques = res
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', false ]);
+        this.arregloBloques = atributosOrdenados;
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.bloquesOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      });
+    // } 
+    // else {
+    //   this.getBloques()
+    // }
+  }
+
+
+  FiltroVisibles() {
+    //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
+    // console.log(event.checked)
+    // if (event.checked) {
+      this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.arregloBloques = res
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', true ]);
+        this.arregloBloques = atributosOrdenados;
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.bloquesOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      });
+    // } else {
+    //   this.getBloques()
+    // }
+  }
+
 
   getBloques() {
     this.configuracioncvService.getBloques()

@@ -15,8 +15,8 @@
 } */
 
 #tabla {
-    margin-left: 40px;
     color: #003F72;
+    background-color: #EAAB00;
 }
 
 #btnInformacion{
@@ -31,10 +31,15 @@
 }
 
 .tarjeta {
-    background-color: #EAAB00;
+    background-color: #E0DED8;
+    color: #003F72;
+}
+
+.tituloTabla{
     color: #003F72;
 }
 
 .botones{
+    margin-top: 20px;
     background-color: #003F72;
 }

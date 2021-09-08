@@ -35,9 +35,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
-
-import {MatSnackBarModule} from '@angular/material/snack-bar'; 
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; 
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
@@ -62,7 +62,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSnackBarModule,
     MatMenuModule,
     Angular2CsvModule,
-    MatTableModule
+    MatTableModule,
+    MatRadioModule
     
   ],
   declarations: [
