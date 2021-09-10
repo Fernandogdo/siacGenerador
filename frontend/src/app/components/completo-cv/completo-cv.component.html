@@ -79,6 +79,47 @@
                         </div>
                     
                         <mat-table id="tabla" #table [dataSource]="dataSource">
+
+
+
+                            <ng-container matColumnDef="visible_cv_bloque">
+                                <mat-header-cell *matHeaderCellDef>
+                                  <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                [checked]="selection.hasValue() && isAllSelected()"
+                                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                  </mat-checkbox> -->
+                                  <input
+                                        type="checkbox"
+                                        [(ngModel)]="parentSelector"
+                                        [value]="-1"
+                                        (change)="onChangeFood($event)">
+
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <!-- <mat-checkbox (click)="$event.stopPropagation()"
+                                  [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
+                                                (change)="$event ? selection.toggle(row) : null"
+                                                [checked]="selection.isSelected(row)">
+                                  </mat-checkbox> -->
+                                  <input
+                                        type="checkbox"
+                                        [value]="row.id"
+                                        [checked]="row.visible_cv_bloque"
+                                        (change)="onChangeFood($event)"
+                                        (click)= valor(row.id)
+                                    >
+                                </mat-cell>
+                              </ng-container>
+
+                               <!-- <ng-container matColumnDef="visible_cv_bloque">
+                                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                    <mat-form-field floatLabel="never">
+                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container> -->
                     
                             <!-- Position Column -->
                             <ng-container matColumnDef="nombre">
@@ -96,15 +137,15 @@
                                 </mat-cell>
                             </ng-container>
                     
-                            <ng-container matColumnDef="visible_cv_bloque">
+                            <!-- <ng-container matColumnDef="visible_cv_bloque">
                                 <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
                                 <mat-cell *matCellDef="let element">
                                     <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
-                                    <!-- <mat-form-field floatLabel="never">
+                                    <mat-form-field floatLabel="never">
                                         <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
-                                    </mat-form-field> -->
+                                    </mat-form-field>
                                 </mat-cell>
-                            </ng-container>
+                            </ng-container> -->
                     
                             <ng-container matColumnDef="ingreso">
                                 <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
@@ -119,6 +160,7 @@
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                         </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                         
                         <div class="col text-center">
                             <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>

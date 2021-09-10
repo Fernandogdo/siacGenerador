@@ -40,6 +40,7 @@ import { MatCardModule } from '@angular/material/card';
 // import {MatMenuModule} from '@angular/material/menu';
 import { Angular2CsvModule } from 'angular2-csv';
 import { ModalNotaComponent } from './components/modal-nota/modal-nota.component';
+// import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     MatSnackBarModule,
     Angular2CsvModule,
     MatCardModule,
+    // MatPaginatorModule
     // MatMenuModule
 
   ],

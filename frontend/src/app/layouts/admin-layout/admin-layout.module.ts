@@ -39,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar'; 
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
     Angular2CsvModule,
     MatTableModule,
-    MatRadioModule
+    MatRadioModule,
+    MatPaginatorModule
     
   ],
   declarations: [
