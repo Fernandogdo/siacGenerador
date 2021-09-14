@@ -15,12 +15,22 @@
     margin: auto;
 }
 
-#tabla {
+/* #tabla {
     margin-left: 40px;
     color: #003F72;
+} */
+
+#tabla {
+    margin: 20px;
+    color: #003F72;
+    background-color: #EAAB00;
 }
 
 
+/* .tarjeta {
+    background-color: #E0DED8;
+    color: #003F72;
+} */
 .tarjeta {
     background-color: #E0DED8;
     color: #003F72;

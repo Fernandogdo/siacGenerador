@@ -1,17 +1,13 @@
-import { Configuracioncv } from './../../models/configuracioncv.model';
-import { ProyectosService } from './../../services/proyectos.service';
-
-import { Component, ViewChild, ElementRef, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ConfiguracioncvService } from './../../services/configuracioncv.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import * as _ from "lodash";
 import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 import { Bloque } from 'app/models/bloque.model';
-import { event } from 'jquery';
+import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
+// import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -28,8 +24,8 @@ export class CompletoCvComponent implements OnInit {
  
   displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenCompleto', 'ingreso'];
   dataSource;
-  selection = new SelectionModel<Bloque>(true, []);
-  filterValues: any = {};
+  // selection = new SelectionModel<Bloque>(true, []);
+  // filterValues: any = {};
   nombre: boolean;
   visible_cv_bloque: boolean;
   novisible_cv_bloque: boolean;
@@ -41,7 +37,7 @@ export class CompletoCvComponent implements OnInit {
   
 
   checked: boolean = true;
-  // valor = false
+e
 
   parentSelector: boolean = false;
   id;
@@ -61,6 +57,7 @@ export class CompletoCvComponent implements OnInit {
   }
 
 
+  T
   getBloques() {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
@@ -76,21 +73,21 @@ export class CompletoCvComponent implements OnInit {
       });
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    // console.log('numSelected', numSelected);
-    const numRows = this.dataSource.data.length;
-    // console.log('numRows', numRows);
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   // console.log('numSelected', numSelected);
+  //   const numRows = this.dataSource.data.length;
+  //   // console.log('numRows', numRows);
 
-    return numSelected === numRows;
-  }
+  //   return numSelected === numRows;
+  // }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+  // masterToggle() {
+  //   this.isAllSelected()
+  //     ? this.selection.clear()
+  //     : this.dataSource.data.forEach(row => this.selection.select(row));
+  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -144,7 +141,7 @@ export class CompletoCvComponent implements OnInit {
     console.log('id', this.id)
   }
 
-  onChangeFood($event) {
+  onChangeBloque($event) {
     const id = $event.target.value;
     const isChecked = $event.target.checked;
 
@@ -166,13 +163,10 @@ export class CompletoCvComponent implements OnInit {
 
   guardar() {
     // iterar cada uno de los bloques
-    this.selection.selected.forEach(s => console.log("logSelection", s));
-    console.log(this.bloquesOriginal)
     this.arregloBloques.forEach((bloque) => {
       // para eficiencia se puede comprobar si el registro actual (bloque)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
-      // console.log(bloque)
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if(bloqueOriginal.ordenCompleto == bloque.ordenCompleto && 
         bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return

@@ -1,4 +1,4 @@
-<div class="main-content">
+<!-- <div class="main-content">
     <div class="container-fluid">
         <div class="row">
 
@@ -22,7 +22,6 @@
                             </thead>
                             <tbody>
                                 <tr class="d-flex" *ngFor="let bloque of arregloBloques">
-                                    <!-- <td>{{configuracion.id}}</td> -->
                                     <td class="col-md-4">{{bloque.nombre}}</td>
                                     <td class="col-md-3">
                                         <mat-form-field>
@@ -45,7 +44,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <!-- <div class="example-container mat-elevation-z8"> -->
@@ -92,7 +91,7 @@
                                         type="checkbox"
                                         [(ngModel)]="parentSelector"
                                         [value]="-1"
-                                        (change)="onChangeFood($event)">
+                                        (change)="onChangeBloque($event)">
 
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
@@ -105,7 +104,7 @@
                                         type="checkbox"
                                         [value]="row.id"
                                         [checked]="row.visible_cv_bloque"
-                                        (change)="onChangeFood($event)"
+                                        (change)="onChangeBloque($event)"
                                         (click)= valor(row.id)
                                     >
                                 </mat-cell>
