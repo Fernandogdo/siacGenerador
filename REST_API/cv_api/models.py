@@ -42,19 +42,22 @@ class Docente(AbstractUser):
 
 class ConfiguracionCv_Personalizado(models.Model):
     id = models.AutoField(primary_key=True)
-    configuracionId = models.IntegerField()
+    # configuracionId = models.IntegerField()
     id_user = models.ForeignKey(Docente, related_name='Docente',  on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
     orden = models.IntegerField(default=1)
     visible_cv_personalizado = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150)
-    cv = models.CharField(max_length=11)
+    cv = models.CharField(max_length=20)
     nombre_cv = models.CharField(max_length=100)
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     cedula = models.TextField(max_length=10)
     class Meta:
+        unique_together = ["bloque", "atributo", "nombre_cv", "cedula"] 
         db_table = 'configuracioncvPersonalizado'
+
+        
                 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
