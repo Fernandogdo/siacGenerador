@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +7,8 @@ import { Bloque } from 'app/models/bloque.model';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _ from "lodash";
+import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-personalizado-cv',
@@ -15,8 +17,14 @@ import * as _ from "lodash";
 })
 export class PersonalizadoCvComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenPersonalizable', 'ingreso'];
+  dataSource;
+
   arregloBloques = [];
   arregloBloquesConfiguracion = []
+  arregloAtributos = []
   bloquesOriginal;
 
   form: FormGroup;
@@ -32,6 +40,10 @@ export class PersonalizadoCvComponent implements OnInit {
   nombre_cv;
   data_user;
   id_user;
+  miDataInterior = [];
+  parentSelector: boolean = false;
+  id;
+
   
 
   constructor(
@@ -49,7 +61,7 @@ export class PersonalizadoCvComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getConfiguracionPersonalizada();
+    this.getConfiguracionPersonalizada();
     this.getConfiguracion();
     this.getBloques();
     this.id_user = localStorage.getItem("id_user");
@@ -57,7 +69,8 @@ export class PersonalizadoCvComponent implements OnInit {
       .subscribe(res =>{
       console.log("🚀 ~ file: personalizado-cv.component.ts ~ line 52 ~ PersonalizadoCvComponent ~ ngOnInit ~ res", res)
       this.data_user = res;
-      })
+      });
+    this.nombre_cv = localStorage.getItem('nombre_cv');;
   }
 
   public showDiv(): boolean {
@@ -65,7 +78,11 @@ export class PersonalizadoCvComponent implements OnInit {
     return !!name;
   }
 
-  miDataInterior = [];
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   //Agregar 
   agregar(visible: string, idSeleccionado, bloque: string, atributo: string, mapeo: string) {
@@ -114,7 +131,7 @@ export class PersonalizadoCvComponent implements OnInit {
     this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
       res => {
         this.configuracioncvService.configuracionesPersonalizadas = res;
-        console.log(res);
+        console.log("getConfiguracionPersonalizada",res);
       },
       err => console.log(err)
     )
@@ -129,14 +146,16 @@ export class PersonalizadoCvComponent implements OnInit {
         const filteredCategories = [];
         res.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
-            const { id, bloque, atributo, mapeo } = configuracion;
-            filteredCategories.push({ id, bloque, atributo, mapeo });
+            const { id, bloque, atributo, orden, mapeo,visible_cv_completo } = configuracion;
+            filteredCategories.push({ id, bloque, atributo, orden, mapeo, visible_cv_completo });
           }
          
         });
-        console.log('asdsad', filteredCategories)
-
+        console.log('getConfiguracion', filteredCategories)
+        
         this.configuracioncvService.configuraciones = filteredCategories;
+        this.arregloAtributos = filteredCategories;
+        console.log("this.arregloAtributos->>>>>>>>>>>>>>>>AAAAAAA", this.arregloAtributos)
 
         this.arregloBloquesConfiguracion = filteredCategories.reduce(function (r, a) {
           r[a.bloque] = r[a.bloque] || [];
@@ -165,6 +184,9 @@ export class PersonalizadoCvComponent implements OnInit {
         this.arregloBloques = res
         let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenPersonalizable', ], ['asc'])
         this.arregloBloques = atributosOrdenados
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        // this.selection = new SelectionModel<Bloque>(true, []);
+        this.dataSource.paginator = this.paginator;
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
@@ -181,29 +203,165 @@ export class PersonalizadoCvComponent implements OnInit {
       })
   }
 
+  valor(id){
+    this.id = id
+    console.log('id', this.id)
+  }
+
+  onChangeBloque($event) {
+    const id = $event.target.value;
+    const isChecked = $event.target.checked;
+
+    this.arregloBloques = this.arregloBloques.map((d) => {
+      if (d.id == id) {
+        d.visible_cv_bloque = isChecked;
+        this.parentSelector = false;
+        return d;
+      }
+      if (id == -1) {
+        d.visible_cv_bloque = this.parentSelector;
+        return d;
+      }
+      return d;
+    });
+    console.log("food", this.arregloBloques);
+  }
+
+  // guardar() {
+  //   // iterar cada uno de los bloques
+  //   this.arregloBloques.forEach((bloque) => {
+  //     // para eficiencia se puede comprobar si el registro actual (bloque)
+  //     // se ha modificado. Si sus campos son iguales al original entonces
+  //     // no es necesario guardarlo
+  //     console.log(bloque)
+  //     let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+  //     if(bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable) return
+
+  //     // si el bloque se modificó proceder a guardarlo
+  //     this.configuracioncvService
+  //       .putBloque(bloque)
+  //       .subscribe((res) => {
+  //         console.log("editado", res);
+  //         this.getBloques();
+  //       });
+  //       this._snackBar.open("Se guardo correctamente", "Cerrar", {
+  //         duration: 2000,
+  //       });
+  //   });
+  // }
+
   guardar() {
     // iterar cada uno de los bloques
+    console.log(this.nombre_cv)
     this.arregloBloques.forEach((bloque) => {
+      // const data = {
+      //   configuracionId: 1,
+      //   id_user: 2,
+      //   bloque: bloque.nombre,
+      //   atributo: bloque.atributo,
+      //   orden: bloque.ordenPersonalizable,
+      //   visible_cv_personalizado: bloque.visible_cv_bloque,
+      //   mapeo: bloque.atributo,
+      //   cv: 2,
+      //   nombre_cv: "this.form.value.nombrecv",
+      //   cedula: "123"
+      // }
+
+      // this.miDataInterior.push(data);
+      // console.log("configurac", this.miDataInterior);
+
       // para eficiencia se puede comprobar si el registro actual (bloque)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
-      // console.log(bloque)
+      console.log(bloque)
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
-      if(bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable) return
-
+      if(bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable && 
+        bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
+        // console.log("guardado", bloque)
       // si el bloque se modificó proceder a guardarlo
-      this.configuracioncvService
-        .putBloque(bloque)
-        .subscribe((res) => {
+      this.configuracioncvService.putBloque(bloque).subscribe((res) => {
           console.log("editado", res);
           this.getBloques();
         });
-        this._snackBar.open("Se guardo correctamente", "Cerrar", {
+        this._snackBar.open("Se guardó correctamente", "Cerrar", {
           duration: 2000,
         });
     });
   }
 
+
+  guardarAtributos() {
+    // iterar cada uno de los bloques
+    let iduser =  localStorage.getItem("id_user");
+    
+    console.log("AAA->>>>arregloBloques",this.arregloAtributos)
+    this.arregloAtributos.forEach((atributo) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      console.log("atributo", atributo)
+      let hash = Math.random().toString(36).substring(2);
+      const data = {
+        // configuracionId: 1,
+        id_atributo: atributo.id,
+        id_user: iduser,
+        bloque: atributo.bloque,
+        atributo: atributo.atributo,
+        orden: atributo.orden,
+        visible_cv_personalizado: atributo.visible_cv_completo,
+        mapeo: atributo.mapeo,
+        cv: hash,
+        nombre_cv: this.nombre_cv,
+        cedula: atributo.id
+      }
+
+      this.miDataInterior.push(data);
+      console.log("configurac", this.miDataInterior);
+      
+
+     
+      // let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
+      // if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
+
+      // si el bloque se modificó proceder a guardarlo
+
+      // console.log("AASDAS")
+      // this.configuracioncvService
+      //   .putConfiguracion(atributo)
+      //   .subscribe((res) => {
+      //     console.log("editado", res);
+      //     this._snackBar.open("Se guardó  correctamente", "Cerrar", {
+      //       duration: 2000,
+      //     });
+      //     this.getConfiguracion();
+      //   });
+    });
+    // console.log("DATAINTERIOR", this.miDataInterior)
+    for (let i = 0; i < this.miDataInterior.length; i++) {
+      let clave = this.miDataInterior[i];
+      console.log('CLAVE', clave)
+      this.configuracioncvService.postConfiguracionPersonalizada(clave)
+        .subscribe(res => {
+         
+          console.log('SEGUARDO', res)
+        });
+        this._snackBar.open('Guardado Correctamente', "Cerrar", {
+          duration: 2000,
+        });
+    }
+    this.miDataInterior = [] 
+  }
+
+  guardarBloquesAtributos(){
+    this.guardar();
+    this.guardarAtributos();
+    localStorage.setItem('nombre_cv', this.nombre_cv);
+  }
+
+
+  nombrecvLocalStorage(){
+    localStorage.setItem('nombre_cv', this.nombre_cv);
+  }
   // putConfiguracion(form: NgForm) {
   //   console.log('FORMULARIO FORMULARIO', form.value);
   //   if(form.value.id){

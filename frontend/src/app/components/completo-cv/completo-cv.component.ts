@@ -37,7 +37,7 @@ export class CompletoCvComponent implements OnInit {
   
 
   checked: boolean = true;
-e
+
 
   parentSelector: boolean = false;
   id;

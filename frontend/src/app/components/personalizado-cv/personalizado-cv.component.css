@@ -19,12 +19,16 @@
   color: #003F72;
   margin: 20px;
 }
-
+/* 
 #tabla {
   margin-left: 40px;
   color: #003F72;
-}
+} */
 
+#tabla {
+  color: #003F72;
+  background-color: #EAAB00;
+}
 
 .nombre {
   margin-left: 30px;

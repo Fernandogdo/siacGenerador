@@ -70,6 +70,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     AdministradorComponent,
     LoginComponent,
     ModalNotaComponent,
+    
    
     // ResumidoCvComponent,
     //PersonalizadoCvComponent,

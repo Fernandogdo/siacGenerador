@@ -19,6 +19,7 @@ import { BloqueComponent } from '../../components/bloque/bloque.component';
 import { ResumidoCvComponent } from 'app/components/resumido-cv/resumido-cv.component';
 import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque-resumido.component';
 import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
+import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
 
 
 /* MATERIAL */
@@ -65,7 +66,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     Angular2CsvModule,
     MatTableModule,
     MatRadioModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    
     
   ],
   declarations: [
@@ -77,7 +79,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     BloqueComponent,
     BloqueResumidoComponent,
     ResumidoCvComponent,
-    EditaPersonalizadoComponent
+    EditaPersonalizadoComponent,
+    CreacvPersonalizadoComponent
   ]
 })
 

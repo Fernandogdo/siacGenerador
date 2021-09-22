@@ -75,7 +75,7 @@ export class BloqueComponent implements OnInit {
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
         this.atributosOrdenados = _.orderBy(this.arregloBloques, ["orden", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenados;
-
+        console.log("ARREGLOBLOQUES", this.arregloBloques)
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
@@ -284,6 +284,7 @@ export class BloqueComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
+      console.log("BLOQUESORIGINAL", atribtutoOriginal)
       if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
 
       // si el bloque se modificó proceder a guardarlo
