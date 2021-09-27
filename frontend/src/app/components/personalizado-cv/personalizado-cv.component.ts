@@ -43,6 +43,7 @@ export class PersonalizadoCvComponent implements OnInit {
   miDataInterior = [];
   parentSelector: boolean = false;
   id;
+  dataBloque = [];
 
   
 
@@ -70,7 +71,7 @@ export class PersonalizadoCvComponent implements OnInit {
       console.log("🚀 ~ file: personalizado-cv.component.ts ~ line 52 ~ PersonalizadoCvComponent ~ ngOnInit ~ res", res)
       this.data_user = res;
       });
-    this.nombre_cv = localStorage.getItem('nombre_cv');;
+    this.nombre_cv = localStorage.getItem('nombre_cv');
   }
 
   public showDiv(): boolean {
@@ -294,28 +295,37 @@ export class PersonalizadoCvComponent implements OnInit {
     // iterar cada uno de los bloques
     let iduser =  localStorage.getItem("id_user");
     
-    console.log("AAA->>>>arregloBloques",this.arregloAtributos)
     this.arregloAtributos.forEach((atributo) => {
       // para eficiencia se puede comprobar si el registro actual (bloque)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
-      console.log("atributo", atributo)
+      // console.log("atributo", atributo)
       let hash = Math.random().toString(36).substring(2);
-      const data = {
-        // configuracionId: 1,
-        id_atributo: atributo.id,
-        id_user: iduser,
-        bloque: atributo.bloque,
-        atributo: atributo.atributo,
-        orden: atributo.orden,
-        visible_cv_personalizado: atributo.visible_cv_completo,
-        mapeo: atributo.mapeo,
-        cv: hash,
-        nombre_cv: this.nombre_cv,
-        cedula: atributo.id
-      }
 
-      this.miDataInterior.push(data);
+      this.arregloBloques.forEach((bloque)=> {
+
+        if (atributo.bloque === bloque.nombre) {
+          console.log("SON IGUALES")
+          const data = {
+            // configuracionId: 1,
+            // id_atributo: atributo.id,
+            id_user: iduser,
+            bloque: atributo.bloque,
+            atributo: atributo.atributo,
+            orden: atributo.orden,
+            visible_cv_personalizado: atributo.visible_cv_completo,
+            mapeo: atributo.mapeo,
+            cv: hash,
+            nombre_cv: this.nombre_cv,
+            cedula: atributo.id,
+            nombreBloque: bloque.nombre,
+            ordenPersonalizable: bloque.ordenPersonalizable,
+            visible_cv_bloque: bloque.visible_cv_bloque
+          }
+          this.miDataInterior.push(data);
+        } 
+      });
+
       console.log("configurac", this.miDataInterior);
       
 
@@ -336,7 +346,7 @@ export class PersonalizadoCvComponent implements OnInit {
       //     this.getConfiguracion();
       //   });
     });
-    // console.log("DATAINTERIOR", this.miDataInterior)
+    console.log("DATAINTERIOR", this.miDataInterior)
     for (let i = 0; i < this.miDataInterior.length; i++) {
       let clave = this.miDataInterior[i];
       console.log('CLAVE', clave)
@@ -345,7 +355,7 @@ export class PersonalizadoCvComponent implements OnInit {
          
           console.log('SEGUARDO', res)
         });
-        this._snackBar.open('Guardado Correctamente', "Cerrar", {
+        this._snackBar.open('Guardado Correctamente AA', "Cerrar", {
           duration: 2000,
         });
     }

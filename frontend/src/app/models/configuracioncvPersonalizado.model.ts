@@ -15,6 +15,7 @@ export class ConfiguracioncvPersonalizado {
         public nombre_cv?: string,
         public fecha_registro?: Date,
         public cedula?: string,
+        public ordenPersonalizable?: number,
         public id?: number,
 
     ) {
@@ -29,6 +30,7 @@ export class ConfiguracioncvPersonalizado {
         this.nombre_cv = this.nombre_cv,
         this.fecha_registro = this.fecha_registro,
         this.cedula = this.cedula,
+        this.ordenPersonalizable = this.ordenPersonalizable
         this.id = this.id
     }
 }

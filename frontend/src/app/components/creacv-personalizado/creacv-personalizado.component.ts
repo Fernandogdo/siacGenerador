@@ -21,18 +21,18 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
   nombreBloque;
   arregloBloques = [];
-  arregloAtributosOriginal = []
+  arregloAtributos = []
   atributosOrdenados;
   atributosOriginal;
   // displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenCompleto', 'ingreso'];
-  displayedColumns: string[] = ['visible_cv_completo', 'atributo', 'orden', 'mapeo'];
+  displayedColumns: string[] = ['visible_cv_personalizado', 'atributo', 'orden', 'mapeo'];
 
   dataSource;
   parentSelector: boolean = false;
   id;
   miDataInterior = [];
   nombre_cv: string;
-  id_user;
+  idUsuario;
 
 
   constructor(
@@ -44,14 +44,15 @@ export class CreacvPersonalizadoComponent implements OnInit {
   ngOnInit(): void {
     this.nombreBloque = this.route.snapshot.params["nombre"];
     this.nombre_cv = this.route.snapshot.params["nombre_cv"];
-    this.getConfiguracion();
+    // this.getConfiguracion();
     this.getConfiguracionPersonalizada();
     // console.log("this.child.nombre_cv--->>>>>>>", this.child.nombre_cv)
-    console.log(Math.random().toString(36).substring(2));
+    // console.log(Math.random().toString(36).substring(2));
     
-    console.log("NOMBRECVAAA->>>>", localStorage.getItem('nombre_cv'));
-    this.nombre_cv =  localStorage.getItem('nombre_cv');
-    this.id_user =  localStorage.getItem('id_user');
+    // console.log("NOMBRECVAAA->>>>", localStorage.getItem('nombre_cv'));
+    // this.nombre_cv =  localStorage.getItem('nombre_cv');
+    this.idUsuario =   parseInt(localStorage.getItem('id_user'));
+    // console.log("IDUSUARIO", parseInt(localStorage.getItem('id_user')));
   }
 
   // ngAfterViewInit() {
@@ -93,7 +94,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
         });
 
         this.configuracioncvService.configuraciones = filteredCategories;
-        // console.log("TODOSLOSBLOQUES-->>>>>>>", filteredCategories);
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
         this.atributosOrdenados = _.orderBy(this.arregloBloques, ["orden", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenados;
@@ -112,15 +112,66 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
   getConfiguracionPersonalizada(){
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( res =>{
+    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (res) =>{
+      this.configuracioncvService.configuracionesPersonalizadas = res;
+      console.log("RESORIGINAL", res)
+      console.log("RESRESFILTRADA-->>>>>>", res.filter((user) =>  user.id_user === this.idUsuario 
+      && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv));
+      const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+                cat.bloque == configuracion.bloque &&
+                cat.nombre_cv == configuracion.nombre_cv &&
+                cat.atributo == configuracion.atributo
+                )
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+            });
+          }
+        });
+      this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+      // const filtradoNOmbre = filteredCategories.filter((atributo)=>  atributo.id_user === this.idUsuario)
+      console.log("FILTEREDCATEGORIES-->>>>", filteredCategories)
       
-      // this.arregloAtributosOriginal = res.filter((atributo) => atributo.id_user === this.id_user && atributo.nombre_cv === this.nombre_cv);
-      console.log("CONFPERSONALIZADAS", res)
-      this.arregloAtributosOriginal = JSON.parse(
+      this.arregloAtributos = filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
+        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
+
+      console.log("PERSONALIZADASPERSONALIZADAS", this.arregloAtributos)
+      this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
+      this.arregloAtributos = this.atributosOrdenados;
+
+      this.dataSource = new MatTableDataSource(this.arregloAtributos);
+      this.dataSource.paginator = this.paginator;
+
+      this.atributosOriginal = JSON.parse(
         JSON.stringify(res)
       );
 
-    })
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -129,24 +180,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  // onChangeBloque($event) {
-  //   const id = $event.target.value;
-  //   const isChecked = $event.target.checked;
-
-  //   this.arregloBloques = this.arregloBloques.map((d) => {
-  //     if (d.id == id) {
-  //       d.visible_cv_bloque = isChecked;
-  //       this.parentSelector = false;
-  //       return d;
-  //     }
-  //     if (id == -1) {
-  //       d.visible_cv_bloque = this.parentSelector;
-  //       return d;
-  //     }
-  //     return d;
-  //   });
-  //   console.log("food", this.arregloBloques);
-  // }
 
   valor(id){
     this.id = id
@@ -158,168 +191,72 @@ export class CreacvPersonalizadoComponent implements OnInit {
     const id = $event.target.value;
     const isChecked = $event.target.checked;
 
-    this.arregloBloques = this.arregloBloques.map((d) => {
+    this.arregloAtributos = this.arregloAtributos.map((d) => {
       if (d.id == id) {
-        d.visible_cv_completo = isChecked;
+        d.visible_cv_personalizado = isChecked;
         this.parentSelector = false;
         return d;
       }
       if (id == -1) {
-        d.visible_cv_completo = this.parentSelector;
+        d.visible_cv_personalizado = this.parentSelector;
         return d;
       }
       return d;
     });
-    console.log("food", this.arregloBloques);
+    console.log("food", this.arregloAtributos);
   }
 
 
   guardar() {
     // iterar cada uno de los bloques
     let iduser =  localStorage.getItem("id_user");
-    console.log("arregloBloques",this.arregloBloques)
-    this.arregloBloques.forEach((atributo) => {
-      // para eficiencia se puede comprobar si el registro actual (bloque)
+    console.log("arregloBloques",this.arregloAtributos)
+    this.arregloAtributos.forEach((atributo) => {
+      // para eficiencia se puede comprobar si el registro actual (atributo)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       // console.log("atributo", atributo)
-      let hash = Math.random().toString(36).substring(2);
-      const data = {
-        // configuracionId: 1,
-        id_atributo : atributo.id,
-        id_user: iduser,
-        bloque: atributo.bloque,
-        atributo: atributo.atributo,
-        orden: atributo.orden,
-        visible_cv_personalizado: atributo.visible_cv_completo,
-        mapeo: atributo.mapeo,
-        cv: hash,
-        nombre_cv: this.nombre_cv,
-        cedula: "123"
-      }
-
-      this.miDataInterior.push(data);
-      console.log("configurac", this.miDataInterior);
-      
-
-     
-      // let atribtutoOriginal = this.arregloAtributos.find((b) => b.nombre_cv == atributo.nombre_cv && b.cedula === atributo.cedula);
-      // console.log("ATRIBUTOORIGINAL", atribtutoOriginal)
-      // if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
+      let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
+      console.log("ATRIBUTOORIGINAL", atribtutoOriginal)
+      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
 
       // si el bloque se modificó proceder a guardarlo
 
       
-      // console.log("AASDAS SEGUARDA-->>>>>>>>>>>>>>>>>......")
-      // this.configuracioncvService
-      //   .putConfiguracion(atributo)
-      //   .subscribe((res) => {
-      //     console.log("editado", res);
-      //     this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-      //       duration: 2000,
-      //     });
-      //     this.getConfiguracion();
-      //   });
+      console.log("AASDAS SEGUARDA-->>>>>>>>>>>>>>>>>......")
+      this.configuracioncvService
+        .putConfiguracionPersonalizada(atributo)
+        .subscribe((res) => {
+          console.log("editado", res);
+          this._snackBar.open("Se guardó  correctamente", "Cerrar", {
+            duration: 2000,
+          });
+          this.getConfiguracionPersonalizada();
+        });
     });
 
     
-    console.log("ATRIBUTOSORIGINAL", this.arregloAtributosOriginal)
-    this.guardarAtr();
-
-    // console.log("DATAINTERIOR", this.miDataInterior)
-    // for (let i = 0; i < this.miDataInterior.length; i++) {
-    //   let clave = this.miDataInterior[i];
-    //   console.log('CLAVE', clave)
-    //   this.configuracioncvService.postConfiguracionPersonalizada(clave)
-    //     .subscribe(res => {
-         
-    //       console.log('SEGUARDO', res)
-    //     });
-    //     this._snackBar.open('Guardado Correctamente', "Cerrar", {
-    //       duration: 2000,
-    //     });
-    // }
+    console.log("ATRIBUTOSORIGINAL", this.arregloAtributos)
     
   }
+
+ 
 
   
 
-  guardarAtr(){
-    //  comparar este que es el registro actual
-   
-    console.log("miDataInterior", this.miDataInterior)
-    console.log("ARREGLOSATRORIGINAL", this.arregloAtributosOriginal)
-    this.miDataInterior.forEach((atributo) => {
-      console.log("atributo", atributo.id_atributo);
-      let atribtutoOriginal = this.arregloAtributosOriginal.find((b) => b.id_atributo == atributo.id_atributo);
-      console.log("ATRORIGINAL--->>>>>>>>", atribtutoOriginal);
-      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
-      console.log("SE GUARDA");
-    });
+  // guardarAtr(){   
+  //   console.log("miDataInterior", this.miDataInterior)
+  //   console.log("ARREGLOSATRORIGINAL", this.arregloAtributos)
+  //   this.miDataInterior.forEach((atributo) => {
+  //     console.log("atributo", atributo.id_atributo);
+  //     let atribtutoOriginal = this.arregloAtributos.find((b) => b.id_atributo == atributo.id_atributo);
+  //     console.log("ATRORIGINAL--->>>>>>>>", atribtutoOriginal);
+  //     if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
+  //     console.log("SE GUARDA");
+  //   });
 
-    this.miDataInterior = [] 
-    console.log("miDataInterior", this.miDataInterior)
-  }
-
-  guardarAtributos() {
-    // iterar cada uno de los bloques
-    let iduser =  localStorage.getItem("id_user");
-    
-    console.log("AAA->>>>arregloBloques",this.arregloAtributosOriginal)
-    this.arregloAtributosOriginal.forEach((atributo) => {
-      // para eficiencia se puede comprobar si el registro actual (bloque)
-      // se ha modificado. Si sus campos son iguales al original entonces
-      // no es necesario guardarlo
-      console.log("atributo", atributo)
-      let hash = Math.random().toString(36).substring(2);
-      const data = {
-        // configuracionId: 1,
-        id_user: iduser,
-        bloque: atributo.bloque,
-        atributo: atributo.atributo,
-        orden: atributo.orden,
-        visible_cv_personalizado: atributo.visible_cv_completo,
-        mapeo: atributo.mapeo,
-        cv: hash,
-        nombre_cv: this.nombre_cv,
-        cedula: "123"
-      }
-
-      this.miDataInterior.push(data);
-      console.log("configurac", this.miDataInterior);
-      
-
-     
-      // let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      // if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
-
-      // si el bloque se modificó proceder a guardarlo
-
-      // console.log("AASDAS")
-      // this.configuracioncvService
-      //   .putConfiguracion(atributo)
-      //   .subscribe((res) => {
-      //     console.log("editado", res);
-      //     this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-      //       duration: 2000,
-      //     });
-      //     this.getConfiguracion();
-      //   });
-    });
-    // console.log("DATAINTERIOR", this.miDataInterior)
-    for (let i = 0; i < this.miDataInterior.length; i++) {
-      let clave = this.miDataInterior[i];
-      console.log('CLAVE', clave)
-      this.configuracioncvService.postConfiguracionPersonalizada(clave)
-        .subscribe(res => {
-         
-          console.log('SEGUARDO', res)
-        });
-        this._snackBar.open('Guardado Correctamente', "Cerrar", {
-          duration: 2000,
-        });
-    }
-    this.miDataInterior = [] 
-  }
+  //   this.miDataInterior = [] 
+  //   console.log("miDataInterior", this.miDataInterior)
+  // }
 
 }

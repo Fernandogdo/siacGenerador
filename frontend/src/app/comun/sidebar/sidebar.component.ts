@@ -36,6 +36,7 @@ export class SidebarComponent implements OnInit {
   arreglo = [];
   blob: any;
   idUser;
+  nombreCv;
 
   menuItems: any[];
   seMuestra: Boolean
@@ -55,6 +56,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.idUser = localStorage.getItem("idDocente");
+    this.nombreCv = localStorage.getItem("nombre_cv");
 
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
     this.authorizationService.obtenerIdDocente()
