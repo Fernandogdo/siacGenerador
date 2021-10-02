@@ -230,7 +230,6 @@ export class BloqueComponent implements OnInit {
       },
       (err) => console.log(err)
     );
- 
   }
 
   // FiltroVisibles() {

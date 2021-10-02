@@ -181,6 +181,123 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
 
+  FiltroNoVisibles() {
+    this.configuracioncvService.getConfiguraciones().subscribe(
+      (res) => {
+        this.configuracioncvService.configuraciones = res;
+        const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+                cat.bloque == configuracion.bloque &&
+                cat.atributo == configuracion.atributo)
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              orden,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              orden,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            });
+          }
+        });
+
+        this.configuracioncvService.configuraciones = filteredCategories;
+        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
+        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
+        this.arregloBloques = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.dataSource.paginator = this.paginator;
+
+        // console.log("FILTRADOBLOQUE", this.arregloBloques);
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      },
+      (err) => console.log(err)
+    );
+    
+  }
+
+  FiltroVisibles() {
+    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
+      (res) => {
+        this.configuracioncvService.configuracionesPersonalizadas = res;
+        const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+                cat.bloque == configuracion.bloque &&
+                cat.atributo == configuracion.atributo)
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+
+              // id,
+              // bloque,
+              // atributo,
+              // orden,
+              // mapeo,
+              // visible_cv_completo,
+              // visible_cv_resumido,
+              // administrador,
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+            });
+          }
+        });
+
+        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
+        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', true ]);
+        this.arregloBloques = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.dataSource.paginator = this.paginator;
+
+        // console.log("FILTRADOBLOQUE", this.arregloBloques);
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      },
+      (err) => console.log(err)
+    );
+  }
+
+
   valor(id){
     this.id = id
     console.log('id', this.id)
@@ -206,6 +323,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
     console.log("food", this.arregloAtributos);
   }
 
+  
 
   guardar() {
     // iterar cada uno de los bloques

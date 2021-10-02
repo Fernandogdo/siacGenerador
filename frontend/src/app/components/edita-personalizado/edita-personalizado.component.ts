@@ -39,6 +39,9 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   parentSelector: boolean = false;
   id;
 
+  arregloBloquesVisibles = [];
+  arregloBloquesNoVisibles = []
+
   constructor(
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
@@ -85,12 +88,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
     // this.nombre_cv = localStorage.getItem('nombre_cv');
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-  
+
 
   // getBloques() {
   //   this.configuracioncvService.getBloques()
@@ -115,13 +113,16 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
        && user.nombre_cv === this.nombre_cv);
 
       this.confPersonalizadaNombre = this.filtradoBloques;
-      this.atributosOriginal = JSON.parse(
-        JSON.stringify(this.confPersonalizadaNombre)
-      );
-      console.log("ATRIBUTOSIRIGINAL", this.atributosOriginal)
+      // this.atributosOriginal = this.confPersonalizadaNombre
+      
+      // JSON.parse(
+      //   JSON.stringify(this.confPersonalizadaNombre)
+      // );
+      console.log("ATRIBUTOSIRIGINALMETODOGUARDAR", this.confPersonalizadaNombre)
 
       // console.log("confPersonalizadaNombre", this.confPersonalizadaNombre)
       let i = 1
+      ;
       this.filtradoBloques.forEach((bloque)=> {
             // console.log("BLOQUE", bloque)
              const data = {
@@ -134,12 +135,52 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
        });
        this.arregloBloques = _.uniqBy(this.arregloBloques, 'bloque');
        let bloquesOrdenados = _.orderBy(this.arregloBloques,['ordenPersonalizable', ], ['asc']);
-       this.arregloBloques = bloquesOrdenados
+       this.arregloBloques = bloquesOrdenados;
+       this.arregloBloquesNoVisibles = bloquesOrdenados;  
+       this.arregloBloquesVisibles = bloquesOrdenados;  
+
        this.dataSource = new MatTableDataSource(this.arregloBloques);
        this.dataSource.paginator = this.paginator;
-       console.log("ARREGLOBLOQUES", this.arregloBloques)
+       console.log("ARREGLOBLOQUESSERVICE", this.arregloBloques)
 
     });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+    this.dataSource = new MatTableDataSource(this.arregloBloques);
+
+  }
+  
+
+  FiltroNoVisibles() {
+    //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
+    // console.log(event.checked)
+    // if (event.checked) {
+      console.log("FILTRONOVISBLES", this.confPersonalizadaNombre);
+      let atributosOrdenados = _.filter(this.arregloBloquesVisibles,['visible_cv_bloque', false ]);
+      this.arregloBloques = atributosOrdenados;
+      this.dataSource = new MatTableDataSource(this.arregloBloques);
+      this.atributosOriginal = JSON.parse(
+        JSON.stringify(this.arregloBloques)
+      );
+      console.log("NOVISIBLESBLOQUESPERS-->>", this.atributosOriginal)
+  }
+
+  FiltroVisibles() {
+    //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
+    // console.log(event.checked)
+    // if (event.checked) {
+      console.log("FILTRONOVISBLES", this.confPersonalizadaNombre);
+      let atributosOrdenados = _.filter(this.arregloBloquesNoVisibles,['visible_cv_bloque', true ]);
+      this.arregloBloques = atributosOrdenados;
+      this.dataSource = new MatTableDataSource(this.arregloBloques);
+      this.atributosOriginal = JSON.parse(
+        JSON.stringify(this.arregloBloques)
+      );
+      console.log("VISIBLESBLOQUESPERS-->>", this.atributosOriginal)
   }
 
   valor(id){
@@ -173,22 +214,22 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   guardarAtributos() {
     // iterar cada uno de los bloques
     let iduser =  localStorage.getItem("id_user");
+
+    console.log("NOVISIBLESFILTER", this.arregloBloques)
+    
     console.log("NOMBRECV", this.nombre_cv)
+    console.log("ARREGLOBLOQUESGUARDAR", this.arregloBloques)
     
     this.confPersonalizadaNombre.forEach((atributo) => {
-      // para eficiencia se puede comprobar si el registro actual (bloque)
-      // se ha modificado. Si sus campos son iguales al original entonces
-      // no es necesario guardarlo
-      // console.log("atributo", atributo)
       let hash = Math.random().toString(36).substring(2);
 
+      // Recorre configuracion personalizadas traidas desde el servicio
       this.arregloBloques.forEach((bloque)=> {
         // console.log("BLOQUE", bloque)
 
         if (atributo.bloque === bloque.bloque) {
-          console.log("SON IGUALES")
+          // console.log("SON IGUALES")
           const data = {
-            // configuracionId: 1,
             id: atributo.id,
             id_user: iduser,
             bloque: atributo.bloque,
@@ -205,96 +246,75 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
           }
           this.miDataInterior.push(data);
         } 
+      });      
+    });
+
+  
+    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (configuracionesPersonalizadas) =>{
+      this.filtradoBloques = configuracionesPersonalizadas.filter((user) =>  user.id_user === this.idUsuario 
+       && user.nombre_cv === this.nombre_cv);
+
+          this.atributosOriginal = this.filtradoBloques;
+          console.log("DATAORIGINALNOMBRE", this.atributosOriginal)
+          console.log("GUARDARDATAINTERIOR", this.miDataInterior)
+
+      // iterar cada uno de los bloques
+      this.miDataInterior.forEach((confPersonalizada) => {
+
+        // para eficiencia se puede comprobar si el registro actual (bloque)
+        // se ha modificado. Si sus campos son iguales al original entonces
+        // no es necesario guardarlo
+        // console.log("ATRORIGINAL",this.atributosOriginal)
+        let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal=> confOriginal.id == confPersonalizada.id)
+        if(confPersonalizada.nombre_cv == confPersonalizadaOriginal.nombre_cv  
+          && confPersonalizadaOriginal.ordenPersonalizable 
+          == confPersonalizada.ordenPersonalizable 
+          && confPersonalizadaOriginal.visible_cv_bloque 
+          == confPersonalizada.visible_cv_bloque) 
+        return
+
+        // si el bloque se modificó proceder a guardarlo
+        this.configuracioncvService.putConfiguracionPersonalizada(confPersonalizada).subscribe((res) => {
+            console.log("editado", res);
+            this.getConfiguracionesPersonalizadas();
+          });
+          this._snackBar.open("Se editó la configuración correctamente", "Cerrar", {
+            duration: 2000,
+          });
       });
 
-      console.log("configurac", this.miDataInterior);
-      
+      // console.log("ATRIBUTOSORIGONALGUARDADO", this.atributosOriginal)
 
-     
-      // let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      // if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
+      this.miDataInterior = [] 
 
-      // si el bloque se modificó proceder a guardarlo
-
-      console.log("AASDAS")
-      // this.configuracioncvService
-      //   .putConfiguracion(atributo)
-      //   .subscribe((res) => {
-      //     console.log("editado", res);
-      //     this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-      //       duration: 2000,
-      //     });
-      //     this.getConfiguracion();
-      //   });
-    });
-    console.log("DATAORIGINALNOMBRE", this.atributosOriginal)
-    console.log("DATAINTERIOR", this.miDataInterior)
-
-    console.log("GUARDARDATAINTERIOR", this.miDataInterior)
-
-    // iterar cada uno de los bloques
-    this.miDataInterior.forEach((confPersonalizada) => {
-
-      // para eficiencia se puede comprobar si el registro actual (bloque)
-      // se ha modificado. Si sus campos son iguales al original entonces
-      // no es necesario guardarlo
-      console.log(confPersonalizada)
-      let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal=> confOriginal.id == confPersonalizada.id)
-      if(confPersonalizada.nombre_cv == confPersonalizadaOriginal.nombre_cv  && confPersonalizadaOriginal.ordenPersonalizable == confPersonalizada.ordenPersonalizable && 
-        confPersonalizadaOriginal.visible_cv_bloque == confPersonalizada.visible_cv_bloque) return
-
-        console.log("guardado")
-      // si el bloque se modificó proceder a guardarlo
-      // this.configuracioncvService.putBloque(bloque).subscribe((res) => {
-      //     console.log("editado", res);
-      //     // this.getBloques();
-      //   });
-      //   this._snackBar.open("Se guardó correctamente", "Cerrar", {
-      //     duration: 2000,
-      //   });
-    });
-
-    // this.guardar()
-    // for (let i = 0; i < this.miDataInterior.length; i++) {
-    //   let clave = this.miDataInterior[i];
-    //   console.log('CLAVE', clave)
-    //   this.configuracioncvService.postConfiguracionPersonalizada(clave)
-    //     .subscribe(res => {
-         
-    //       console.log('SEGUARDO', res)
-    //     });
-    //     this._snackBar.open('Guardado Correctamente AA', "Cerrar", {
-    //       duration: 2000,
-    //     });
-    // }
-    this.miDataInterior = [] 
-  }
-
-  guardar() {
-    console.log("GUARDARDATAINTERIOR", this.miDataInterior)
-
-    // iterar cada uno de los bloques
-    this.miDataInterior.forEach((confPersonalizada) => {
-
-      // para eficiencia se puede comprobar si el registro actual (bloque)
-      // se ha modificado. Si sus campos son iguales al original entonces
-      // no es necesario guardarlo
-      console.log(confPersonalizada)
-      let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal=> confOriginal.id == confPersonalizada.id)
-      if(confPersonalizadaOriginal.ordenPersonalizable == confPersonalizada.ordenPersonalizable && 
-        confPersonalizadaOriginal.visible_cv_bloque == confPersonalizada.visible_cv_bloque) return
-
-        console.log("guardado")
-      // si el bloque se modificó proceder a guardarlo
-      // this.configuracioncvService.putBloque(bloque).subscribe((res) => {
-      //     console.log("editado", res);
-      //     // this.getBloques();
-      //   });
-      //   this._snackBar.open("Se guardó correctamente", "Cerrar", {
-      //     duration: 2000,
-      //   });
     });
   }
+
+  // guardar() {
+  //   console.log("GUARDARDATAINTERIOR", this.miDataInterior)
+
+  //   // iterar cada uno de los bloques
+  //   this.miDataInterior.forEach((confPersonalizada) => {
+
+  //     // para eficiencia se puede comprobar si el registro actual (bloque)
+  //     // se ha modificado. Si sus campos son iguales al original entonces
+  //     // no es necesario guardarlo
+  //     console.log(confPersonalizada)
+  //     let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal=> confOriginal.id == confPersonalizada.id)
+  //     if(confPersonalizadaOriginal.ordenPersonalizable == confPersonalizada.ordenPersonalizable && 
+  //       confPersonalizadaOriginal.visible_cv_bloque == confPersonalizada.visible_cv_bloque) return
+
+  //       console.log("guardado")
+  //     // si el bloque se modificó proceder a guardarlo
+  //     // this.configuracioncvService.putBloque(bloque).subscribe((res) => {
+  //     //     console.log("editado", res);
+  //     //     // this.getBloques();
+  //     //   });
+  //     //   this._snackBar.open("Se guardó correctamente", "Cerrar", {
+  //     //     duration: 2000,
+  //     //   });
+  //   });
+  // }
 
   guardarBloquesAtributos(){
     this.guardarAtributos();

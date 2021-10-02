@@ -18,6 +18,12 @@
                   </button>
               </mat-form-field>
           </div>
+
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1" color="primary" (click)="getConfiguracionesPersonalizadas()">Todo</mat-radio-button> <br>
+            <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+            <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+        </mat-radio-group>
                       
           <mat-table id="tabla" #table [dataSource]="dataSource">
               <ng-container matColumnDef="visible_cv_bloque">
