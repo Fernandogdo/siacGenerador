@@ -16,5 +16,10 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+
+  
+  // "angularCompilerOptions": { //Lo puse por erro NGCC
+  //   "enableIvy": false,
+  //   }
 }

@@ -182,65 +182,16 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
 
   FiltroNoVisibles() {
-    this.configuracioncvService.getConfiguraciones().subscribe(
-      (res) => {
-        this.configuracioncvService.configuraciones = res;
-        const filteredCategories = [];
-        res.forEach((configuracion) => {
-          if (!filteredCategories.find((cat) =>
-                cat.bloque == configuracion.bloque &&
-                cat.atributo == configuracion.atributo)
-          ) {
-            const {
-              id,
-              bloque,
-              atributo,
-              orden,
-              mapeo,
-              visible_cv_completo,
-              visible_cv_resumido,
-              administrador,
-            } = configuracion;
-            filteredCategories.push({
-              id,
-              bloque,
-              atributo,
-              orden,
-              mapeo,
-              visible_cv_completo,
-              visible_cv_resumido,
-              administrador,
-            });
-          }
-        });
-
-        this.configuracioncvService.configuraciones = filteredCategories;
-        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
-        this.arregloBloques = this.atributosOrdenados;
-
-        this.dataSource = new MatTableDataSource(this.arregloBloques);
-        this.dataSource.paginator = this.paginator;
-
-        // console.log("FILTRADOBLOQUE", this.arregloBloques);
-        this.atributosOriginal = JSON.parse(
-          JSON.stringify(this.arregloBloques)
-        );
-      },
-      (err) => console.log(err)
-    );
-    
-  }
-
-  FiltroVisibles() {
     this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
       (res) => {
         this.configuracioncvService.configuracionesPersonalizadas = res;
         const filteredCategories = [];
         res.forEach((configuracion) => {
           if (!filteredCategories.find((cat) =>
-                cat.bloque == configuracion.bloque &&
-                cat.atributo == configuracion.atributo)
+            cat.bloque == configuracion.bloque &&
+            cat.nombre_cv == configuracion.nombre_cv &&
+            cat.atributo == configuracion.atributo
+                )
           ) {
             const {
               id,
@@ -254,15 +205,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
               fecha_registro,
               cedula,
               id_user
-
-              // id,
-              // bloque,
-              // atributo,
-              // orden,
-              // mapeo,
-              // visible_cv_completo,
-              // visible_cv_resumido,
-              // administrador,
             } = configuracion;
             filteredCategories.push({
               id,
@@ -281,16 +223,105 @@ export class CreacvPersonalizadoComponent implements OnInit {
         });
 
         this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
-        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', true ]);
-        this.arregloBloques = this.atributosOrdenados;
 
-        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        // this.arregloAtributos = filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
+        // && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
+
+        this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario 
+        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
+        this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', false ]);
+        this.arregloAtributos = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
 
-        // console.log("FILTRADOBLOQUE", this.arregloBloques);
+        console.log("FILTRADOBLOQUENOVISIBLEPERSONALIZADO", this.arregloAtributos);
         this.atributosOriginal = JSON.parse(
-          JSON.stringify(this.arregloBloques)
+          JSON.stringify(res)
+        );
+      },
+      (err) => console.log(err)
+    );
+    
+  }
+
+  // FiltroVisibles() {
+  //   //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
+  //   // console.log(event.checked)
+  //   // if (event.checked) {
+  //     this.configuracioncvService.getBloques()
+  //     .subscribe(res => {
+  //       this.arregloBloques = res
+  //       let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', true ]);
+  //       this.arregloBloques = atributosOrdenados;
+  //       this.dataSource = new MatTableDataSource(this.arregloBloques);
+  //       this.bloquesOriginal = JSON.parse(
+  //         JSON.stringify(this.arregloBloques)
+  //       );
+  //     });
+  //   // } else {
+  //   //   this.getBloques()
+  //   // }
+  // }
+
+  FiltroVisibles() {
+    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
+      (res) => {
+        this.configuracioncvService.configuracionesPersonalizadas = res;
+        // console.log("RESRES--->>>", res.filter())
+        const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+            cat.bloque == configuracion.bloque &&
+            cat.nombre_cv == configuracion.nombre_cv &&
+            cat.atributo == configuracion.atributo)
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              orden,
+              visible_cv_personalizado,
+              mapeo,
+              cv,
+              nombre_cv,
+              fecha_registro,
+              cedula,
+              id_user
+            });
+          }
+        });
+
+        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+        // user.id_user === this.idUsuario 
+        // && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv
+        console.log("NOMBRECVVISIBLES",filteredCategories)
+        console.log("RESRESFILTRADAVISIBLES-->>>>>>", filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
+        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv));
+        this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
+        console.log("AREGGLOATRIBUTOS--->>>", this.arregloAtributos)
+        this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', true ]);
+        this.arregloAtributos = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloAtributos);
+        this.dataSource.paginator = this.paginator;
+
+        console.log("FILTRADOVISIBLEBLOQUEEDICION", this.arregloAtributos);
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(res)
         );
       },
       (err) => console.log(err)
@@ -335,7 +366,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
       // no es necesario guardarlo
       // console.log("atributo", atributo)
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      console.log("ATRIBUTOORIGINAL", atribtutoOriginal)
+      console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
       if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
 
       // si el bloque se modificó proceder a guardarlo

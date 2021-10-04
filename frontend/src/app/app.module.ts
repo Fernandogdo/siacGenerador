@@ -19,7 +19,7 @@ import {
   AgmCoreModule
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { AdministradorComponent } from './components/administrador/administrador.component';
+// import { AdministradorComponent } from './components/administrador/administrador.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { LoginComponent } from './components/login/login.component';
 
@@ -67,7 +67,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AdministradorComponent,
+    // AdministradorComponent,
     LoginComponent,
     ModalNotaComponent,
     

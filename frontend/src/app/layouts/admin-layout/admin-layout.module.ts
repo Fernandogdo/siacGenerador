@@ -20,6 +20,7 @@ import { ResumidoCvComponent } from 'app/components/resumido-cv/resumido-cv.comp
 import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque-resumido.component';
 import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
 import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
+import { AdministradorComponent } from 'app/components/administrador/administrador.component';
 
 
 /* MATERIAL */
@@ -72,6 +73,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   ],
   declarations: [
     DashboardComponent,
+    AdministradorComponent,
     CompletoCvComponent,
     PersonalizadoCvComponent,
     // ModalPersonalizacionComponent,
