@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Configuracioncv } from 'app/models/configuracioncv.model';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import {MatSnackBar} from '@angular/material/snack-bar';import { Router } from '@angular/router';
 import * as _ from "lodash";
+import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-bloque-resumido',
   templateUrl: './bloque-resumido.component.html',
@@ -11,9 +13,17 @@ import * as _ from "lodash";
 })
 export class BloqueResumidoComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  displayedColumns: string[] = ['visible_cv_resumido', 'atributo', 'ordenResumido', 'mapeo'];
+
   nombreBloque;
   arregloBloques = [];
+  atributosOrdenados;
   atributosOriginal;
+  dataSource;
+  id;
+  parentSelector: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +37,7 @@ export class BloqueResumidoComponent implements OnInit {
     this.getConfiguracion()
   }
 
+  
   getConfiguracion() {
     this.configuracioncvService.getConfiguraciones().subscribe(
       res => {
@@ -34,16 +45,19 @@ export class BloqueResumidoComponent implements OnInit {
         const filteredCategories = [];
         res.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
-            const { id, bloque, atributo, orden, mapeo, visible_cv_completo, visible_cv_resumido, administrador } = configuracion;
-            filteredCategories.push({ id, bloque, atributo, orden, mapeo, visible_cv_completo, visible_cv_resumido, administrador });
+            const { id, bloque, atributo, ordenResumido, mapeo, visible_cv_completo, visible_cv_resumido, administrador } = configuracion;
+            filteredCategories.push({ id, bloque, atributo, ordenResumido, mapeo, visible_cv_completo, visible_cv_resumido, administrador });
           }
         });
 
         this.configuracioncvService.configuraciones = filteredCategories;
         
         this.arregloBloques = filteredCategories.filter(user => user.bloque === this.nombreBloque)
-        let atributosOrdenados = _.orderBy(this.arregloBloques,['orden'], ['asc'])
+        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenResumido'], ['asc'])
         this.arregloBloques = atributosOrdenados
+
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.dataSource.paginator = this.paginator;
 
         this.atributosOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
@@ -51,6 +65,160 @@ export class BloqueResumidoComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+  
+  FiltroNoVisibles() {
+    this.configuracioncvService.getConfiguraciones().subscribe(
+      (res) => {
+        this.configuracioncvService.configuraciones = res;
+        const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+                cat.bloque == configuracion.bloque &&
+                cat.atributo == configuracion.atributo)
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              ordenResumido,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              ordenResumido,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            });
+          }
+        });
+
+        this.configuracioncvService.configuraciones = filteredCategories;
+        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
+        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_resumido', false ]);
+        this.arregloBloques = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.dataSource.paginator = this.paginator;
+
+        // console.log("FILTRADOBLOQUE", this.arregloBloques);
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      },
+      (err) => console.log(err)
+    );
+    
+  }
+  // FiltroNoVisibles() {
+  //   //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
+  //   // if (event.checked) {
+  //     console.log('asdsa')
+  //     this.configuracioncvService.getBloques()
+  //     .subscribe(res => {
+  //       this.arregloBloques = res
+  //       let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
+  //       this.arregloBloques = atributosOrdenados;
+  //       this.dataSource = new MatTableDataSource(this.arregloBloques);
+  //       this.atributosOriginal = JSON.parse(
+  //         JSON.stringify(this.arregloBloques)
+  //       );
+  //     });
+  //   // } 
+  //   // else {
+  //   //   this.getBloques()
+  //   // }
+  // }
+
+
+  FiltroVisibles() {
+    this.configuracioncvService.getConfiguraciones().subscribe(
+      (res) => {
+        this.configuracioncvService.configuraciones = res;
+        const filteredCategories = [];
+        res.forEach((configuracion) => {
+          if (!filteredCategories.find((cat) =>
+                cat.bloque == configuracion.bloque &&
+                cat.atributo == configuracion.atributo)
+          ) {
+            const {
+              id,
+              bloque,
+              atributo,
+              ordenResumido,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            } = configuracion;
+            filteredCategories.push({
+              id,
+              bloque,
+              atributo,
+              ordenResumido,
+              mapeo,
+              visible_cv_completo,
+              visible_cv_resumido,
+              administrador,
+            });
+          }
+        });
+
+        this.configuracioncvService.configuraciones = filteredCategories;
+        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
+        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_resumido', true ]);
+        this.arregloBloques = this.atributosOrdenados;
+
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.dataSource.paginator = this.paginator;
+
+        // console.log("FILTRADOBLOQUE", this.arregloBloques);
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  valor(id){
+    this.id = id
+    console.log('id', this.id)
+  }
+
+
+  onChangeAtributo($event) {
+    const id = $event.target.value;
+    const isChecked = $event.target.checked;
+
+    this.arregloBloques = this.arregloBloques.map((d) => {
+      if (d.id == id) {
+        d.visible_cv_resumido = isChecked;
+        this.parentSelector = false;
+        return d;
+      }
+      if (id == -1) {
+        d.visible_cv_resumido = this.parentSelector;
+        return d;
+      }
+      return d;
+    });
+    console.log("food", this.arregloBloques);
   }
 
 
@@ -62,7 +230,7 @@ export class BloqueResumidoComponent implements OnInit {
       // no es necesario guardarlo
       // console.log(bloque)
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && 
+      if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo && 
         atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido ) return;
 
       // si el bloque se modificó proceder a guardarlo

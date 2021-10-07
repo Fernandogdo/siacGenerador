@@ -24,18 +24,18 @@ from django.template import Context
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
-from htmldocx import HtmlToDocx
+#from htmldocx import HtmlToDocx
 from docx import Document
 from docx.opc.part import Part
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
-import json, pypandoc
+import json
 from pathlib import Path
 from django.shortcuts import render
 import json
 from datetime import datetime
 import csv
 from django.http import FileResponse
-from htmldocx import HtmlToDocx
+#from htmldocx import HtmlToDocx
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 

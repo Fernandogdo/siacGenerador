@@ -20,7 +20,7 @@
                             <thead>
                                 <tr class="d-flex">
                                     <th class="col-3">  <h4><b>Atributo</b></h4>  </th>
-                                    <th class="col-2">  <h4> <b>Orden</b> </h4> </th>
+                                    <th class="col-2">  <h4> <b>OrdenCompleto</b> </h4> </th>
                                     <th class="col-3"> <h4> <b>Mapeo</b> </h4> </th>
                                     <th class="col-3"> <h4> <b>Visualización</b> </h4> </th>
                                 </tr>
@@ -32,8 +32,8 @@
                                     <td class="col-sm-2">
                                         <div>
                                             <mat-form-field>
-                                                <mat-label>Orden</mat-label>
-                                                <input matInput type="number" placeholder="Name" [value]="bloque.orden" [(ngModel)]="bloque.orden">
+                                                <mat-label>OrdenCompleto</mat-label>
+                                                <input matInput type="number" placeholder="Name" [value]="bloque.ordenCompleto" [(ngModel)]="bloque.ordenCompleto">
                                             </mat-form-field>
                                         </div>
                                     </td>
@@ -155,11 +155,11 @@
                         </ng-container>
                 
                         <!-- Name Column -->
-                        <ng-container matColumnDef="orden">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
+                        <ng-container matColumnDef="ordenCompleto">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>OrdenCompleto</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.orden" [(ngModel)]="element.orden">
+                                    <input matInput placeholder="OrdenCompleto" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenCompleto" [(ngModel)]="element.ordenCompleto">
                                     <input type="hidden" [value]="element.administrador">
                                 </mat-form-field>
                             </mat-cell>
@@ -169,7 +169,7 @@
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Mapeo</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Orden" type="text" [value]="element.mapeo" [(ngModel)]="element.mapeo">
+                                    <input matInput placeholder="OrdenCompleto" type="text" [value]="element.mapeo" [(ngModel)]="element.mapeo">
                                 </mat-form-field>
                             </mat-cell>
                         </ng-container>

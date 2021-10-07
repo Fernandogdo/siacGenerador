@@ -48,8 +48,8 @@
 
 
 <!-- <div class="example-container mat-elevation-z8"> -->
-    <!-- <mat-checkbox [(ngModel)]="novisible_cv_bloque" (change)="FiltroNoVisibles()">Mostrar Atributos No Visibes</mat-checkbox>
-    <mat-checkbox  *ngIf="novisible_cv_bloque === false" [(ngModel)]="visible_cv_bloque" (change)="FiltroVisibles()">Mostrar Atributos Visibles</mat-checkbox> -->
+    <!-- <mat-checkbox [(ngModel)]="novisible_cv_bloqueCompleto" (change)="FiltroNoVisibles()">Mostrar Atributos No Visibes</mat-checkbox>
+    <mat-checkbox  *ngIf="novisible_cv_bloqueCompleto === false" [(ngModel)]="visible_cv_bloqueCompleto" (change)="FiltroVisibles()">Mostrar Atributos Visibles</mat-checkbox> -->
 
     <div class="main-content">
         <div class="container-fluid">
@@ -81,7 +81,7 @@
 
 
 
-                            <ng-container matColumnDef="visible_cv_bloque">
+                            <ng-container matColumnDef="visible_cv_bloqueCompleto">
                                 <mat-header-cell *matHeaderCellDef>
                                   <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                                                 [checked]="selection.hasValue() && isAllSelected()"
@@ -96,26 +96,26 @@
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                   <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                                  [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
+                                  [value]="row.visible_cv_bloqueCompleto" [(ngModel)]="row.visible_cv_bloqueCompleto"
                                                 (change)="$event ? selection.toggle(row) : null"
                                                 [checked]="selection.isSelected(row)">
                                   </mat-checkbox> -->
                                   <input
                                         type="checkbox"
                                         [value]="row.id"
-                                        [checked]="row.visible_cv_bloque"
+                                        [checked]="row.visible_cv_bloqueCompleto"
                                         (change)="onChangeBloque($event)"
                                         (click)= valor(row.id)
                                     >
                                 </mat-cell>
                               </ng-container>
 
-                               <!-- <ng-container matColumnDef="visible_cv_bloque">
+                               <!-- <ng-container matColumnDef="visible_cv_bloqueCompleto">
                                 <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
                                 <mat-cell *matCellDef="let element">
-                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloqueCompleto" [(ngModel)]="element.visible_cv_bloqueCompleto"></mat-checkbox>
                                     <mat-form-field floatLabel="never">
-                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloqueCompleto" [(ngModel)]="element.visible_cv_bloqueCompleto">
                                     </mat-form-field>
                                 </mat-cell>
                             </ng-container> -->
@@ -136,12 +136,12 @@
                                 </mat-cell>
                             </ng-container>
                     
-                            <!-- <ng-container matColumnDef="visible_cv_bloque">
+                            <!-- <ng-container matColumnDef="visible_cv_bloqueCompleto">
                                 <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
                                 <mat-cell *matCellDef="let element">
-                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                    <mat-checkbox  color="primary" [value]="element.visible_cv_bloqueCompleto" [(ngModel)]="element.visible_cv_bloqueCompleto"></mat-checkbox>
                                     <mat-form-field floatLabel="never">
-                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                        <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloqueCompleto" [(ngModel)]="element.visible_cv_bloqueCompleto">
                                     </mat-form-field>
                                 </mat-cell>
                             </ng-container> -->

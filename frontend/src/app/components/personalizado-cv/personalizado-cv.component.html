@@ -68,7 +68,7 @@
           </div>
                       
           <mat-table id="tabla" #table [dataSource]="dataSource">
-              <ng-container matColumnDef="visible_cv_bloque">
+              <ng-container matColumnDef="visible_cv_bloqueCompleto">
                   <mat-header-cell *matHeaderCellDef>
                     <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                                   [checked]="selection.hasValue() && isAllSelected()"
@@ -90,7 +90,7 @@
                     <input
                           type="checkbox"
                           [value]="row.id"
-                          [checked]="row.visible_cv_bloque"
+                          [checked]="row.visible_cv_bloqueCompleto"
                           (change)="onChangeBloque($event)"
                           (click)= valor(row.id)
                       >

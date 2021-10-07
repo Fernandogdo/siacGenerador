@@ -20,7 +20,7 @@
                             <thead>
                                 <tr class="d-flex">
                                     <th class="col-3">  <h4><b>Atributo</b></h4>  </th>
-                                    <th class="col-2">  <h4> <b>Orden</b> </h4> </th>
+                                    <th class="col-2">  <h4> <b>OrdenResumido</b> </h4> </th>
                                     <th class="col-3"> <h4> <b>Mapeo</b> </h4> </th>
                                     <th class="col-2"> <h4> <b>Visualización</b> </h4> </th>
                                 </tr>
@@ -34,18 +34,18 @@
                                     <td class="col-sm-2">
                                         <div>
                                             <mat-form-field>
-                                                <mat-label>Orden</mat-label>
-                                                <input matInput type="number" placeholder="Name" [value]="bloque.orden" [(ngModel)]="bloque.orden">
-                                                <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                                                <mat-label>OrdenResumido</mat-label>
+                                                <input matInput type="number" placeholder="Name" [value]="bloque.ordenResumido" [(ngModel)]="bloque.ordenResumido">
+                                                <!-- <input matInput name="ordenResumido" [(ngModel)]="configuracioncvService.selectedConfiguracion.ordenResumido"> -->
                                             </mat-form-field>
                                         </div>
                                     </td>
-                                    <!-- {{configuracion.orden}}</td> -->
+                                    <!-- {{configuracion.ordenResumido}}</td> -->
                                     <td class="col-sm-3">
                                         <mat-form-field>
                                             <mat-label>Mapeo</mat-label>
                                             <input matInput placeholder="Name" [value]="bloque.mapeo" [(ngModel)]="bloque.mapeo">
-                                            <!-- <input matInput name="orden" [(ngModel)]="configuracioncvService.selectedConfiguracion.orden"> -->
+                                            <!-- <input matInput name="ordenResumido" [(ngModel)]="configuracioncvService.selectedConfiguracion.ordenResumido"> -->
                                         </mat-form-field>
                                     </td>
                                     <td class="col-sm-2">
@@ -66,5 +66,151 @@
                 </mat-card>
             </div>
         </div>
+    </div>
+</div>
+
+
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12" >
+
+                <div class="container" id="formulario">
+                    <div class="col text-center">
+                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-completo" routerLinkActive="active"> Regresar a Configuración Bloques</button>
+                    </div>
+                </div>
+
+                <mat-card class="tarjeta">
+                    <mat-card-header>
+                        <h3>
+                            <b>Configuración de Bloque {{nombreBloque}} </b>
+                        </h3>
+                    </mat-card-header>
+                    
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1" color="primary" (click)="getConfiguracion()">Todo</mat-radio-button> <br>
+                        <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+                        <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+                    </mat-radio-group>
+                
+                     <!-- <mat-checkbox (change)="metodo($event)"> asasd</mat-checkbox> -->
+                
+                <br>
+                <!-- <mat-checkbox [(ngModel)]="firstName" (change)="applyFilter('name', firstName ? 'amelia': '')">Show all first name - Amelia</mat-checkbox> -->
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                            <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                        </mat-form-field>
+                    </div>
+                
+                    <mat-table id="tabla" #table [dataSource]="dataSource">
+
+
+
+                        <ng-container matColumnDef="visible_cv_resumido">
+                            <mat-header-cell *matHeaderCellDef>
+                              <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                              </mat-checkbox> -->
+                              <input
+                                    type="checkbox"
+                                    [(ngModel)]="parentSelector"
+                                    [value]="-1"
+                                    (change)="onChangeAtributo($event)">
+
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                              <!-- <mat-checkbox (click)="$event.stopPropagation()"
+                              [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)">
+                              </mat-checkbox> -->
+                              <input
+                                    type="checkbox"
+                                    [value]="row.id"
+                                    [checked]="row.visible_cv_resumido"
+                                    (change)="onChangeAtributo($event)"
+                                    (click)= valor(row.id)
+                                >
+                            </mat-cell>
+                          </ng-container>
+
+                           <!-- <ng-container matColumnDef="visible_cv_bloque">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                </mat-form-field>
+                            </mat-cell>
+                        </ng-container> -->
+                
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="atributo">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributo</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.atributo}} 
+                                
+                            </mat-cell>
+                        </ng-container>
+                
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="ordenResumido">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>OrdenResumido</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="OrdenResumido" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenResumido" [(ngModel)]="element.ordenResumido">
+                                    <input type="hidden" [value]="element.administrador">
+                                </mat-form-field>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="mapeo">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Mapeo</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="OrdenResumido" type="text" [value]="element.mapeo" [(ngModel)]="element.mapeo">
+                                </mat-form-field>
+                            </mat-cell>
+                        </ng-container>
+                
+                        <!-- <ng-container matColumnDef="visible_cv_bloque">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
+                                </mat-form-field>
+                            </mat-cell>
+                        </ng-container> -->
+                
+                        <!-- <ng-container matColumnDef="ingreso">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button class="btnIngresoBloque" mat-raised-button color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
+                                    <i class="material-icons">east</i>
+                            </button>
+                            </mat-cell>
+                        </ng-container> -->
+                
+                
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    
+                    <div class="col text-center">
+                        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+                    </div>
+                </mat-card>
+            
+            </div>
+        </div>        
     </div>
 </div>

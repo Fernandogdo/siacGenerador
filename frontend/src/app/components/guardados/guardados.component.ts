@@ -121,6 +121,31 @@ export class GuardadosComponent implements OnInit {
       })
   }
 
+
+  deleteConfiguracionPersonalizada(nombreCv){
+    console.log("AELIMINAR", nombreCv)
+    console.log("🚀 ~ file: guardados.component.ts ~ line 108 ~ GuardadosComponent ~ getConfiguracionPersonalizada ~ arreglo", this.confPersoDocente)
+
+    let datos = _.filter(this.confPersoDocente, ['nombre_cv', nombreCv]);
+    console.log(datos)
+
+    datos.forEach((element) => {
+      console.log(element.id)
+      this.configuracioncvService.deleteConfiguracionPersonalizada(element.id);
+      this.getConfigurcionPersonalizadaDocente();
+    });
+
+   
+
+    // console.log(datos)
+
+
+  
+    // this.configuracioncvService.deleteConfiguracionPersonalizada()
+    // this.arreglo.forEach(())
+  }
+
+
   generaPdfCompleto(){
     this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
 

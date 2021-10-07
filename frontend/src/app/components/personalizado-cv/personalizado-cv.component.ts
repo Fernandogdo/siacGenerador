@@ -19,7 +19,7 @@ export class PersonalizadoCvComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenPersonalizable', 'ingreso'];
+  displayedColumns: string[] = ['visible_cv_bloqueCompleto', 'nombre', 'ordenPersonalizable', 'ingreso'];
   dataSource;
 
   arregloBloques = [];
@@ -147,8 +147,8 @@ export class PersonalizadoCvComponent implements OnInit {
         const filteredCategories = [];
         res.forEach(configuracion => {
           if (!filteredCategories.find(cat => cat.bloque == configuracion.bloque && cat.atributo == configuracion.atributo)) {
-            const { id, bloque, atributo, orden, mapeo,visible_cv_completo } = configuracion;
-            filteredCategories.push({ id, bloque, atributo, orden, mapeo, visible_cv_completo });
+            const { id, bloque, atributo, ordenCompleto, mapeo,visible_cv_completo } = configuracion;
+            filteredCategories.push({ id, bloque, atributo, ordenCompleto, mapeo, visible_cv_completo });
           }
          
         });
@@ -185,6 +185,8 @@ export class PersonalizadoCvComponent implements OnInit {
         this.arregloBloques = res
         let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenPersonalizable', ], ['asc'])
         this.arregloBloques = atributosOrdenados
+        console.log("🚀 ~ file: personalizado-cv.component.ts ~ line 188 ~ PersonalizadoCvComponent ~ getBloques ~ atributosOrdenados", this.arregloBloques)
+        
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         // this.selection = new SelectionModel<Bloque>(true, []);
         this.dataSource.paginator = this.paginator;
@@ -277,7 +279,7 @@ export class PersonalizadoCvComponent implements OnInit {
       console.log(bloque)
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if(bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable && 
-        bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
+        bloqueOriginal.visible_cv_bloqueCompleto == bloque.visible_cv_bloqueCompleto) return
         // console.log("guardado", bloque)
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService.putBloque(bloque).subscribe((res) => {
@@ -320,7 +322,7 @@ export class PersonalizadoCvComponent implements OnInit {
             cedula: atributo.id,
             nombreBloque: bloque.nombre,
             ordenPersonalizable: bloque.ordenPersonalizable,
-            visible_cv_bloque: bloque.visible_cv_bloque
+            visible_cv_bloque: bloque.visible_cv_bloqueCompleto
           }
           this.miDataInterior.push(data);
         } 

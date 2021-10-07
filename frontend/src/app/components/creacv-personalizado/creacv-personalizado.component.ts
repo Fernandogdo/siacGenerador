@@ -74,7 +74,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
               id,
               bloque,
               atributo,
-              orden,
+              ordenCompleto,
               mapeo,
               visible_cv_completo,
               visible_cv_resumido,
@@ -84,7 +84,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
               id,
               bloque,
               atributo,
-              orden,
+              ordenCompleto,
               mapeo,
               visible_cv_completo,
               visible_cv_resumido,
@@ -95,7 +95,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
         this.configuracioncvService.configuraciones = filteredCategories;
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenados = _.orderBy(this.arregloBloques, ["orden", "atributo"],["asc", "asc"]);
+        this.atributosOrdenados = _.orderBy(this.arregloBloques, ["ordenCompleto", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenados;
 
         this.dataSource = new MatTableDataSource(this.arregloBloques);

@@ -30,7 +30,8 @@ export class ConfiguracioncvService {
     administrador: 1,
     bloque: "",
     atributo: "",
-    orden: 0,
+    ordenCompleto: 1,
+    ordenResumido: 2,
     mapeo: "",
     visible_cv_completo: true,
     visible_cv_resumido: true,
@@ -211,6 +212,10 @@ export class ConfiguracioncvService {
       path,
       configuracionPersonalizada
     );
+  }
+
+  deleteConfiguracionPersonalizada(id){
+    return this.http.delete(this.URL_PERS + id)
   }
 
   putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado) {

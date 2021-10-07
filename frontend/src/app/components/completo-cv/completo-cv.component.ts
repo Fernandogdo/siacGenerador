@@ -22,13 +22,13 @@ export class CompletoCvComponent implements OnInit {
   arregloBloques: Bloque[]= [];
   bloquesOriginal;
  
-  displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenCompleto', 'ingreso'];
+  displayedColumns: string[] = ['visible_cv_bloqueCompleto', 'nombre', 'ordenCompleto', 'ingreso'];
   dataSource;
   // selection = new SelectionModel<Bloque>(true, []);
   // filterValues: any = {};
   nombre: boolean;
-  visible_cv_bloque: boolean;
-  novisible_cv_bloque: boolean;
+  visible_cv_bloqueCompleto: boolean;
+  novisible_cv_bloqueCompleto: boolean;
   claves: any = [];
   esquemas: any = [];
   atributos_articulos: any = [];
@@ -103,7 +103,7 @@ export class CompletoCvComponent implements OnInit {
       this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
-        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', false ]);
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', false ]);
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
@@ -123,8 +123,8 @@ export class CompletoCvComponent implements OnInit {
     // if (event.checked) {
       this.configuracioncvService.getBloques()
       .subscribe(res => {
-        this.arregloBloques = res
-        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', true ]);
+        this.arregloBloques = res;
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', true ]);
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
@@ -147,12 +147,12 @@ export class CompletoCvComponent implements OnInit {
 
     this.arregloBloques = this.arregloBloques.map((d) => {
       if (d.id == id) {
-        d.visible_cv_bloque = isChecked;
+        d.visible_cv_bloqueCompleto = isChecked;
         this.parentSelector = false;
         return d;
       }
       if (id == -1) {
-        d.visible_cv_bloque = this.parentSelector;
+        d.visible_cv_bloqueCompleto = this.parentSelector;
         return d;
       }
       return d;
@@ -169,7 +169,7 @@ export class CompletoCvComponent implements OnInit {
       // no es necesario guardarlo
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if(bloqueOriginal.ordenCompleto == bloque.ordenCompleto && 
-        bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
+        bloqueOriginal.visible_cv_bloqueCompleto == bloque.visible_cv_bloqueCompleto) return
         console.log("guardado", bloque)
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService.putBloque(bloque).subscribe((res) => {

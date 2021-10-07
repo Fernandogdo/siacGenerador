@@ -6,7 +6,8 @@ export class Bloque {
         public ordenCompleto: number,
         public ordenResumido: number,
         public ordenPersonalizable : number,
-        public visible_cv_bloque: Boolean,
+        public visible_cv_bloqueCompleto: Boolean,
+        public visible_cv_bloqueResumido: Boolean,
         public id?: number,
 
     ) {

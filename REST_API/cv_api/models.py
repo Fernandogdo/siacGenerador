@@ -16,7 +16,8 @@ class ConfiguracionCv(models.Model):
         Administrador, related_name='Administrador', on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
-    orden = models.IntegerField()
+    ordenCompleto = models.IntegerField(default=1)
+    ordenResumido = models.IntegerField(default=1)
     visible_cv_resumido = models.BooleanField(default=True)
     visible_cv_completo = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150, null=True, blank=True)
@@ -49,14 +50,15 @@ class ConfiguracionCv_Personalizado(models.Model):
     bloque = models.CharField(max_length=150)
     atributo = models.CharField(max_length=100)
     orden = models.IntegerField(default=1)
+    # ordenResumido = models.IntegerField(default=1)
     visible_cv_personalizado = models.BooleanField(default=True)
     mapeo = models.CharField(max_length=150)
     cv = models.CharField(max_length=20)
     nombre_cv = models.CharField(max_length=100, default="personalizado_cv")
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    cedula = models.TextField(max_length=10)
+    cedula = models.TextField(max_length=11)
     nombreBloque = models.CharField(max_length=20, default="Articulos")
-    ordenPersonalizable = models.CharField(max_length=20, default=1)
+    ordenPersonalizable = models.IntegerField(default=1)
     visible_cv_bloque = models.BooleanField(default=True)
     class Meta:
         unique_together = ["bloque", "atributo", "nombre_cv", "cedula"] 
@@ -69,8 +71,8 @@ class Bloque(models.Model):
     ordenCompleto = models.IntegerField(default=1 )
     ordenResumido = models.IntegerField(default=0)
     ordenPersonalizable = models.IntegerField(default=0)
-    visible_cv_bloque = models.BooleanField(default=True)
-
+    visible_cv_bloqueCompleto = models.BooleanField(default=True)
+    visible_cv_bloqueResumido = models.BooleanField(default=True)
     class Meta:
         db_table = 'bloque'
 
