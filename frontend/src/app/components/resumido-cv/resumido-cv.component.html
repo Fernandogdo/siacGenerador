@@ -1,4 +1,4 @@
-<div class="main-content">
+<!-- <div class="main-content">
     <div class="container-fluid">
         <div class="row">
 
@@ -6,7 +6,6 @@
                 <div class="col text-center">
                     <button class="botones" id="btnInformacion" mat-button (click)="openDialog()">Información</button>
                 </div>
-
                 <mat-card class="tarjeta">
                     <mat-card-header>
                         <h3> <b>Configuración de Bloques Resumidos</b> </h3>
@@ -45,7 +44,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <div class="main-content">
@@ -53,18 +52,29 @@
         <div class="row">
             <div class="col-md-12" >
                 <!-- Inicio MatCard -->
+                <div class="col text-center">
+                    <button class="botones" id="btnInformacion" mat-button (click)="openDialog()">Información</button>
+                </div>
+
                 <mat-card class="tarjeta">
-                    <!-- Filtro Por Todo, Visible, NoVisible -->
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1" color="primary" (click)="getBloques()">Todo</mat-radio-button> <br>
-                    </mat-radio-group>
-                
-                <br>
+
+                    <mat-card-header>
+                        <h3> <b>Configuración de CV:</b> Bloques Resumidos </h3>
+                    </mat-card-header>
+                    <mat-card class="tarjeta_filtros">
+                        <mat-radio-group aria-label="Select an option" >
+                            <mat-radio-button value="1" color="primary" (click)="getBloques()"> Todo </mat-radio-button> <br>
+                            <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+                            <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+                        </mat-radio-group>
+                    </mat-card>            
+                <!-- <br> -->
 
                     <!-- Filtro Por Nombre -->
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                            <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
                             <button mat-icon-button matSuffix 
                             aria-label="clear" 
                             *ngIf="filter.value" 

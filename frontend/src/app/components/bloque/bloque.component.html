@@ -90,13 +90,10 @@
                         <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
                     </mat-radio-group>
                 
-                     <!-- <mat-checkbox (change)="metodo($event)"> asasd</mat-checkbox> -->
-                
-                <br>
-                <!-- <mat-checkbox [(ngModel)]="firstName" (change)="applyFilter('name', firstName ? 'amelia': '')">Show all first name - Amelia</mat-checkbox> -->
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                            <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. titulo" #filter>
                             <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
                         <mat-icon>close</mat-icon>
                       </button>

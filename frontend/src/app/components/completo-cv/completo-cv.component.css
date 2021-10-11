@@ -34,6 +34,17 @@
     background-color: #E0DED8;
     color: #003F72;
 }
+.tarjeta_filtros {
+    background-color: #F9F9F9;
+    color: #003F72;
+}
+
+/* .filtro{
+    background-color: #B2AFAF;
+} */
+.rd-btn{
+    color: #003F72;
+}
 
 .tituloTabla{
     color: #003F72;

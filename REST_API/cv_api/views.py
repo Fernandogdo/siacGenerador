@@ -101,9 +101,14 @@ def getdata(self):
     return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
 
 
+
+# Esta debe sacar la informaion
+
+# def InfoCompleta(request, id):
+
+
+
 '''GENERA PDF COMPLETO'''
-
-
 def PdfCompleto(request, id):
 
     model_dict = models.ConfiguracionCv.objects.all().values()
@@ -166,10 +171,10 @@ def PdfCompleto(request, id):
     '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
     ordenadosBloques = sorted(
         model_bloques, key=lambda orden: orden['ordenCompleto'])
-    bloqueOrdenApi = [{b['nombre']: b['ordenCompleto']}
+    bloqueOrdenApi = [{b['nombre']: b['visible_cv_bloqueCompleto']}
                       for b in ordenadosBloques]
 
-    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [False]]
 
 
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
@@ -178,9 +183,9 @@ def PdfCompleto(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
                     for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -195,16 +200,13 @@ def PdfCompleto(request, id):
     bloquesInformacion['Articulos'] = listaArticulosDocente
     bloquesInformacion['Proyectos'] = proyectos
     bloquesInformacion['Capacitacion'] = Capacitacion
-    # bloquesInformacion['ProyectosParticipantes']=ProyectosParticipantes
-    # bloquesInformacion['ArticulosAutores']=ArticulosAutores
     bloquesInformacion['Libros'] = listaLibrosDocente
-    # bloquesInformacion['LibrosAutores']=LibrosAutores
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
             "visible_cv_completo") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -256,6 +258,8 @@ def PdfCompleto(request, id):
         listaFinal.append(listaResultados)
         listaResultados = []
         tituloBloque = {}
+
+    # print(listaFinal)
 
     '''Generacion de PDF'''
     logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
@@ -343,9 +347,9 @@ def PdfResumido(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenResumido': d['ordenResumido']}
                     for d in model_dict if d.get("visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenResumido'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -364,9 +368,9 @@ def PdfResumido(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenResumido': d['ordenResumido']} for d in model_dict if d.get(
             "visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenResumido'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -429,9 +433,6 @@ def PdfResumido(request, id):
     response['Content-Disposition'] = 'inline; filename="cv_resumido.pdf"'
 
     return response
-
-
-
 
 
 
@@ -662,10 +663,10 @@ def DocCompleto(request, id):
     '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
     ordenadosBloques = sorted(
         model_bloques, key=lambda orden: orden['ordenCompleto'])
-    bloqueOrdenApi = [{b['nombre']: b['ordenCompleto']}
+    bloqueOrdenApi = [{b['nombre']: b['visible_cv_bloqueCompleto']}
                       for b in ordenadosBloques]
 
-    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [False]]
 
     listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
@@ -673,9 +674,9 @@ def DocCompleto(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
                     for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -694,9 +695,9 @@ def DocCompleto(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
             "visible_cv_completo") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -826,9 +827,9 @@ def DocResumido(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenResumido': d['ordenResumido']}
                     for d in model_dict if d.get("visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenResumido'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -847,9 +848,9 @@ def DocResumido(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenResumido': d['ordenResumido']} for d in model_dict if d.get(
             "visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenResumido'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -988,9 +989,9 @@ def JsonCompleto(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
                     for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -1009,9 +1010,9 @@ def JsonCompleto(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
             "visible_cv_completo") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -1141,9 +1142,9 @@ def JsonResumido(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenResumido': d['ordenResumido']}
                     for d in model_dict if d.get("visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenResumido'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -1162,9 +1163,9 @@ def JsonResumido(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'orden': d['ordenResumido']} for d in model_dict if d.get(
             "visible_cv_resumido") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenResumido'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]
@@ -1404,9 +1405,9 @@ def InformacionCsv(request, id):
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
     for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'orden': d['orden']}
+        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
                     for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
@@ -1425,9 +1426,9 @@ def InformacionCsv(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
             "visible_cv_completo") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
 
         listamapeoisibles = [[valor for clave, valor in i.items(
         ) if clave == 'mapeo'] for i in ordenadosMapeo]

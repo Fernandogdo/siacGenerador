@@ -75,6 +75,39 @@ export class ResumidoCvComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  FiltroNoVisibles() {
+    //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
+    // if (event.checked) {
+      console.log('asdsa')
+      this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.arregloBloques = res
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', false ]);
+        // this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
+        this.arregloBloques = atributosOrdenados;
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.bloquesOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      });
+  }
+
+  FiltroVisibles() {
+    //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
+    // console.log(event.checked)
+    // if (event.checked) {
+      this.configuracioncvService.getBloques()
+      .subscribe(res => {
+        this.arregloBloques = res;
+        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', true ]);
+        this.arregloBloques = atributosOrdenados
+        this.dataSource = new MatTableDataSource(this.arregloBloques);
+        this.bloquesOriginal = JSON.parse(
+          JSON.stringify(this.arregloBloques)
+        );
+      });
+  }
+
   valor(id){
     this.id = id
     console.log('id', this.id)
@@ -115,8 +148,8 @@ export class ResumidoCvComponent implements OnInit {
           console.log("editado", res);
           this.getBloques();
         });
-        this._snackBar.open("Se guardó correctamente", "Cerrar", {
-          duration: 2000,
+        this._snackBar.open("Se guardó configuración CV resumido", "Cerrar", {
+          duration: 3000,
         });
     });
   }

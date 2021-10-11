@@ -58,27 +58,30 @@
                 <div class="col-md-12" >
 
                     <mat-card class="tarjeta">
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="1" color="primary" (click)="getBloques()">Todo</mat-radio-button> <br>
-                            <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
-                            <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-                        </mat-radio-group>
+                        <mat-card-header>
+                            <h3> <b>Configuración de CV:</b> Bloques Completos </h3>
+                        </mat-card-header>
+                        <mat-card class="tarjeta_filtros">
+                            <mat-radio-group aria-label="Select an option" >
+                                <mat-radio-button value="1" color="primary" (click)="getBloques()"> Todo </mat-radio-button> <br>
+                                <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+                                <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+                            </mat-radio-group>
+                        </mat-card>
+                    <!-- <br> -->
                     
-                         <!-- <mat-checkbox (change)="metodo($event)"> asasd</mat-checkbox> -->
-                    
-                    <br>
-                    <!-- <mat-checkbox [(ngModel)]="firstName" (change)="applyFilter('name', firstName ? 'amelia': '')">Show all first name - Amelia</mat-checkbox> -->
                         <div class="example-header">
                             <mat-form-field>
-                                <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                                <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Proyectos" #filter>
                                 <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
-                            <mat-icon>close</mat-icon>
-                          </button>
+                                    <mat-icon>close</mat-icon>
+                                </button>
                             </mat-form-field>
                         </div>
                     
                         <mat-table id="tabla" #table [dataSource]="dataSource">
-
+                           
 
 
                             <ng-container matColumnDef="visible_cv_bloqueCompleto">

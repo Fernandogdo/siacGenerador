@@ -146,7 +146,11 @@ export class BloqueComponent implements OnInit {
 
         this.configuracioncvService.configuraciones = filteredCategories;
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenCompletoados = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
+       
+        let filtro = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
+        // this.atributosOrdenCompletoados = filtro
+        console.log("ARREGLOBLOQUESNOVISIBLES", filtro)
+        this.atributosOrdenCompletoados = _.orderBy(filtro, ["ordenCompleto", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenCompletoados;
 
         this.dataSource = new MatTableDataSource(this.arregloBloques);
@@ -217,9 +221,11 @@ export class BloqueComponent implements OnInit {
 
         this.configuracioncvService.configuraciones = filteredCategories;
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenCompletoados = _.filter(this.arregloBloques,['visible_cv_completo', true ]);
-        this.arregloBloques = this.atributosOrdenCompletoados;
 
+        let filtro = _.filter(this.arregloBloques,['visible_cv_completo', true ]);
+        console.log("ARREGLOBLOQUEVISIBLES", filtro)
+        this.atributosOrdenCompletoados = _.orderBy(filtro, ["ordenCompleto", "atributo"],["asc", "asc"]);
+        this.arregloBloques = this.atributosOrdenCompletoados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 

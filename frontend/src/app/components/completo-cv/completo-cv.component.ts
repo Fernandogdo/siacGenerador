@@ -62,7 +62,7 @@ export class CompletoCvComponent implements OnInit {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
-        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenCompleto', ], ['asc']);
+        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenCompleto'], ['asc']);
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         // this.selection = new SelectionModel<Bloque>(true, []);
@@ -104,16 +104,13 @@ export class CompletoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', false ]);
+        // this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
       });
-    // } 
-    // else {
-    //   this.getBloques()
-    // }
   }
 
 
@@ -125,15 +122,13 @@ export class CompletoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res;
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', true ]);
-        this.arregloBloques = atributosOrdenados;
+        this.arregloBloques = atributosOrdenados
+
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
       });
-    // } else {
-    //   this.getBloques()
-    // }
   }
 
   valor(id){

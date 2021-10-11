@@ -108,9 +108,16 @@ export class BloqueResumidoComponent implements OnInit {
           }
         });
 
+
+        // let filtro = _.filter(this.arregloBloques,['visible_cv_completo', true ]);
+        // this.atributosOrdenCompletoados = _.orderBy(filtro, ["ordenCompleto", "atributo"],["asc", "asc"]);
+        // this.arregloBloques = this.atributosOrdenCompletoados;
+
         this.configuracioncvService.configuraciones = filteredCategories;
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_resumido', false ]);
+        let filtro = _.filter(this.arregloBloques,['visible_cv_resumido', false ]);
+        console.log("ARREGLOBLOQUEVISIBLES", filtro)
+        this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
         this.arregloBloques = this.atributosOrdenados;
 
         this.dataSource = new MatTableDataSource(this.arregloBloques);
@@ -181,9 +188,10 @@ export class BloqueResumidoComponent implements OnInit {
 
         this.configuracioncvService.configuraciones = filteredCategories;
         this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
-        this.atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_resumido', true ]);
+        let filtro= _.filter(this.arregloBloques,['visible_cv_resumido', true ]);
+        console.log("ARREGLOBLOQUEVISIBLES", filtro)
+        this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
         this.arregloBloques = this.atributosOrdenados;
-
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
