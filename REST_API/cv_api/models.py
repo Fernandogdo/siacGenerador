@@ -52,7 +52,7 @@ class ConfiguracionCv_Personalizado(models.Model):
     orden = models.IntegerField(default=1)
     # ordenResumido = models.IntegerField(default=1)
     visible_cv_personalizado = models.BooleanField(default=True)
-    mapeo = models.CharField(max_length=150)
+    mapeo = models.CharField(max_length=150, blank=True)
     cv = models.CharField(max_length=20)
     nombre_cv = models.CharField(max_length=100, default="personalizado_cv")
     fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)

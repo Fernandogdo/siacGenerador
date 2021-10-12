@@ -1,3 +1,4 @@
+from django.http import response
 from django.http.response import JsonResponse
 from django.shortcuts import render
 import docx
@@ -101,12 +102,7 @@ def getdata(self):
     return models.ConfiguracionCv_Personalizado.objects.filter(id_user=id_user)
 
 
-
-# Esta debe sacar la informaion
-
-# def InfoCompleta(request, id):
-
-
+# -------------------------------------------------------GENERACION DE DOCUMENTOS PDF----------------------------------------------
 
 '''GENERA PDF COMPLETO'''
 def PdfCompleto(request, id):
@@ -436,16 +432,22 @@ def PdfResumido(request, id):
 
 
 
-'''GENERA PDF PERSONALIZADO'''
-def PdfPersonalizado(request, id):
 
-    nombre_cv = 'data'
+'''GENERA PDF PERSONALIZADO'''
+def PdfPersonalizado(request, id, nombre_cv):
+
+    # nombre_cv = 'data'
     model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
     # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
-    dataPersonalizada = model_dict.filter(
-        id_user=4).filter(nombre_cv=nombre_cv)
+    dataFilterId = model_dict.filter(id_user=id)
 
-    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', model_dict)
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
+
+    # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+
     model_bloques = models.Bloque.objects.all().values()
 
     r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
@@ -500,15 +502,49 @@ def PdfPersonalizado(request, id):
     GradoAcademico = []
 
     '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
-    ordenadosBloques = sorted(
-        model_bloques, key=lambda orden: orden['ordenPersonalizable'])
-    bloqueOrdenApi = [{b['nombre']: b['ordenPersonalizable']}
-                      for b in ordenadosBloques]
+    ordenadosBloquesAPi = sorted(
+        dataPersonalizada, key=lambda orden: orden['ordenPersonalizable'])
+    print("ORDENADOSBLOQUESORIGINAL--------------->>>>>>>>>>>", ordenadosBloquesAPi)
 
-    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [0]]
+    bloqueOrdenApi = [{b['nombreBloque']: b['visible_cv_bloque']}
+                      for b in ordenadosBloquesAPi]
 
-    listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
+    print("ORDENADOSBLOQUESORIGINALORDENAPI------->>>>>>>>>>>", bloqueOrdenApi)
+
+    
+
+    # ordenadosBloquesApi = sorted(bloqueOrdenApi, key=lambda orden: orden["ordenPersonalizable"])
+    # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
+
+    seen = set()
+    bloquesOrdenados = []
+    for d in bloqueOrdenApi:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            bloquesOrdenados.append(d)
+
+    print("ENORDENCREO--->>", bloquesOrdenados)
+
+    # ordenadosBloques = [dict(t) for t in {tuple(d.items()) for d in bloqueOrdenApi}]
+    # print("ORDENADOSBLOQUES------->>>>>>>>>>>", ordenadosBloques)
+
+    ordenadosBloques = [bloqueOrden for bloqueOrden in bloquesOrdenados if list(bloqueOrden.values()) != [False]]
+    print("bloqueOrdenApi------->>>>>>>>>>>", bloqueOrdenApi)
+    
+
+    # ordenadosBloquesApi = sorted(ordenadosBloques, key=lambda orden: orden["ordenPersonalizable"])
+    # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
+
+
+
+    # bloqueOrdenApi = [bloqueOrden for bloqueOrden in ordenados if list(bloqueOrden.values()) != [False]]
+    # print("bloqueOrdenApi------->>>>>>>>>>>", bloqueOrdenApi)
+
+
+    listaBloques = [[x for x, v in i.items()] for i in ordenadosBloques]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
+    print("listaBloquesOrdenados------------_______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", listaBloquesOrdenados)
 
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
@@ -519,6 +555,7 @@ def PdfPersonalizado(request, id):
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
+        print('listaatrvisibles', listaVisiblesAtr, '\n')  
 
         diccionario[i] = listaVisiblesAtr
 
@@ -601,6 +638,8 @@ def PdfPersonalizado(request, id):
 
 
 
+
+# -------------------------------------------------------GENERACION DE DOCUMENTOS WORD----------------------------------------------
 
 
 '''GENERACION DE DOCUMENTOS WORD'''

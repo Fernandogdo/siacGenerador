@@ -29,6 +29,7 @@ urlpatterns = [
   path('informacion_txt_articulos/<int:id>', views.InformacionTxtArticulos),
   path('informacion_txt_libros/<int:id>', views.InformacionTxtLibros),
   path('informacion_csv/<int:id>', views.InformacionCsv),
+  path('pdf-personalizado/<int:id>/<slug:nombre_cv>', views.PdfPersonalizado),
   re_path('^datausuario/(?P<id_user>.+)/$', views.getdata),
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]

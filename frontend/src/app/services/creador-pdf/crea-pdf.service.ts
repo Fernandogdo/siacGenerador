@@ -8,8 +8,8 @@ import { Injectable } from "@angular/core";
 })
 export class PdfService {
   URL_PDF_COMPLETO = "http://127.0.0.1:8000/api/pdf-completo/";
-  URL_PDF_RESUMIDO = "http://127.0.0.1:8000/api/pdf-resumido/";
-  URL_PDF_PERSONALIZADO = "http://127.0.0.1:8000/api/pdf-personalizado/";
+  URL_PDF_RESUMIDO = "http://127.0.0.1:8000/api/pdf-resumido/"; 
+  URL_PDF_PERSONALIZADO = "http://127.0.0.1:8000/api/pdf-personalizado/";  
 
   constructor(private http: HttpClient) {}
 
@@ -28,10 +28,12 @@ export class PdfService {
     return this.http.get(this.URL_PDF_RESUMIDO + id_user, httpOptions);
   }
 
-  generaPdfPersonalizado(id_user) {
+  generaPdfPersonalizado(id_user, nombre_cv) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_PDF_PERSONALIZADO + id_user, httpOptions);
+    return this.http.get(this.URL_PDF_PERSONALIZADO + id_user + "/" + nombre_cv,  httpOptions);
   }
 }
+
+

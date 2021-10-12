@@ -86,31 +86,31 @@ export class PersonalizadoCvComponent implements OnInit {
   }
 
   //Agregar 
-  agregar(visible: string, idSeleccionado, bloque: string, atributo: string, mapeo: string) {
-    console.log(this.form.value.nombrecv)
-    let iduser =  localStorage.getItem("id_user");
-    let hash = Math.random().toString(36).substring(2);
-    const data = {
-      configuracionId: idSeleccionado,
-      id_user: iduser,
-      bloque: bloque,
-      atributo: atributo,
-      orden: 1,
-      visible_cv_personalizado: visible,
-      mapeo: mapeo,
-      cv: hash,
-      nombre_cv: this.form.value.nombrecv,
-      cedula: "123"
-    }
+  // agregar(visible: string, idSeleccionado, bloque: string, atributo: string, mapeo: string) {
+  //   console.log(this.form.value.nombrecv)
+  //   let iduser =  localStorage.getItem("id_user");
+  //   let hash = Math.random().toString(36).substring(2);
+  //   const data = {
+  //     configuracionId: idSeleccionado,
+  //     id_user: iduser,
+  //     bloque: bloque,
+  //     atributo: atributo,
+  //     orden: 1,
+  //     visible_cv_personalizado: visible,
+  //     mapeo: mapeo,
+  //     cv: hash,
+  //     nombre_cv: this.form.value.nombrecv,
+  //     cedula: "123"
+  //   }
 
-    let conf = this.miDataInterior.push(data);
-    console.log(conf);
-  }
+  //   let conf = this.miDataInterior.push(data);
+  //   console.log(conf);
+  // }
 
-  quitar(atributo) {
-    this.miDataInterior.splice(this.miDataInterior.indexOf(atributo), 1);
-    console.log(this.miDataInterior)
-  }
+  // quitar(atributo) {
+  //   this.miDataInterior.splice(this.miDataInterior.indexOf(atributo), 1);
+  //   console.log(this.miDataInterior)
+  // }
 
   PostConfiguracionPersonalizada() {
     console.log(this.miDataInterior);
@@ -297,13 +297,15 @@ export class PersonalizadoCvComponent implements OnInit {
     // iterar cada uno de los bloques
     let iduser =  localStorage.getItem("id_user");
     
+    let hash = Math.random().toString(36).substring(2);
+      console.log("🚀 ~ file: personalizado-cv.component.ts ~ line 306 ~ PersonalizadoCvComponent ~ this.arregloAtributos.forEach ~ hash", hash)
+
     this.arregloAtributos.forEach((atributo) => {
       // para eficiencia se puede comprobar si el registro actual (bloque)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       // console.log("atributo", atributo)
-      let hash = Math.random().toString(36).substring(2);
-
+      
       this.arregloBloques.forEach((bloque)=> {
 
         if (atributo.bloque === bloque.nombre) {

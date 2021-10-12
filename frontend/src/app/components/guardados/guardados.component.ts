@@ -17,6 +17,7 @@ import { ArticulosService } from 'app/services/articulos.service';
 import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
 import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
 import { AuthorizationService } from 'app/services/login/authorization.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-guardados',
@@ -49,7 +50,8 @@ export class GuardadosComponent implements OnInit {
     public creacvService: CreaCsvService,
     public creatxtService: CreaTxtService,
     private activatedRoute: ActivatedRoute,
-    public authorizationService: AuthorizationService
+    public authorizationService: AuthorizationService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   
@@ -131,7 +133,15 @@ export class GuardadosComponent implements OnInit {
 
     datos.forEach((element) => {
       console.log(element.id)
-      this.configuracioncvService.deleteConfiguracionPersonalizada(element.id);
+      this.configuracioncvService.deleteConfiguracionPersonalizada(element.id).subscribe((res)=>{
+      console.log("🚀 ~ file: guardados.component.ts ~ line 135 ~ GuardadosComponent ~ this.configuracioncvService.deleteConfiguracionPersonalizada ~ res", res)
+      
+      });
+
+      this._snackBar.open("Se elimino " + nombreCv, "Cerrar", {
+        duration: 2000,
+      });
+      
       this.getConfigurcionPersonalizadaDocente();
     });
 
@@ -179,7 +189,7 @@ export class GuardadosComponent implements OnInit {
   }
 
   generaPdfPersonalizado(){
-    this.pdfService.generaPdfPersonalizado(this.idUser).subscribe((data) => {
+    this.pdfService.generaPdfPersonalizado(this.idUser, "nuevo").subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
