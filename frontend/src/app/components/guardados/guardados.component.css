@@ -26,6 +26,7 @@
 .btnPersonalizado{
     margin: 15px;
     background-color: #003F72;
+    color: white;
 }
 
 .btnEditar{
@@ -48,6 +49,7 @@
 #btn-csv{
     color: #66AB46;
 }
+
 #tarjeta_cv {
     background-color: #EAAB00;
 }

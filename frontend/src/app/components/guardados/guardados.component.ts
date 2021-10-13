@@ -26,6 +26,12 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class GuardadosComponent implements OnInit {
 
+  color = 'primary';
+  mode = 'indeterminate';
+  valor = false;
+  // value = 50;
+  // bufferValue = 75;
+
   arreglo = [];
   confPersoDocente;
   confPersoDocenteClas = [];
@@ -65,10 +71,20 @@ export class GuardadosComponent implements OnInit {
 
     this.getConfiguracionPersonalizada()
     this.getConfigurcionPersonalizadaDocente()
-    this.getLibros();
+    // this.getLibros();
     this.configuracioncvService.getJSON().subscribe(res=>{
       console.log(res)
     })
+  }
+
+  barButtonOptions: any = {
+    active: false,
+    text: 'Progress Bar Button',
+    buttonColor: 'accent',
+    barColor: 'primary',
+    raised: true,
+    mode: 'indeterminate',
+    value: 0
   }
 
   options = {
@@ -144,15 +160,6 @@ export class GuardadosComponent implements OnInit {
       
       this.getConfigurcionPersonalizadaDocente();
     });
-
-   
-
-    // console.log(datos)
-
-
-  
-    // this.configuracioncvService.deleteConfiguracionPersonalizada()
-    // this.arreglo.forEach(())
   }
 
 
@@ -188,14 +195,20 @@ export class GuardadosComponent implements OnInit {
     })
   }
 
-  generaPdfPersonalizado(){
-    this.pdfService.generaPdfPersonalizado(this.idUser, "nuevo").subscribe((data) => {
+  generaPdfPersonalizado(nombre_cv){
+    console.log("NOMBRECV", nombre_cv, this.idUser, this.valor)
+    this.valor = true;
+    this.pdfService.generaPdfPersonalizado(this.idUser, nombre_cv).subscribe((data) => {
+      // this.valor = true;
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      window.open(downloadURL)
-    })
+      console.log(downloadURL);
+      window.open(downloadURL);
+      this.valor = false;
+    });
+    // console.log("VALORSPINNER", this.valor)
   }
+
 
   generaDocCompleto(){
     this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
@@ -217,6 +230,19 @@ export class GuardadosComponent implements OnInit {
       var link = document.createElement('a');
       link.href = downloadURL;
       link.download = "doc_resumido.docx";
+      link.click();
+    });
+  }
+
+  generaDocPersonalizado(nombre_cv){
+    console.log("DOCPERSO", nombre_cv);
+    this.creaDocxService.generaDocPersonalizado(this.idUser, nombre_cv).subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "doc_personalizado.docx";
       link.click();
     });
   }
@@ -246,6 +272,19 @@ export class GuardadosComponent implements OnInit {
     }) 
   }
 
+  generaJsonPersonalizado(nombre_cv){
+    this.creaJsonService.generaJsonPersonalizado(this.idUser, nombre_cv).subscribe((data) =>{
+      console.log(data);
+      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "cv_personalizado.json";
+      link.click();
+    });
+  }
+
 
   generaCvInformacion(){
     this.creacvService.generaCsv(this.idUser).subscribe((data) =>{
@@ -259,6 +298,7 @@ export class GuardadosComponent implements OnInit {
     });
   }
 
+
   generaTxtInformacion(){  
     this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
@@ -271,6 +311,7 @@ export class GuardadosComponent implements OnInit {
     });
   }
 
+
   generaTxtArticulos(){
     this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
@@ -282,6 +323,7 @@ export class GuardadosComponent implements OnInit {
       link.click();
     })
   }
+
 
   generaTxtLibros(){
     this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
@@ -296,32 +338,33 @@ export class GuardadosComponent implements OnInit {
   }
  
 
-  getLibros(){
-    this.librosService.getDocente(this.idUser).subscribe(res =>{
-      console.log('INFODOCENTE', res)
-      this.dataDocente = res['related'];
-      this.getArticulos(this.dataDocente)
-    });
-  }
+  // getLibros(){
+  //   this.librosService.getDocente(this.idUser).subscribe(res =>{
+  //     console.log('INFODOCENTE', res)
+  //     this.dataDocente = res['related'];
+  //     this.getArticulos(this.dataDocente)
+  //   });
+  // }
+  
 
-  getArticulos(dataDocente){
-    let claves = Object.values(dataDocente['articulos']);
-    for(let i=0; i< claves.length; i++){
-      const acceso = claves[i]
-      let keys_atributos_todos = Object.values(acceso);
+  // getArticulos(dataDocente){
+  //   let claves = Object.values(dataDocente['articulos']);
+  //   for(let i=0; i< claves.length; i++){
+  //     const acceso = claves[i]
+  //     let keys_atributos_todos = Object.values(acceso);
 
-      for (let index = 0; index < keys_atributos_todos.length; index++) {
-        const element = keys_atributos_todos[index];
-        console.log(element)
+  //     for (let index = 0; index < keys_atributos_todos.length; index++) {
+  //       const element = keys_atributos_todos[index];
+  //       console.log(element)
         
-        this.articulosService.getArticulos(element).subscribe(res =>{
-          console.log(res)
-          this.arregloArticulos.push(Object(res))
-          console.log(this.arregloArticulos)
+  //       this.articulosService.getArticulos(element).subscribe(res =>{
+  //         console.log(res)
+  //         this.arregloArticulos.push(Object(res))
+  //         console.log(this.arregloArticulos)
 
-        });
-      }
-    }
-  }
+  //       });
+  //     }
+  //   }
+  // }
 
 }

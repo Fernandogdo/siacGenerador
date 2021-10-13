@@ -54,3 +54,13 @@
     margin-top: 20px;
     background-color: #003F72;
 }
+
+
+#alerta{
+    color: black;
+}
+
+
+.blue-snackbar {
+    background: #2196F3 !important;
+  }

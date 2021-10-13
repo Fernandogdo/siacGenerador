@@ -446,9 +446,9 @@ def PdfPersonalizado(request, id, nombre_cv):
     dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
 
     # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
-    print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
 
-    model_bloques = models.Bloque.objects.all().values()
+    # model_bloques = models.Bloque.objects.all().values()
 
     r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
@@ -504,15 +504,12 @@ def PdfPersonalizado(request, id, nombre_cv):
     '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
     ordenadosBloquesAPi = sorted(
         dataPersonalizada, key=lambda orden: orden['ordenPersonalizable'])
-    print("ORDENADOSBLOQUESORIGINAL--------------->>>>>>>>>>>", ordenadosBloquesAPi)
+    # print("ORDENADOSBLOQUESORIGINAL--------------->>>>>>>>>>>", ordenadosBloquesAPi)
 
     bloqueOrdenApi = [{b['nombreBloque']: b['visible_cv_bloque']}
                       for b in ordenadosBloquesAPi]
 
-    print("ORDENADOSBLOQUESORIGINALORDENAPI------->>>>>>>>>>>", bloqueOrdenApi)
-
-    
-
+    # print("ORDENADOSBLOQUESORIGINALORDENAPI------->>>>>>>>>>>", bloqueOrdenApi)
     # ordenadosBloquesApi = sorted(bloqueOrdenApi, key=lambda orden: orden["ordenPersonalizable"])
     # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
 
@@ -524,27 +521,13 @@ def PdfPersonalizado(request, id, nombre_cv):
             seen.add(t)
             bloquesOrdenados.append(d)
 
-    print("ENORDENCREO--->>", bloquesOrdenados)
-
-    # ordenadosBloques = [dict(t) for t in {tuple(d.items()) for d in bloqueOrdenApi}]
-    # print("ORDENADOSBLOQUES------->>>>>>>>>>>", ordenadosBloques)
 
     ordenadosBloques = [bloqueOrden for bloqueOrden in bloquesOrdenados if list(bloqueOrden.values()) != [False]]
-    print("bloqueOrdenApi------->>>>>>>>>>>", bloqueOrdenApi)
-    
-
-    # ordenadosBloquesApi = sorted(ordenadosBloques, key=lambda orden: orden["ordenPersonalizable"])
-    # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
-
-
-
-    # bloqueOrdenApi = [bloqueOrden for bloqueOrden in ordenados if list(bloqueOrden.values()) != [False]]
-    # print("bloqueOrdenApi------->>>>>>>>>>>", bloqueOrdenApi)
-
+    # print("ordenadosBloques------->>>>>>>>>>>", ordenadosBloques)
 
     listaBloques = [[x for x, v in i.items()] for i in ordenadosBloques]
     listaBloquesOrdenados = [y for x in listaBloques for y in x]
-    print("listaBloquesOrdenados------------_______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", listaBloquesOrdenados)
+    # print("listaBloquesOrdenados------------_______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", listaBloquesOrdenados)
 
     '''SACA VISIBLES SI SON TRUE'''
     diccionario = dict()
@@ -555,7 +538,7 @@ def PdfPersonalizado(request, id, nombre_cv):
         listaatrvisibles = [[valor for clave, valor in i.items(
         ) if clave == 'nombre'] for i in ordenadosAtributos]
         listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
-        print('listaatrvisibles', listaVisiblesAtr, '\n')  
+        # print('listaatrvisibles', listaVisiblesAtr, '\n')  
 
         diccionario[i] = listaVisiblesAtr
 
@@ -954,9 +937,189 @@ def DocResumido(request, id):
     return response
 
 
+def DocPersonalizado(request, id, nombre_cv):
+
+    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
+    # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
+    dataFilterId = model_dict.filter(id_user=id)
+
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
+
+    # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+
+    # model_bloques = models.Bloque.objects.all().values()
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidArticulos = []
+    for infobloque in docente['related']['articulos']:
+        listaidArticulos.append(infobloque)
+
+    idsArticulos = [fila['id'] for fila in listaidArticulos]
+
+    '''Saca id Libros '''
+    listaidLibros = []
+    for infoLibros in docente['related']['libros']:
+        listaidLibros.append(infoLibros)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+    ''' Saca articulos de docentes por ID'''
+    listaArticulosDocente = []
+    for id in idsArticulos:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/articulos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaArticulosDocente.append(todos)
+    #   print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaArticulosDocente)
+
+    ''' Saca libros de docentes por ID'''
+    listaLibrosDocente = []
+    for idLibro in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/' + str(idLibro) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+        # print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaLibrosDocente)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+    proyectos = []
+    Capacitacion = []
+    GradoAcademico = []
+
+    '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
+    ordenadosBloquesAPi = sorted(
+        dataPersonalizada, key=lambda orden: orden['ordenPersonalizable'])
+    # print("ORDENADOSBLOQUESORIGINAL--------------->>>>>>>>>>>", ordenadosBloquesAPi)
+
+    bloqueOrdenApi = [{b['nombreBloque']: b['visible_cv_bloque']}
+                      for b in ordenadosBloquesAPi]
+
+    # print("ORDENADOSBLOQUESORIGINALORDENAPI------->>>>>>>>>>>", bloqueOrdenApi)
+    # ordenadosBloquesApi = sorted(bloqueOrdenApi, key=lambda orden: orden["ordenPersonalizable"])
+    # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
+
+    seen = set()
+    bloquesOrdenados = []
+    for d in bloqueOrdenApi:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            bloquesOrdenados.append(d)
 
 
+    ordenadosBloques = [bloqueOrden for bloqueOrden in bloquesOrdenados if list(bloqueOrden.values()) != [False]]
+    # print("ordenadosBloques------->>>>>>>>>>>", ordenadosBloques)
 
+    listaBloques = [[x for x, v in i.items()] for i in ordenadosBloques]
+    listaBloquesOrdenados = [y for x in listaBloques for y in x]
+    # print("listaBloquesOrdenados------------_______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", listaBloquesOrdenados)
+
+    '''SACA VISIBLES SI SON TRUE'''
+    diccionario = dict()
+    for i in listaBloquesOrdenados:
+        visibles = [{'nombre': d['atributo'], 'orden': d['orden']} for d in dataPersonalizada if d.get(
+            "visible_cv_personalizado") and d.get('bloque') == i]
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        listaatrvisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'nombre'] for i in ordenadosAtributos]
+        listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
+        # print('listaatrvisibles', listaVisiblesAtr, '\n')  
+
+        diccionario[i] = listaVisiblesAtr
+
+    '''SACA MAPEO SI ATRIBUTO ES TRUE'''
+    listadoBloques = dict()
+    listaMapeados = dict()
+    bloquesInformacion = dict()
+
+    '''Tendria que recuperar los bloques que estan como visibles'''
+    bloquesInformacion['Articulos'] = listaArticulosDocente
+    bloquesInformacion['Proyectos'] = proyectos
+    bloquesInformacion['Capacitacion'] = Capacitacion
+    bloquesInformacion['Libros'] = listaLibrosDocente
+    bloquesInformacion['GradoAcademico'] = GradoAcademico
+
+    for i in listaBloquesOrdenados:
+        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in dataPersonalizada if d.get(
+            "visible_cv_personalizado") and d.get('bloque') == i]
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+
+        listamapeoisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'mapeo'] for i in ordenadosMapeo]
+        listaVisiblesmapeo = [y for x in listamapeoisibles for y in x]
+
+        mapeados = pd.unique(listaVisiblesmapeo)
+        listaMapeados[i] = mapeados
+        filtrados = [{atributo: d.get(atributo) for atributo in diccionario[i] if d.get(
+            atributo) != None} for d in bloquesInformacion[i]]
+        # print('filtrados---___________>>>>>>>>>>>>>>>>>>>',i, filtrados)
+        listadoBloques[i] = filtrados
+
+    bloqueAtributos = dict()
+    for listadoBloque in listadoBloques:
+        bloqueAtributos[listadoBloque] = [{atributo: d.get(atributo) for atributo in diccionario[listadoBloque] if d.get(
+            atributo) != None} for d in bloquesInformacion[listadoBloque]]
+    # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', bloqueAtributos)
+
+    bloquesInfoRestante = {k: v for k, v in bloqueAtributos.items() if [
+        item for item in v if item != {}]}
+    # print('bloquesInfoRestante', bloquesInfoRestante)
+
+    i = []
+    for i in listaBloquesOrdenados:
+        for filtrado in bloqueAtributos[i]:
+            filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
+       
+    bloquesRestantes = []
+
+    for bloqueInfRes in bloquesInfoRestante:
+        bloquesRestantes.append(bloqueInfRes)
+ 
+
+    listaResultados = []
+    listaFinal = list()
+    tituloBloque = dict()
+    for i in bloquesRestantes:
+        tituloBloque['-'] = i.upper()
+        listaResultados.append(tituloBloque)
+        for bloqueInformacion in bloquesInfoRestante[i]:
+            resultados = dict(
+                zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
+            listaResultados.append(resultados)
+
+        listaFinal.append(listaResultados)
+        listaResultados = []
+        tituloBloque = {}
+
+    logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
+    response = HttpResponse(content_type='application/msword')
+    response['Content-Disposition'] = 'attachment; filename="cv.docx"'
+
+    doc = DocxTemplate(str(settings.BASE_DIR) + '/cv_api/templates/docx_filename.docx')
+    imagen = docente['foto_web_low'] 
+    myimage = InlineImage(doc, image_descriptor=logo, width=Mm(15), height=Mm(20))
+    context = {'listaFinal': listaFinal, 'docente': docente, 'var': logo, 'myimage': myimage}
+    doc.render(context)
+    doc.save(response) 
+
+    return response
 
 
 '''GENERA JSON COMPLETO'''
@@ -1262,6 +1425,192 @@ def JsonResumido(request, id):
     response['Content-Disposition'] = 'attachment; filename=export.json'
    
     return response
+
+
+
+def JsonPersonalizado(request, id, nombre_cv):
+    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
+    # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
+    dataFilterId = model_dict.filter(id_user=id)
+
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
+
+    # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+
+    # model_bloques = models.Bloque.objects.all().values()
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidArticulos = []
+    for infobloque in docente['related']['articulos']:
+        listaidArticulos.append(infobloque)
+
+    idsArticulos = [fila['id'] for fila in listaidArticulos]
+
+    '''Saca id Libros '''
+    listaidLibros = []
+    for infoLibros in docente['related']['libros']:
+        listaidLibros.append(infoLibros)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+    ''' Saca articulos de docentes por ID'''
+    listaArticulosDocente = []
+    for id in idsArticulos:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/articulos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaArticulosDocente.append(todos)
+    #   print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaArticulosDocente)
+
+    ''' Saca libros de docentes por ID'''
+    listaLibrosDocente = []
+    for idLibro in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/' + str(idLibro) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+        # print('listaArticulosDocente------------>>>>>>>>>>>>>>>>>',listaLibrosDocente)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+    proyectos = []
+    Capacitacion = []
+    GradoAcademico = []
+
+    '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
+    ordenadosBloquesAPi = sorted(
+        dataPersonalizada, key=lambda orden: orden['ordenPersonalizable'])
+    # print("ORDENADOSBLOQUESORIGINAL--------------->>>>>>>>>>>", ordenadosBloquesAPi)
+
+    bloqueOrdenApi = [{b['nombreBloque']: b['visible_cv_bloque']}
+                      for b in ordenadosBloquesAPi]
+
+    # print("ORDENADOSBLOQUESORIGINALORDENAPI------->>>>>>>>>>>", bloqueOrdenApi)
+    # ordenadosBloquesApi = sorted(bloqueOrdenApi, key=lambda orden: orden["ordenPersonalizable"])
+    # print("ORDENADOSBLOQUESAPI------->>>>>>>>>>>", ordenadosBloquesApi)
+
+    seen = set()
+    bloquesOrdenados = []
+    for d in bloqueOrdenApi:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            bloquesOrdenados.append(d)
+
+
+    ordenadosBloques = [bloqueOrden for bloqueOrden in bloquesOrdenados if list(bloqueOrden.values()) != [False]]
+    # print("ordenadosBloques------->>>>>>>>>>>", ordenadosBloques)
+
+    listaBloques = [[x for x, v in i.items()] for i in ordenadosBloques]
+    listaBloquesOrdenados = [y for x in listaBloques for y in x]
+    # print("listaBloquesOrdenados------------_______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", listaBloquesOrdenados)
+
+    '''SACA VISIBLES SI SON TRUE'''
+    diccionario = dict()
+    for i in listaBloquesOrdenados:
+        visibles = [{'nombre': d['atributo'], 'orden': d['orden']} for d in dataPersonalizada if d.get(
+            "visible_cv_personalizado") and d.get('bloque') == i]
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['orden'])
+        listaatrvisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'nombre'] for i in ordenadosAtributos]
+        listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
+        # print('listaatrvisibles', listaVisiblesAtr, '\n')  
+
+        diccionario[i] = listaVisiblesAtr
+
+    '''SACA MAPEO SI ATRIBUTO ES TRUE'''
+    listadoBloques = dict()
+    listaMapeados = dict()
+    bloquesInformacion = dict()
+
+    '''Tendria que recuperar los bloques que estan como visibles'''
+    bloquesInformacion['Articulos'] = listaArticulosDocente
+    bloquesInformacion['Proyectos'] = proyectos
+    bloquesInformacion['Capacitacion'] = Capacitacion
+    bloquesInformacion['Libros'] = listaLibrosDocente
+    bloquesInformacion['GradoAcademico'] = GradoAcademico
+
+    for i in listaBloquesOrdenados:
+        mapeo = [{'mapeo': d['mapeo'], 'orden': d['orden']} for d in dataPersonalizada if d.get(
+            "visible_cv_personalizado") and d.get('bloque') == i]
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['orden'])
+
+        listamapeoisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'mapeo'] for i in ordenadosMapeo]
+        listaVisiblesmapeo = [y for x in listamapeoisibles for y in x]
+
+        mapeados = pd.unique(listaVisiblesmapeo)
+        listaMapeados[i] = mapeados
+        filtrados = [{atributo: d.get(atributo) for atributo in diccionario[i] if d.get(
+            atributo) != None} for d in bloquesInformacion[i]]
+        # print('filtrados---___________>>>>>>>>>>>>>>>>>>>',i, filtrados)
+        listadoBloques[i] = filtrados
+
+    bloqueAtributos = dict()
+    for listadoBloque in listadoBloques:
+        bloqueAtributos[listadoBloque] = [{atributo: d.get(atributo) for atributo in diccionario[listadoBloque] if d.get(
+            atributo) != None} for d in bloquesInformacion[listadoBloque]]
+    # print('filtrados->>>>>>>>>>>>>>>>>>>>>>>', bloqueAtributos)
+
+    bloquesInfoRestante = {k: v for k, v in bloqueAtributos.items() if [
+        item for item in v if item != {}]}
+    # print('bloquesInfoRestante', bloquesInfoRestante)
+
+    i = []
+    for i in listaBloquesOrdenados:
+        for filtrado in bloqueAtributos[i]:
+            filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
+       
+    bloquesRestantes = []
+
+    for bloqueInfRes in bloquesInfoRestante:
+        bloquesRestantes.append(bloqueInfRes)
+ 
+
+    listaResultados = []
+    listaFinal = list()
+    tituloBloque = dict()
+    for i in bloquesRestantes:
+        tituloBloque['-'] = i.upper()
+        listaResultados.append(tituloBloque)
+        for bloqueInformacion in bloquesInfoRestante[i]:
+            resultados = dict(
+                zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
+            listaResultados.append(resultados)
+
+        listaFinal.append(listaResultados)
+        listaResultados = []
+        tituloBloque = {}
+    listaDocente = []
+    del docente['related']
+    listaDocente.append('Docente')
+    listaDocente.append(docente)
+    listaFinal.append(listaDocente)
+
+
+    jsonString = json.dumps(listaFinal,  ensure_ascii=False).encode('utf8')
+    print(jsonString)
+    response = HttpResponse(jsonString.decode(), content_type='application/json')
+    response['Content-Disposition'] = 'attachment; filename=export.json'
+   
+    return response
+
 
 
 
