@@ -83,8 +83,8 @@ export class ResumidoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', false ]);
-        // this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
-        this.arregloBloques = atributosOrdenados;
+        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenResumido'], ['asc']);
+        // this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
@@ -100,7 +100,8 @@ export class ResumidoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res;
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', true ]);
-        this.arregloBloques = atributosOrdenados
+        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenResumido'], ['asc']);
+        // this.arregloBloques = atributosOrdenados
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)

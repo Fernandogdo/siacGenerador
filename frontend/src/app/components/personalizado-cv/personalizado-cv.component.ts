@@ -359,8 +359,8 @@ export class PersonalizadoCvComponent implements OnInit {
          
           console.log('SEGUARDO', res)
         });
-        this._snackBar.open('Guardado Correctamente AA', "Cerrar", {
-          duration: 2000,
+        this._snackBar.open('CV Personalizado Guardado Correctamente', "Cerrar", {
+          duration: 3000,
         });
     }
     this.miDataInterior = [] 

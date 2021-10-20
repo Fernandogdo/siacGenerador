@@ -11,9 +11,9 @@ import { Usuario } from 'app/models/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreaJsonService } from 'app/services/creador-json/crea-json.service';
 import { CreaDocxService } from 'app/services/creador-docx/crea-docx.service';
-import { LibrosService } from 'app/services/libros.service';
+// import { LibrosService } from 'app/services/libros.service';
 import { Angular2CsvModule } from 'angular2-csv';
-import { ArticulosService } from 'app/services/articulos.service';
+// import { ArticulosService } from 'app/services/articulos.service';
 import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
 import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
 import { AuthorizationService } from 'app/services/login/authorization.service';
@@ -35,7 +35,7 @@ export class GuardadosComponent implements OnInit {
   arreglo = [];
   confPersoDocente;
   confPersoDocenteClas = [];
-  arregloArticulos = []
+  // arregloArticulos = []
   dataDocente;
   docente: Usuario[];
   idUser;
@@ -48,8 +48,8 @@ export class GuardadosComponent implements OnInit {
   constructor(
     public configuracioncvService: ConfiguracioncvService,
     public infoDocenteService: InfoDocenteService,
-    public librosService: LibrosService,
-    public articulosService: ArticulosService,
+    // public librosService: LibrosService,
+    // public articulosService: ArticulosService,
     public pdfService: PdfService,
     public creaJsonService: CreaJsonService,
     public creaDocxService: CreaDocxService,
@@ -67,7 +67,7 @@ export class GuardadosComponent implements OnInit {
     this.authorizationService.enviarIdUsuario(this.idUser)
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
     // this.infoDocenteService.getInfoDocente(this.idUser);
-    this.librosService.getDocente(this.idUser)
+    // this.librosService.getDocente(this.idUser)
 
     this.getConfiguracionPersonalizada()
     this.getConfigurcionPersonalizadaDocente()
@@ -77,28 +77,28 @@ export class GuardadosComponent implements OnInit {
     })
   }
 
-  barButtonOptions: any = {
-    active: false,
-    text: 'Progress Bar Button',
-    buttonColor: 'accent',
-    barColor: 'primary',
-    raised: true,
-    mode: 'indeterminate',
-    value: 0
-  }
+  // barButtonOptions: any = {
+  //   active: false,
+  //   text: 'Progress Bar Button',
+  //   buttonColor: 'accent',
+  //   barColor: 'primary',
+  //   raised: true,
+  //   mode: 'indeterminate',
+  //   value: 0
+  // }
 
-  options = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalseparator: '.',
-    showLabels: false,
-    headers: ['Article Title', 'Journal Title', 'ISSN', 'ISBN', 'Publication Date', 'Volume', 'ISSUE', 'Pages', 'DOI', 'Doctype', 'Keywords'],
-    showTitle: true,
-    title: '',
-    useBom: false,
-    removeNewLines: true,
-    keys: ['titulo','revista','issn', 'isbn', 'fecha_publicacion', 'volume', 'issue','pages','doi', 'tipo_documento', 'keywords']
-  };
+  // options = {
+  //   fieldSeparator: ',',
+  //   quoteStrings: '"',
+  //   decimalseparator: '.',
+  //   showLabels: false,
+  //   headers: ['Article Title', 'Journal Title', 'ISSN', 'ISBN', 'Publication Date', 'Volume', 'ISSUE', 'Pages', 'DOI', 'Doctype', 'Keywords'],
+  //   showTitle: true,
+  //   title: '',
+  //   useBom: false,
+  //   removeNewLines: true,
+  //   keys: ['titulo','revista','issn', 'isbn', 'fecha_publicacion', 'volume', 'issue','pages','doi', 'tipo_documento', 'keywords']
+  // };
   
   getConfiguracionPersonalizada() {
     this.configuracioncvService.getConfiguracionesPersonalizadas()
@@ -163,37 +163,37 @@ export class GuardadosComponent implements OnInit {
   }
 
 
-  generaPdfCompleto(){
-    this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
+  // generaPdfCompleto(){
+  //   this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
 
-      this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
     
-      var downloadURL = window.URL.createObjectURL(data);
-      window.open(downloadURL)
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     window.open(downloadURL)
 
-      // var link = document.createElement('a');
-      // link.href = downloadURL;
-      // link.download = "pdf-completo.pdf";
-      // link.click();
-    })
-  }
+  //     // var link = document.createElement('a');
+  //     // link.href = downloadURL;
+  //     // link.download = "pdf-completo.pdf";
+  //     // link.click();
+  //   })
+  // }
 
 
-  generaPdfResumido(){
-    this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      window.open(downloadURL)
+  // generaPdfResumido(){
+  //   this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     window.open(downloadURL)
       
-      // var link = document.createElement('a');
+  //     // var link = document.createElement('a');
       
       
-      // link.href = downloadURL;
-      // link.download = "pdf-resumido.pdf";
-      // link.click();
-    })
-  }
+  //     // link.href = downloadURL;
+  //     // link.download = "pdf-resumido.pdf";
+  //     // link.click();
+  //   })
+  // }
 
   generaPdfPersonalizado(nombre_cv){
     console.log("NOMBRECV", nombre_cv, this.idUser, this.valor)
@@ -210,29 +210,29 @@ export class GuardadosComponent implements OnInit {
   }
 
 
-  generaDocCompleto(){
-    this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "doc_completo.docx";
-      link.click();
-    });
-  }
+  // generaDocCompleto(){
+  //   this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "doc_completo.docx";
+  //     link.click();
+  //   });
+  // }
 
-  generaDocResumido(){
-    this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "doc_resumido.docx";
-      link.click();
-    });
-  }
+  // generaDocResumido(){
+  //   this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "doc_resumido.docx";
+  //     link.click();
+  //   });
+  // }
 
   generaDocPersonalizado(nombre_cv){
     console.log("DOCPERSO", nombre_cv);
@@ -247,30 +247,30 @@ export class GuardadosComponent implements OnInit {
     });
   }
 
-  generaJsonCompleto(){
-    this.creaJsonService.generaJsonCompleto(this.idUser).subscribe((data) =>{
-      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "cv_completo.json";
-      link.click();
-    });
-  }
+  // generaJsonCompleto(){
+  //   this.creaJsonService.generaJsonCompleto(this.idUser).subscribe((data) =>{
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "cv_completo.json";
+  //     link.click();
+  //   });
+  // }
 
-  generaJsonResumido(){
-    this.creaJsonService.generaJsonResumido(this.idUser).subscribe((data) =>{
-      console.log(data);
-      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "cv_resumido.json";
-      link.click();
-    }) 
-  }
+  // generaJsonResumido(){
+  //   this.creaJsonService.generaJsonResumido(this.idUser).subscribe((data) =>{
+  //     console.log(data);
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "cv_resumido.json";
+  //     link.click();
+  //   }) 
+  // }
 
   generaJsonPersonalizado(nombre_cv){
     this.creaJsonService.generaJsonPersonalizado(this.idUser, nombre_cv).subscribe((data) =>{

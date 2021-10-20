@@ -1365,7 +1365,7 @@ def JsonResumido(request, id):
     bloquesInformacion['GradoAcademico'] = GradoAcademico
 
     for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'orden': d['ordenResumido']} for d in model_dict if d.get(
+        mapeo = [{'mapeo': d['mapeo'], 'ordenResumido': d['ordenResumido']} for d in model_dict if d.get(
             "visible_cv_resumido") and d.get('bloque') == i]
         ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenResumido'])
 
@@ -1613,6 +1613,168 @@ def JsonPersonalizado(request, id, nombre_cv):
 
 
 
+def GeneraTxtInformacion(request, id):
+    model_dict = models.ConfiguracionCv.objects.all().values()
+    model_bloques = models.Bloque.objects.all().values()
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+    print(docente)
+
+    '''Saca id Articulos '''
+    listaidArticulos = []
+    for infobloque in docente['related']['articulos']:
+        listaidArticulos.append(infobloque)
+
+    idsArticulos = [fila['id'] for fila in listaidArticulos]
+
+    '''Saca id Libros '''
+    listaidLibros = []
+    for infoLibros in docente['related']['libros']:
+        listaidLibros.append(infoLibros)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+    ''' Saca articulos de docentes por ID'''
+    listaArticulosDocente = []
+    for id in idsArticulos:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/articulos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaArticulosDocente.append(todos)
+
+    ''' Saca libros de docentes por ID'''
+    listaLibrosDocente = []
+    for idLibro in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/' + str(idLibro) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+    proyectos = []
+    Capacitacion = []
+    GradoAcademico = []
+
+    '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
+    ordenadosBloques = sorted(
+        model_bloques, key=lambda orden: orden['ordenCompleto'])
+    bloqueOrdenApi = [{b['nombre']: b['visible_cv_bloqueCompleto']}
+                      for b in ordenadosBloques]
+
+    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [False]]
+
+    listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
+    listaBloquesOrdenados = [y for x in listaBloques for y in x]
+
+    '''SACA VISIBLES SI SON TRUE'''
+    diccionario = dict()
+    for i in listaBloquesOrdenados:
+        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
+                    for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
+        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
+        listaatrvisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'nombre'] for i in ordenadosAtributos]
+        listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
+        diccionario[i] = listaVisiblesAtr
+
+    '''SACA MAPEO SI ATRIBUTO ES TRUE'''
+    listadoBloques = dict()
+    listaMapeados = dict()
+    bloquesInformacion = dict()
+
+    '''Tendria que recuperar los bloques que estan como visibles'''
+    bloquesInformacion['Articulos'] = listaArticulosDocente
+    bloquesInformacion['Proyectos'] = proyectos
+    bloquesInformacion['Capacitacion'] = Capacitacion
+    bloquesInformacion['Libros'] = listaLibrosDocente
+    bloquesInformacion['GradoAcademico'] = GradoAcademico
+
+    for i in listaBloquesOrdenados:
+        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
+            "visible_cv_completo") and d.get('bloque') == i]
+        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
+
+        listamapeoisibles = [[valor for clave, valor in i.items(
+        ) if clave == 'mapeo'] for i in ordenadosMapeo]
+        listaVisiblesmapeo = [y for x in listamapeoisibles for y in x]
+
+        mapeados = pd.unique(listaVisiblesmapeo)
+        listaMapeados[i] = mapeados
+        filtrados = [{atributo: d.get(atributo) for atributo in diccionario[i] if d.get(
+            atributo) != None} for d in bloquesInformacion[i]]
+        listadoBloques[i] = filtrados
+
+    bloqueAtributos = dict()
+    for listadoBloque in listadoBloques:
+        bloqueAtributos[listadoBloque] = [{atributo: d.get(atributo) for atributo in diccionario[listadoBloque] if d.get(
+            atributo) != None} for d in bloquesInformacion[listadoBloque]]
+
+    i = []
+    for i in listaBloquesOrdenados:
+        for filtrado in bloqueAtributos[i]:
+            filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
+        
+    bloquesInfoRestante = {k: v for k, v in bloqueAtributos.items() if v != []}
+
+    bloquesRestantes = []
+
+    for bloqueInfRes in bloquesInfoRestante:
+        bloquesRestantes.append(bloqueInfRes)
+  
+
+    listaResultados = []
+    listaFinal = list()
+    tituloBloque = dict()
+    for i in bloquesRestantes:
+        tituloBloque['-'] = i.upper()
+        listaResultados.append(tituloBloque)
+        for bloqueInformacion in bloquesInfoRestante[i]:
+            resultados = dict(
+                zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
+            listaResultados.append(resultados)
+
+        listaFinal.append(listaResultados)
+        listaResultados = []
+        tituloBloque = {}
+
+
+    print(listaFinal)
+
+    lines=[]
+    data = []
+    for lista in listaFinal:
+      # print(lista)
+      for i in lista:
+        print(i)
+        fecha = i['id']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}n')
+
+        # for j, v in i.items():
+        #   print(j, v)
+        # for j in i:
+
+      print('---------' )
+      print(lines)
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+    
+    response.writelines(lines)
+    return response
+
+
+
 
 '''GENERA PDF RESUMIDO'''
 def InformacionTxtArticulos(request, id):
@@ -1646,6 +1808,7 @@ def InformacionTxtArticulos(request, id):
                 value = 'None'
             i[key] = value
 
+    print("Articulos----->>>>>>>>>>>>>>>>>>>>>",listaArticulosDocente)
 
     lines = []
     for articulo in listaArticulosDocente:

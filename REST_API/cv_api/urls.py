@@ -26,6 +26,7 @@ urlpatterns = [
   path('json-completo/<int:id>', views.JsonCompleto),
   path('json-resumido/<int:id>', views.JsonResumido),
   path('json-personalizado/', views.DocCompleto),
+  path('txt-informacion/<int:id>', views.GeneraTxtInformacion),
   path('informacion_txt_articulos/<int:id>', views.InformacionTxtArticulos),
   path('informacion_txt_libros/<int:id>', views.InformacionTxtLibros),
   path('informacion_csv/<int:id>', views.InformacionCsv),

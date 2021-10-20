@@ -230,7 +230,9 @@ export class CreacvPersonalizadoComponent implements OnInit {
         this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario 
         && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', false ]);
-        this.arregloAtributos = this.atributosOrdenados;
+        this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
+        // this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
+
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
@@ -314,7 +316,8 @@ export class CreacvPersonalizadoComponent implements OnInit {
         this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
         console.log("AREGGLOATRIBUTOS--->>>", this.arregloAtributos)
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', true ]);
-        this.arregloAtributos = this.atributosOrdenados;
+        // this.arregloAtributos = this.atributosOrdenados;
+        this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
@@ -377,10 +380,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
         .putConfiguracionPersonalizada(atributo)
         .subscribe((res) => {
           console.log("editado", res);
-          this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-            duration: 2000,
-          });
+          // this._snackBar.open("Se guardó  correctamente", "Cerrar", {
+          //   duration: 2000,
+          // });
           this.getConfiguracionPersonalizada();
+        });
+        this._snackBar.open("Se guardó  correctamente", "Cerrar", {
+          duration: 2000,
         });
     });
 

@@ -21,6 +21,7 @@ import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque
 import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
 import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
 import { AdministradorComponent } from 'app/components/administrador/administrador.component';
+import { CreaFormatosComponent } from 'app/components/crea-formatos/crea-formatos.component';
 
 
 /* MATERIAL */
@@ -84,7 +85,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     BloqueResumidoComponent,
     ResumidoCvComponent,
     EditaPersonalizadoComponent,
-    CreacvPersonalizadoComponent
+    CreacvPersonalizadoComponent,
+    CreaFormatosComponent
   ]
 })
 

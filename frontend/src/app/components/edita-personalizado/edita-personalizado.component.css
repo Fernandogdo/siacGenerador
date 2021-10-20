@@ -1,4 +1,49 @@
-.botones {
+/* .botones {
     margin: 20px !important;
   }
-  
+   */
+
+
+  #tabla {
+    color: #003F72;
+    background-color: #EAAB00;
+}
+
+#btnInformacion{
+    background-color: #003F72;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btnIngresoBloque{
+    background-color: #E0DED8;
+    color: black;
+}
+
+.tarjeta {
+    background-color: #E0DED8;
+    color: #003F72;
+}
+.tarjeta_filtros {
+    background-color: #F9F9F9;
+    color: #003F72;
+}
+
+.rd-btn{
+    color: #003F72;
+}
+
+.tituloTabla{
+    color: #003F72;
+}
+
+.botones{
+    margin-top: 20px;
+    background-color: #003F72;
+}
+
+#alerta{
+    background-color: #003F72;
+    color: #E0DED8;
+}
+

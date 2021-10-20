@@ -29,12 +29,6 @@
                 <p style="color:#EAAB00;">Dashboard</p>
             </a>
         </li>
-        <!-- <li class=" nav-item">
-            <a class="nav-link" routerLink="/user-profile" routerLinkActive="active">
-                <i class="material-icons">person</i>
-                <p>User Profile</p>
-            </a>
-        </li> -->
         <li class=" nav-item"  *ngIf="seMuestra">
             <a class="nav-link" routerLink="/cv-completo" routerLinkActive="active">
                 <i id="icono" class="material-icons">account_box</i>
@@ -54,11 +48,18 @@
                 <p style="color:#EAAB00;">CV Personalizable</p>
             </a>
         </li>
+
+
+        <li class=" nav-item">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/crea-formatos', id_docente]" routerLinkActive="active">
+                <i id="icono" class="material-icons">manage_accounts</i>
+                <p style="color:#EAAB00;">CV CREA FORMATO</p>
+            </a>
+        </li>
      
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link"  *ngIf="!seMuestra">
                 <i id="icono" class="material-icons">manage_accounts</i>
-                <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
                 <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Crear Formato</p> </button>
                     <mat-menu #animals="matMenu">
                       <button mat-menu-item [matMenuTriggerFor]="pdf">Formato Pdf</button>
@@ -80,7 +81,7 @@
                         <button mat-menu-item (click)="generaJsonResumido()">Json Resumido</button>         
                     </mat-menu>       
             </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
             <a class="nav-link"  *ngIf="!seMuestra">

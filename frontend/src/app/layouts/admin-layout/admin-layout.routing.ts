@@ -12,7 +12,7 @@ import { EditaPersonalizadoComponent } from 'app/components/edita-personalizado/
 import { EditaPersonalizadoService } from 'app/services/edita-personalizado/edita-personalizado.service';
 import { LoginComponent } from 'app/components/login/login.component';
 import { CreacvPersonalizadoComponent } from 'app/components/creacv-personalizado/creacv-personalizado.component';
-
+import { CreaFormatosComponent } from 'app/components/crea-formatos/crea-formatos.component';
 
 export const AdminLayoutRoutes: Routes = [
 
@@ -25,5 +25,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'bloque-completo/:nombre',   component: BloqueComponent },
     { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
     { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}},
-    { path: 'crea-personalizado/:nombre/:nombre_cv', component: CreacvPersonalizadoComponent}
+    { path: 'crea-personalizado/:nombre/:nombre_cv', component: CreacvPersonalizadoComponent},
+    { path: 'crea-formatos/:id_user', component: CreaFormatosComponent}
 ];

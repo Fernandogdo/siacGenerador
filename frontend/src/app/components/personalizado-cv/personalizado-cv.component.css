@@ -1,51 +1,42 @@
-.example-card {
-  max-width: 100%;
+#tabla {
+  color: #003F72;
+  background-color: #EAAB00;
 }
 
-.bloques{
-    margin-left: 100px;
-    margin-right: 100px;
-    margin-bottom: 15px;
+#btnInformacion{
+  background-color: #003F72;
+  color: white;
+  margin-bottom: 20px;
 }
-/* .bloque {
-  height: 50px;
-  margin-bottom: 1px;
-  text-align: center;
-  line-height: 50px;
-} */
+
+.btnIngresoBloque{
+  background-color: #E0DED8;
+  color: black;
+}
 
 .tarjeta {
-  background-color: #EAAB00;
+  background-color: #E0DED8;
   color: #003F72;
-  margin: 20px;
 }
-/* 
-#tabla {
-  margin-left: 40px;
+.tarjeta_filtros {
+  background-color: #F9F9F9;
   color: #003F72;
-} */
+}
 
-#tabla {
+.rd-btn{
   color: #003F72;
-  background-color: #EAAB00;
 }
 
-.nombre {
-  margin-left: 30px;
+.tituloTabla{
+  color: #003F72;
 }
 
-.expansion {
-  margin: 5px;
+.botones{
+  margin-top: 20px;
+  background-color: #003F72;
 }
 
-/* .tarjeta-informacion {
-  background-color: beige;
-} */
-
-.informacion {
-  margin: 40px;
-}
-
-.botones {
-  margin: 20px !important;
+#alerta{
+  background-color: #003F72;
+  color: #E0DED8;
 }

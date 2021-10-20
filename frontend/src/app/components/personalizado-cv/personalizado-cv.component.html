@@ -47,9 +47,22 @@
 </div> -->
 
 <div class="main-content">
-  <div class="container-fluid">
+    <div class="container-fluid">
     <div class="row">
       <div class="col-md-12" >
+
+        <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
+          <i class="material-icons" data-notify="icon">add_alert</i>
+          <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="material-icons">close</i>
+          </button>
+          <span data-notify="message"> INFORMACIÓN IMPORTANTE! BLOQUES RESUMIDOS <br> <br>
+              Cada bloque de la configuracion de CV resumido, puede ser visualizado o no segun se marque en la casilla,
+              esta configuracion permite que los bloques de informacion se muestren o no en el cv de todos los docentes. <br> <br>
+              Adicionalmente a cada bloque se le puede dar un orden, este orden de los bloques sera para todos los docentes. 
+          </span>
+        </div>
+      
         <mat-card class="tarjeta">
                      
           <mat-form-field>
@@ -59,73 +72,65 @@
                            
           <br>
           <div class="example-header">
-              <mat-form-field>
-                  <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-                  <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
-                    <mat-icon>close</mat-icon>
-                  </button>
-              </mat-form-field>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
+                <button mat-icon-button matSuffix 
+                  aria-label="clear" 
+                  *ngIf="filter.value" 
+                  (click)="filter.value=''; applyFilter('');">
+                  <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
           </div>
+
                       
           <mat-table id="tabla" #table [dataSource]="dataSource">
-              <ng-container matColumnDef="visible_cv_bloqueCompleto">
-                  <mat-header-cell *matHeaderCellDef>
-                    <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox> -->
-                    <input
-                          type="checkbox"
-                          [(ngModel)]="parentSelector"
-                          [value]="-1"
-                          (change)="onChangeBloque($event)">
-
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                    [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
-                                  (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox> -->
-                    <input
-                          type="checkbox"
-                          [value]="row.id"
-                          [checked]="row.visible_cv_bloqueCompleto"
-                          (change)="onChangeBloque($event)"
-                          (click)= valor(row.id)
-                      >
-                  </mat-cell>
-              </ng-container>
+            <ng-container matColumnDef="visible_cv_bloqueCompleto">
+              <mat-header-cell *matHeaderCellDef>
+                <input
+                  type="checkbox"
+                  [(ngModel)]="parentSelector"
+                  [value]="-1"
+                  (change)="onChangeBloque($event)">
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <input
+                      type="checkbox"
+                      [value]="row.id"
+                      [checked]="row.visible_cv_bloqueCompleto"
+                      (change)="onChangeBloque($event)"
+                      (click)= valor(row.id)
+                  >
+              </mat-cell>
+            </ng-container>
 
               <!-- Bloque Column -->
-              <ng-container matColumnDef="nombre">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Bloque</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
-              </ng-container>
-      
-              <!-- Orden Column -->
-              <ng-container matColumnDef="ordenPersonalizable">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                      <mat-form-field floatLabel="never">
-                          <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
-                      </mat-form-field>
-                  </mat-cell>
-              </ng-container>
+            <ng-container matColumnDef="nombre">
+                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Bloque</b></h4>  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+            </ng-container>
+    
+            <!-- Orden Column -->
+            <ng-container matColumnDef="ordenPersonalizable">
+                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <mat-form-field floatLabel="never">
+                        <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
+                    </mat-form-field>
+                </mat-cell>
+            </ng-container>
                   
-              <!-- INgresar Column -->
-              <ng-container matColumnDef="ingreso">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                      <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv]">
-                          <i class="material-icons">east</i>
-                  </button>
-                  </mat-cell>
-              </ng-container>
-                  
-                  
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            <!-- INgresar Column -->
+            <ng-container matColumnDef="ingreso">
+                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv]">
+                        <i class="material-icons">east</i>
+                </button>
+                </mat-cell>
+            </ng-container>                  
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
           
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

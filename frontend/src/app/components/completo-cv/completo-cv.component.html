@@ -57,29 +57,34 @@
 
                
                 <div class="col-md-12" >
-                    <button mat-button (click)="openSnackBar('Hello', 'Close', 'red-snackbar')">Red snack-bar</button>
+                    <!-- <button mat-button (click)="openSnackBar('Hello', 'Close', 'red-snackbar')">Red snack-bar</button>
 
                     <button mat-raised-button color="primary" (click)="showSnackbarCssStyles('Net is offline, Trying to reconnect in 2 seconds....','Close','4000')">
                         Snackbar CSS Styles
-                    </button>
+                    </button> -->
 
 
-                    <div class="alert alert-warning">
+                    <!-- <div class="alert alert-warning">
                         <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <i class="material-icons">close</i>
                         </button>
                         <span id="alerta">
                             <b> Warning - </b> This is a regular notification made with ".alert-warning"
                         </span>
-                    </div>
+                    </div> -->
 
-                    <div class="alert alert-info alert-with-icon" data-notify="container">
+                    <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
                         <i class="material-icons" data-notify="icon">add_alert</i>
                         <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <i class="material-icons">close</i>
                         </button>
-                        <span data-notify="message">This is a notification with close button and icon.</span>
+                        <span data-notify="message"> <b>INFORMACIÓN IMPORTANTE!</b> BLOQUES COMPLETOS <br> <br>
+                            Cada bloque de la configuracion de CV completo, puede ser visualizado o no segun se marque en la casilla,
+                            esta configuracion permite que los bloques de informacion se muestren o no en el cv de todos los docentes. <br> <br>
+                            Adicionalmente a cada bloque se le puede dar un orden, este orden de los bloques sera para todos los docentes. 
+                        </span>
                     </div>
+
                     <mat-card class="tarjeta">
                         <mat-card-header>
                             <h3> <b>Configuración de CV:</b> Bloques Completos </h3>

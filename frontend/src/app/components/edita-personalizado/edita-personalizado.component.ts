@@ -25,6 +25,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
   formPersonalizado: FormGroup;
   nombre_cv;
+  nombre_cvNuevo;
   private _unsubscribeAll: Subject<any>;
   configuraciones: Configuracioncv[];
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
@@ -53,6 +54,8 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.nombre_cv = this.route.snapshot.params["nombre"];
+    this.nombre_cvNuevo = this.nombre_cv;
+    console.log("NOMBRESCVSINIT", this.nombre_cv, this.nombre_cvNuevo)
     this.idUsuario =   parseInt(localStorage.getItem('id_user'));
     // console.log("NOMBREBLOQUE", this.nombre_cv);
     this.configuracioncvService.onConfiguracionesChanged
@@ -108,9 +111,12 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
 
   getConfiguracionesPersonalizadas(){
+    console.log("NOMBRECVGET", this.nombre_cvNuevo)
+    this.nombre_cv = this.nombre_cvNuevo
+
     this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (configuracionesPersonalizadas) =>{
       this.filtradoBloques = configuracionesPersonalizadas.filter((user) =>  user.id_user === this.idUsuario 
-       && user.nombre_cv === this.nombre_cv);
+       && user.nombre_cv === this.nombre_cvNuevo);
 
       this.confPersonalizadaNombre = this.filtradoBloques;
       // this.atributosOriginal = this.confPersonalizadaNombre
@@ -141,8 +147,10 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
 
        this.dataSource = new MatTableDataSource(this.arregloBloques);
        this.dataSource.paginator = this.paginator;
+       this.atributosOriginal = JSON.parse(
+        JSON.stringify(this.arregloBloques)
+      );
        console.log("ARREGLOBLOQUESSERVICE", this.arregloBloques)
-
     });
   }
 
@@ -238,7 +246,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
             visible_cv_personalizado: atributo.visible_cv_personalizado,
             mapeo: atributo.mapeo,
             cv: atributo.cv,
-            nombre_cv: this.nombre_cv,
+            nombre_cv: this.nombre_cvNuevo,
             cedula: atributo.id,
             nombreBloque: bloque.bloque,
             ordenPersonalizable: bloque.ordenPersonalizable, //Orden de bloque Personalizable
@@ -258,6 +266,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
           console.log("DATAORIGINALNOMBRE", this.atributosOriginal)
           console.log("GUARDARDATAINTERIOR", this.miDataInterior)
 
+      console.log("NOMBRECVNUEVO", this.nombre_cvNuevo)
       // iterar cada uno de los bloques
       this.miDataInterior.forEach((confPersonalizada) => {
 
@@ -266,7 +275,8 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
         // no es necesario guardarlo
         // console.log("ATRORIGINAL",this.atributosOriginal)
         let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal=> confOriginal.id == confPersonalizada.id)
-        if(confPersonalizada.nombre_cv == confPersonalizadaOriginal.nombre_cv  
+        // console.log("NOMBRESCV", confPersonalizada.nombre_cv, this.nombre_cv)
+        if(this.nombre_cvNuevo == confPersonalizadaOriginal.nombre_cv  
           && confPersonalizadaOriginal.ordenPersonalizable 
           == confPersonalizada.ordenPersonalizable 
           && confPersonalizadaOriginal.visible_cv_bloque 
@@ -277,6 +287,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
         this.configuracioncvService.putConfiguracionPersonalizada(confPersonalizada).subscribe((res) => {
             console.log("editado", res);
             this.getConfiguracionesPersonalizadas();
+           
           });
           this._snackBar.open("Se editó la configuración correctamente", "Cerrar", {
             duration: 2000,

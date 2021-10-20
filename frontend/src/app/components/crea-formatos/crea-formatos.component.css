@@ -1,0 +1,31 @@
+#cabeceraTarjeta{
+    /* background-color: #A71930; */
+    background-image: url("../../../assets/img/nieve.jpg");
+    margin: 10px;
+    margin-top: -20px;
+}
+.botones {
+    margin: 15px;
+}
+
+.botones_crear{
+    margin: 15px;
+    background-color: #003F72;
+    color: #E0DED8;
+}
+
+.logo {
+    width: 215px;
+    height: 230px;
+    display: block;
+    margin: auto;
+}
+
+#alerta{
+    background-color: #003F72;
+    color: #E0DED8;
+}
+
+#titulo_tarjeta{
+    color:black;
+}

@@ -44,13 +44,6 @@ export class CompletoCvComponent implements OnInit {
 
   Object = Object;
 
-  data = [
-    {"titulo": "sdsadas"},
-    {"titulo": "2"},
-    {"titulo": "3"},
-    {"titulo": "4"},  
-  ]
-
 
   constructor(
     private dialog: MatDialog,
@@ -60,11 +53,9 @@ export class CompletoCvComponent implements OnInit {
 
   ngOnInit() {
     this.getBloques()
-    
   }
 
 
-  T
   getBloques() {
     this.configuracioncvService.getBloques()
       .subscribe(res => {
@@ -111,8 +102,8 @@ export class CompletoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', false ]);
-        // this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
-        this.arregloBloques = atributosOrdenados;
+        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
+        // this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
@@ -129,8 +120,8 @@ export class CompletoCvComponent implements OnInit {
       .subscribe(res => {
         this.arregloBloques = res;
         let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueCompleto', true ]);
-        this.arregloBloques = atributosOrdenados
-
+        // this.arregloBloques = atributosOrdenados
+        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenCompleto'], ['asc']);
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)

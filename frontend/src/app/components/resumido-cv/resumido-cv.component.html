@@ -52,8 +52,20 @@
         <div class="row">
             <div class="col-md-12" >
                 <!-- Inicio MatCard -->
-                <div class="col text-center">
+                <!-- <div class="col text-center">
                     <button class="botones" id="btnInformacion" mat-button (click)="openDialog()">Información</button>
+                </div> -->
+
+                <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
+                    <i class="material-icons" data-notify="icon">add_alert</i>
+                    <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                    </button>
+                    <span data-notify="message"> INFORMACIÓN IMPORTANTE! BLOQUES RESUMIDOS <br> <br>
+                        Cada bloque de la configuracion de CV resumido, puede ser visualizado o no segun se marque en la casilla,
+                        esta configuracion permite que los bloques de informacion se muestren o no en el cv de todos los docentes. <br> <br>
+                        Adicionalmente a cada bloque se le puede dar un orden, este orden de los bloques sera para todos los docentes. 
+                    </span>
                 </div>
 
                 <mat-card class="tarjeta">
@@ -85,12 +97,9 @@
                     </div>
                 
                     <mat-table id="tabla" #table [dataSource]="dataSource">
-
-
-                        <!-- visible_cv_bloqueResumido Column -->
                         <ng-container matColumnDef="visible_cv_bloqueResumido">
                             <mat-header-cell *matHeaderCellDef>
-                              <input
+                                <input
                                     type="checkbox"
                                     [(ngModel)]="parentSelector"
                                     [value]="-1"
