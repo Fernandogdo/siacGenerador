@@ -27,11 +27,11 @@ export class CreaDocxService {
     return this.http.get(this.URL_DOC_RESUMIDO + id_user, httpOptions);
   }
 
-  generaDocPersonalizado(id_user, nombre_cv){
+  generaDocPersonalizado(id_user, nombre_cv, cv){
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_DOC_PERSONALIZA + id_user + "/" + nombre_cv, httpOptions)
+    return this.http.get(this.URL_DOC_PERSONALIZA + id_user + "/" + nombre_cv + "/" + cv, httpOptions)
   }
 
   // generaPdfPersonalizado(id_user, nombre_cv) {

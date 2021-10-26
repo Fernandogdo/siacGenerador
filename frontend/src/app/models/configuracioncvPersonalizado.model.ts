@@ -13,7 +13,7 @@ export class ConfiguracioncvPersonalizado {
         public mapeo?: string,
         public cv?: string,
         public nombre_cv?: string,
-        public fecha_registro?: Date,
+        public fecha_registro?: string,
         public cedula?: string,
         public ordenPersonalizable?: number,
         public id?: number,

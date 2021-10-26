@@ -40,7 +40,9 @@ import { MatCardModule } from '@angular/material/card';
 // import {MatMenuModule} from '@angular/material/menu';
 import { Angular2CsvModule } from 'angular2-csv';
 import { ModalNotaComponent } from './components/modal-nota/modal-nota.component';
+// import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 // import { MatPaginatorModule } from '@angular/material/paginator';
+// import { ProgressSpinnerModule } from '../app/components/progress-spinner/progress-spinner.module';
 
 
 @NgModule({
@@ -60,6 +62,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     MatSnackBarModule,
     Angular2CsvModule,
     MatCardModule,
+    // ProgressSpinnerModule
     // MatPaginatorModule
     // MatMenuModule
 

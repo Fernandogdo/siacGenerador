@@ -44,6 +44,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+// import { ProgressSpinnerModule } from 'app/components/progress-spinner/progress-spinner.module';
+// import { ProgressSpinnerComponent } from 'app/components/progress-spinner/progress-spinner.component';
+// ProgressSpinnerModule
 
 @NgModule({
   imports: [
@@ -70,7 +73,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatTableModule,
     MatRadioModule,
     MatPaginatorModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    // ProgressSpinnerModule
     
     
   ],
@@ -86,7 +90,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     ResumidoCvComponent,
     EditaPersonalizadoComponent,
     CreacvPersonalizadoComponent,
-    CreaFormatosComponent
+    CreaFormatosComponent,
+    // ProgressSpinnerComponent
+    
   ]
 })
 

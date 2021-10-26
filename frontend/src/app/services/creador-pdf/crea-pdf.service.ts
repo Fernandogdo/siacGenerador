@@ -28,11 +28,11 @@ export class PdfService {
     return this.http.get(this.URL_PDF_RESUMIDO + id_user, httpOptions);
   }
 
-  generaPdfPersonalizado(id_user, nombre_cv) {
+  generaPdfPersonalizado(id_user, nombre_cv, cv) {
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_PDF_PERSONALIZADO + id_user + "/" + nombre_cv,  httpOptions);
+    return this.http.get(this.URL_PDF_PERSONALIZADO + id_user + "/" + nombre_cv + "/" + cv,  httpOptions);
   }
 }
 

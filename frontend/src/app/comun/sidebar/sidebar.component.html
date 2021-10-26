@@ -43,7 +43,7 @@
             </a>
         </li>
         <li class=" nav-item">
-            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', id_docente]" routerLinkActive="active">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/cv-guardado', idUser]" routerLinkActive="active">
                 <i id="icono" class="material-icons">manage_accounts</i>
                 <p style="color:#EAAB00;">CV Personalizable</p>
             </a>
@@ -51,7 +51,7 @@
 
 
         <li class=" nav-item">
-            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/crea-formatos', id_docente]" routerLinkActive="active">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/crea-formatos', idUser]" routerLinkActive="active">
                 <i id="icono" class="material-icons">manage_accounts</i>
                 <p style="color:#EAAB00;">CV CREA FORMATO</p>
             </a>

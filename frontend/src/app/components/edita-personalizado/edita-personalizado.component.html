@@ -2,6 +2,19 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12" >
+
+        <!-- ALERTA -->
+        <!-- <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
+          <i class="material-icons" data-notify="icon">add_alert</i>
+          <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="material-icons">close</i>
+          </button>
+          <span data-notify="message"> Edicion CV: {{nombre_cvNuevo}} <br> <br>
+             Permite realizar la edicion de un cv que ha sido guardado anteriormente. <br> <br>
+              Permite la edicion de los bloques de informacion y de sus atributos. 
+          </span>
+        </div> -->
+
         <mat-card class="tarjeta">
                      
           <mat-form-field>
@@ -11,6 +24,7 @@
                            
           <br>
           <div class="example-header">
+              <b>Buscador:</b> 
               <mat-form-field>
                   <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
                   <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
@@ -19,11 +33,30 @@
               </mat-form-field>
           </div>
 
-          <mat-radio-group aria-label="Select an option">
+          <!-- <mat-radio-group aria-label="Select an option">
             <mat-radio-button value="1" color="primary" (click)="getConfiguracionesPersonalizadas()">Todo</mat-radio-button> <br>
             <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
             <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-        </mat-radio-group>
+        </mat-radio-group> -->
+
+
+           <mat-card class="tarjeta_filtros">
+
+              Filtrar por Visibilidad: <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Filtro Bloques </button>
+              <mat-menu #menuPersonalizado="matMenu">
+                  <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
+
+                  <button mat-menu-item (click)="getConfiguracionesPersonalizadas()">Todo</button>
+                  <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>      
+                  <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>                                                  
+              </mat-menu>
+
+              <!-- <mat-radio-group aria-label="Select an option" >
+                  <mat-radio-button value="1" color="primary" (click)="getConfiguracion()"> Todo </mat-radio-button> <br>
+                  <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
+                  <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
+              </mat-radio-group> -->
+          </mat-card>
                       
           <mat-table id="tabla" #table [dataSource]="dataSource">
               <ng-container matColumnDef="visible_cv_bloque">
@@ -75,7 +108,7 @@
               <ng-container matColumnDef="ingreso">
                   <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
                   <mat-cell *matCellDef="let element">
-                      <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.bloque, nombre_cv]">
+                      <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.bloque, nombre_cv, cvHash]">
                           <i class="material-icons">east</i>
                   </button>
                   </mat-cell>
@@ -86,7 +119,7 @@
               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
           
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                           
           <div class="col text-center">
               <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button>

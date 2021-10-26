@@ -203,6 +203,29 @@ export class CompletoCvComponent implements OnInit {
   }
 
   
+  // guardarViejo() {
+  //   // iterar cada uno de los bloques
+  //   this.arregloBloques.forEach((bloque) => {
+  //     // para eficiencia se puede comprobar si el registro actual (bloque)
+  //     // se ha modificado. Si sus campos son iguales al original entonces
+  //     // no es necesario guardarlo
+  //     // console.log(bloque)
+  //     let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+  //     if(bloqueOriginal.ordenCompleto == bloque.ordenCompleto && 
+  //       bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
+
+  //     // si el bloque se modificó proceder a guardarlo
+  //     this.configuracioncvService
+  //       .putBloque(bloque)
+  //       .subscribe((res) => {
+  //         console.log("editado", res);
+  //         this.getBloques();
+  //       });
+  //       this._snackBar.open("Se guardo correctamente", "Cerrar", {
+  //         duration: 2000,
+  //       });
+  //   });
+  // }
 
 //   showNotification(from, align){
 //     const type = ['','info','success','warning','danger'];

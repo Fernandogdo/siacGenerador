@@ -60,6 +60,7 @@ export class ConfiguracioncvService {
     // this.recorreConfiguracion()
     // this.recorreBloques()
     // this.recorreConfiguracionPersonalizada();
+    this.getArticulos();
   }
 
   public getJSON(): Observable<any> {
@@ -225,7 +226,7 @@ export class ConfiguracioncvService {
 
 
   listaConfiguracionPersonalizadaDocente(idUsuario){
-    return this.http.get(this.URL_PERS_DOCENTE + idUsuario)
+    return this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS_DOCENTE + idUsuario)
   }
 
   /* Bloque */
@@ -275,6 +276,30 @@ export class ConfiguracioncvService {
     return this.http.post<Configuracioncv>(this.URL_CONF, configuracioncv);
   }
 
+  URL_ARTICULOS = 'https://sica.utpl.edu.ec/ws/api/articulos/'
 
+  getArticulos() {
+    let token = '54fc0dc20849860f256622e78f6868d7a04fbd30'
+
+    const headers = new HttpHeaders({
+      'Content-Type':'application/json',
+      'Authorization':'token ' + token,
+      // 'responseType': 'blob' as 'json'
+    });
+    return this.http.get(this.URL_ARTICULOS + 5832 + '/', {headers:headers});
+  }
+
+
+
+  URL_DOCENTE = 'https://sica.utpl.edu.ec/ws/api/docentes/'
+  getDocente(idUser){
+    let token = '54fc0dc20849860f256622e78f6868d7a04fbd30'
+    const headers = new HttpHeaders({
+      'Content-Type':'application/json',
+      'Authorization':'token ' + token,
+    });
+    return this.http.get(this.URL_DOCENTE + idUser + '/' , {headers:headers})
+    
+  }
   
 }

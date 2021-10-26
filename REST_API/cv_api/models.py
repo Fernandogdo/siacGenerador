@@ -55,13 +55,13 @@ class ConfiguracionCv_Personalizado(models.Model):
     mapeo = models.CharField(max_length=150, blank=True)
     cv = models.CharField(max_length=20)
     nombre_cv = models.CharField(max_length=100, default="personalizado_cv")
-    fecha_registro = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    fecha_registro = models.DateTimeField(null=True, blank=True)
     cedula = models.TextField(max_length=11)
     nombreBloque = models.CharField(max_length=20, default="Articulos")
     ordenPersonalizable = models.IntegerField(default=1)
     visible_cv_bloque = models.BooleanField(default=True)
     class Meta:
-        unique_together = ["bloque", "atributo", "nombre_cv", "cedula"] 
+        unique_together = ["bloque", "atributo", "nombre_cv", "cedula", "cv"] 
         db_table = 'configuracioncvPersonalizado'
 
         

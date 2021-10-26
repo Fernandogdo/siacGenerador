@@ -56,22 +56,40 @@
           <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <i class="material-icons">close</i>
           </button>
-          <span data-notify="message"> INFORMACIÓN IMPORTANTE! BLOQUES RESUMIDOS <br> <br>
-              Cada bloque de la configuracion de CV resumido, puede ser visualizado o no segun se marque en la casilla,
-              esta configuracion permite que los bloques de informacion se muestren o no en el cv de todos los docentes. <br> <br>
-              Adicionalmente a cada bloque se le puede dar un orden, este orden de los bloques sera para todos los docentes. 
+          <span data-notify="message"> CREACIÓN CV PERSONALIZADO <br> <br>
+              Para crer un cv personalizado es necesario seguis los siguientes pasos: <br> <br>
+              <ul>
+                <li>Ingresa el nombre que deseas poner a tu cv</li> <br>
+                <li>Selecciona en la casilla la informacion que deseas que sea visible en tu cv: por ejemplo si se marca la casilla Artículos, esta información será visible en tu cv, caso contrario se la deselecciona</li> <br>
+                <li>Presiona el botón guardar</li> <br>
+                <li>Ingresa a la información de cada bloque</li>
+              </ul>
           </span>
         </div>
       
         <mat-card class="tarjeta">
-                     
-          <mat-form-field>
-           <mat-label>Nombre CV</mat-label>
-           <input matInput #filter placeholder="Nombre Cv Personalizado" [(ngModel)]="nombre_cv">
-          </mat-form-field>
+
+
+          <!-- <form [formGroup]="formNombre" #categoryForm="ngForm">
+            
+            <mat-form-field>
+              <mat-label>Nombre CV</mat-label>
+              <input matInput #filter placeholder="Nombre Cv Personalizado" name="nombre_cv" formControlName="nombre_cv" [(ngModel)]="nombre_cv" >
+             </mat-form-field>
+          </form> -->
+          
+          <form #formNombre> 
+            <mat-form-field >
+              <mat-label>Nombre CV</mat-label>
+              <input matInput #filter placeholder="Nombre Cv Personalizado" [(ngModel)]="nombre_cv" [ngModelOptions]="{standalone: true}">
+             </mat-form-field>
+          </form>
+          
+         
                            
           <br>
           <div class="example-header">
+            <b>Buscador:</b> 
             <mat-form-field>
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
                 <button mat-icon-button matSuffix 
@@ -124,7 +142,7 @@
             <ng-container matColumnDef="ingreso">
                 <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv]">
+                    <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()"  [disabled]="isDisabled" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv, cvHash]">
                         <i class="material-icons">east</i>
                 </button>
                 </mat-cell>
@@ -133,10 +151,14 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
           
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                           
           <div class="col text-center">
-              <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button>
+              <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardarBloquesAtributos()">Guardar
+                  <span class="material-icons">
+                    save
+                  </span>
+              </button>
           </div>
         </mat-card>      
       </div>

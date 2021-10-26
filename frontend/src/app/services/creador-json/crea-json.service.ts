@@ -28,11 +28,11 @@ export class CreaJsonService {
   }
 
 
-  generaJsonPersonalizado(id_user, nombre_cv){
+  generaJsonPersonalizado(id_user, nombre_cv, cv){
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
-    return this.http.get(this.URL_JSON_PERSONALIZADO + id_user + "/" + nombre_cv,  httpOptions);
+    return this.http.get(this.URL_JSON_PERSONALIZADO + id_user + "/" + nombre_cv + "/" + cv,  httpOptions);
   }
 
 

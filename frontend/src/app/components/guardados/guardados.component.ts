@@ -26,9 +26,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class GuardadosComponent implements OnInit {
 
-  color = 'primary';
-  mode = 'indeterminate';
-  valor = false;
+  
   // value = 50;
   // bufferValue = 75;
 
@@ -42,6 +40,23 @@ export class GuardadosComponent implements OnInit {
   
   blob: any;
   pdfGenerado: any;
+  isLoading = false;
+  loadingText: string = '';
+
+  displayProgressSpinner: boolean;
+  color = 'primary';
+  mode = 'indeterminate';
+  valor = false;
+
+  showProgressSpinner = () => {
+    this.displayProgressSpinner = true;
+    setTimeout(() => {
+      this.displayProgressSpinner = false;
+    }, 3000);
+  };
+
+
+
   
   // dialogEditCategoria: MatDialogRef<ModalPersonalizacionComponent>;
 
@@ -63,18 +78,47 @@ export class GuardadosComponent implements OnInit {
   
 
   ngOnInit(): void {
+    
     this.idUser = this.activatedRoute.snapshot.paramMap.get("id_user");
     this.authorizationService.enviarIdUsuario(this.idUser)
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
     // this.infoDocenteService.getInfoDocente(this.idUser);
     // this.librosService.getDocente(this.idUser)
+    // let dateFormat = require('dateformat');
+    let now = new Date();
+    // dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+    console.log('HORAFECHA', now)
+    
+    
 
-    this.getConfiguracionPersonalizada()
+    // this.getConfiguracionPersonalizada()
     this.getConfigurcionPersonalizadaDocente()
     // this.getLibros();
     this.configuracioncvService.getJSON().subscribe(res=>{
       console.log(res)
     })
+
+  }
+
+  // showSpinner(time?) {
+  //   console.log(time);
+  //   this.spinner.show();
+  //   if (time !== null) {
+  //     this.loadingText = 'Spin for 5 seconds';
+  //     setTimeout(() => {
+  //       this.spinner.hide();
+  //     }
+  //       , 2000)
+  //   } else{
+  //     this.loadingText = 'Spin for unlimited times';
+      
+  //   }
+  // }
+
+
+  load() : void {
+    this.isLoading = true;
+    setTimeout( () => this.isLoading = false, 2000 );
   }
 
   // barButtonOptions: any = {
@@ -106,17 +150,17 @@ export class GuardadosComponent implements OnInit {
         let data = res.filter(data => data.visible_cv_personalizado === true)
         this.configuracioncvService.configuracionesPersonalizadas = data;
 
-        const filteredCategories = [];
-        data.forEach(configuracion => {
-          if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
-            const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user} = configuracion;
-            filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user});
-          }
-        });
+        // const filteredCategories = [];
+        // data.forEach(configuracion => {
+        //   if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
+        //     const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user} = configuracion;
+        //     filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user});
+        //   }
+        // });
 
-        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+        // this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
 
-        this.arreglo = filteredCategories.reduce(function (r, a) {
+        this.arreglo = data.reduce(function (r, a) {
           r[a.nombre_cv] = r[a.nombre_cv] || [];
           r[a.nombre_cv].push(a);
           return r;
@@ -134,32 +178,51 @@ export class GuardadosComponent implements OnInit {
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
-        this.confPersoDocenteClas = _.groupBy(confPersoDocente, "nombre_cv");
-      // console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas)
+        // this.confPersoDocenteClas = _.groupBy(confPersoDocente, "nombre_cv");
+        // let data = _.groupBy(this.confPersoDocenteClas, "cv",)
+        // console.log("🚀 ~ file: guardados.component.ts ~ line 138 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
+        
+        // console.log("🚀 ~ file: guardados.component.ts ~ line 138 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ this.confPersoDocenteClas", data )
+        
+        // let selectedVehicles = _.groupBy(this.confPersoDocenteClas, function(item) {
+        //   return [item['nombre_cv']];
+        // });
+        this.confPersoDocenteClas = _.groupBy(confPersoDocente, (item) => {
+          return [item['nombre_cv'], item['cv'], item['fecha_registro']];
+        });
+
+      console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas);
+      console.log("TRAEDENUEVOTODO");
+
       })
+
   }
 
 
-  deleteConfiguracionPersonalizada(nombreCv){
+  deleteConfiguracionPersonalizada(nombreCv, cvHash){
     console.log("AELIMINAR", nombreCv)
     console.log("🚀 ~ file: guardados.component.ts ~ line 108 ~ GuardadosComponent ~ getConfiguracionPersonalizada ~ arreglo", this.confPersoDocente)
 
-    let datos = _.filter(this.confPersoDocente, ['nombre_cv', nombreCv]);
+    let datos = _.filter(this.confPersoDocente, { 'nombre_cv': nombreCv, 'cv': cvHash });
     console.log(datos)
 
     datos.forEach((element) => {
       console.log(element.id)
-      this.configuracioncvService.deleteConfiguracionPersonalizada(element.id).subscribe((res)=>{
-      console.log("🚀 ~ file: guardados.component.ts ~ line 135 ~ GuardadosComponent ~ this.configuracioncvService.deleteConfiguracionPersonalizada ~ res", res)
+      this.configuracioncvService.deleteConfiguracionPersonalizada(element.id)
+      .subscribe((res)=>{
       
+      console.log("🚀 ~ file: guardados.component.ts ~ line 135 ~ GuardadosComponent ~ this.configuracioncvService.deleteConfiguracionPersonalizada ~ res", res)
+      this.getConfigurcionPersonalizadaDocente()
+
       });
 
       this._snackBar.open("Se elimino " + nombreCv, "Cerrar", {
         duration: 2000,
       });
       
-      this.getConfigurcionPersonalizadaDocente();
+      
     });
+
   }
 
 
@@ -195,16 +258,17 @@ export class GuardadosComponent implements OnInit {
   //   })
   // }
 
-  generaPdfPersonalizado(nombre_cv){
-    console.log("NOMBRECV", nombre_cv, this.idUser, this.valor)
+  generaPdfPersonalizado(nombre_cv, cvHash){
+    console.log("NOMBRECV", nombre_cv, this.idUser, this.valor, cvHash)
     this.valor = true;
-    this.pdfService.generaPdfPersonalizado(this.idUser, nombre_cv).subscribe((data) => {
+    this.pdfService.generaPdfPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) => {
       // this.valor = true;
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL);
       window.open(downloadURL);
       this.valor = false;
+      
     });
     // console.log("VALORSPINNER", this.valor)
   }
@@ -234,9 +298,9 @@ export class GuardadosComponent implements OnInit {
   //   });
   // }
 
-  generaDocPersonalizado(nombre_cv){
+  generaDocPersonalizado(nombre_cv, cvHash){
     console.log("DOCPERSO", nombre_cv);
-    this.creaDocxService.generaDocPersonalizado(this.idUser, nombre_cv).subscribe((data) =>{
+    this.creaDocxService.generaDocPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -272,8 +336,8 @@ export class GuardadosComponent implements OnInit {
   //   }) 
   // }
 
-  generaJsonPersonalizado(nombre_cv){
-    this.creaJsonService.generaJsonPersonalizado(this.idUser, nombre_cv).subscribe((data) =>{
+  generaJsonPersonalizado(nombre_cv, cvHash){
+    this.creaJsonService.generaJsonPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) =>{
       console.log(data);
       this.blob = new Blob([data as BlobPart], {type: 'application/json'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -282,6 +346,8 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "cv_personalizado.json";
       link.click();
+      this.load();
+
     });
   }
 

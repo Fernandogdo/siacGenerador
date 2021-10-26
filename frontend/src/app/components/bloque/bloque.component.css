@@ -21,9 +21,19 @@
 } */
 
 #tabla {
-    margin: 20px;
+    /* margin-top: 20px; */
+    margin-left: 20px;
+    margin-right: 20px;
     color: #003F72;
     background-color: #EAAB00;
+}
+
+#paginator{
+    /* margin: 20px; */
+    margin-left: 20px;
+    margin-right: 20px;
+    color: #E0DED8;
+    background-color: #A71930;
 }
 
 
@@ -37,10 +47,34 @@
 }
 
 .botones{
+    margin-top: 20px;
     background-color: #003F72;
     color: white;
 }
 
+.tarjeta_filtros{
+    background-color: #003F72;
+    color: #cec7b1;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.tituloTabla{
+    color: #003F72;
+}
+
+
+.btnPersonalizado{
+    background-color: #E0DED8;
+    color: black;
+    margin-left: 20px;
+}
+
+.botones_crear{
+    background-color: #003F72;
+
+    margin-left: 50px;
+}
 
 
 /* #formulario {

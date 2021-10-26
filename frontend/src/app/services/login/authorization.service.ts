@@ -2,11 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';import { Router } from '@angular/router';
 import { Docente } from 'app/models/docente';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
+
+  authenticationState = new BehaviorSubject(false);
 
 
   URL_LOGIN = 'http://127.0.0.1:8000/api/login/'
@@ -28,10 +31,31 @@ export class AuthorizationService {
     this.http.post<Docente>(this.URL_LOGIN, usuario, this.httpOptions).subscribe( res => {
       this.iniciarSesionDocente(res);
       // this.presentToast()
-      this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
-        duration: 2000,
-      });
-      this.router.navigate(['/dashboard']);
+      // console.log("SR ICE", res)
+      // console.log("ROLUSUARIO", res.username)
+      let rol =localStorage.getItem('is_staff')
+
+      let rolUsuario = (rol === 'true');
+      console.log("ROLUSUARIOASDSA", rolUsuario)
+
+      if (rolUsuario) {
+        console.log("ESADMIN")
+        this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
+          duration: 2000,
+        });
+        this.router.navigate(['/administrador']);
+      } else {
+        console.log("noESADMIN")
+        this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
+          duration: 2000,
+        });
+        this.router.navigate(['/dashboard']);
+      }
+    
+      // this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
+      //   duration: 2000,
+      // });
+      // this.router.navigate(['/dashboard']);
       
     }, error => {
       this.errorLogueo();
@@ -95,6 +119,12 @@ export class AuthorizationService {
   getOneUser(id: string) {
     return this.http.get(this.URL_DOCENTE + `${id}`);
   }
+
+
+  isAuthenticated(){
+    return this.authenticationState.value;
+  }
+  
 
   async errorLogueo() {
     console.log("🚀 ~ file: authorization.service.ts ~ line 56 ~ AuthorizationService ~ errorLogueo ~ l")

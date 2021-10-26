@@ -4,10 +4,21 @@
    */
 
 
-  #tabla {
+
+#tabla {
     color: #003F72;
     background-color: #EAAB00;
+} 
+
+
+#paginator{
+    /* margin: 20px; */
+    /* margin-left: 20px;
+    margin-right: 20px; */
+    color: #E0DED8;
+    background-color: #A71930;
 }
+
 
 #btnInformacion{
     background-color: #003F72;
@@ -24,9 +35,18 @@
     background-color: #E0DED8;
     color: #003F72;
 }
-.tarjeta_filtros {
-    background-color: #F9F9F9;
-    color: #003F72;
+
+.tarjeta_filtros{
+    background-color: #003F72;
+    color: #cec7b1;
+    /* margin-left: 20px;
+    margin-right: 20px; */
+}
+
+.btnPersonalizado{
+    background-color: #E0DED8;
+    color: black;
+    margin-left: 20px;
 }
 
 .rd-btn{

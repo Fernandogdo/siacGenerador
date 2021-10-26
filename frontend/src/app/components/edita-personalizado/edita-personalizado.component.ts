@@ -26,6 +26,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   formPersonalizado: FormGroup;
   nombre_cv;
   nombre_cvNuevo;
+  cvHash;
   private _unsubscribeAll: Subject<any>;
   configuraciones: Configuracioncv[];
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
@@ -53,6 +54,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cvHash = this.route.snapshot.params["cv"];
     this.nombre_cv = this.route.snapshot.params["nombre"];
     this.nombre_cvNuevo = this.nombre_cv;
     console.log("NOMBRESCVSINIT", this.nombre_cv, this.nombre_cvNuevo)
@@ -113,22 +115,24 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
   getConfiguracionesPersonalizadas(){
     console.log("NOMBRECVGET", this.nombre_cvNuevo)
     this.nombre_cv = this.nombre_cvNuevo
+    let iduser =  localStorage.getItem("id_user");
 
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (configuracionesPersonalizadas) =>{
-      this.filtradoBloques = configuracionesPersonalizadas.filter((user) =>  user.id_user === this.idUsuario 
-       && user.nombre_cv === this.nombre_cvNuevo);
 
-      this.confPersonalizadaNombre = this.filtradoBloques;
-      // this.atributosOriginal = this.confPersonalizadaNombre
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser).subscribe( configuracionesPersonalizadas =>{
+      console.log("configuracionesPersonalizadas", configuracionesPersonalizadas)
+      // this.filtradoBloques = configuracionesPersonalizadas;
+
+      this.filtradoBloques = configuracionesPersonalizadas.filter((cvpersonalizado) => 
+      cvpersonalizado.nombre_cv === this.nombre_cvNuevo 
+      && cvpersonalizado.cv === this.cvHash);
+      console.log("🚀 ~ file: edita-personalizado.component.ts ~ line 124 ~ EditaPersonalizadoComponent ~ this.configuracioncvService.listaConfiguracionPersonalizadaDocente ~ this.filtradoBloques", this.filtradoBloques)
       
-      // JSON.parse(
-      //   JSON.stringify(this.confPersonalizadaNombre)
-      // );
+      this.confPersonalizadaNombre = this.filtradoBloques;
+
       console.log("ATRIBUTOSIRIGINALMETODOGUARDAR", this.confPersonalizadaNombre)
 
       // console.log("confPersonalizadaNombre", this.confPersonalizadaNombre)
-      let i = 1
-      ;
+      let i = 1;
       this.filtradoBloques.forEach((bloque)=> {
             // console.log("BLOQUE", bloque)
              const data = {
@@ -152,14 +156,56 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
       );
        console.log("ARREGLOBLOQUESSERVICE", this.arregloBloques)
     });
+
+    // this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser).subscribe((configuracionesPersonalizadas) =>{
+    //   this.filtradoBloques = configuracionesPersonalizadas.filter((user) => user.nombre_cv === this.nombre_cvNuevo);
+    // });
+
+    // this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (configuracionesPersonalizadas) =>{
+    //   this.filtradoBloques = configuracionesPersonalizadas.filter((user) =>  user.id_user === this.idUsuario 
+    //    && user.nombre_cv === this.nombre_cvNuevo);
+
+    //   this.confPersonalizadaNombre = this.filtradoBloques;
+    //   // this.atributosOriginal = this.confPersonalizadaNombre
+      
+    //   // JSON.parse(
+    //   //   JSON.stringify(this.confPersonalizadaNombre)
+    //   // );
+    //   console.log("ATRIBUTOSIRIGINALMETODOGUARDAR", this.confPersonalizadaNombre)
+
+    //   // console.log("confPersonalizadaNombre", this.confPersonalizadaNombre)
+    //   let i = 1;
+    //   this.filtradoBloques.forEach((bloque)=> {
+    //         // console.log("BLOQUE", bloque)
+    //          const data = {
+    //            id:i++,
+    //            bloque: bloque.bloque,
+    //            ordenPersonalizable: bloque.ordenPersonalizable,
+    //            visible_cv_bloque: bloque.visible_cv_bloque
+    //          }
+    //          this.arregloBloques.push(data)
+    //    });
+    //    this.arregloBloques = _.uniqBy(this.arregloBloques, 'bloque');
+    //    let bloquesOrdenados = _.orderBy(this.arregloBloques,['ordenPersonalizable', ], ['asc']);
+    //    this.arregloBloques = bloquesOrdenados;
+    //    this.arregloBloquesNoVisibles = bloquesOrdenados;  
+    //    this.arregloBloquesVisibles = bloquesOrdenados;  
+
+    //    this.dataSource = new MatTableDataSource(this.arregloBloques);
+    //    this.dataSource.paginator = this.paginator;
+    //    this.atributosOriginal = JSON.parse(
+    //     JSON.stringify(this.arregloBloques)
+    //   );
+    //    console.log("ARREGLOBLOQUESSERVICE", this.arregloBloques)
+    // });
   }
+
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
     this.dataSource = new MatTableDataSource(this.arregloBloques);
-
   }
   
 
@@ -181,7 +227,7 @@ export class EditaPersonalizadoComponent implements OnInit, OnDestroy {
     //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
     // console.log(event.checked)
     // if (event.checked) {
-      console.log("FILTRONOVISBLES", this.confPersonalizadaNombre);
+      console.log("FILTROVISBLES", this.confPersonalizadaNombre);
       let atributosOrdenados = _.filter(this.arregloBloquesNoVisibles,['visible_cv_bloque', true ]);
       this.arregloBloques = atributosOrdenados;
       this.dataSource = new MatTableDataSource(this.arregloBloques);

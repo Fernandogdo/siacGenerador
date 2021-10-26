@@ -8,15 +8,20 @@ import { Router } from "@angular/router";
 import * as _ from "lodash";
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import {ThemePalette} from '@angular/material/core';
+
+
 @Component({
   selector: "app-bloque",
   templateUrl: "./bloque.component.html",
   styleUrls: ["./bloque.component.css"],
 })
 export class BloqueComponent implements OnInit {
+  
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  completo: boolean;
   nombreBloque;
   arregloBloques = [];
   atributosOrdenCompletoados;
@@ -36,6 +41,8 @@ export class BloqueComponent implements OnInit {
   ngOnInit(): void {
     this.nombreBloque = this.route.snapshot.params["nombre"];
     this.getConfiguracion();
+    this.completo = true
+    
   }
 
   getConfiguracion() {

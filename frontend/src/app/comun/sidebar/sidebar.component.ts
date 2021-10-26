@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.idUser = localStorage.getItem("idDocente");
+    this.idUser = localStorage.getItem("id_user");
     this.nombreCv = localStorage.getItem("nombre_cv");
 
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)

@@ -32,8 +32,9 @@ export class CreacvPersonalizadoComponent implements OnInit {
   id;
   miDataInterior = [];
   nombre_cv: string;
+  cvHash;
   idUsuario;
-
+  confPersoDocente;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.cvHash = this.route.snapshot.params["cv"];
     this.nombreBloque = this.route.snapshot.params["nombre"];
     this.nombre_cv = this.route.snapshot.params["nombre_cv"];
     // this.getConfiguracion();
@@ -64,37 +66,37 @@ export class CreacvPersonalizadoComponent implements OnInit {
     this.configuracioncvService.getConfiguraciones().subscribe(
       (res) => {
         this.configuracioncvService.configuraciones = res;
-        const filteredCategories = [];
-        res.forEach((configuracion) => {
-          if (!filteredCategories.find((cat) =>
-                cat.bloque == configuracion.bloque &&
-                cat.atributo == configuracion.atributo)
-          ) {
-            const {
-              id,
-              bloque,
-              atributo,
-              ordenCompleto,
-              mapeo,
-              visible_cv_completo,
-              visible_cv_resumido,
-              administrador,
-            } = configuracion;
-            filteredCategories.push({
-              id,
-              bloque,
-              atributo,
-              ordenCompleto,
-              mapeo,
-              visible_cv_completo,
-              visible_cv_resumido,
-              administrador,
-            });
-          }
-        });
+        // const filteredCategories = [];
+        // res.forEach((configuracion) => {
+        //   if (!filteredCategories.find((cat) =>
+        //         cat.bloque == configuracion.bloque &&
+        //         cat.atributo == configuracion.atributo)
+        //   ) {
+        //     const {
+        //       id,
+        //       bloque,
+        //       atributo,
+        //       ordenCompleto,
+        //       mapeo,
+        //       visible_cv_completo,
+        //       visible_cv_resumido,
+        //       administrador,
+        //     } = configuracion;
+        //     filteredCategories.push({
+        //       id,
+        //       bloque,
+        //       atributo,
+        //       ordenCompleto,
+        //       mapeo,
+        //       visible_cv_completo,
+        //       visible_cv_resumido,
+        //       administrador,
+        //     });
+        //   }
+        // });
 
-        this.configuracioncvService.configuraciones = filteredCategories;
-        this.arregloBloques = filteredCategories.filter((user) => user.bloque === this.nombreBloque);
+        // this.configuracioncvService.configuraciones = filteredCategories;
+        this.arregloBloques = res.filter((user) => user.bloque === this.nombreBloque);
         this.atributosOrdenados = _.orderBy(this.arregloBloques, ["ordenCompleto", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenados;
 
@@ -103,7 +105,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
         console.log("FILTRADOBLOQUE", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
-          JSON.stringify(filteredCategories)
+          JSON.stringify(res)
         );
         console.log("ATRIBUTOSIRIGINAL", this.atributosOriginal)
       },
@@ -112,66 +114,36 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
   getConfiguracionPersonalizada(){
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe( (res) =>{
-      this.configuracioncvService.configuracionesPersonalizadas = res;
-      console.log("RESORIGINAL", res)
-      console.log("RESRESFILTRADA-->>>>>>", res.filter((user) =>  user.id_user === this.idUsuario 
-      && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv));
-      const filteredCategories = [];
-        res.forEach((configuracion) => {
-          if (!filteredCategories.find((cat) =>
-                cat.bloque == configuracion.bloque &&
-                cat.nombre_cv == configuracion.nombre_cv &&
-                cat.atributo == configuracion.atributo
-                )
-          ) {
-            const {
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            } = configuracion;
-            filteredCategories.push({
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            });
-          }
-        });
-      this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
-      // const filtradoNOmbre = filteredCategories.filter((atributo)=>  atributo.id_user === this.idUsuario)
-      console.log("FILTEREDCATEGORIES-->>>>", filteredCategories)
-      
-      this.arregloAtributos = filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
-        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
 
-      console.log("PERSONALIZADASPERSONALIZADAS", this.arregloAtributos)
-      this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
-      this.arregloAtributos = this.atributosOrdenados;
+    let iduser =  localStorage.getItem("id_user");
+    // console.log("🚀 ~ file: guardados.component.ts ~ line 55 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ iduser", iduser)
+    
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
+      .subscribe(confPersoDocente =>{
+        this.confPersoDocente = confPersoDocente;
+        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
+        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash
+        ));
 
-      this.dataSource = new MatTableDataSource(this.arregloAtributos);
-      this.dataSource.paginator = this.paginator;
+        this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash
+        );
 
-      this.atributosOriginal = JSON.parse(
-        JSON.stringify(res)
-      );
-
-    });
+        this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
+        this.arregloAtributos = this.atributosOrdenados;
+  
+        this.dataSource = new MatTableDataSource(this.arregloAtributos);
+        this.dataSource.paginator = this.paginator;
+  
+        this.atributosOriginal = JSON.parse(
+          JSON.stringify(confPersoDocente)
+        );
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -182,153 +154,73 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
 
   FiltroNoVisibles() {
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
-      (res) => {
-        this.configuracioncvService.configuracionesPersonalizadas = res;
-        const filteredCategories = [];
-        res.forEach((configuracion) => {
-          if (!filteredCategories.find((cat) =>
-            cat.bloque == configuracion.bloque &&
-            cat.nombre_cv == configuracion.nombre_cv &&
-            cat.atributo == configuracion.atributo
-                )
-          ) {
-            const {
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            } = configuracion;
-            filteredCategories.push({
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            });
-          }
-        });
+    let iduser =  localStorage.getItem("id_user");
 
-        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
+      .subscribe(confPersoDocente =>{
+        this.confPersoDocente = confPersoDocente;
+        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
+        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash));
 
-        // this.arregloAtributos = filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
-        // && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
-
-        this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario 
-        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
+        this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash);
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', false ]);
+        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 165 ~ CreacvPersonalizadoComponent ~ FiltroNoVisibles ~ this.atributosOrdenados", this.atributosOrdenados)
+        
         this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
-        // this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
-
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
 
         console.log("FILTRADOBLOQUENOVISIBLEPERSONALIZADO", this.arregloAtributos);
         this.atributosOriginal = JSON.parse(
-          JSON.stringify(res)
+          JSON.stringify(confPersoDocente)
         );
       },
-      (err) => console.log(err)
-    );
+        (err) => console.log(err)
+      );
+
     
   }
 
-  // FiltroVisibles() {
-  //   //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
-  //   // console.log(event.checked)
-  //   // if (event.checked) {
-  //     this.configuracioncvService.getBloques()
-  //     .subscribe(res => {
-  //       this.arregloBloques = res
-  //       let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloque', true ]);
-  //       this.arregloBloques = atributosOrdenados;
-  //       this.dataSource = new MatTableDataSource(this.arregloBloques);
-  //       this.bloquesOriginal = JSON.parse(
-  //         JSON.stringify(this.arregloBloques)
-  //       );
-  //     });
-  //   // } else {
-  //   //   this.getBloques()
-  //   // }
-  // }
-
   FiltroVisibles() {
-    this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe(
-      (res) => {
-        this.configuracioncvService.configuracionesPersonalizadas = res;
-        // console.log("RESRES--->>>", res.filter())
-        const filteredCategories = [];
-        res.forEach((configuracion) => {
-          if (!filteredCategories.find((cat) =>
-            cat.bloque == configuracion.bloque &&
-            cat.nombre_cv == configuracion.nombre_cv &&
-            cat.atributo == configuracion.atributo)
-          ) {
-            const {
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            } = configuracion;
-            filteredCategories.push({
-              id,
-              bloque,
-              atributo,
-              orden,
-              visible_cv_personalizado,
-              mapeo,
-              cv,
-              nombre_cv,
-              fecha_registro,
-              cedula,
-              id_user
-            });
-          }
-        });
+    let iduser =  localStorage.getItem("id_user");
+    console.log("CVHASHAEDITAR", this.cvHash)
+    
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
+      .subscribe(confPersoDocente =>{
+        this.confPersoDocente = confPersoDocente;
+        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
+        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash));
 
-        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
-        // user.id_user === this.idUsuario 
-        // && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv
-        console.log("NOMBRECVVISIBLES",filteredCategories)
-        console.log("RESRESFILTRADAVISIBLES-->>>>>>", filteredCategories.filter((user) =>  user.id_user === this.idUsuario 
-        && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv));
-        this.arregloAtributos = filteredCategories.filter((user) => user.id_user === this.idUsuario && user.bloque === this.nombreBloque && user.nombre_cv === this.nombre_cv);
-        console.log("AREGGLOATRIBUTOS--->>>", this.arregloAtributos)
+        this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
+        cvpersonalizado.bloque === this.nombreBloque 
+        && cvpersonalizado.nombre_cv === this.nombre_cv
+        && cvpersonalizado.cv === this.cvHash
+        );
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', true ]);
-        // this.arregloAtributos = this.atributosOrdenados;
+        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 196 ~ CreacvPersonalizadoComponent ~ FiltroVisibles ~ this.atributosOrdenados", this.atributosOrdenados)
+        
         this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOVISIBLEBLOQUEEDICION", this.arregloAtributos);
+        console.log("FILTRADOBLOQUENOVISIBLEPERSONALIZADO", this.arregloAtributos);
         this.atributosOriginal = JSON.parse(
-          JSON.stringify(res)
+          JSON.stringify(confPersoDocente)
         );
       },
-      (err) => console.log(err)
-    );
+        (err) => console.log(err) 
+      );
   }
 
 
@@ -396,6 +288,11 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
  
+  deshabilitaRetroceso(){
+    window.location.hash="no-back-button";
+    window.location.hash="Again-No-back-button" //chrome
+    window.onhashchange=function(){window.location.hash="no-back-button";}
+  }
 
   
 

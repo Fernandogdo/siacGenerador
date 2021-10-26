@@ -6,37 +6,18 @@
                 <div class="container" id="formulario">
                     <div class="col text-center">
                         <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
-                        <!-- <button class="botones" id="btn-documento" mat-stroked-button color="accent" [matMenuTriggerFor]="menupdf">Crear PDF
-                        </button>
-                            <mat-menu #menupdf="matMenu">
-                              <button mat-menu-item (click)="generaPdfCompleto()">Completo</button>
-                              <button mat-menu-item (click)="generaPdfResumido()">Resumido</button>                            
-                            </mat-menu>
-
-                        <button class="botones" id="btn-documento" mat-stroked-button color="primary" [matMenuTriggerFor]="menudocx">Crear Word</button>
-                            <mat-menu #menudocx="matMenu">
-                              <button mat-menu-item (click)="generaDocCompleto()">Completo</button>
-                              <button mat-menu-item (click)="generaDocResumido()">Resumido</button>                            
-                            </mat-menu>
-
-                        <button class="botones" id="btn-documento" mat-raised-button [matMenuTriggerFor]="menujson">Crear Json</button>
-                            <mat-menu #menujson="matMenu">
-                              <button mat-menu-item (click)="generaJsonCompleto()">Completo</button>
-                              <button mat-menu-item (click)="generaJsonResumido()">Resumido</button>                            
-                            </mat-menu> -->
                     </div>
 
                     <div class="col text-center">
                         <button class="botones" id="btn-csv" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación CSV</button>
                         <mat-menu #menuexportacion="matMenu">
-                          <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
-                          <!-- <button mat-menu-item color="primary" (click)="generaTxtInformacion()">TXT</button>  -->
+                            <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
                         </mat-menu>
 
                     <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
                         <mat-menu #menuexportacionTXT="matMenu">
-                          <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                          <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button> 
+                            <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
+                            <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button> 
                         </mat-menu>
                     </div>
                 </div>
@@ -65,45 +46,72 @@
             </div>
 
             
-                <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClas | keyvalue">
-                    <div class="card card-stats">
-                        <div class="card-header card-header-warning card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">content_copy</i>
-                            </div>
-                            <p class="card-category">Personalizado</p>
-                            <h5 class="card-title">{{item.key}}</h5>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
-                            <mat-menu #menuPersonalizado="matMenu">
-                                <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-
-                                <button mat-menu-item (click)="generaPdfPersonalizado(item.key)">PDF</button>
-                                <button mat-menu-item (click)="generaDocPersonalizado(item.key)">WORD</button>      
-                                <button mat-menu-item (click)="generaJsonPersonalizado(item.key)">JSON</button>                                                  
-                            </mat-menu>
-                            
-                
-                            <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
-                                <i class=" material-icons ">edit</i>
-                            </button>
-                            <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada(item.key)" color="warn">
-                                <i class=" material-icons ">delete</i>
-                            </button>
-                        </div>
-                        <div *ngIf="valor">
-                            Generando documento
-                            <mat-progress-bar
-                            class="example-margin"
-                            [color]="color"
-                            [mode]="mode"
-                            > Generando
-                        </mat-progress-bar>
-                        </div>
-                       
-                    </div>
+            <!-- <div *ngFor="let item of confPersoDocenteClas | keyvalue">
+                <h5 class="card-title">Índice: {{item.key}}</h5> {{item.value.fecha_registro}}
+                <div *ngFor="let contenido of item.value">
+                  <h5 class="card-title"> {{contenido.fecha_registro}} </h5>
                 </div>
+              </div> -->
+            
+            <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClas | keyvalue">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">content_copy</i>
+                        </div>
+                        <h5 class="card-title">{{item.key.split(',')[0]}}</h5>
+                        <p class="card-category">
+                            <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
+                        </p>
+                        <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button> -->
+                        <mat-menu #menuPersonalizado="matMenu">
+                            <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
+                            <button mat-menu-item (click)="generaPdfPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">PDF</button>
+                            <button mat-menu-item (click)="generaDocPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">WORD</button>      
+                            <button mat-menu-item (click)="generaJsonPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">JSON</button>                                                  
+                        </mat-menu>
+                    </div>
+                    <div class="card-footer">
+                        <h6>{{item.key.split(',')[2]}}</h6>
+                        <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
+                        <mat-menu #menuPersonalizado="matMenu">
+                            <button mat-menu-item (click)="generaPdfPersonalizado(item.key)">PDF</button>
+                            <button mat-menu-item (click)="generaDocPersonalizado(item.key)">WORD</button>      
+                            <button mat-menu-item (click)="generaJsonPersonalizado(item.key)">JSON</button>                                                  
+                        </mat-menu> -->
+                      
+                        <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.key.split(',')[0], item.key.split(',')[1]]" routerLinkActive="active">
+                            <i class=" material-icons ">edit</i>
+                        </button>
+                        <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada( item.key.split(',')[0], item.key.split(',')[1])" color="warn">
+                            <i class=" material-icons ">delete</i>
+                        </button>
+                    </div> 
+                    
+                    
+                    
+                    <div *ngIf="valor">
+                        Generando documento
+                        <mat-progress-bar
+                        class="example-margin"
+                        [color]="color"
+                        [mode]="mode"
+                        > Generando
+                    </mat-progress-bar>
+                    </div>
+                   
+                </div>
+
+                
+
+
+            </div>
         </div>
     </div>
 </div>
+
+<!-- <div *ngFor="let item of confPersoDocenteClas | keyvalue">  
+    <div>
+          <h5 class="card-title">{{item.key}}</h5>
+    </div>
+ </div> -->

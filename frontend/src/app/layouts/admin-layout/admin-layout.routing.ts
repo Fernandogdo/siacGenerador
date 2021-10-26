@@ -13,18 +13,20 @@ import { EditaPersonalizadoService } from 'app/services/edita-personalizado/edit
 import { LoginComponent } from 'app/components/login/login.component';
 import { CreacvPersonalizadoComponent } from 'app/components/creacv-personalizado/creacv-personalizado.component';
 import { CreaFormatosComponent } from 'app/components/crea-formatos/crea-formatos.component';
+import { AuthGuard } from 'app/guards/auth.guard';
+import { DocenteGuard } from 'app/guards/docente/docente.guard';
 
 export const AdminLayoutRoutes: Routes = [
 
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'cv-completo',   component: CompletoCvComponent },
-    { path: 'cv-resumido',   component: ResumidoCvComponent },
-    { path: 'cv-personalizado',   component: PersonalizadoCvComponent },
-    { path: 'administrador',   component: AdministradorComponent },
-    { path: 'cv-guardado/:id_user',   component: GuardadosComponent },
-    { path: 'bloque-completo/:nombre',   component: BloqueComponent },
-    { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent },
-    { path: 'edita-personalizado/:nombre',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}},
-    { path: 'crea-personalizado/:nombre/:nombre_cv', component: CreacvPersonalizadoComponent},
-    { path: 'crea-formatos/:id_user', component: CreaFormatosComponent}
+    { path: 'dashboard',      component: DashboardComponent, canActivate:[AuthGuard] },
+    { path: 'cv-completo',   component: CompletoCvComponent, canActivate:[AuthGuard] },
+    { path: 'cv-resumido',   component: ResumidoCvComponent, canActivate:[AuthGuard] },
+    { path: 'cv-personalizado',   component: PersonalizadoCvComponent, canActivate:[AuthGuard] },
+    { path: 'administrador',   component: AdministradorComponent, canActivate:[AuthGuard]},
+    { path: 'cv-guardado/:id_user',   component: GuardadosComponent, canActivate:[DocenteGuard]},
+    { path: 'bloque-completo/:nombre',   component: BloqueComponent, canActivate:[AuthGuard]},
+    { path: 'bloque-resumido/:nombre',   component: BloqueResumidoComponent, canActivate:[AuthGuard]},
+    { path: 'edita-personalizado/:nombre/:cv',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}, canActivate:[DocenteGuard]},
+    { path: 'crea-personalizado/:nombre/:nombre_cv/:cv', component: CreacvPersonalizadoComponent, canActivate:[DocenteGuard]},
+    { path: 'crea-formatos/:id_user', component: CreaFormatosComponent, canActivate:[DocenteGuard]}
 ];

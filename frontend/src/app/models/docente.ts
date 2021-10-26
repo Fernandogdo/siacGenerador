@@ -4,6 +4,7 @@ export class Docente {
     public last_name: string,
     public username: string,
     public password: number,
-    public id_user?: string
+    public id_user?: string,
+    public is_staff?:boolean
   ) {}
 }

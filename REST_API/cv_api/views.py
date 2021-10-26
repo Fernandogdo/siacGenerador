@@ -434,7 +434,7 @@ def PdfResumido(request, id):
 
 
 '''GENERA PDF PERSONALIZADO'''
-def PdfPersonalizado(request, id, nombre_cv):
+def PdfPersonalizado(request, id, nombre_cv, cvHash):
 
     # nombre_cv = 'data'
     model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
@@ -442,10 +442,14 @@ def PdfPersonalizado(request, id, nombre_cv):
     dataFilterId = model_dict.filter(id_user=id)
 
     # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+    # dataHash = dataFilterId.filter(cv=cvHash)
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataHash)
 
-    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
 
-    # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv).filter(cv=cvHash)
+    
+
+    print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
     # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
 
     # model_bloques = models.Bloque.objects.all().values()
@@ -937,15 +941,17 @@ def DocResumido(request, id):
     return response
 
 
-def DocPersonalizado(request, id, nombre_cv):
-
+def DocPersonalizado(request, id, nombre_cv, cvHash):
     model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
     # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
     dataFilterId = model_dict.filter(id_user=id)
 
     # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+    # dataHash = dataFilterId.filter(cv=cvHash)
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataHash)
 
-    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
+
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv).filter(cv=cvHash)
 
     # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
     # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
@@ -1428,14 +1434,18 @@ def JsonResumido(request, id):
 
 
 
-def JsonPersonalizado(request, id, nombre_cv):
+def JsonPersonalizado(request, id, nombre_cv, cvHash):
+
     model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
     # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
     dataFilterId = model_dict.filter(id_user=id)
 
     # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
+    # dataHash = dataFilterId.filter(cv=cvHash)
+    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataHash)
 
-    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv)
+    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv).filter(cv=cvHash)
+
 
     # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
     # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
