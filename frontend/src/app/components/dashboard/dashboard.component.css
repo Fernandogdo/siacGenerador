@@ -10,6 +10,13 @@
     margin: auto;
 }
 
+.logoUtpl{
+    width: 170px;
+    height: 225px;
+    display: block;
+    margin: auto;
+}
+
 #tarjeta_informacion {
     background-color: #E0DED8;
 }

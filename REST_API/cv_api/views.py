@@ -1873,6 +1873,10 @@ def InformacionTxtLibros(request, id):
 
 
     lines = []
+    arreglo = [{libro['titulo'], libro['editorial']} for libro in listaLibrosDocente]
+    print("ARREGLO----------_______>>>>>>>>>>>>>.", arreglo)
+    
+
     for libro in listaLibrosDocente:
         fecha = datetime.now()
         titulo = libro['titulo']
@@ -1884,6 +1888,7 @@ def InformacionTxtLibros(request, id):
         lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_libro}\nISBN:{isbn}\nDOCUMENT TYPE:{tipo_documento}\nEDITORIAL SCOPE:{ambito_editorial}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
 
 
+
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=export.txt'
    
@@ -1891,6 +1896,174 @@ def InformacionTxtLibros(request, id):
 
     return response
 
+
+
+def InformacionTxtProyectos(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidLibros = []
+    for infobloque in docente['related']['proyectos']:
+        listaidLibros.append(infobloque)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+
+    ''' Saca articulos de docentes por ID'''
+    listaLibrosDocente = []
+    for id in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/proyectos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+
+    lines = []
+    # arreglo = [{libro['titulo'], libro['editorial']} for libro in listaLibrosDocente]
+    # print("ARREGLO----------_______>>>>>>>>>>>>>.", arreglo)
+    
+
+    for pryecto in listaLibrosDocente:
+        fecha = datetime.now()
+        nombre_proyecto = pryecto['nombre_proyecto']
+        fecha_inicio = pryecto['fecha_inicio']
+        fecha_cierre = pryecto['fecha_cierre']
+        tipo_proyecto = pryecto['tipo_proyecto']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{nombre_proyecto}\n{fecha_inicio}\n{fecha_cierre}\nTIPO PROYECTO:{tipo_proyecto}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+
+
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+   
+    response.writelines(lines)
+
+    return response
+
+
+def InformacionTxtCapacitacion(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidLibros = []
+    for infobloque in docente['related']['capacitacion']:
+        listaidLibros.append(infobloque)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+
+    ''' Saca articulos de docentes por ID'''
+    listaLibrosDocente = []
+    for id in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/capacitacion/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+
+    lines = []
+    # arreglo = [{libro['titulo'], libro['editorial']} for libro in listaLibrosDocente]
+    # print("ARREGLO----------_______>>>>>>>>>>>>>.", arreglo)
+    
+
+    for capacitacion in listaLibrosDocente:
+        fecha = datetime.now()
+        nombre = capacitacion['nombre_proyecto']
+        fecha_inicio = capacitacion['fecha_inicio']
+        # fecha_fin = capacitacion['fecha_cierre']
+        institucion_organizadora = capacitacion['institucion_organizadora']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{nombre}\n{fecha_inicio}\n{fecha_inicio}\nINSTITUCIÓN:{institucion_organizadora}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+
+
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+   
+    response.writelines(lines)
+
+    return response
+
+
+def InformacionTxtGradoAcademico(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    '''Saca id Articulos '''
+    listaidLibros = []
+    for infobloque in docente['related']['grado-academico']:
+        listaidLibros.append(infobloque)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+
+    ''' Saca articulos de docentes por ID'''
+    listaLibrosDocente = []
+    for id in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/grado-academico/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+
+    lines = []
+    # arreglo = [{libro['titulo'], libro['editorial']} for libro in listaLibrosDocente]
+    # print("ARREGLO----------_______>>>>>>>>>>>>>.", arreglo)
+    
+
+    for gradoAcademico in listaLibrosDocente:
+        fecha = datetime.now()
+        nombre = gradoAcademico['denominacion_titulo']
+        fecha_inicio = gradoAcademico['fecha_inicio']
+        # fecha_fin = capacitacion['fecha_cierre']
+        institucion_organizadora = gradoAcademico['universidad_emisora']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{nombre}\n{fecha_inicio}\n{fecha_inicio}\nINSTITUCIÓN:{institucion_organizadora}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+
+
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=export.txt'
+   
+    response.writelines(lines)
+
+    return response
 
 
 

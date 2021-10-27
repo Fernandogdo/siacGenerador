@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -43,7 +43,9 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
 // import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 // import { ProgressSpinnerModule } from '../app/components/progress-spinner/progress-spinner.module';
-
+// import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NetworkInterceptor } from './interceptors/interceptor.spinner';
 
 @NgModule({
   imports: [
@@ -62,6 +64,8 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     MatSnackBarModule,
     Angular2CsvModule,
     MatCardModule,
+    MatProgressSpinnerModule
+    // Ng4LoadingSpinnerModule.forRoot()
     // ProgressSpinnerModule
     // MatPaginatorModule
     // MatMenuModule
@@ -79,7 +83,11 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
     // ResumidoCvComponent,
     //PersonalizadoCvComponent,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: NetworkInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -304,10 +304,13 @@ export class BloqueComponent implements OnInit {
         .putConfiguracion(atributo)
         .subscribe((res) => {
           console.log("editado", res);
-          this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-            duration: 2000,
-          });
+          // this._snackBar.open("Se guardó  correctamente", "Cerrar", {
+          //   duration: 2000,
+          // });
           this.getConfiguracion();
+        });
+        this._snackBar.open("Se guardó correctamente", "Cerrar", {
+          duration: 2000,
         });
         // this.getConfiguracion();
     }); 

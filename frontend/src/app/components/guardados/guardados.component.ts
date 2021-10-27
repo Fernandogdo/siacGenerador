@@ -18,11 +18,15 @@ import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
 import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+// import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner'
+// import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner'
+
 
 @Component({
   selector: 'app-guardados',
   templateUrl: './guardados.component.html',
-  styleUrls: ['./guardados.component.css']
+  styleUrls: ['./guardados.component.css'],
+  // providers: [Ng4LoadingSpinnerService]
 })
 export class GuardadosComponent implements OnInit {
 
@@ -43,19 +47,12 @@ export class GuardadosComponent implements OnInit {
   isLoading = false;
   loadingText: string = '';
 
-  displayProgressSpinner: boolean;
-  color = 'primary';
-  mode = 'indeterminate';
   valor = false;
-
-  showProgressSpinner = () => {
-    this.displayProgressSpinner = true;
-    setTimeout(() => {
-      this.displayProgressSpinner = false;
-    }, 3000);
-  };
+  valorDocumento = false;
 
 
+
+  
 
   
   // dialogEditCategoria: MatDialogRef<ModalPersonalizacionComponent>;
@@ -73,7 +70,14 @@ export class GuardadosComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public authorizationService: AuthorizationService,
     private _snackBar: MatSnackBar,
-  ) { }
+    // private spinner: Ng4LoadingSpinnerService
+  ) { 
+    // spinner.show();
+    // setTimeout(() => {
+    //   spinner.hide();
+    // }
+    //   , 2000)
+  }
 
   
 
@@ -116,10 +120,21 @@ export class GuardadosComponent implements OnInit {
   // }
 
 
-  load() : void {
-    this.isLoading = true;
-    setTimeout( () => this.isLoading = false, 2000 );
-  }
+  // showSpinner(time?) {
+  //   console.log(time);
+  //   this.spinner.show();
+  //   if (time !== null) {
+  //     this.loadingText = 'Spin for 5 seconds';
+  //     setTimeout(() => {
+  //       this.spinner.hide();
+  //     }
+  //       , 2000)
+  //   } else{
+  //     this.loadingText = 'Spin for unlimited times';
+      
+  //   }
+  // }
+
 
   // barButtonOptions: any = {
   //   active: false,
@@ -191,8 +206,8 @@ export class GuardadosComponent implements OnInit {
           return [item['nombre_cv'], item['cv'], item['fecha_registro']];
         });
 
-      console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas);
-      console.log("TRAEDENUEVOTODO");
+      // console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas);
+      // console.log("TRAEDENUEVOTODO");
 
       })
 
@@ -201,7 +216,7 @@ export class GuardadosComponent implements OnInit {
 
   deleteConfiguracionPersonalizada(nombreCv, cvHash){
     console.log("AELIMINAR", nombreCv)
-    console.log("🚀 ~ file: guardados.component.ts ~ line 108 ~ GuardadosComponent ~ getConfiguracionPersonalizada ~ arreglo", this.confPersoDocente)
+    // console.log("🚀 ~ file: guardados.component.ts ~ line 108 ~ GuardadosComponent ~ getConfiguracionPersonalizada ~ arreglo", this.confPersoDocente)
 
     let datos = _.filter(this.confPersoDocente, { 'nombre_cv': nombreCv, 'cv': cvHash });
     console.log(datos)
@@ -211,7 +226,7 @@ export class GuardadosComponent implements OnInit {
       this.configuracioncvService.deleteConfiguracionPersonalizada(element.id)
       .subscribe((res)=>{
       
-      console.log("🚀 ~ file: guardados.component.ts ~ line 135 ~ GuardadosComponent ~ this.configuracioncvService.deleteConfiguracionPersonalizada ~ res", res)
+      // console.log("🚀 ~ file: guardados.component.ts ~ line 135 ~ GuardadosComponent ~ this.configuracioncvService.deleteConfiguracionPersonalizada ~ res", res)
       this.getConfigurcionPersonalizadaDocente()
 
       });
@@ -346,8 +361,6 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "cv_personalizado.json";
       link.click();
-      this.load();
-
     });
   }
 
@@ -379,6 +392,8 @@ export class GuardadosComponent implements OnInit {
 
 
   generaTxtArticulos(){
+    this.valorDocumento = true;
+
     this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -387,11 +402,14 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "articulos_informacion_txt.txt";
       link.click();
+      this.valorDocumento = false;
+
     })
   }
 
 
   generaTxtLibros(){
+    this.valorDocumento = true;
     this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -400,6 +418,54 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "libros_informacion_txt.txt";
       link.click();
+      this.valorDocumento = false;
+
+    });
+  }
+
+  generaTxtProyectos(){
+    this.valorDocumento = true;
+    this.creatxtService.generaTxtProyectos(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "proyectos_informacion_txt.txt";
+      link.click();
+      this.valorDocumento = false;
+
+    });
+  }
+
+  generaTxtCapacitacion(){
+    this.valorDocumento = true;
+    this.creatxtService.generaTxtCapacitacion(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "capacitaciones_informacion_txt.txt";
+      link.click();
+      this.valorDocumento = false;
+
+    });
+  }
+
+
+  generaTxtGradoAcademico(){
+    this.valorDocumento = true;
+    this.creatxtService.generaTxtGradoAcademico(this.idUser).subscribe((data) => {
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "gradoAcademico_informacion_txt.txt";
+      link.click();
+      this.valorDocumento = false;
+
     });
   }
  

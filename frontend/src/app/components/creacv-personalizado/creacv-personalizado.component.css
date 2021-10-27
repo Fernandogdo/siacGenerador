@@ -40,6 +40,19 @@
     color: white;
 }
 
+.btnRegresar{
+    margin: 20px;
+    background-color: #003F72;
+    color: white;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
 
 /* .filtro {
  max-width: 90%;

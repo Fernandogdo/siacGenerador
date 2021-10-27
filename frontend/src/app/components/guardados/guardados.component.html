@@ -8,6 +8,14 @@
                         <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
                     </div>
 
+                    <!-- <button (click)="showSpinner(3000)">Show spinner for 5 seconds</button>
+
+                    <ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
+                    <!-- <button (click)="showSpinner()">Show spinner for unlimited time</button>
+<button (click)="showSpinner(3000)">Show spinner for 5 seconds</button>
+
+<ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
+
                     <div class="col text-center">
                         <button class="botones" id="btn-csv" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación CSV</button>
                         <mat-menu #menuexportacion="matMenu">
@@ -17,12 +25,29 @@
                     <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
                         <mat-menu #menuexportacionTXT="matMenu">
                             <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                            <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button> 
+                            <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
+                            <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
+                            <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Proyectos TXT </button> 
+                            <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Proyectos TXT </button> 
+
+                            
                         </mat-menu>
+                        <div *ngIf="valorDocumento">
+                            Generando documento
+                            <mat-progress-bar mode="query">
+    
+                            </mat-progress-bar>
+                            <!-- <mat-progress-bar
+                                class="example-margin"
+                                [color]="color"
+                                [mode]="mode"
+                                > Generando
+                            </mat-progress-bar> -->
+                        </div>
                     </div>
                 </div>
                
-
+                
                 <!-- <mat-card *ngFor="let item of confPersoDocenteClas | keyvalue" class="tarjeta-cv" id="tarjeta_cv">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image">
@@ -92,13 +117,18 @@
                     
                     <div *ngIf="valor">
                         Generando documento
-                        <mat-progress-bar
-                        class="example-margin"
-                        [color]="color"
-                        [mode]="mode"
-                        > Generando
-                    </mat-progress-bar>
+                        <mat-progress-bar mode="query">
+
+                        </mat-progress-bar>
+                        <!-- <mat-progress-bar
+                            class="example-margin"
+                            [color]="color"
+                            [mode]="mode"
+                            > Generando
+                        </mat-progress-bar> -->
                     </div>
+
+                  
                    
                 </div>
 

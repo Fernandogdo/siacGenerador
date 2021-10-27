@@ -23,12 +23,20 @@
         </ul> -->
     </div> 
     <ul class="nav">
-        <li class=" nav-item">
+        <li class=" nav-item" *ngIf="!seMuestra" >
             <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
                 <i id="icono" class="material-icons">dashboard</i>
                 <p style="color:#EAAB00;">Dashboard</p>
             </a>
         </li>
+
+        <li class=" nav-item" *ngIf="seMuestra">
+            <a class="nav-link" routerLink="/administrador" routerLinkActive="active">
+                <i id="icono" class="material-icons">dashboard</i>
+                <p style="color:#EAAB00;">Dashboard</p>
+            </a>
+        </li>
+
         <li class=" nav-item"  *ngIf="seMuestra">
             <a class="nav-link" routerLink="/cv-completo" routerLinkActive="active">
                 <i id="icono" class="material-icons">account_box</i>
@@ -83,15 +91,13 @@
             </a>
         </li> -->
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link"  *ngIf="!seMuestra">
                 <i id="icono" class="material-icons">manage_accounts</i>
-                <!-- <p style="color:#EAAB00;">CV Personalizable</p> -->
                 <button mat-button [matMenuTriggerFor]="animals" id="btn-txt"><p style="color:#EAAB00;">Exportar Formato</p> </button>
                     <mat-menu #animals="matMenu">
                       <button mat-menu-item color="primary" (click)="generaCvInformacion()">Exportacion CSV</button>
                       <button mat-menu-item [matMenuTriggerFor]="txt">Exportacion TXT</button>
-                      <!-- <button mat-menu-item [matMenuTriggerFor]="json">Formato Json</button> -->
                     </mat-menu>
 
                     <mat-menu #txt="matMenu">
@@ -99,7 +105,7 @@
                         <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button> 
                     </mat-menu>       
             </a>
-        </li>
+        </li> -->
     </ul>
 </div>
         

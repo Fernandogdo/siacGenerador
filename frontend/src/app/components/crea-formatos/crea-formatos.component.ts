@@ -5,6 +5,7 @@ import { CreaDocxService } from 'app/services/creador-docx/crea-docx.service';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
+import { LoadingService } from 'app/services/loading/loading.service';
 
 @Component({
   selector: 'app-crea-formatos',
@@ -18,6 +19,7 @@ export class CreaFormatosComponent implements OnInit {
 
 
   constructor(
+    public loader: LoadingService,
     private pdfService: PdfService,
     private authorizationService:AuthorizationService,
     public activatedRoute:ActivatedRoute,
@@ -33,6 +35,10 @@ export class CreaFormatosComponent implements OnInit {
     // this.generaInformacion();
     this.docente();
   }
+
+  // fetchUser(){
+    
+  // }
 
 
   generaPdfCompleto(){

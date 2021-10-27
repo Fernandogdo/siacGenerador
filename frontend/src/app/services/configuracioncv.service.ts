@@ -21,7 +21,7 @@ export class ConfiguracioncvService {
   
   URL_PERS_DOCENTE = 'http://localhost:8000/api/personalizacion_usuario/';
 
-  URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json '
+  URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json'
 
   claves: any = [];
   esquemas: any = [];
@@ -57,6 +57,9 @@ export class ConfiguracioncvService {
     // this.postBloques().subscribe(res =>{
     //   console.log('QUEQUESAD',res);cambiar idioma de teclado ubuntu
     // })
+
+
+    //POST BLOQUES Y CONFIGURACIÓN
     // this.recorreConfiguracion()
     // this.recorreBloques()
     // this.recorreConfiguracionPersonalizada();

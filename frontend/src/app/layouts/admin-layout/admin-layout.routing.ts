@@ -18,10 +18,10 @@ import { DocenteGuard } from 'app/guards/docente/docente.guard';
 
 export const AdminLayoutRoutes: Routes = [
 
-    { path: 'dashboard',      component: DashboardComponent, canActivate:[AuthGuard] },
+    { path: 'dashboard',      component: DashboardComponent, canActivate:[DocenteGuard] },
     { path: 'cv-completo',   component: CompletoCvComponent, canActivate:[AuthGuard] },
     { path: 'cv-resumido',   component: ResumidoCvComponent, canActivate:[AuthGuard] },
-    { path: 'cv-personalizado',   component: PersonalizadoCvComponent, canActivate:[AuthGuard] },
+    { path: 'cv-personalizado',   component: PersonalizadoCvComponent, canActivate:[DocenteGuard] },
     { path: 'administrador',   component: AdministradorComponent, canActivate:[AuthGuard]},
     { path: 'cv-guardado/:id_user',   component: GuardadosComponent, canActivate:[DocenteGuard]},
     { path: 'bloque-completo/:nombre',   component: BloqueComponent, canActivate:[AuthGuard]},
@@ -30,3 +30,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'crea-personalizado/:nombre/:nombre_cv/:cv', component: CreacvPersonalizadoComponent, canActivate:[DocenteGuard]},
     { path: 'crea-formatos/:id_user', component: CreaFormatosComponent, canActivate:[DocenteGuard]}
 ];
+
+

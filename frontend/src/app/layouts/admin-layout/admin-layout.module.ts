@@ -44,6 +44,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+// import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+
 // import { ProgressSpinnerModule } from 'app/components/progress-spinner/progress-spinner.module';
 // import { ProgressSpinnerComponent } from 'app/components/progress-spinner/progress-spinner.component';
 // ProgressSpinnerModule
@@ -74,6 +76,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatRadioModule,
     MatPaginatorModule,
     MatProgressBarModule,
+    // Ng4LoadingSpinnerModule
     // ProgressSpinnerModule
     
     

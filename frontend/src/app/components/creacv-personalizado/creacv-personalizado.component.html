@@ -1,18 +1,30 @@
+
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
 
+
             <div class="col-md-12" >
 
                 
-
+      
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" [routerLink]="['/edita-personalizado/', nombre_cv, cvHash]" routerLinkActive="active">
+                        <button mat-raised-button class="btnRegresar" color="primary" [routerLink]="['/edita-personalizado/', nombre_cv, cvHash]" routerLinkActive="active">
                             <span class="material-icons">
                                 west
                             </span>
                             Regresar a Configuración Bloques
+                            
+                        </button>
+
+
+
+                        <button mat-raised-button class="btnRegresar" color="primary" [routerLink]="['/cv-guardado', idUsuario]" routerLinkActive="active">
+                            <!-- <span class="material-icons">
+                                west
+                            </span> -->
+                            CVs Personalizado
                             
                         </button>
                     </div>

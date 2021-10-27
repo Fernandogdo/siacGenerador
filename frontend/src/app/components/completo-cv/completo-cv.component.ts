@@ -169,14 +169,14 @@ export class CompletoCvComponent implements OnInit {
           console.log("editado", res);
           this.getBloques();
         });
-        // this._snackBar.open("Se guardó correctamente", "Cerrar", {
-        //   duration: 2000,
-        // });
-        this._snackBar.open('This is a notification', 'X', {
-          duration: 5000,
-          verticalPosition: 'top',
-          panelClass: ["red-snackbar"]
+        this._snackBar.open("Se guardó correctamente", "Cerrar", {
+          duration: 2000,
         });
+        // this._snackBar.open('This is a notification', 'X', {
+        //   duration: 5000,
+        //   verticalPosition: 'top',
+        //   panelClass: ["red-snackbar"]
+        // });
     });
   }
 

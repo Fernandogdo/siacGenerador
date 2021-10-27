@@ -6,6 +6,7 @@ import { ConfiguracioncvService } from "app/services/configuracioncv.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as _ from "lodash";
 import { PersonalizadoCvComponent } from '../personalizado-cv/personalizado-cv.component';
+// import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class CreacvPersonalizadoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public configuracioncvService: ConfiguracioncvService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    // private spinnerService: Ng4LoadingSpinnerService
   ) { }
 
   ngOnInit(): void {
