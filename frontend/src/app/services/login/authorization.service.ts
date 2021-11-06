@@ -131,6 +131,7 @@ export class AuthorizationService {
     this._snackBar.open('Usuario o Contrasena Incorrectos', "Cerrar", {
       duration: 2000,
     });
+    this.router.navigate(['/login']);
   }
 }
 

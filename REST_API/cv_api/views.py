@@ -39,6 +39,8 @@ from django.http import FileResponse
 #from htmldocx import HtmlToDocx
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
+from bibtexparser.bwriter import BibTexWriter
+from bibtexparser.bibdatabase import BibDatabase
 
 
 class AdministradorView(viewsets.ModelViewSet):
@@ -437,16 +439,16 @@ def PdfResumido(request, id):
 def PdfPersonalizado(request, id, nombre_cv, cvHash):
 
     # nombre_cv = 'data'
-    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
+    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values().filter(id_user=id).filter(nombre_cv=nombre_cv).filter(cv=cvHash)
     # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
-    dataFilterId = model_dict.filter(id_user=id)
+    # dataFilterId = model_dict.filter(id_user=id)
 
     # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
     # dataHash = dataFilterId.filter(cv=cvHash)
     # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataHash)
 
 
-    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv).filter(cv=cvHash)
+    dataPersonalizada = model_dict
     
 
     print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
@@ -942,18 +944,14 @@ def DocResumido(request, id):
 
 
 def DocPersonalizado(request, id, nombre_cv, cvHash):
-    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values()
-    # print('model_dictPersonalizadolala', model_dict.filter(id_user=4).filter(nombre_cv = nombre_cv))
-    dataFilterId = model_dict.filter(id_user=id)
+    model_dict = models.ConfiguracionCv_Personalizado.objects.all().values().filter(
+    id_user=id).filter(
+    nombre_cv=nombre_cv).filter(
+    cv=cvHash)
 
-    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataFilterId)
-    # dataHash = dataFilterId.filter(cv=cvHash)
-    # print('model_ditct--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataHash)
+    dataPersonalizada = model_dict
 
-
-    dataPersonalizada = dataFilterId.filter(nombre_cv=nombre_cv).filter(cv=cvHash)
-
-    # print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
+    print('DATAPERSONALIZADA--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
     # print('NOMBRECV--------------____>>>>>>>>>>>>>>>>>>>>>>>', dataPersonalizada)
 
     # model_bloques = models.Bloque.objects.all().values()
@@ -2219,3 +2217,283 @@ def InformacionCsv(request, id):
 
 
     return response  
+
+
+
+def generaBibTex(request, id):
+
+    r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
+                     headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
+    docente = r.json()
+
+    print("DOCENTEBIBTEX", docente['primer_apellido'])
+
+    
+    '''Saca id Articulos '''
+    listaidArticulos = []
+    for infobloque in docente['related']['articulos']:
+        listaidArticulos.append(infobloque)
+
+    idsArticulos = [fila['id'] for fila in listaidArticulos]
+
+    '''Saca id Libros '''
+    listaidLibros = []
+    for infoLibros in docente['related']['libros']:
+        listaidLibros.append(infoLibros)
+
+    idsLibros = [fila['id'] for fila in listaidLibros]
+
+    ''' Saca articulos de docentes por ID'''
+    listaArticulosDocente = []
+    for id in idsArticulos:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/articulos/' + str(id) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaArticulosDocente.append(todos)
+
+    ''' Saca libros de docentes por ID'''
+    listaLibrosDocente = []
+    for idLibro in idsLibros:
+        r = requests.get('https://sica.utpl.edu.ec/ws/api/libros/' + str(idLibro) + "/",
+                         headers={
+                             'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'}
+                         )
+        todos = r.json()
+        listaLibrosDocente.append(todos)
+
+    '''Cambia valores None por cadena ('None') '''
+    for i in listaLibrosDocente:
+        for key, value in i.items():
+            if value is None:
+                value = 'None'
+            i[key] = value
+
+    # proyectos = []
+    # Capacitacion = []
+    GradoAcademico = []
+
+    proyectos = [
+        
+        {
+          "id":1,
+          "fecha_cierre":"2012-01-01",
+          "fecha_inicio":"2005-02-01",
+          "codigo_proyecto":"",
+          "nombre_proyecto":"Diferentes Investigaciones dentro del Marco del Convenio Interinstitucional con la DPS-L, para el Rescate y Validacion del Conocimiento Tradicional del Pueblo Saraguro",
+          "descripcion":"Asadsadsadsadsa sadsadsadsa",
+          "tipo_proyecto":65,
+          "incluye_financ_externo":"no",
+          "incluye_estudiantes":"si",
+          "cobertura_proyecto":63,
+          "reprogramado":"No",
+          "porcentaje_avance":"100.00",
+          "fondo_utpl":"0.00",
+          "fondo_externo":"0.00",
+          "total_general":"0.00",
+          "estado":"finalizado",
+          "programa":"Biológica",
+          "moneda":"",
+          "objetivos":"",
+          "presupuesto":"0.00",
+          "tipo_investigacion":"",
+          "clase_proyecto":"",
+          "area_unesco":"",
+          "participacion_extranjera":"no",
+          "smartland":"no",
+          "observaciones":"",
+          "fecha_reprogramacion":"",
+          "fondo_externo_especie":"0.00",
+          "fondo_externo_efectivo":"0.00",
+          "alumnos":0,
+          "fecha_activacion":"",
+          "fecha_suspension":"",
+          "porcentaje_esperado":"0.00",
+          "linea_investigacion":"",
+          "especie":"no",
+          "tipo_convocatoria":"",
+          "area_conocimiento":"",
+          "sub_area_conocimiento":"",
+          "observatorio":"",
+          "area_conocimiento_especifica":"",
+          "titulacion":"",
+          "organizacion":"",
+          "ods":"",
+          "programa_investigacion":""
+       },
+       {
+            "id":1,
+            "fecha_cierre":"2012-01-01",
+            "fecha_inicio":"2005-02-01",
+            "codigo_proyecto":"",
+            "nombre_proyecto":"Diferentes Investigaciones dentro del Marco del Convenio Interinstitucional con la DPS-L, para el Rescate y Validacion del Conocimiento Tradicional del Pueblo Saraguro",
+            "descripcion":"Asadsadsadsadsa sadsadsadsa",
+            "tipo_proyecto":65,
+            "incluye_financ_externo":"no",
+            "incluye_estudiantes":"si",
+            "cobertura_proyecto":63,
+            "reprogramado":"No",
+            "porcentaje_avance":"100.00",
+            "fondo_utpl":"0.00",
+            "fondo_externo":"0.00",
+            "total_general":"0.00",
+            "estado":"finalizado",
+            "programa":"Biológica",
+            "moneda":"",
+            "objetivos":"",
+            "presupuesto":"0.00",
+            "tipo_investigacion":"",
+            "clase_proyecto":"",
+            "area_unesco":"",
+            "participacion_extranjera":"no",
+            "smartland":"no",
+            "observaciones":"",
+            "fecha_reprogramacion":"",
+            "fondo_externo_especie":"0.00",
+            "fondo_externo_efectivo":"0.00",
+            "alumnos":0,
+            "fecha_activacion":"",
+            "fecha_suspension":"",
+            "porcentaje_esperado":"0.00",
+            "linea_investigacion":"",
+            "especie":"no",
+            "tipo_convocatoria":"",
+            "area_conocimiento":"",
+            "sub_area_conocimiento":"",
+            "observatorio":"",
+            "area_conocimiento_especifica":"",
+            "titulacion":"",
+            "organizacion":"",
+            "ods":"",
+            "programa_investigacion":""
+       }
+    ]
+
+    Capacitacion = [
+        {
+            "id": 302,
+            "id_docente": 352,
+            "nombre": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD",
+            "tematica": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD: Logros y desafíos de la EaD inclusión e innovación en el espacio iberoamericano del conocimiento.",
+            "fecha_inicio": "2011-09-28",
+            "fecha_fin": "2011-09-30",
+            "duracion_horas": 20,
+            "pais": 8064,
+            "ciudad": "Loja",
+            "link": "",
+            "cobertura": 62,
+            "tipo_curso": 6020,
+            "tipo_formacion": 181,
+            "tipo_participacion": 503,
+            "fecha_publicacion": "",
+            "comite_organizador": "",
+            "institucion_organizadora": "",
+            "area_conocimiento": "",
+            "sub_area_conocimiento": "",
+            "area_conocimiento_especifica": "",
+            "subtipo_formacion": 171
+        },
+        {
+            "id": 302,
+            "id_docente": 352,
+            "nombre": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD",
+            "tematica": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD: Logros y desafíos de la EaD inclusión e innovación en el espacio iberoamericano del conocimiento.",
+            "fecha_inicio": "2011-09-28",
+            "fecha_fin": "2011-09-30",
+            "duracion_horas": 20,
+            "pais": 8064,
+            "ciudad": "Loja",
+            "link": "",
+            "cobertura": 62,
+            "tipo_curso": 6020,
+            "tipo_formacion": 181,
+            "tipo_participacion": 503,
+            "fecha_publicacion": "",
+            "comite_organizador": "",
+            "institucion_organizadora": "",
+            "area_conocimiento": "",
+            "sub_area_conocimiento": "",
+            "area_conocimiento_especifica": "",
+            "subtipo_formacion": 171
+        },
+    ]
+
+    response = BibDatabase()
+    # print(response.entries)
+
+
+    lines = []
+
+    for libro in listaLibrosDocente:
+        const = {
+          'editorial ': libro['editorial'],
+          'comments' : "asdsa",
+          'abstract' : 'description test',
+          'title   ' : libro['titulo'],
+          'year    ' : str(libro['anio']),
+          'volume  ' : '1',
+          'ID' : "Marco Vinicio",
+          'ENTRYTYPE': 'book'
+        }
+        lines.append(const)
+
+    for articulo in listaArticulosDocente:
+        # print('REVIST-_____>>>>>>>>>>>>>>>>>>>>>', articulo['volume'])
+        const = {
+          'journal ': articulo['revista'],
+        #   'comments' : articulo['abstract'],
+          'abstract' : articulo['abstract'],
+          'title   ' : articulo['titulo'],
+          'year    ' : str(articulo['year']),
+          'volume  ' : str(articulo['volume']),
+          'ID' : docente['primer_apellido'] + str(articulo['year']),
+          'keywords': articulo["keywords"],
+          'ENTRYTYPE': 'article'
+        }
+        lines.append(const)
+
+    
+   
+
+    # lines = []
+    for proyecto in proyectos:
+      const = {
+          'journal ': proyecto['descripcion'],
+          'comments' : proyecto['descripcion'],
+          'abstract' : proyecto['descripcion'],
+          'title   ' : proyecto['nombre_proyecto'],
+          'year    ' : str(proyecto['fecha_cierre']),
+          'volume  ' : '1',
+          'ID' : docente['primer_apellido'],
+          'ENTRYTYPE': 'proyect'
+      }
+      lines.append(const)
+
+    for capacitacion in Capacitacion:
+      print("CAPACITACION", capacitacion)
+      const = {
+          'journal ': capacitacion['tematica'],
+          'comments' : capacitacion['comite_organizador'],
+          'abstract' : capacitacion['comite_organizador'],
+          'title   ' : capacitacion['nombre'],
+          'date    ' : capacitacion['fecha_fin'],
+          'volume  ' : '1',
+          'ID' : "Marco Vinicio",
+          'ENTRYTYPE': 'capacitation'
+      }
+      lines.append(const)
+
+    print(lines)
+    response.entries = lines
+    writer = BibTexWriter()
+    data = writer.write(response)
+
+    # with open('bibtex.bib', 'w') as bibfile:
+    #     bibfile.write(writer.write(db))
+    print("BIBFILE-------__>>>>>>>>", writer.write(response))
+    
+    response = HttpResponse(data, content_type='text/x-bibtex')  
+    response['Content-Disposition'] = 'attachment; filename="file.bib"' 
+
+    return response

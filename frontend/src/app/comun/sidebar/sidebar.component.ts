@@ -17,8 +17,8 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
+    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '',},
+    // { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
     { path: '/cv-completo', title: 'CV Completo',  icon:'account_box', class: '' },
     { path: '/cv-resumido', title: 'CV Resumido',  icon:'contact_page', class: '' },
     { path: '/cv-guardado/:id_user', title: 'CV Personalizable',  icon:'manage_accounts', class: '' },
@@ -62,7 +62,7 @@ export class SidebarComponent implements OnInit {
     this.authorizationService.obtenerIdDocente()
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.getRol()
-    this.getConfiguracionPersonalizada()
+    // this.getConfiguracionPersonalizada()
   }
 
   isMobileMenu() {
@@ -84,7 +84,7 @@ export class SidebarComponent implements OnInit {
 
           if (this.userdata.is_staff === true) {
             this.seMuestra = true
-            console.log(this.seMuestra)
+            console.log("ROLUSER",this.seMuestra)
           } else{
             this.seMuestra = false
             console.log('falso',this.seMuestra)
@@ -106,171 +106,171 @@ export class SidebarComponent implements OnInit {
         
   }
 
-  getConfiguracionPersonalizada() {
-    this.configuracioncvService.getConfiguracionesPersonalizadas()
-      .subscribe(res => {
-        let data = res.filter(data => data.visible_cv_personalizado === true)
-        this.configuracioncvService.configuracionesPersonalizadas = data;
+  // getConfiguracionPersonalizada() {
+  //   this.configuracioncvService.getConfiguracionesPersonalizadas()
+  //     .subscribe(res => {
+  //       let data = res.filter(data => data.visible_cv_personalizado === true)
+  //       this.configuracioncvService.configuracionesPersonalizadas = data;
 
-        const filteredCategories = [];
-        data.forEach(configuracion => {
-          if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
-            const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user} = configuracion;
-            filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user});
-          }
-        });
+  //       const filteredCategories = [];
+  //       data.forEach(configuracion => {
+  //         if (!filteredCategories.find(cat => cat.nombre_cv == configuracion.nombre_cv && cat.atributo == configuracion.atributo)) {
+  //           const { id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user} = configuracion;
+  //           filteredCategories.push({ id, nombre_cv, bloque, atributo, visible_cv_personalizado, mapeo, cv, id_user});
+  //         }
+  //       });
 
-        this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
+  //       this.configuracioncvService.configuracionesPersonalizadas = filteredCategories;
 
-        this.arreglo = filteredCategories.reduce(function (r, a) {
-          r[a.nombre_cv] = r[a.nombre_cv] || [];
-          r[a.nombre_cv].push(a);
-          return r;
-        }, Object.create(null));
+  //       this.arreglo = filteredCategories.reduce(function (r, a) {
+  //         r[a.nombre_cv] = r[a.nombre_cv] || [];
+  //         r[a.nombre_cv].push(a);
+  //         return r;
+  //       }, Object.create(null));
 
-        console.log('RESUKLTRESUKT', this.arreglo);
-      }),
-      err => console.log(err);
-  }
+  //       console.log('RESUKLTRESUKT', this.arreglo);
+  //     }),
+  //     err => console.log(err);
+  // }
 
-  generaPdfCompleto(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
+  // generaPdfCompleto(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
 
-      this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
     
-      var downloadURL = window.URL.createObjectURL(data);
-      window.open(downloadURL)
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     window.open(downloadURL)
 
-      // var link = document.createElement('a');
-      // link.href = downloadURL;
-      // link.download = "pdf-completo.pdf";
-      // link.click();
-    })
-  }
+  //     // var link = document.createElement('a');
+  //     // link.href = downloadURL;
+  //     // link.download = "pdf-completo.pdf";
+  //     // link.click();
+  //   })
+  // }
 
 
-  generaPdfResumido(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      window.open(downloadURL)
+  // generaPdfResumido(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     window.open(downloadURL)
       
-      // var link = document.createElement('a');
+  //     // var link = document.createElement('a');
       
       
-      // link.href = downloadURL;
-      // link.download = "pdf-resumido.pdf";
-      // link.click();
-    })
-  }
+  //     // link.href = downloadURL;
+  //     // link.download = "pdf-resumido.pdf";
+  //     // link.click();
+  //   })
+  // }
 
-  generaDocCompleto(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "doc_completo.docx";
-      link.click();
-    });
-  }
+  // generaDocCompleto(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "doc_completo.docx";
+  //     link.click();
+  //   });
+  // }
 
-  generaDocResumido(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "doc_resumido.docx";
-      link.click();
-    });
-  }
+  // generaDocResumido(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "doc_resumido.docx";
+  //     link.click();
+  //   });
+  // }
 
-  generaJsonCompleto(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creaJsonService.generaJsonCompleto(this.idUser).subscribe((data) =>{
-      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "cv_completo.json";
-      link.click();
-    });
-  }
+  // generaJsonCompleto(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creaJsonService.generaJsonCompleto(this.idUser).subscribe((data) =>{
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "cv_completo.json";
+  //     link.click();
+  //   });
+  // }
 
-  generaJsonResumido(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creaJsonService.generaJsonResumido(this.idUser).subscribe((data) =>{
-      console.log(data);
-      this.blob = new Blob([data as BlobPart], {type: 'application/json'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "cv_resumido.json";
-      link.click();
-    }) 
-  }
+  // generaJsonResumido(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creaJsonService.generaJsonResumido(this.idUser).subscribe((data) =>{
+  //     console.log(data);
+  //     this.blob = new Blob([data as BlobPart], {type: 'application/json'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "cv_resumido.json";
+  //     link.click();
+  //   }) 
+  // }
 
 
-  generaCvInformacion(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creacvService.generaCsv(this.idUser).subscribe((data) =>{
-      this.blob = new Blob([data as BlobPart], {type: 'text/csv'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "indormacion_csv.csv";
-      link.click();
-    });
-  }
+  // generaCvInformacion(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creacvService.generaCsv(this.idUser).subscribe((data) =>{
+  //     this.blob = new Blob([data as BlobPart], {type: 'text/csv'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "indormacion_csv.csv";
+  //     link.click();
+  //   });
+  // }
 
-  generaTxtInformacion(){ 
-    this.idUser = localStorage.getItem("idDocente"); 
-    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) =>{
-      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "indormacion_txt.txt";
-      link.click();
-    });
-  }
+  // generaTxtInformacion(){ 
+  //   this.idUser = localStorage.getItem("idDocente"); 
+  //   this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) =>{
+  //     this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "indormacion_txt.txt";
+  //     link.click();
+  //   });
+  // }
 
-  generaTxtArticulos(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "articulos_informacion_txt.txt";
-      link.click();
-    })
-  }
+  // generaTxtArticulos(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "articulos_informacion_txt.txt";
+  //     link.click();
+  //   })
+  // }
 
-  generaTxtLibros(){
-    this.idUser = localStorage.getItem("idDocente");
-    this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
-      var downloadURL = window.URL.createObjectURL(data);
-      console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "libros_informacion_txt.txt";
-      link.click();
-    });
-  }
+  // generaTxtLibros(){
+  //   this.idUser = localStorage.getItem("idDocente");
+  //   this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
+  //     this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+  //     var downloadURL = window.URL.createObjectURL(data);
+  //     console.log(downloadURL)
+  //     var link = document.createElement('a');
+  //     link.href = downloadURL;
+  //     link.download = "libros_informacion_txt.txt";
+  //     link.click();
+  //   });
+  // }
 
 }

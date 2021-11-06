@@ -47,6 +47,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NetworkInterceptor } from './interceptors/interceptor.spinner';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -83,7 +84,8 @@ import { NetworkInterceptor } from './interceptors/interceptor.spinner';
     // ResumidoCvComponent,
     //PersonalizadoCvComponent,
   ],
-  providers: [{
+  providers: [
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: NetworkInterceptor,
     multi: true

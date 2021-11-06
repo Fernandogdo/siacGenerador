@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
+                        <button mat-raised-button class="btnCreaPersonalizado" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
                     </div>
 
                     <!-- <button (click)="showSpinner(3000)">Show spinner for 5 seconds</button>
@@ -17,6 +17,7 @@
 <ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
 
                     <div class="col text-center">
+                        <button class="botones" id="btn-csv" mat-raised-button (click)="generaBibtex()">BIBTEX CSV</button>
                         <button class="botones" id="btn-csv" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación CSV</button>
                         <mat-menu #menuexportacion="matMenu">
                             <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>

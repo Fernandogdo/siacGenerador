@@ -22,7 +22,10 @@
     color: black;
 }
 
-
+.btnCreaPersonalizado{
+    margin-top: 15px;
+    background-color: #003F72;
+}
 .btnPersonalizado{
     margin-top: 15px;
     background-color: #003F72;

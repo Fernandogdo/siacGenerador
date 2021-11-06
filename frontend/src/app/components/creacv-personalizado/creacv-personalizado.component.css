@@ -4,7 +4,7 @@
     /* margin-left: 20px;
     margin-right: 20px; */
     color: #003F72;
-    background-color: #EAAB00;
+    background-color: #AAA4A4;
 }
 
 #paginator{
@@ -41,7 +41,10 @@
 }
 
 .btnRegresar{
-    margin: 20px;
+    /* margin: 20px; */
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
     background-color: #003F72;
     color: white;
 }

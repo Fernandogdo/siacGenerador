@@ -18,6 +18,7 @@ import { CreaCsvService } from 'app/services/creador-csv/crea-csv.service';
 import { CreaTxtService } from 'app/services/creador-txt/crea-txt.service';
 import { AuthorizationService } from 'app/services/login/authorization.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { CreaBibtexService } from 'app/services/creador-bibtex/crea-bibtex.service';
 // import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner'
 // import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner'
 
@@ -69,6 +70,7 @@ export class GuardadosComponent implements OnInit {
     public creatxtService: CreaTxtService,
     private activatedRoute: ActivatedRoute,
     public authorizationService: AuthorizationService,
+    public creabibtexService: CreaBibtexService,
     private _snackBar: MatSnackBar,
     // private spinner: Ng4LoadingSpinnerService
   ) { 
@@ -467,6 +469,19 @@ export class GuardadosComponent implements OnInit {
       this.valorDocumento = false;
 
     });
+  }
+
+
+  generaBibtex(){
+    this.creabibtexService.generaBibtex(this.idUser).subscribe((data) =>{
+      this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
+      var downloadURL = window.URL.createObjectURL(data);
+      console.log(downloadURL)
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "gradoAcademico_informacion.bib";
+      link.click();
+    })
   }
  
 

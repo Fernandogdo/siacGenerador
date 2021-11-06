@@ -22,7 +22,9 @@ export class AuthGuard implements CanActivate {
   }
 
   redirect(flag: boolean): any {
+    console.log("FLAG", !flag)
     if (!flag) {
+      console.log("FLAGADMINIF", !flag)
       this.router.navigate(['/', 'login'])
     }
   }
