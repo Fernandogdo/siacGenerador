@@ -31,10 +31,10 @@
                         <img class="logo" src="/assets/img/cv.png" />
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title" id="texto_cv">Generador CV</h4>
+                        <h4 class="card-title" id="texto_cv">DESCARGAR FORMATOS</h4>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-light btn-block" id="botones" routerLink="/cv-completo/">
+                        <button type="button" class="btn btn-light btn-block" id="botones" [routerLink]="['/crea-formatos', idUser]" routerLinkActive="active">
                             Ingresar
                         </button>
                     </div>
@@ -66,7 +66,7 @@
                     <!-- <div class="card-footer"> -->
 
                     <div class="card-footer">
-                        <button type="button" class="btn btn-light btn-block" id="botones" routerLink="/cv-completo/">
+                        <button type="button" class="btn btn-light btn-block" id="botones" [routerLink]="['/cv-guardado', idUser]" routerLinkActive="active">
                                  Ingresar
                         </button>
                     </div>

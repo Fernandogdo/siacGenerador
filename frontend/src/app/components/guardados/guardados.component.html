@@ -17,22 +17,23 @@
 <ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
 
                     <div class="col text-center">
-                        <button class="botones" id="btn-csv" mat-raised-button (click)="generaBibtex()">BIBTEX CSV</button>
                         <button class="botones" id="btn-csv" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación CSV</button>
                         <mat-menu #menuexportacion="matMenu">
                             <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
                         </mat-menu>
 
-                    <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
-                        <mat-menu #menuexportacionTXT="matMenu">
-                            <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                            <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
-                            <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
-                            <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Proyectos TXT </button> 
-                            <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Proyectos TXT </button> 
+                        <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
+                            <mat-menu #menuexportacionTXT="matMenu">
+                                <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
+                                <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
 
-                            
-                        </mat-menu>
+                            </mat-menu>
+
+                        <button class="botones" id="btn-csv" mat-raised-button (click)="generaBibtex()">Exportación BibTex</button>
+
                         <div *ngIf="valorDocumento">
                             Generando documento
                             <mat-progress-bar mode="query">
@@ -79,26 +80,27 @@
                 </div>
               </div> -->
             
-            <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClas | keyvalue">
+            <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClasFormateadas">
                 <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
                         <div class="card-icon">
                             <i class="material-icons">content_copy</i>
                         </div>
-                        <h5 class="card-title">{{item.key.split(',')[0]}}</h5>
+                        <h5 class="card-title">{{item.cv.split(',')[0]}}</h5>
                         <p class="card-category">
                             <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
                         </p>
                         <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button> -->
                         <mat-menu #menuPersonalizado="matMenu">
                             <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-                            <button mat-menu-item (click)="generaPdfPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">PDF</button>
-                            <button mat-menu-item (click)="generaDocPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">WORD</button>      
-                            <button mat-menu-item (click)="generaJsonPersonalizado(item.key.split(',')[0], item.key.split(',')[1])">JSON</button>                                                  
+                            <button mat-menu-item (click)="generaPdfPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">PDF</button>
+                            <button mat-menu-item (click)="generaDocPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">WORD</button>      
+                            <button mat-menu-item (click)="generaJsonPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">JSON</button>                                                  
                         </mat-menu>
                     </div>
                     <div class="card-footer">
-                        <h6>{{item.key.split(',')[2]}}</h6>
+                        <h6>{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6>  
+                        <!-- {{valueDate | date: 'dd/MM/yyyy'}} -->
                         <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
                         <mat-menu #menuPersonalizado="matMenu">
                             <button mat-menu-item (click)="generaPdfPersonalizado(item.key)">PDF</button>
@@ -106,10 +108,10 @@
                             <button mat-menu-item (click)="generaJsonPersonalizado(item.key)">JSON</button>                                                  
                         </mat-menu> -->
                       
-                        <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.key.split(',')[0], item.key.split(',')[1]]" routerLinkActive="active">
+                        <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
                             <i class=" material-icons ">edit</i>
                         </button>
-                        <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada( item.key.split(',')[0], item.key.split(',')[1])" color="warn">
+                        <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
                             <i class=" material-icons ">delete</i>
                         </button>
                     </div> 

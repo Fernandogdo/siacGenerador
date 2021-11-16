@@ -40,16 +40,19 @@ export class AuthorizationService {
 
       if (rolUsuario) {
         console.log("ESADMIN")
+        this.router.navigate(['/administrador']);
+
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
           duration: 2000,
         });
-        this.router.navigate(['/administrador']);
       } else {
         console.log("noESADMIN")
+        this.router.navigate(['/dashboard']);
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
           duration: 2000,
+          
         });
-        this.router.navigate(['/dashboard']);
+        
       }
     
       // this._snackBar.open('Ha iniciado Sesion', "Cerrar", {

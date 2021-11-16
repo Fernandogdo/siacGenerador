@@ -20,51 +20,44 @@ export class DocenteGuard implements CanActivate {
     private router: Router
   ) {
     // this.getRol();
-    let staff = localStorage.getItem("is_staff")
-    this.isTrueSet = (staff === 'true');
+    // let staff = localStorage.getItem("is_staff")
+    // this.isTrueSet = (staff === 'true');
 
     this.token = localStorage.getItem("token")
-    if (this.token) {
-      
-      this.isTrueSet = true
-      console.log("EXISTETOKEN", this.isTrueSet)
-      this.router.navigate(['/dashboard'])
-    } else{
-      this.isTrueSet = false
-      console.log("NOEXISTETOKEN", this.isTrueSet)
-
-    }
-
   }
 
 
   redirect(flag: boolean): any {
-    console.log("FLAGDOCENTE", !flag)
-    // let idDocente = localStorage.getItem("id_user")
-
-    // console.log("IDDOCNTEEXISTE", idDocente)
+    console.log("FLAG", !flag)
     if (!flag) {
-      console.log("FLAGIFTRUENOENTRA", !flag)
+      console.log("FLAGADMINIF", !flag)
+      console.log("NO TIENES ACCESO")
       this.router.navigate(['/', 'login'])
-    } 
+    }
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
+    let staff = localStorage.getItem("is_staff")
+    var isTrueSet = (staff === 'true');
 
-    // var isTrueSet = (staff === 'true');
-    let token = localStorage.getItem("token")
 
+    if (this.token) {
+      
+      this.isTrueSet = true
+      console.log("EXISTETOKEN", this.isTrueSet)
+      // this.router.navigate(['/dashboard'])
+    } else{
+      this.isTrueSet = false
+      console.log("NOEXISTETOKEN", this.isTrueSet)
 
-    console.log("SEMUESTRAVAR", this.isTrueSet)
-    console.log("TOKEN", token)
+    }
 
-    // console.log("DOCENTEFUERA", this.isTrueSet)
+    console.log("SEMUESTRAVARADMINTRUE", isTrueSet)
+    this.redirect(isTrueSet)
 
-    this.redirect(this.isTrueSet)
-
-    return this.isTrueSet
+    return isTrueSet
   }
 }

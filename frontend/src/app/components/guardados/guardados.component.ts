@@ -38,6 +38,7 @@ export class GuardadosComponent implements OnInit {
   arreglo = [];
   confPersoDocente;
   confPersoDocenteClas = [];
+  confPersoDocenteClasFormateadas = []
   // arregloArticulos = []
   dataDocente;
   docente: Usuario[];
@@ -195,20 +196,75 @@ export class GuardadosComponent implements OnInit {
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
-        // this.confPersoDocenteClas = _.groupBy(confPersoDocente, "nombre_cv");
-        // let data = _.groupBy(this.confPersoDocenteClas, "cv",)
-        // console.log("🚀 ~ file: guardados.component.ts ~ line 138 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
+        console.log("🚀 ~ file: guardados.component.ts ~ line 198 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ confPersoDocente", confPersoDocente)
+       
         
-        // console.log("🚀 ~ file: guardados.component.ts ~ line 138 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ this.confPersoDocenteClas", data )
-        
-        // let selectedVehicles = _.groupBy(this.confPersoDocenteClas, function(item) {
-        //   return [item['nombre_cv']];
-        // });
-        this.confPersoDocenteClas = _.groupBy(confPersoDocente, (item) => {
-          return [item['nombre_cv'], item['cv'], item['fecha_registro']];
-        });
+        // _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+        // let data  = _.orderBy(confPersoDocente, ['fecha_registro'], ['desc'])
+        // console.log("DATAORDENADAFECHA", confPersoDocente)
 
-      // console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  this.confPersoDocenteClas);
+        this.confPersoDocenteClas = _.groupBy(this.confPersoDocente, (item) => {
+          return [item['nombre_cv'], item['cv'], item['fecha_registro']];
+      });
+
+      this.confPersoDocenteClas =  _.orderBy(_.keys(this.confPersoDocenteClas), (item) => {
+        return item.split(',')[2];
+      }, ['desc']).map(item => {
+        return {
+          [item]: this.confPersoDocenteClas[item]
+        }
+      });
+
+
+      console.log("🚀 ~ file: guardados.component.ts ~ line 217 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.orderBy ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
+
+      
+
+      this.confPersoDocenteClasFormateadas = this.confPersoDocenteClas.map((item) => {
+        let fecha_registro;
+        let cv;
+        let data;
+      
+        Object.keys(item).forEach((entry, index) => {
+
+          fecha_registro = entry.split(',')[2]
+          // First index is the month
+          // if (index === 0) {
+          //   fecha_registro = item[entry];
+          // }
+      
+          // Second index is the name but this time we need the key
+          // and also its value gives you the data
+          if (index === 0) {
+            cv = entry;
+            console.log("NAME",cv)
+            data = item[entry];
+            console.log('data', data)
+
+            // nombre_cv = entry;
+            // data = item[entry];
+          }
+        });
+        return {cv, data };
+      });
+      
+       
+      
+      console.log("🚀 ~ file: guardados.component.ts ~ line 208 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.groupBy ~ this.confPersoDocenteClas", this.confPersoDocenteClasFormateadas)
+      
+      // this.confPersoDocenteClas = _.reverse(Object.values(this.confPersoDocenteClas)).reduce((obj, group) => {
+      //   // iteramos sobre las listas para generar el 'key' necesario
+      //   const item = group[0] // Cada grupo tiene al menos un item
+      //   obj[`${item['nombre_cv']},${item['cv']},${item['fecha_registro']}`] = group // recreamos la key
+      //   return obj
+      // }, {});
+
+
+      // console.log("🚀 ~ file: guardados.component.ts ~ line 207 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.groupBy ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
+      // console.log(Object.keys(this.confPersoDocenteClas))
+
+
+      // console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  data);
       // console.log("TRAEDENUEVOTODO");
 
       })
@@ -233,7 +289,7 @@ export class GuardadosComponent implements OnInit {
 
       });
 
-      this._snackBar.open("Se elimino " + nombreCv, "Cerrar", {
+      this._snackBar.open("Se eliminó " + nombreCv, "Cerrar", {
         duration: 2000,
       });
       
@@ -479,7 +535,7 @@ export class GuardadosComponent implements OnInit {
       console.log(downloadURL)
       var link = document.createElement('a');
       link.href = downloadURL;
-      link.download = "gradoAcademico_informacion.bib";
+      link.download = "informacion.bib";
       link.click();
     })
   }

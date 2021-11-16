@@ -49,7 +49,9 @@ export class CompletoCvComponent implements OnInit {
     private dialog: MatDialog,
     public configuracioncvService: ConfiguracioncvService,
     private _snackBar: MatSnackBar,
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
     this.getBloques()
@@ -64,6 +66,7 @@ export class CompletoCvComponent implements OnInit {
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         // this.selection = new SelectionModel<Bloque>(true, []);
+        this.paginator._intl.itemsPerPageLabel = 'Ítems por página';
         this.dataSource.paginator = this.paginator;
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)

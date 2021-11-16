@@ -14,7 +14,7 @@
                             <span class="material-icons">
                                 west
                             </span>
-                            Regresar a Configuración Bloques
+                            Configuración Bloques
                             
                         </button>
 
@@ -119,14 +119,24 @@
                         </ng-container> -->
                 
                         <!-- Position Column -->
-                        <ng-container matColumnDef="atributo">
+                        <!-- <ng-container matColumnDef="atributo">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributo</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element"> {{element.atributo}} 
                                 
                             </mat-cell>
-                        </ng-container>
+                        </ng-container> -->
                 
                         <!-- Name Column -->
+                        <ng-container matColumnDef="mapeo">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributos</b></h4>  </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{element.mapeo}}
+                                <!-- <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="Orden" type="text" [value]="element.mapeo" >
+                                </mat-form-field> -->
+                            </mat-cell>
+                        </ng-container>
+                        
                         <ng-container matColumnDef="orden">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element">
@@ -137,14 +147,7 @@
                             </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="mapeo">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Mapeo</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Orden" type="text" [value]="element.mapeo" [(ngModel)]="element.mapeo">
-                                </mat-form-field>
-                            </mat-cell>
-                        </ng-container>
+                        
                 
                         <!-- <ng-container matColumnDef="visible_cv_bloque">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
@@ -169,7 +172,7 @@
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                     </mat-table>
-                    <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator id="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
                     
                     <div class="col text-center">
                         <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>

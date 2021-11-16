@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework'
 ]
 
+# DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -65,7 +67,10 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.MultiPartRenderer'
         # 'rest_framework_yaml.renderers.YAMLRenderer'
         # 'rest_framework_xml.renderers.XMLRenderer',
-    ]
+    ],
+
+    "DATE_INPUT_FORMATS": ["%d-%m-%Y"],
+
 
 }
 

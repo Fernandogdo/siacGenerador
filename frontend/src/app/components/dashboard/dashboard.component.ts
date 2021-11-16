@@ -8,10 +8,12 @@ import * as Chartist from 'chartist';
 })
 export class DashboardComponent implements OnInit {
 
+  idUser;
+  
   constructor() { }
   
   ngOnInit() {
-        
+    this.idUser = localStorage.getItem("id_user");
   }
 
 }

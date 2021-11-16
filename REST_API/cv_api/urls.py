@@ -37,6 +37,7 @@ urlpatterns = [
   path('doc-personalizado/<int:id>/<slug:nombre_cv>/<slug:cvHash>', views.DocPersonalizado),
   path('json-personalizado/<int:id>/<slug:nombre_cv>/<slug:cvHash>', views.JsonPersonalizado),
   path('crea-bibtext/<int:id>', views.generaBibTex),
+  path('prueba/', views.prueba),
   re_path('^datausuario/(?P<id_user>.+)/$', views.getdata),
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]

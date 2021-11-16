@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, NavigationStart, Params, Router } from "@angular/router";
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfiguracioncvService } from "app/services/configuracioncv.service";
@@ -8,7 +8,7 @@ import * as _ from "lodash";
 import { PersonalizadoCvComponent } from '../personalizado-cv/personalizado-cv.component';
 // import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
-
+// NavigationStart
 @Component({
   selector: 'app-creacv-personalizado',
   templateUrl: './creacv-personalizado.component.html',
@@ -26,7 +26,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
   atributosOrdenados;
   atributosOriginal;
   // displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenCompleto', 'ingreso'];
-  displayedColumns: string[] = ['visible_cv_personalizado', 'atributo', 'orden', 'mapeo'];
+  displayedColumns: string[] = ['visible_cv_personalizado', 'mapeo', 'orden'];
 
   dataSource;
   parentSelector: boolean = false;
@@ -39,10 +39,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public configuracioncvService: ConfiguracioncvService,
     private _snackBar: MatSnackBar,
     // private spinnerService: Ng4LoadingSpinnerService
-  ) { }
+  ) { 
+    this.NoBackNavigator()
+  }
 
   ngOnInit(): void {
     this.cvHash = this.route.snapshot.params["cv"];
@@ -63,6 +66,17 @@ export class CreacvPersonalizadoComponent implements OnInit {
   //   this.nombre_cv = this.child.nombre_cv
   //   console.log(this.nombre_cv)
   // }
+
+  NoBackNavigator() {
+    // window.location.hash="no-back-button";
+    // window.location.hash="Again-No-back-button";//esta linea es necesaria para chrome
+    // window.onhashchange=function(){window.location.hash="no-back-button";}
+    history.pushState(null, document.title, location.href);
+    window.addEventListener('popstate', function (event)
+    {
+      history.pushState(null, document.title, location.href);
+    });
+  }
 
   getConfiguracion() {
     this.configuracioncvService.getConfiguraciones().subscribe(

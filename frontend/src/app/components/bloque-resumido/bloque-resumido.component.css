@@ -114,11 +114,17 @@
 }
 
 .botones{
-    margin-top: 20px;
+    /* margin-top: 20px; */
     background-color: #003F72;
     color: white;
 }
 
+
+.btnGuardar{
+    margin-top: 20px;
+    background-color: #003F72;
+    color: white;
+}
 
 
 

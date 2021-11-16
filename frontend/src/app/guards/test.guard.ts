@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class TestGuard implements CanActivate {
 
 
   seMuestra: Boolean
@@ -21,17 +21,17 @@ export class AuthGuard implements CanActivate {
     private authorizationService:AuthorizationService,
     private router: Router
   ){
-    this.token = localStorage.getItem("token")
+    this.token = localStorage.getItem("token");
+    // this.staff = localStorage.getItem("is_staff");
   }
 
   redirect(flag: boolean): any {
     console.log("FLAG", !flag)
     if (!flag) {
-      console.log("FLAGADMINIF", !flag)
-      console.log("NO TIENES ACCESO ADMIN")
+      console.log("FLAGTESTF", !flag)
+      console.log("NO TIENES ACCESO")
       this.router.navigate(['/', 'login'])
-      this.authorizationService.cerrarSesionDocente();
-      
+      this.authorizationService.cerrarSesionDocente()
     }
   }
 
@@ -40,14 +40,12 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     this.staff = localStorage.getItem("is_staff")
-    
-    // let staff = localStorage.getItem("is_staff")
     console.log("STAFF", this.staff)
     var isTrueSet = (this.staff === 'true');
     
     console.log("CANACTIVATEADMIN", isTrueSet)
 
-    if (isTrueSet === true) {
+    if (isTrueSet === false) {
       
       this.isTrueSet = true
       console.log("EXISTETOKEN", this.isTrueSet)
@@ -64,7 +62,7 @@ export class AuthGuard implements CanActivate {
 
     // }
 
-    console.log("SEMUESTRAVARADMINTRUE", this.isTrueSet)
+    console.log("SEMUESTRAVARTESTTRUE", this.isTrueSet)
     this.redirect(this.isTrueSet)
 
     return this.isTrueSet

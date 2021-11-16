@@ -258,10 +258,26 @@ def PdfCompleto(request, id):
         tituloBloque = {}
 
     # print(listaFinal)
+    prueba(docente, listaFinal)
 
     '''Generacion de PDF'''
     logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
     context = {'datos': listaResultados, 'logo': logo,
+               'docente': docente, 'listaFinal': listaFinal}
+    html_string = render_to_string('home_page.html', context)
+    html = HTML(string=html_string)
+    pdf = html.write_pdf(stylesheets=[CSS(str(settings.BASE_DIR) +
+                                          '/cv_api/templates/css/pdf_gen.css')], presentational_hints=True)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
+
+    return response
+
+def prueba(docente, listaFinal):
+    print("listaResultadosPRUEBA", listaFinal)
+
+    logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
+    context = {'logo': logo,
                'docente': docente, 'listaFinal': listaFinal}
     html_string = render_to_string('home_page.html', context)
     html = HTML(string=html_string)
@@ -772,13 +788,17 @@ def DocCompleto(request, id):
 
 
     logo = str(settings.BASE_DIR) + '/cv_api/templates/logoutpl.png'
+    nieve = str(settings.BASE_DIR) + '/cv_api/templates/nieve.jpg'
     response = HttpResponse(content_type='application/msword')
     response['Content-Disposition'] = 'attachment; filename="cv.docx"'
 
     doc = DocxTemplate(str(settings.BASE_DIR) + '/cv_api/templates/docx_filename.docx')
     imagen = docente['foto_web_low'] 
-    myimage = InlineImage(doc, image_descriptor=logo, width=Mm(15), height=Mm(20))
+    # doc.replace_pic('dummy_header_pic.jpg','header_pic_i_want.jpg')
+    myimage = InlineImage(doc, image_descriptor=logo, width=Mm(15), height=Mm(25))
+    doc.replace_pic(myimage, nieve)
     context = {'listaFinal': listaFinal, 'docente': docente, 'var': logo, 'myimage': myimage}
+  
     doc.render(context)
     doc.save(response)
 
@@ -1820,15 +1840,17 @@ def InformacionTxtArticulos(request, id):
 
     lines = []
     for articulo in listaArticulosDocente:
-        fecha = datetime.now()
-        titulo = articulo['titulo']
-        revista = articulo['revista']
-        link_articulo = articulo['link_articulo']
-        doi = articulo['doi']
-        tipo_documento = articulo['tipo_documento']
-        publication_stage = articulo['estado']
-        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_articulo}\nDOI:{doi}\nDOCUMENT TYPE:{tipo_documento}\nPUBLICATION STAGE:{publication_stage}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
-
+        try:
+            fecha = datetime.now()
+            titulo = articulo['titulo']
+            revista = articulo['revista']
+            link_articulo = articulo['link_articulo']
+            doi = articulo['doi']
+            tipo_documento = articulo['tipo_documento']
+            publication_stage = articulo['estado']
+            lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_articulo}\nDOI:{doi}\nDOCUMENT TYPE:{tipo_documento}\nPUBLICATION STAGE:{publication_stage}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+        except:
+            print("asdsadsa")
 
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=export.txt'
@@ -2274,150 +2296,9 @@ def generaBibTex(request, id):
     # Capacitacion = []
     GradoAcademico = []
 
-    proyectos = [
-        
-        {
-          "id":1,
-          "fecha_cierre":"2012-01-01",
-          "fecha_inicio":"2005-02-01",
-          "codigo_proyecto":"",
-          "nombre_proyecto":"Diferentes Investigaciones dentro del Marco del Convenio Interinstitucional con la DPS-L, para el Rescate y Validacion del Conocimiento Tradicional del Pueblo Saraguro",
-          "descripcion":"Asadsadsadsadsa sadsadsadsa",
-          "tipo_proyecto":65,
-          "incluye_financ_externo":"no",
-          "incluye_estudiantes":"si",
-          "cobertura_proyecto":63,
-          "reprogramado":"No",
-          "porcentaje_avance":"100.00",
-          "fondo_utpl":"0.00",
-          "fondo_externo":"0.00",
-          "total_general":"0.00",
-          "estado":"finalizado",
-          "programa":"Biológica",
-          "moneda":"",
-          "objetivos":"",
-          "presupuesto":"0.00",
-          "tipo_investigacion":"",
-          "clase_proyecto":"",
-          "area_unesco":"",
-          "participacion_extranjera":"no",
-          "smartland":"no",
-          "observaciones":"",
-          "fecha_reprogramacion":"",
-          "fondo_externo_especie":"0.00",
-          "fondo_externo_efectivo":"0.00",
-          "alumnos":0,
-          "fecha_activacion":"",
-          "fecha_suspension":"",
-          "porcentaje_esperado":"0.00",
-          "linea_investigacion":"",
-          "especie":"no",
-          "tipo_convocatoria":"",
-          "area_conocimiento":"",
-          "sub_area_conocimiento":"",
-          "observatorio":"",
-          "area_conocimiento_especifica":"",
-          "titulacion":"",
-          "organizacion":"",
-          "ods":"",
-          "programa_investigacion":""
-       },
-       {
-            "id":1,
-            "fecha_cierre":"2012-01-01",
-            "fecha_inicio":"2005-02-01",
-            "codigo_proyecto":"",
-            "nombre_proyecto":"Diferentes Investigaciones dentro del Marco del Convenio Interinstitucional con la DPS-L, para el Rescate y Validacion del Conocimiento Tradicional del Pueblo Saraguro",
-            "descripcion":"Asadsadsadsadsa sadsadsadsa",
-            "tipo_proyecto":65,
-            "incluye_financ_externo":"no",
-            "incluye_estudiantes":"si",
-            "cobertura_proyecto":63,
-            "reprogramado":"No",
-            "porcentaje_avance":"100.00",
-            "fondo_utpl":"0.00",
-            "fondo_externo":"0.00",
-            "total_general":"0.00",
-            "estado":"finalizado",
-            "programa":"Biológica",
-            "moneda":"",
-            "objetivos":"",
-            "presupuesto":"0.00",
-            "tipo_investigacion":"",
-            "clase_proyecto":"",
-            "area_unesco":"",
-            "participacion_extranjera":"no",
-            "smartland":"no",
-            "observaciones":"",
-            "fecha_reprogramacion":"",
-            "fondo_externo_especie":"0.00",
-            "fondo_externo_efectivo":"0.00",
-            "alumnos":0,
-            "fecha_activacion":"",
-            "fecha_suspension":"",
-            "porcentaje_esperado":"0.00",
-            "linea_investigacion":"",
-            "especie":"no",
-            "tipo_convocatoria":"",
-            "area_conocimiento":"",
-            "sub_area_conocimiento":"",
-            "observatorio":"",
-            "area_conocimiento_especifica":"",
-            "titulacion":"",
-            "organizacion":"",
-            "ods":"",
-            "programa_investigacion":""
-       }
-    ]
+    proyectos = []
 
-    Capacitacion = [
-        {
-            "id": 302,
-            "id_docente": 352,
-            "nombre": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD",
-            "tematica": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD: Logros y desafíos de la EaD inclusión e innovación en el espacio iberoamericano del conocimiento.",
-            "fecha_inicio": "2011-09-28",
-            "fecha_fin": "2011-09-30",
-            "duracion_horas": 20,
-            "pais": 8064,
-            "ciudad": "Loja",
-            "link": "",
-            "cobertura": 62,
-            "tipo_curso": 6020,
-            "tipo_formacion": 181,
-            "tipo_participacion": 503,
-            "fecha_publicacion": "",
-            "comite_organizador": "",
-            "institucion_organizadora": "",
-            "area_conocimiento": "",
-            "sub_area_conocimiento": "",
-            "area_conocimiento_especifica": "",
-            "subtipo_formacion": 171
-        },
-        {
-            "id": 302,
-            "id_docente": 352,
-            "nombre": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD",
-            "tematica": "XIV Encuentro Iberoamericano de Educación Superior a Distancia de AIESAD: Logros y desafíos de la EaD inclusión e innovación en el espacio iberoamericano del conocimiento.",
-            "fecha_inicio": "2011-09-28",
-            "fecha_fin": "2011-09-30",
-            "duracion_horas": 20,
-            "pais": 8064,
-            "ciudad": "Loja",
-            "link": "",
-            "cobertura": 62,
-            "tipo_curso": 6020,
-            "tipo_formacion": 181,
-            "tipo_participacion": 503,
-            "fecha_publicacion": "",
-            "comite_organizador": "",
-            "institucion_organizadora": "",
-            "area_conocimiento": "",
-            "sub_area_conocimiento": "",
-            "area_conocimiento_especifica": "",
-            "subtipo_formacion": 171
-        },
-    ]
+    Capacitacion = []
 
     response = BibDatabase()
     # print(response.entries)
@@ -2438,21 +2319,25 @@ def generaBibTex(request, id):
         }
         lines.append(const)
 
+    
     for articulo in listaArticulosDocente:
         # print('REVIST-_____>>>>>>>>>>>>>>>>>>>>>', articulo['volume'])
-        const = {
-          'journal ': articulo['revista'],
-        #   'comments' : articulo['abstract'],
-          'abstract' : articulo['abstract'],
-          'title   ' : articulo['titulo'],
-          'year    ' : str(articulo['year']),
-          'volume  ' : str(articulo['volume']),
-          'ID' : docente['primer_apellido'] + str(articulo['year']),
-          'keywords': articulo["keywords"],
-          'ENTRYTYPE': 'article'
-        }
-        lines.append(const)
-
+        try:
+            const = {
+              'journal ': articulo['revista'],
+            #   'comments' : articulo['abstract'],
+              'abstract' : articulo['abstract'],
+              'title   ' : articulo['titulo'],
+              'year    ' : str(articulo['year']),
+              'volume  ' : str(articulo['volume']),
+              'ID' : docente['primer_apellido'] + str(articulo['year']),
+              'keywords': articulo["keywords"],
+              'ENTRYTYPE': 'article'
+            }
+            lines.append(const)
+        except:
+            print("asdassa")
+        
     
    
 
