@@ -796,7 +796,7 @@ def DocCompleto(request, id):
     imagen = docente['foto_web_low'] 
     # doc.replace_pic('dummy_header_pic.jpg','header_pic_i_want.jpg')
     myimage = InlineImage(doc, image_descriptor=logo, width=Mm(15), height=Mm(25))
-    doc.replace_pic(myimage, nieve)
+    # doc.replace_pic(myimage, nieve)
     context = {'listaFinal': listaFinal, 'docente': docente, 'var': logo, 'myimage': myimage}
   
     doc.render(context)
@@ -1642,14 +1642,13 @@ def JsonPersonalizado(request, id, nombre_cv, cvHash):
 
 
 def GeneraTxtInformacion(request, id):
-    model_dict = models.ConfiguracionCv.objects.all().values()
-    model_bloques = models.Bloque.objects.all().values()
-
     r = requests.get(f'https://sica.utpl.edu.ec/ws/api/docentes/{id}/',
                      headers={'Authorization': 'Token 54fc0dc20849860f256622e78f6868d7a04fbd30'})
     docente = r.json()
-    print(docente)
 
+    print("DOCENTEBIBTEX", docente['primer_apellido'])
+
+    
     '''Saca id Articulos '''
     listaidArticulos = []
     for infobloque in docente['related']['articulos']:
@@ -1691,114 +1690,91 @@ def GeneraTxtInformacion(request, id):
                 value = 'None'
             i[key] = value
 
-    proyectos = []
-    Capacitacion = []
+    # proyectos = []
+    # Capacitacion = []
     GradoAcademico = []
 
-    '''BLOQUES DE MODEL BLOQUES ORDENADOS '''
-    ordenadosBloques = sorted(
-        model_bloques, key=lambda orden: orden['ordenCompleto'])
-    bloqueOrdenApi = [{b['nombre']: b['visible_cv_bloqueCompleto']}
-                      for b in ordenadosBloques]
+    proyectos = []
 
-    bloqueOrdenApi = [bloqueOrden for bloqueOrden in bloqueOrdenApi if list(bloqueOrden.values()) != [False]]
+    Capacitacion = []
 
-    listaBloques = [[x for x, v in i.items()] for i in bloqueOrdenApi]
-    listaBloquesOrdenados = [y for x in listaBloques for y in x]
+    response = BibDatabase()
+    # print(response.entries)
 
-    '''SACA VISIBLES SI SON TRUE'''
-    diccionario = dict()
-    for i in listaBloquesOrdenados:
-        visibles = [{'nombre': d['atributo'], 'ordenCompleto': d['ordenCompleto']}
-                    for d in model_dict if d.get("visible_cv_completo") and d.get('bloque') == i]
-        ordenadosAtributos = sorted(visibles, key=lambda orden: orden['ordenCompleto'])
-        listaatrvisibles = [[valor for clave, valor in i.items(
-        ) if clave == 'nombre'] for i in ordenadosAtributos]
-        listaVisiblesAtr = [y for x in listaatrvisibles for y in x]
-        diccionario[i] = listaVisiblesAtr
 
-    '''SACA MAPEO SI ATRIBUTO ES TRUE'''
-    listadoBloques = dict()
-    listaMapeados = dict()
-    bloquesInformacion = dict()
+    lines = []
 
-    '''Tendria que recuperar los bloques que estan como visibles'''
-    bloquesInformacion['Articulos'] = listaArticulosDocente
-    bloquesInformacion['Proyectos'] = proyectos
-    bloquesInformacion['Capacitacion'] = Capacitacion
-    bloquesInformacion['Libros'] = listaLibrosDocente
-    bloquesInformacion['GradoAcademico'] = GradoAcademico
+    for libro in listaLibrosDocente:
+        fecha = datetime.now()
+        titulo = libro['titulo']
+        revista = libro['editorial']
+        link_libro = libro['link_descarga_1']
+        isbn = libro['isbn']
+        tipo_documento = libro['tipo_libro']
+        ambito_editorial = libro['ambito_editorial']
+        lines.append(f'LIBROS\nSIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_libro}\nISBN:{isbn}\nDOCUMENT TYPE:{tipo_documento}\nEDITORIAL SCOPE:{ambito_editorial}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
 
-    for i in listaBloquesOrdenados:
-        mapeo = [{'mapeo': d['mapeo'], 'ordenCompleto': d['ordenCompleto']} for d in model_dict if d.get(
-            "visible_cv_completo") and d.get('bloque') == i]
-        ordenadosMapeo = sorted(mapeo, key=lambda orden: orden['ordenCompleto'])
 
-        listamapeoisibles = [[valor for clave, valor in i.items(
-        ) if clave == 'mapeo'] for i in ordenadosMapeo]
-        listaVisiblesmapeo = [y for x in listamapeoisibles for y in x]
-
-        mapeados = pd.unique(listaVisiblesmapeo)
-        listaMapeados[i] = mapeados
-        filtrados = [{atributo: d.get(atributo) for atributo in diccionario[i] if d.get(
-            atributo) != None} for d in bloquesInformacion[i]]
-        listadoBloques[i] = filtrados
-
-    bloqueAtributos = dict()
-    for listadoBloque in listadoBloques:
-        bloqueAtributos[listadoBloque] = [{atributo: d.get(atributo) for atributo in diccionario[listadoBloque] if d.get(
-            atributo) != None} for d in bloquesInformacion[listadoBloque]]
-
-    i = []
-    for i in listaBloquesOrdenados:
-        for filtrado in bloqueAtributos[i]:
-            filtrado["mapeo"] = [fil for fil in listaMapeados[i]]
+    
+    for articulo in listaArticulosDocente:
+        try:
+            fecha = datetime.now()
+            titulo = articulo['titulo']
+            revista = articulo['revista']
+            link_articulo = articulo['link_articulo']
+            doi = articulo['doi']
+            tipo_documento = articulo['tipo_documento']
+            publication_stage = articulo['estado']
+            lines.append(f'ARTICULOS\nSIAC UTPL\nEXPORT DATE:{fecha}\n{titulo}\n{revista}\n{link_articulo}\nDOI:{doi}\nDOCUMENT TYPE:{tipo_documento}\nPUBLICATION STAGE:{publication_stage}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
+        except:
+            print("asdsadsa")
         
-    bloquesInfoRestante = {k: v for k, v in bloqueAtributos.items() if v != []}
+    
+   
 
-    bloquesRestantes = []
-
-    for bloqueInfRes in bloquesInfoRestante:
-        bloquesRestantes.append(bloqueInfRes)
-  
-
-    listaResultados = []
-    listaFinal = list()
-    tituloBloque = dict()
-    for i in bloquesRestantes:
-        tituloBloque['-'] = i.upper()
-        listaResultados.append(tituloBloque)
-        for bloqueInformacion in bloquesInfoRestante[i]:
-            resultados = dict(
-                zip(bloqueInformacion['mapeo'], bloqueInformacion.values()))
-            listaResultados.append(resultados)
-
-        listaFinal.append(listaResultados)
-        listaResultados = []
-        tituloBloque = {}
+    # lines = []
+    for pryecto in proyectos:
+        fecha = datetime.now()
+        nombre_proyecto = pryecto['nombre_proyecto']
+        fecha_inicio = pryecto['fecha_inicio']
+        fecha_cierre = pryecto['fecha_cierre']
+        tipo_proyecto = pryecto['tipo_proyecto']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'PROYECTOS]\nSIAC UTPL\nEXPORT DATE:{fecha}\n{nombre_proyecto}\n{fecha_inicio}\n{fecha_cierre}\nTIPO PROYECTO:{tipo_proyecto}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
 
 
-    print(listaFinal)
 
-    lines=[]
-    data = []
-    for lista in listaFinal:
-      # print(lista)
-      for i in lista:
-        print(i)
-        fecha = i['id']
-        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}n')
+    for capacitacion in Capacitacion:
+        fecha = datetime.now()
+        nombre = capacitacion['nombre_proyecto']
+        fecha_inicio = capacitacion['fecha_inicio']
+        # fecha_fin = capacitacion['fecha_cierre']
+        institucion_organizadora = capacitacion['institucion_organizadora']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'CAPACITACIÓN\nSIAC UTPL\nEXPORT DATE:{fecha}\n{nombre}\n{fecha_inicio}\n{fecha_inicio}\nINSTITUCIÓN:{institucion_organizadora}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
 
-        # for j, v in i.items():
-        #   print(j, v)
-        # for j in i:
+    for gradoAcademico in GradoAcademico:
+        fecha = datetime.now()
+        nombre = gradoAcademico['denominacion_titulo']
+        fecha_inicio = gradoAcademico['fecha_inicio']
+        # fecha_fin = capacitacion['fecha_cierre']
+        institucion_organizadora = gradoAcademico['universidad_emisora']
+        # tipo_documento = libro['tipo_libro']
+        # ambito_editorial = libro['ambito_editorial']
+        lines.append(f'SIAC UTPL\nEXPORT DATE:{fecha}\n{nombre}\n{fecha_inicio}\n{fecha_inicio}\nINSTITUCIÓN:{institucion_organizadora}\nSOURCE:SIAC UTPL\n\n\n\n\n\n')
 
-      print('---------' )
-      print(lines)
+
+    print(lines)
+    # response.entries = lines
+    # writer = BibTexWriter()
+    # data = writer.write(response)
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=export.txt'
-    
+   
     response.writelines(lines)
+
     return response
 
 

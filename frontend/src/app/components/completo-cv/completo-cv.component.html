@@ -83,9 +83,10 @@
                     <!-- <br> -->
                     
                         <div class="example-header">
+                            <b>Buscador:</b>
                             <mat-form-field>
                                 <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
-                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Proyectos" #filter>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ej. Proyectos" #filter>
                                 <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
                                     <mat-icon>close</mat-icon>
                                 </button>

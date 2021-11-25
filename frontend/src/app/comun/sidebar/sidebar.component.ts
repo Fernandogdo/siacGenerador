@@ -18,14 +18,16 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '',},
-    // { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/cv-completo', title: 'CV Completo',  icon:'account_box', class: '' },
-    { path: '/cv-resumido', title: 'CV Resumido',  icon:'contact_page', class: '' },
-    { path: '/cv-guardado/:id_user', title: 'CV Personalizable',  icon:'manage_accounts', class: '' },
-    // { path: '/cv-guardado', title: 'CV Guardado',  icon:'manage_accounts', class: '' },
-
-    // { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
+    { path: '/administrador', title: 'Administrador',  icon:'person', class: '' },
+    { path: '/cv-completo', title: 'Configuración CV Completo',  icon:'account_box', class: '' },
+    { path: '/cv-resumido', title: 'Configuración CV Resumido',  icon:'contact_page', class: '' },
+    { path: '/cv-guardado', title: 'CVs Personalizados',  icon:'manage_accounts', class: '' },
+    { path: '/crea-formatos', title: 'Descargar Formatos',  icon:'manage_accounts', class: ''},
+    { path: '/cv-personalizado', title: 'Cear cv Personalizado',  icon:'person', class: ''},
+    { path: '/edita-personalizado',title: 'Editar cv Personalizado', icon:'person', class: ''},
+    { path: '/descarga-informacion', title: 'Descarga Información',  icon:'notifications', class: '' },
 ];
+
 
 @Component({
   selector: 'app-sidebar',

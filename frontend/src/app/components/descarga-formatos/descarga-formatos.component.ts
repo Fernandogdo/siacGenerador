@@ -8,15 +8,15 @@ import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
 import { LoadingService } from 'app/services/loading/loading.service';
 
 @Component({
-  selector: 'app-crea-formatos',
-  templateUrl: './crea-formatos.component.html',
-  styleUrls: ['./crea-formatos.component.css']
+  selector: 'app-descarga-formatos',
+  templateUrl: './descarga-formatos.component.html',
+  styleUrls: ['./descarga-formatos.component.css']
 })
-export class CreaFormatosComponent implements OnInit {
+export class DescargaFormatosComponent implements OnInit {
 
   blob: any;
-  idUser;
-
+  idParamsUrl;
+  idUserStorage;
 
   constructor(
     public loader: LoadingService,
@@ -29,11 +29,27 @@ export class CreaFormatosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idUser = this.activatedRoute.snapshot.paramMap.get("id_user");
-    this.authorizationService.enviarIdUsuario(this.idUser)
-    console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
+    this.idParamsUrl = this.activatedRoute.snapshot.paramMap.get("id_user");
+    this.idUserStorage = localStorage.getItem('id_user')
+    console.log("🚀 ~ file: crea-formatos.component.ts ~ line 34 ~ CreaFormatosComponent ~ ngOnInit ~ this.idUserStorage", this.idUserStorage)
+    
+    this.comprobarId();
+    // this.authorizationService.enviarIdUsuario(this.idUser)
+    console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idParamsUrl)
     // this.generaInformacion();
     this.docente();
+    this
+  }
+
+  comprobarId(){
+    this.authorizationService.comprobarId(this.idParamsUrl)
+    console.log("IDUSERGUARDADO", this.idParamsUrl, localStorage.getItem("id_user"))
+    // if (this.idParamsUrl != this.idUserStorage) {
+    //   console.log("NOSONIGUALES", this.idUserStorage, this.idParamsUrl)
+    //   this.authorizationService.cerrarSesionDocente()
+    // } else{
+    //   console.log("SONIGUALES")
+    // }
   }
 
   // fetchUser(){
@@ -43,7 +59,7 @@ export class CreaFormatosComponent implements OnInit {
 
   generaPdfCompleto(){
     console.log("PDFCOMPLETO")
-    this.pdfService.generaPdfCompleto(this.idUser).subscribe((data) => {
+    this.pdfService.generaPdfCompleto(this.idUserStorage).subscribe((data) => {
 
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
     
@@ -60,7 +76,7 @@ export class CreaFormatosComponent implements OnInit {
 
 
   generaPdfResumido(){
-    this.pdfService.generaPdfResumido(this.idUser).subscribe((data) => {
+    this.pdfService.generaPdfResumido(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -77,7 +93,7 @@ export class CreaFormatosComponent implements OnInit {
 
 
   generaDocCompleto(){
-    this.creaDocxService.generaDocCompleto(this.idUser).subscribe((data) => {
+    this.creaDocxService.generaDocCompleto(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -89,7 +105,7 @@ export class CreaFormatosComponent implements OnInit {
   }
 
   generaDocResumido(){
-    this.creaDocxService.generaDocResumido(this.idUser).subscribe((data) => {
+    this.creaDocxService.generaDocResumido(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -102,7 +118,7 @@ export class CreaFormatosComponent implements OnInit {
 
 
   generaJsonCompleto(){
-    this.creaJsonService.generaJsonCompleto(this.idUser).subscribe((data) =>{
+    this.creaJsonService.generaJsonCompleto(this.idUserStorage).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'application/json'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -114,7 +130,7 @@ export class CreaFormatosComponent implements OnInit {
   }
 
   generaJsonResumido(){
-    this.creaJsonService.generaJsonResumido(this.idUser).subscribe((data) =>{
+    this.creaJsonService.generaJsonResumido(this.idUserStorage).subscribe((data) =>{
       console.log(data);
       this.blob = new Blob([data as BlobPart], {type: 'application/json'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -138,7 +154,7 @@ export class CreaFormatosComponent implements OnInit {
     // let idUsuario =   parseInt(localStorage.getItem('id_user'));
 
     console.log("DOCENRE");
-    this.configuracion.getDocente(this.idUser).subscribe((res=>{
+    this.configuracion.getDocente(this.idUserStorage).subscribe((res=>{
       console.log("DOCENTE", res)
     }))
   }

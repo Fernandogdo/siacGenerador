@@ -11,9 +11,11 @@ export class AuthorizationService {
 
   authenticationState = new BehaviorSubject(false);
 
+  idUser;
+  idUserStorage;
 
-  URL_LOGIN = 'http://127.0.0.1:8000/api/login/'
-  URL_DOCENTE = 'http://localhost:8000/api/usuario/'; 
+  URL_LOGIN = 'https://siacgenerador.herokuapp.com/api/login/'
+  URL_DOCENTE = 'https://siacgenerador.herokuapp.com/api/usuario/'; 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -31,7 +33,8 @@ export class AuthorizationService {
     this.http.post<Docente>(this.URL_LOGIN, usuario, this.httpOptions).subscribe( res => {
       this.iniciarSesionDocente(res);
       // this.presentToast()
-      // console.log("SR ICE", res)
+      console.log("SR ICE", res.username)
+      // this.idUser = res.id_user
       // console.log("ROLUSUARIO", res.username)
       let rol =localStorage.getItem('is_staff')
 
@@ -65,6 +68,17 @@ export class AuthorizationService {
     });
   }
 
+  comprobarId(idParamsUrl){
+    console.log("IDUSERGUARDADO", idParamsUrl, localStorage.getItem("id_user"))
+    this.idUserStorage = localStorage.getItem("id_user");
+    if ( idParamsUrl != this.idUserStorage) {
+      console.log("NOSONIGUALES", this.idUserStorage, this.idUser)
+      this.cerrarSesionDocente();
+    } else{
+      console.log("SONIGUALES")
+    }
+  }
+
   privilegios(){
     let rol = localStorage.getItem('is_staff');
     console.log("🚀 ~ file: authorization.service.ts ~ line 39 ~ AuthorizationService ~ privilegios ~ rol", rol) 
@@ -75,7 +89,7 @@ export class AuthorizationService {
   }
 
   obtenerIdDocente() {
-    return localStorage.getItem('id_user');
+    return this.idUser
   }
 
   ObtenerRol() {
@@ -106,9 +120,9 @@ export class AuthorizationService {
     localStorage.setItem('is_staff', usuario.username.is_staff);
   }
 
-  enviarIdUsuario(idDocente){
-    localStorage.setItem('idDocente', idDocente)
-  }
+  // enviarIdUsuario(idDocente){
+  //   localStorage.setItem('idDocente', idDocente)
+  // }
 
   obtenerIdUsuario(){
     return localStorage.getItem('idDocente')

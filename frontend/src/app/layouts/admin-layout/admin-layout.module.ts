@@ -21,7 +21,8 @@ import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque
 import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
 import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
 import { AdministradorComponent } from 'app/components/administrador/administrador.component';
-import { CreaFormatosComponent } from 'app/components/crea-formatos/crea-formatos.component';
+import { DescargaFormatosComponent } from 'app/components/descarga-formatos/descarga-formatos.component';
+
 
 
 /* MATERIAL */
@@ -44,6 +45,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { DescargaInformacionComponent } from 'app/components/descarga-informacion/descarga-informacion.component';
 
 // import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
@@ -94,7 +96,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     ResumidoCvComponent,
     EditaPersonalizadoComponent,
     CreacvPersonalizadoComponent,
-    CreaFormatosComponent,
+    DescargaFormatosComponent,
+    DescargaInformacionComponent
     // ProgressSpinnerComponent
     
   ]

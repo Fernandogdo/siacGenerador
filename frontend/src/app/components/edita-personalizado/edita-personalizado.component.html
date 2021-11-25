@@ -122,7 +122,12 @@
           <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                           
           <div class="col text-center">
-              <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button>
+            <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardarBloquesAtributos()">Guardar
+              <span class="material-icons">
+                save
+              </span>
+            </button>
+              <!-- <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button> -->
           </div>
         </mat-card>      
       </div>

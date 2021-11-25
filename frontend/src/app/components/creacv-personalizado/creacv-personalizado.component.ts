@@ -138,11 +138,11 @@ export class CreacvPersonalizadoComponent implements OnInit {
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
         console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        cvpersonalizado.bloque === this.nombreBloque 
-        && cvpersonalizado.nombre_cv === this.nombre_cv
-        && cvpersonalizado.cv === this.cvHash
-        ));
+        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        // cvpersonalizado.bloque === this.nombreBloque 
+        // && cvpersonalizado.nombre_cv === this.nombre_cv
+        // && cvpersonalizado.cv === this.cvHash
+        // ));
 
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
@@ -152,6 +152,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
         this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
         this.arregloAtributos = this.atributosOrdenados;
+        console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 155 ~ CreacvPersonalizadoComponent ~ getConfiguracionPersonalizada ~ this.arregloAtributos", this.arregloAtributos)
   
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
@@ -176,10 +177,10 @@ export class CreacvPersonalizadoComponent implements OnInit {
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
         console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        cvpersonalizado.bloque === this.nombreBloque 
-        && cvpersonalizado.nombre_cv === this.nombre_cv
-        && cvpersonalizado.cv === this.cvHash));
+        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        // cvpersonalizado.bloque === this.nombreBloque 
+        // && cvpersonalizado.nombre_cv === this.nombre_cv
+        // && cvpersonalizado.cv === this.cvHash));
 
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
@@ -212,10 +213,10 @@ export class CreacvPersonalizadoComponent implements OnInit {
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
         console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        cvpersonalizado.bloque === this.nombreBloque 
-        && cvpersonalizado.nombre_cv === this.nombre_cv
-        && cvpersonalizado.cv === this.cvHash));
+        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
+        // cvpersonalizado.bloque === this.nombreBloque 
+        // && cvpersonalizado.nombre_cv === this.nombre_cv
+        // && cvpersonalizado.cv === this.cvHash));
 
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
@@ -226,6 +227,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
         // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 196 ~ CreacvPersonalizadoComponent ~ FiltroVisibles ~ this.atributosOrdenados", this.atributosOrdenados)
         
         this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
+        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 229 ~ CreacvPersonalizadoComponent ~ FiltroVisibles ~ this.arregloAtributos", this.arregloAtributos)
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;

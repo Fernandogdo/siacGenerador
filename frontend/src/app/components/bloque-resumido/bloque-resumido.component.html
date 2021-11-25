@@ -67,16 +67,15 @@
 
 
 <div class="main-content">
+    <div class="col text-center">
+        <button mat-raised-button class="btnRegresar" color="primary" routerLink="/cv-resumido" routerLinkActive="active"> Configuración Bloques Resumidos</button>
+    </div>
     <div class="container-fluid">
         <div class="row">
 
             <div class="col-md-12" >
 
-                <div class="container" id="formulario">
-                    <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-resumido" routerLinkActive="active"> Configuración Bloques Resumidos</button>
-                    </div>
-                </div>
+                
 
                 <mat-card class="tarjeta">
                     <mat-card-header>
@@ -92,9 +91,10 @@
                     </mat-radio-group>                 -->
                 <br>
                     <div class="example-header">
+                        <b>Buscador:</b>
                         <mat-form-field>
                             <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. titulo" #filter>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ej. titulo" #filter>
                             <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
                         <mat-icon>close</mat-icon>
                       </button>

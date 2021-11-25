@@ -128,12 +128,11 @@
                 
                         <!-- Name Column -->
                         <ng-container matColumnDef="mapeo">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributos</b></h4>  </mat-header-cell>
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributo</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element">
-                                {{element.mapeo}}
-                                <!-- <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Orden" type="text" [value]="element.mapeo" >
-                                </mat-form-field> -->
+                                {{ element.mapeo!='' ? element.mapeo : element.atributo }}
+                                <!-- {{element.mapeo}} -->
+
                             </mat-cell>
                         </ng-container>
                         
@@ -175,7 +174,12 @@
                     <mat-paginator id="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
                     
                     <div class="col text-center">
-                        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
+                        <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardar()">Guardar
+                            <span class="material-icons">
+                              save
+                            </span>
+                          </button>
+                        <!-- <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button> -->
                     </div>
                 </mat-card>
             

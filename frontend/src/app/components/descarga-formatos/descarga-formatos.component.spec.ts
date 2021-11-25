@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreaFormatosComponent } from './crea-formatos.component';
+import { DescargaFormatosComponent } from './descarga-formatos.component';
 
-describe('CreaFormatosComponent', () => {
-  let component: CreaFormatosComponent;
-  let fixture: ComponentFixture<CreaFormatosComponent>;
+describe('DescargaFormatosComponent', () => {
+  let component: DescargaFormatosComponent;
+  let fixture: ComponentFixture<DescargaFormatosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreaFormatosComponent ]
+      declarations: [ DescargaFormatosComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreaFormatosComponent);
+    fixture = TestBed.createComponent(DescargaFormatosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

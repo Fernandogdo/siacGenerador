@@ -54,8 +54,15 @@
 
         <li class=" nav-item">
             <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/crea-formatos', idUser]" routerLinkActive="active">
-                <i id="icono" class="material-icons">manage_accounts</i>
+                <i id="icono" class="material-icons">sim_card_download</i>
                 <p style="color:#003F72;">Descargar Formatos</p>
+            </a>
+        </li>
+
+        <li class=" nav-item">
+            <a class="nav-link"  *ngIf="!seMuestra" [routerLink]="['/descarga-informacion/', idUser]" routerLinkActive="active">
+                <i id="icono" class="material-icons">file_download</i>
+                <p style="color:#003F72;">Descargar Información</p>
             </a>
         </li>
     </ul>

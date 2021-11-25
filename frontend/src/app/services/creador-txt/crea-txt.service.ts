@@ -12,6 +12,7 @@ export class CreaTxtService {
   URL_TXT_PROYECTOS = 'http://localhost:8000/api/informacion_txt_proyectos/';
   URL_TXT_CAPACITACIONES = 'localhost:8000/api/informacion_txt_capacitaciones/';
   URL_TXT_GRADOACADEMICO = 'localhost:8000/api/informacion_txt_gradoacademico/';
+  URL_TXT_INFORMACION = 'http://localhost:8000/api/txt-informacion/'
 
   constructor(private http: HttpClient) { }
 
@@ -53,6 +54,13 @@ export class CreaTxtService {
       responseType: 'blob' as 'json',
     };
     return this.http.get(this.URL_TXT_GRADOACADEMICO + id_user, httpOptions);
+  }
+
+  generaTxtInformacion(id_user){
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+    return this.http.get(this.URL_TXT_INFORMACION + id_user, httpOptions);
   }
 
 }

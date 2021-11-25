@@ -2,58 +2,18 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-md-12">
 
-                <div class="container" id="formulario">
-                    <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
-                        <!-- <button (click) = "loader.show()"  >asdasdsa</button> -->
-
-                        <!-- <button class="botones" id="btn-documento" mat-stroked-button color="accent" [matMenuTriggerFor]="menupdf">Crear PDF
-                        </button>
-                            <mat-menu #menupdf="matMenu">
-                              <button mat-menu-item (click)="generaPdfCompleto()">Completo</button>
-                              <button mat-menu-item (click)="generaPdfResumido()">Resumido</button>                            
-                            </mat-menu> -->
-
-                    </div>
-                </div>
-
-            
-               
-
-                <!-- <mat-card *ngFor="let item of confPersoDocenteClas | keyvalue" class="tarjeta-cv" id="tarjeta_cv">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image">
-                            <span class="material-icons" id="iconoPersonalizado"> 
-                                description
-                            </span>
-                        </div>
-                        <mat-card-title class="tituloPersonalizado"> NombreCV: {{item.key}}</mat-card-title>
-                        <div class="col text-center">
-                            <button class="btnPersonalizado" color="primary" mat-raised-button (click)="generaPdfPersonalizado()">Personalizado</button>
-                
-                            <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
-                                <i class=" material-icons ">edit</i>
-                            </button>
-                            <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada(item.key)" color="warn">
-                                <i class=" material-icons ">delete</i>
-                            </button>
-                        </div>
-                    </mat-card-header>
-                </mat-card> -->
-            </div>
 
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header " id="cabeceraTarjeta">
                         <div class="ct-chart" > 
                             <!-- <h5 id="titulo_tarjeta">CREAR PDF</h5>  -->
-                            <img class="logo" src="/assets/img/pdf.png" />
+                            <img class="logo" src="/assets/img/csv.png" />
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Generación PDF</h4>
+                        <h4 class="card-title">Generación CSV</h4>
                         <!-- <p class="card-category">Se genera pdf en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
@@ -62,11 +22,11 @@
                             <div class="col text-center">  
                                 <!-- <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button> -->
                                   
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaPdfCompleto()">
+                                <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                     PDF Completo
                                 </button>
 
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaPdfResumido()">
+                                <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                     PDF Resumido
                                 </button>
                                     <!-- <mat-menu #menupdf="matMenu">
@@ -96,11 +56,11 @@
                     <div class="card-header " id="cabeceraTarjeta">
                         <div class="ct-chart" > 
                             <!-- <h5 id="titulo_tarjeta">CREAR WORD</h5> -->
-                            <img class="logo" src="/assets/img/word.png" />
+                            <img class="logo" src="/assets/img/txt.png" />
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Generación WORD</h4>
+                        <h4 class="card-title">Generación TXT</h4>
                         <!-- <p class="card-category">Se genera Word en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
@@ -108,16 +68,26 @@
                             <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
                             <div class="col text-center">                              
             
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaDocCompleto()">
+                                <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button >
                                     WORD Completo
                                 </button>
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaDocResumido()">
+                                <button class="botones_crear" id="btn-documento" mat-stroked-button >
                                     WORD Resumido
-                                </button>
+                                </button> -->
+                                <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
+                                <mat-menu #menuexportacionTXT="matMenu">
+                                    <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
+                                    <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
+                                    <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
+                                    <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
+                                    <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
+    
+                                </mat-menu>
+
                                 <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button color="primary" [matMenuTriggerFor]="menudocx">Crear Word</button>
                                     <mat-menu #menudocx="matMenu">
-                                      <button mat-menu-item (click)="generaDocCompleto()">Completo</button>
-                                      <button mat-menu-item (click)="generaDocResumido()">Resumido</button>                            
+                                      <button mat-menu-item >Completo</button>
+                                      <button mat-menu-item >Resumido</button>                            
                                     </mat-menu> -->
                             </div>
                         <!-- </div> -->
@@ -130,28 +100,37 @@
                     <div class="card-header " id="cabeceraTarjeta">
                         <div class="ct-chart"> 
                             <!-- <h5 id="titulo_tarjeta">CREAR JSON</h5> -->
-                            <img class="logo" src="/assets/img/json.png" />
+                            <img class="logo" src="/assets/img/bibtex.png" />
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Generación JSON</h4>
+                        <h4 class="card-title">Generación BibTex</h4>
                         <!-- <p class="card-category">Se genera Json en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
                         <!-- <div class="stats"> -->
                             <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
                         <div class="col text-center"> 
-                            <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaJsonCompleto()">
+                            <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button >
                                 JSON Completo
                             </button>
-                            <button class="botones_crear" id="btn-documento" mat-stroked-button (click)="generaJsonResumido()">
+                            <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                 JSON Resumido
-                            </button>                                   
+                            </button>                                    -->
+                             <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación BibTex</button>
+                            <mat-menu #menuexportacionTXT="matMenu">
+                                <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
+                                <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
+                                <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
+
+                            </mat-menu>
                             <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button color="accent" [matMenuTriggerFor]="menupdf">Crear JSON
                             </button>
                                 <mat-menu #menupdf="matMenu">
-                                  <button mat-menu-item (click)="generaJsonCompleto()">Completo</button>
-                                  <button mat-menu-item (click)="generaJsonResumido()">Resumido</button>                            
+                                  <button mat-menu-item >Completo</button>
+                                  <button mat-menu-item >Resumido</button>                            
                                 </mat-menu> -->
                     </div>
                 </div>

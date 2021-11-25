@@ -7,6 +7,7 @@ import {
 } from "@angular/common";
 import { Router } from "@angular/router";
 import { AuthorizationService } from "app/services/login/authorization.service";
+import { title } from "process";
 
 @Component({
   selector: "app-navbar",
@@ -33,6 +34,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.listTitles = ROUTES.filter((listTitle) => listTitle);
+    console.log("LISTANGONINITTITULOS----------------------->>>", this.listTitles)
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
     this.router.events.subscribe((event) => {
@@ -130,15 +132,29 @@ export class NavbarComponent implements OnInit {
 
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
+    titlee = '/' + titlee.split('/')[1]
+    // console.log("title", titlee)
+
+    // console.log("SPLITGETTITLE", titlee.split('/')[1])
+    // console.log("TITLEANTESDELIF", title.charAt(0))
     if (titlee.charAt(0) === "#") {
       titlee = titlee.slice(1);
+      // console.log("TITLENAVBAR-------->>>>>>", titlee)
     }
 
+    // console.log("LISTADETITULOSANTESDELFOR---------->>>>>", this.listTitles)
     for (var item = 0; item < this.listTitles.length; item++) {
+      // console.log("ITEM", item)
+      // console.log("titulosLISTLE--------__>>>>>>", this.listTitles)
+      // console.log("PATANTESDELIF", this.listTitles[item].path),
+      // console.log("TITLEANTESDELIF------>>>>", titlee)
       if (this.listTitles[item].path === titlee) {
+        // console.log("LISTATITULOSITEMPATH", this.listTitles[item].path)
+        // console.log("titlee", title)
         return this.listTitles[item].title;
       }
     }
-    return "Dashboard";
+    // console.log("DASHBARDRREENVINAVBAR")
+    return "GENERADOR CV";
   }
 }

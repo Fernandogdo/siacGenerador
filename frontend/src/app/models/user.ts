@@ -30,7 +30,7 @@ export class Usuario {
       public telefono_institucion: string,
       public tipo_docente: string,
       public titular_id: string,
-      public id?: string,
+      public id?: number,
       
     ) {
         this.apellido = apellido,

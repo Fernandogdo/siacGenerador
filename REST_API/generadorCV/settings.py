@@ -88,6 +88,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
 
@@ -135,11 +138,11 @@ DATABASES = {
     'default': {
         # MySQL engine. Powered by the mysqlclient module.
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'generadorcv',
-        'USER': 'fernando',
-        'PASSWORD': '1234',
-        'HOST': '',
-        'PORT': '3306',
+        'NAME': 'bgihk3yzoak5mwbhydi3',
+        'USER': 'uttiqqtg12o2lrvu',
+        'PASSWORD': 'kYESn6Ykg30eDqDc8mc',
+        'HOST': 'bgihk3yzoak5mwbhydi3-mysql.services.clever-cloud.com',
+        'PORT': '20241',
     }
 }
 
@@ -180,3 +183,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+import django_heroku
+django_heroku.settings(locals())

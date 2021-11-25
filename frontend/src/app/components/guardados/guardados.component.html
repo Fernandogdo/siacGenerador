@@ -21,8 +21,10 @@
                         <mat-menu #menuexportacion="matMenu">
                             <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
                         </mat-menu>
+                        
+                        <button class="botones" mat-raised-button (click)="generaTxtInformacion()">Exportación TXT</button>
 
-                        <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
+                        <!-- <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
                             <mat-menu #menuexportacionTXT="matMenu">
                                 <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
                                 <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
@@ -30,7 +32,7 @@
                                 <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
                                 <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
 
-                            </mat-menu>
+                            </mat-menu> -->
 
                         <button class="botones" id="btn-csv" mat-raised-button (click)="generaBibtex()">Exportación BibTex</button>
 
@@ -84,7 +86,10 @@
                 <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">content_copy</i>
+                            <i class="material-icons">perm_contact_calendar</i><br>
+                            <!-- <div class="col text-center">
+                                cv
+                            </div> -->
                         </div>
                         <h5 class="card-title">{{item.cv.split(',')[0]}}</h5>
                         <p class="card-category">

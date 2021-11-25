@@ -13,13 +13,13 @@ import { AuthorizationService } from "./login/authorization.service";
   providedIn: "root",
 })
 export class ConfiguracioncvService {
-  URL_CONF = "http://127.0.0.1:8000/api/configuracioncv/";
+  URL_CONF = "https://siacgenerador.herokuapp.com/api/configuracioncv/";
 
-  URL_BLOQUES = "http://127.0.0.1:8000/api/bloque/";
+  URL_BLOQUES = "https://siacgenerador.herokuapp.com/api/bloque/";
 
-  URL_PERS = "http://127.0.0.1:8000/api/configuracioncv_personalizado/";
+  URL_PERS = "https://siacgenerador.herokuapp.com/api/configuracioncv_personalizado/";
   
-  URL_PERS_DOCENTE = 'http://localhost:8000/api/personalizacion_usuario/';
+  URL_PERS_DOCENTE = 'https://siacgenerador.herokuapp.com/api/personalizacion_usuario/';
 
   URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json'
 
@@ -89,7 +89,7 @@ export class ConfiguracioncvService {
   //       let acceso = lala[clave]
   //       console.log('ACCESO', acceso)
   //       let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
-  //       let keys_atributos_todos = Object.keys(atributos_todos)
+  //       let keys_atributos_todos = Object.keys(atributhttp://localhost:8000/apios_todos)
 
   //       for (let index = 0; index < keys_atributos_todos.length; index++) {
   //         const clave_atributo = keys_atributos_todos[index];

@@ -16,15 +16,15 @@
 
 #tabla {
     color: #003F72;
-    background-color: #AAA4A4;
+    /* background-color: #AAA4A4; */
 }
 
 #paginator{
     /* margin: 20px; */
     /* margin-left: 20px;
     margin-right: 20px; */
-    color: #E0DED8;
-    background-color: #A71930;
+    color: #003F72;
+    background-color: #AAA4A4;;
 }
 
 

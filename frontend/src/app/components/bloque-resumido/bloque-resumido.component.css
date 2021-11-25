@@ -70,7 +70,7 @@
     margin-left: 20px;
     margin-right: 20px;
     color: #003F72;
-    background-color: #AAA4A4;
+    /* background-color: #AAA4A4; */
 }
 
 .tituloTabla{
@@ -82,12 +82,19 @@
     background-color: #EAAB00;
 } */
 
-#paginator{
-    /* margin: 20px; */
+/* #paginator{
     margin-left: 20px;
     margin-right: 20px;
     color: #E0DED8;
     background-color: #A71930;
+} */
+
+#paginator{
+    /* margin: 20px; */
+    margin-left: 20px;
+    margin-right: 20px;
+    color: #003F72;
+    background-color: #AAA4A4;;
 }
 
 /* .tarjeta {
@@ -111,6 +118,13 @@
     background-color: #E0DED8;
     color: black;
     margin-left: 20px;
+}
+
+.btnRegresar{
+    margin-top: -50px;
+    margin-bottom: 30px;
+    background-color: #003F72;
+    color: white;
 }
 
 .botones{

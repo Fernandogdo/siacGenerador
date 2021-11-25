@@ -42,7 +42,8 @@ export class GuardadosComponent implements OnInit {
   // arregloArticulos = []
   dataDocente;
   docente: Usuario[];
-  idUser;
+  idParamsUrl;
+  idUserStorage;
   
   blob: any;
   pdfGenerado: any;
@@ -86,9 +87,11 @@ export class GuardadosComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.idUser = this.activatedRoute.snapshot.paramMap.get("id_user");
-    this.authorizationService.enviarIdUsuario(this.idUser)
-    console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idUser)
+    this.idParamsUrl = this.activatedRoute.snapshot.paramMap.get("id_user");
+    this.idUserStorage = localStorage.getItem("id_user");
+    this.comprobarId()
+    // this.authorizationService.enviarIdUsuario(this.idUser)
+    console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idParamsUrl)
     // this.infoDocenteService.getInfoDocente(this.idUser);
     // this.librosService.getDocente(this.idUser)
     // let dateFormat = require('dateformat');
@@ -107,47 +110,6 @@ export class GuardadosComponent implements OnInit {
 
   }
 
-  // showSpinner(time?) {
-  //   console.log(time);
-  //   this.spinner.show();
-  //   if (time !== null) {
-  //     this.loadingText = 'Spin for 5 seconds';
-  //     setTimeout(() => {
-  //       this.spinner.hide();
-  //     }
-  //       , 2000)
-  //   } else{
-  //     this.loadingText = 'Spin for unlimited times';
-      
-  //   }
-  // }
-
-
-  // showSpinner(time?) {
-  //   console.log(time);
-  //   this.spinner.show();
-  //   if (time !== null) {
-  //     this.loadingText = 'Spin for 5 seconds';
-  //     setTimeout(() => {
-  //       this.spinner.hide();
-  //     }
-  //       , 2000)
-  //   } else{
-  //     this.loadingText = 'Spin for unlimited times';
-      
-  //   }
-  // }
-
-
-  // barButtonOptions: any = {
-  //   active: false,
-  //   text: 'Progress Bar Button',
-  //   buttonColor: 'accent',
-  //   barColor: 'primary',
-  //   raised: true,
-  //   mode: 'indeterminate',
-  //   value: 0
-  // }
 
   // options = {
   //   fieldSeparator: ',',
@@ -161,6 +123,17 @@ export class GuardadosComponent implements OnInit {
   //   removeNewLines: true,
   //   keys: ['titulo','revista','issn', 'isbn', 'fecha_publicacion', 'volume', 'issue','pages','doi', 'tipo_documento', 'keywords']
   // };
+
+  comprobarId(){
+    this.authorizationService.comprobarId(this.idParamsUrl)
+    console.log("IDUSERGUARDADO", this.idParamsUrl, localStorage.getItem("id_user"))
+    // if (this.idParamsUrl != this.idUserStorage) {
+    //   console.log("NOSONIGUALES", this.idUserStorage, this.idParamsUrl)
+    //   this.authorizationService.cerrarSesionDocente()
+    // } else{
+    //   console.log("SONIGUALES")
+    // }
+  }
   
   getConfiguracionPersonalizada() {
     this.configuracioncvService.getConfiguracionesPersonalizadas()
@@ -198,59 +171,43 @@ export class GuardadosComponent implements OnInit {
         this.confPersoDocente = confPersoDocente;
         console.log("🚀 ~ file: guardados.component.ts ~ line 198 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ confPersoDocente", confPersoDocente)
        
-        
-        // _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
-        // let data  = _.orderBy(confPersoDocente, ['fecha_registro'], ['desc'])
-        // console.log("DATAORDENADAFECHA", confPersoDocente)
-
         this.confPersoDocenteClas = _.groupBy(this.confPersoDocente, (item) => {
           return [item['nombre_cv'], item['cv'], item['fecha_registro']];
-      });
+        });
 
-      this.confPersoDocenteClas =  _.orderBy(_.keys(this.confPersoDocenteClas), (item) => {
-        return item.split(',')[2];
-      }, ['desc']).map(item => {
-        return {
-          [item]: this.confPersoDocenteClas[item]
-        }
-      });
-
-
-      console.log("🚀 ~ file: guardados.component.ts ~ line 217 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.orderBy ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
-
-      
-
-      this.confPersoDocenteClasFormateadas = this.confPersoDocenteClas.map((item) => {
-        let fecha_registro;
-        let cv;
-        let data;
-      
-        Object.keys(item).forEach((entry, index) => {
-
-          fecha_registro = entry.split(',')[2]
-          // First index is the month
-          // if (index === 0) {
-          //   fecha_registro = item[entry];
-          // }
-      
-          // Second index is the name but this time we need the key
-          // and also its value gives you the data
-          if (index === 0) {
-            cv = entry;
-            console.log("NAME",cv)
-            data = item[entry];
-            console.log('data', data)
-
-            // nombre_cv = entry;
-            // data = item[entry];
+        this.confPersoDocenteClas =  _.orderBy(_.keys(this.confPersoDocenteClas), (item) => {
+          return item.split(',')[2];
+        }, ['desc']).map(item => {
+          return {
+            [item]: this.confPersoDocenteClas[item]
           }
         });
-        return {cv, data };
-      });
+
+
+        console.log("🚀 ~ file: guardados.component.ts ~ line 217 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.orderBy ~ this.confPersoDocenteClas", this.confPersoDocenteClas)
+
+      
+        this.confPersoDocenteClasFormateadas = this.confPersoDocenteClas.map((item) => {
+          let cv;
+          let data;
+        
+          Object.keys(item).forEach((entry, index) => {
+          
+            // Second index is the name but this time we need the key
+            // and also its value gives you the data
+            if (index === 0) {
+              cv = entry;
+              console.log("NAME",cv)
+              data = item[entry];
+              console.log('data', data)
+            }
+          });
+          return {cv, data };
+        });
       
        
       
-      console.log("🚀 ~ file: guardados.component.ts ~ line 208 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.groupBy ~ this.confPersoDocenteClas", this.confPersoDocenteClasFormateadas)
+        console.log("🚀 ~ file: guardados.component.ts ~ line 208 ~ GuardadosComponent ~ this.confPersoDocenteClas=_.groupBy ~ this.confPersoDocenteClas", this.confPersoDocenteClasFormateadas)
       
       // this.confPersoDocenteClas = _.reverse(Object.values(this.confPersoDocenteClas)).reduce((obj, group) => {
       //   // iteramos sobre las listas para generar el 'key' necesario
@@ -267,7 +224,7 @@ export class GuardadosComponent implements OnInit {
       // console.log("🚀 ~ file: guardados.component.ts ~ line 59 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ res",  data);
       // console.log("TRAEDENUEVOTODO");
 
-      })
+      });
 
   }
 
@@ -332,9 +289,9 @@ export class GuardadosComponent implements OnInit {
   // }
 
   generaPdfPersonalizado(nombre_cv, cvHash){
-    console.log("NOMBRECV", nombre_cv, this.idUser, this.valor, cvHash)
+    console.log("NOMBRECV", nombre_cv, this.idUserStorage, this.valor, cvHash)
     this.valor = true;
-    this.pdfService.generaPdfPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) => {
+    this.pdfService.generaPdfPersonalizado(this.idUserStorage, nombre_cv, cvHash).subscribe((data) => {
       // this.valor = true;
       this.blob = new Blob([data as BlobPart], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -373,7 +330,7 @@ export class GuardadosComponent implements OnInit {
 
   generaDocPersonalizado(nombre_cv, cvHash){
     console.log("DOCPERSO", nombre_cv);
-    this.creaDocxService.generaDocPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) =>{
+    this.creaDocxService.generaDocPersonalizado(this.idUserStorage, nombre_cv, cvHash).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'application/msword'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -410,7 +367,7 @@ export class GuardadosComponent implements OnInit {
   // }
 
   generaJsonPersonalizado(nombre_cv, cvHash){
-    this.creaJsonService.generaJsonPersonalizado(this.idUser, nombre_cv, cvHash).subscribe((data) =>{
+    this.creaJsonService.generaJsonPersonalizado(this.idUserStorage, nombre_cv, cvHash).subscribe((data) =>{
       console.log(data);
       this.blob = new Blob([data as BlobPart], {type: 'application/json'});
       var downloadURL = window.URL.createObjectURL(data);
@@ -424,7 +381,7 @@ export class GuardadosComponent implements OnInit {
 
 
   generaCvInformacion(){
-    this.creacvService.generaCsv(this.idUser).subscribe((data) =>{
+    this.creacvService.generaCsv(this.idUserStorage).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'text/csv'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -437,13 +394,13 @@ export class GuardadosComponent implements OnInit {
 
 
   generaTxtInformacion(){  
-    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) =>{
+    this.creatxtService.generaTxtInformacion(this.idUserStorage).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
       var link = document.createElement('a');
       link.href = downloadURL;
-      link.download = "indormacion_txt.txt";
+      link.download = "informacion_txt.txt";
       link.click();
     });
   }
@@ -452,7 +409,7 @@ export class GuardadosComponent implements OnInit {
   generaTxtArticulos(){
     this.valorDocumento = true;
 
-    this.creatxtService.generaTxtArticulos(this.idUser).subscribe((data) => {
+    this.creatxtService.generaTxtArticulos(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -468,7 +425,7 @@ export class GuardadosComponent implements OnInit {
 
   generaTxtLibros(){
     this.valorDocumento = true;
-    this.creatxtService.generaTxtLibros(this.idUser).subscribe((data) => {
+    this.creatxtService.generaTxtLibros(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -483,7 +440,7 @@ export class GuardadosComponent implements OnInit {
 
   generaTxtProyectos(){
     this.valorDocumento = true;
-    this.creatxtService.generaTxtProyectos(this.idUser).subscribe((data) => {
+    this.creatxtService.generaTxtProyectos(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -498,7 +455,7 @@ export class GuardadosComponent implements OnInit {
 
   generaTxtCapacitacion(){
     this.valorDocumento = true;
-    this.creatxtService.generaTxtCapacitacion(this.idUser).subscribe((data) => {
+    this.creatxtService.generaTxtCapacitacion(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -514,7 +471,7 @@ export class GuardadosComponent implements OnInit {
 
   generaTxtGradoAcademico(){
     this.valorDocumento = true;
-    this.creatxtService.generaTxtGradoAcademico(this.idUser).subscribe((data) => {
+    this.creatxtService.generaTxtGradoAcademico(this.idUserStorage).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -529,7 +486,7 @@ export class GuardadosComponent implements OnInit {
 
 
   generaBibtex(){
-    this.creabibtexService.generaBibtex(this.idUser).subscribe((data) =>{
+    this.creabibtexService.generaBibtex(this.idUserStorage).subscribe((data) =>{
       this.blob = new Blob([data as BlobPart], {type: 'text/plain'});
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL)
@@ -537,7 +494,7 @@ export class GuardadosComponent implements OnInit {
       link.href = downloadURL;
       link.download = "informacion.bib";
       link.click();
-    })
+    });
   }
  
 
