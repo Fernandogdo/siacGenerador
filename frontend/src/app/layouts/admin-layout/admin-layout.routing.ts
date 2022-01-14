@@ -4,22 +4,24 @@ import { DashboardComponent } from '../../components/dashboard/dashboard.compone
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { ResumidoCvComponent } from './../../components/resumido-cv/resumido-cv.component';
 import { PersonalizadoCvComponent } from './../../components/personalizado-cv/personalizado-cv.component';
-import { AdministradorComponent } from 'app/components/administrador/administrador.component';
-import { GuardadosComponent } from 'app/components/guardados/guardados.component';
-import { BloqueComponent } from 'app/components/bloque/bloque.component';
-import { BloqueResumidoComponent } from 'app/components/bloque-resumido/bloque-resumido.component';
-import { EditaPersonalizadoComponent } from 'app/components/edita-personalizado/edita-personalizado.component';
-import { EditaPersonalizadoService } from 'app/services/edita-personalizado/edita-personalizado.service';
-import { LoginComponent } from 'app/components/login/login.component';
-import { CreacvPersonalizadoComponent } from 'app/components/creacv-personalizado/creacv-personalizado.component';
+import { AdministradorComponent } from '../../components/administrador/administrador.component';
+import { GuardadosComponent } from '../../components/guardados/guardados.component';
+import { BloqueComponent } from '../../components/bloque/bloque.component';
+import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque-resumido.component';
+import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
+import { EditaPersonalizadoService } from '../../services/edita-personalizado/edita-personalizado.service';
+// import { LoginComponent } from '../../components/login/login.component';
+import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
 // import { DescargaFormatosComponent } from 'app/components/descarga-formatos/descarga-formatos.component';
-import { DescargaFormatosComponent } from 'app/components/descarga-formatos/descarga-formatos.component';
-import { DescargaInformacionComponent } from 'app/components/descarga-informacion/descarga-informacion.component';
+import { DescargaFormatosComponent } from '../../components/descarga-formatos/descarga-formatos.component';
+import { DescargaInformacionComponent } from '../../components/descarga-informacion/descarga-informacion.component';
 
 
-import { AuthGuard } from 'app/guards/auth.guard';
-import { DocenteGuard } from 'app/guards/docente/docente.guard';
-import { TestGuard } from 'app/guards/test.guard';
+import { AuthGuard } from '../../guards/auth.guard';
+import { DocenteGuard } from '../..//guards/docente/docente.guard';
+import { TestGuard } from '../../guards/test.guard';
+import { NotFoundComponent } from '../../comun/not-found/not-found.component';
+import { IngresaServiciosComponent } from '../../components/ingresa-servicios/ingresa-servicios.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -35,7 +37,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'edita-personalizado/:nombre/:cv',   component: EditaPersonalizadoComponent ,resolve:{data:EditaPersonalizadoService}, canActivate:[TestGuard]},
     { path: 'crea-personalizado/:nombre/:nombre_cv/:cv', component: CreacvPersonalizadoComponent, canActivate:[TestGuard]},
     { path: 'crea-formatos/:id_user', component: DescargaFormatosComponent, canActivate:[TestGuard]},
-    { path: 'descarga-informacion/:id_user', component: DescargaInformacionComponent, canActivate:[TestGuard]}
+    { path: 'descarga-informacion/:id_user', component: DescargaInformacionComponent, canActivate:[TestGuard]},
+    { path: 'ingresar-servicio', component: IngresaServiciosComponent, canActivate:[AuthGuard]},
+
+
+    // { path: '**', component: NotFoundComponent },
+    // {path: '**', component: LoginComponent},
 ];
 
 

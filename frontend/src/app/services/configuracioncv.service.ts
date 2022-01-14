@@ -4,38 +4,61 @@ import { Injectable } from "@angular/core";
 
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { post } from "jquery";
-import { Bloque } from "app/models/bloque.model";
-import { ConfiguracioncvPersonalizado } from "app/models/configuracioncvPersonalizado.model";
+import { Bloque } from "../models/bloque.model";
+import { ConfiguracioncvPersonalizado } from "../models/configuracioncvPersonalizado.model";
 import { BehaviorSubject } from "rxjs";
 import { AuthorizationService } from "./login/authorization.service";
+import { servicioBloques } from "../models/servicioBloque.model";
+
 
 @Injectable({
   providedIn: "root",
 })
 export class ConfiguracioncvService {
-  URL_CONF = "https://siacgenerador.herokuapp.com/api/configuracioncv/";
+  URL_CONF = "http://localhost:8000/api/configuracioncv/";
 
-  URL_BLOQUES = "https://siacgenerador.herokuapp.com/api/bloque/";
+  URL_BLOQUES = "http://localhost:8000/api/bloque/";
 
-  URL_PERS = "https://siacgenerador.herokuapp.com/api/configuracioncv_personalizado/";
+  URL_PERS = "http://localhost:8000/api/configuracioncv_personalizado/";
   
-  URL_PERS_DOCENTE = 'https://siacgenerador.herokuapp.com/api/personalizacion_usuario/';
+  URL_PERS_DOCENTE = 'http://localhost:8000/api/personalizacion_usuario/';
 
-  URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json'
+  URL_PERS_DOCENTE_BLOQUE = 'http://localhost:8000/api/personalizados/';
+
+  URL_ELIMINA_PERSO = 'http://localhost:8000/api/elimina-personalizados/';
+
+  URL_ESQUEMA = 'https://sica.utpl.edu.ec/ws/schema?format=openapi-json';
+
+  URL_SERVICIOS = 'http://localhost:8000/api/servicio/'
+
 
   claves: any = [];
   esquemas: any = [];
+  arregloEsquema: any = []
+  arregloBloquesEsquema: any = [];
+  atrbutoEsquema;
+  arregloBaseDatos;
+  arregloBaseDatosBloques;
+  nosimilitud: any = [];
+  similitud: any = [];
+  nosimilitudBloques: any = [];
+  similitudBloques: any = [];
 
-  selectedConfiguracion: Configuracioncv = {
-    administrador: 1,
-    bloque: "",
-    atributo: "",
-    ordenCompleto: 1,
-    ordenResumido: 2,
-    mapeo: "",
-    visible_cv_completo: true,
-    visible_cv_resumido: true,
+
+  selectedServicio: servicioBloques = {
+    bloqueNombre: '',
+    url: '' 
   };
+  // selectedConfiguracion: Configuracioncv = {
+  //   usuario: 1,
+  //   bloque: "",
+  //   atributo: "",
+  //   ordenCompleto: 1,
+  //   ordenResumido: 2,
+  //   mapeo: "",
+  //   visible_cv_completo: true,
+  //   visible_cv_resumido: true,
+  // };
 
   configuraciones: Configuracioncv[];
   configuracionesPersonalizadas: ConfiguracioncvPersonalizado[];
@@ -49,64 +72,24 @@ export class ConfiguracioncvService {
     this.onConfiguracionesChanged = new BehaviorSubject([]);
     this.onConfigPersonalizadasChanged = new BehaviorSubject([]);
     
-    this.getJSON().subscribe((data) => {
-      console.log("DATASERVICE", data.components.schemas);
-    });
-
-    // this.getConfiguraciones()
-    // this.postBloques().subscribe(res =>{
-    //   console.log('QUEQUESAD',res);cambiar idioma de teclado ubuntu
-    // })
-
+    // this.getJSON().subscribe((data) => {
+    //   console.log("DATASERVICE", data.components.schemas);
+    // });
 
     //POST BLOQUES Y CONFIGURACIÓN
     // this.recorreConfiguracion()
     // this.recorreBloques()
-    // this.recorreConfiguracionPersonalizada();
-    this.getArticulos();
   }
 
-  public getJSON(): Observable<any> {
-    return this.http.get("../../assets/esquema/esquemasiac.json");
-    // return this.http.get(this.URL_ESQUEMA);
-  }
+  // Lee esquema Json
+  // public getJSON(): Observable<any> {
+  //   // return this.http.get(this.URL_ESQUEMA);
+  //   return this.http.get("../../assets/esquema/esquemasiac.json");
 
-  
-
-  // recorreConfiguracionPersonalizada(){
-  //   this.getJSON().subscribe(data => {
-  //     let lala = Object.keys(data.components.schemas)
-  //     let keys = Object.keys(lala)
-  //     console.log('ESQUEMAS', keys)
-
-  //     // let atributos = Object.keys(data.components.schemas.properties)
-  //     // console.log(atributos)
-
-  //     // let keys_atributos = Object.keys(atributos)
-
-  //     for (let i = 0; i < keys.length; i++) {
-  //       let clave = keys[i];
-  //       let acceso = lala[clave]
-  //       console.log('ACCESO', acceso)
-  //       let atributos_todos = Object.keys(data.components.schemas[acceso].properties)
-  //       let keys_atributos_todos = Object.keys(atributhttp://localhost:8000/apios_todos)
-
-  //       for (let index = 0; index < keys_atributos_todos.length; index++) {
-  //         const clave_atributo = keys_atributos_todos[index];
-  //         // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
-
-  //         this.postConfiguracionPersonalizada(acceso, atributos_todos[clave_atributo])
-  //           .subscribe(res => {
-  //             console.log('DATA', res)
-  //           });
-  //         // console.log('DATA', (lala[clave]));
-  //       }
-  //     }
-  //   });
   // }
 
-  // Configuraciones Generales
 
+  // Configuraciones Generales
   getConfiguraciones() {
     return this.http.get<Configuracioncv[]>(this.URL_CONF);
   }
@@ -121,49 +104,59 @@ export class ConfiguracioncvService {
       visible_cv_resumido: true,
       visible_cv_completo: true,
       mapeo: atributo,
-      administrador: 1,
+      usuario: 1,
     });
   }
 
-  recorreConfiguracion() {
-    this.getJSON().subscribe((data) => {
-      let lala = Object.keys(data.components.schemas);
-      let keys = Object.keys(lala);
-      console.log("ESQUEMAS", keys);
 
-      // let atributos = Object.keys(data.components.schemas.properties)
-      // console.log(atributos)
+  // Copia esquema de Json SIAC 
+  // copiaEsquema() {
+  //   this.getJSON().subscribe((data) => {
+  //     let lala = Object.keys(data.components.schemas);
+  //     let keys = Object.keys(lala);
+  //     console.log("ESQUEMAS", keys);
 
-      // let keys_atributos = Object.keys(atributos)
+  //     const arreglo = []
+  //     for (let i = 0; i < keys.length; i++) {
+  //       let clave = keys[i];
+  //       let acceso = lala[clave];
+  //       console.log("ACCESO", acceso);
+  //       let atributos_todos = Object.keys(
+  //         data.components.schemas[acceso].properties
+  //       );
+  //       let keys_atributos_todos = Object.keys(atributos_todos);
+  //       console.log("🚀 ~ file: configuracioncv.service.ts ~ line 166 ~ ConfiguracioncvService ~ this.getJSON ~ keys_atributos_todos", keys_atributos_todos)
+        
+       
+  //       for (let index = 0; index < keys_atributos_todos.length; index++) {
+  //         const clave_atributo = keys_atributos_todos[index];
+  //         console.log('ATRIBUTOS', atributos_todos[clave_atributo])
+  //         this.atrbutoEsquema = atributos_todos[clave_atributo]
+        
+  //         const datos = {
+  //           bloque: acceso,
+  //           atributo: this.atrbutoEsquema
+  //         }
+  //         this.arregloEsquema.push(datos)
+  //         // console.log("ARREGLOESQUEMA", this.arregloEsquema)
 
-      for (let i = 0; i < keys.length; i++) {
-        let clave = keys[i];
-        let acceso = lala[clave];
-        console.log("ACCESO", acceso);
-        let atributos_todos = Object.keys(
-          data.components.schemas[acceso].properties
-        );
-        let keys_atributos_todos = Object.keys(atributos_todos);
+  //       }       
+  //     }
+  //     console.log("ARREGLOESQUEMA", this.arregloEsquema)
 
-        for (let index = 0; index < keys_atributos_todos.length; index++) {
-          const clave_atributo = keys_atributos_todos[index];
-          // console.log('ATRIBUTOS', atributos_todos[clave_atributo])
-
-          this.postConfiguraciones(
-            acceso,
-            atributos_todos[clave_atributo]
-          ).subscribe((res) => {
-            // console.log('DATA', res)••••••••••
-          });
-          // console.log('DATA', (lala[clave]));
-        }
-      }
-    });
-  }
+  //     // this.comparaEsquemaBaseDatos(this.arregloEsquema)
+  //     this.arregloEsquema = []
+  //   });
+  // }
+  
 
   putConfiguracion(configuracion: Configuracioncv) {
+    console.log("SEDEBERIAEDITAR")
     return this.http.put(this.URL_CONF + configuracion.id + "/", configuracion);
   }
+  // putServicios(servicio: servicioBloques) {
+  //   return this.http.put(this.URL_SERVICIOS + servicio.id + "/", servicio);
+  // }
 
   deleteConfiguracion(id: string) {
     const headers = new HttpHeaders({
@@ -172,40 +165,8 @@ export class ConfiguracioncvService {
     return this.http.delete(this.URL_CONF + id);
   }
 
-  getConfiguracionesPromise(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.http.get<Configuracioncv[]>(this.URL_CONF).subscribe((data) => {
-        this.configuraciones = data;
-        console.log(
-          "🚀 ~ file: configuracioncv.service.ts ~ line 236 ~ ConfiguracioncvService ~ this.http.get<ConfiguracioncvPersonalizado[]> ~ data",
-          data
-        );
-        this.onConfiguracionesChanged.next(this.configuraciones);
-        resolve(this.configuraciones);
-      }, reject);
-    });
-  }
-
-  getConfiguracionesPersonalizadasPromise(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.http
-        .get<ConfiguracioncvPersonalizado[]>(this.URL_PERS)
-        .subscribe((data) => {
-          this.configuracionesPersonalizadas = data;
-          // console.log(
-          //   "🚀 ~ file: configuracioncv.service.ts ~ line 236 ~ ConfiguracioncvService ~ this.http.get<ConfiguracioncvPersonalizado[]> ~ data",
-          //   data
-          // );
-          this.onConfigPersonalizadasChanged.next(
-            this.configuracionesPersonalizadas
-          );
-          resolve(this.configuracionesPersonalizadas);
-        }, reject);
-    });
-  }
 
   // Configuracion Personalizada
-
   getConfiguracionesPersonalizadas() {
     return this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS);
   }
@@ -222,11 +183,14 @@ export class ConfiguracioncvService {
     return this.http.delete(this.URL_PERS + id)
   }
 
-  putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado) {
-    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + "/",configuracionPersonalizada
-    );
+  deleteConfiguracionesPersonalizadas(nombre_cv, cvHash){
+    return this.http.get(this.URL_ELIMINA_PERSO + nombre_cv + "/" + cvHash)
   }
 
+  putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado) {
+    console.log("configuracionPersonalizada", configuracionPersonalizada)
+    return this.http.put(this.URL_PERS + configuracionPersonalizada.id + "/",configuracionPersonalizada);
+  }
 
   listaConfiguracionPersonalizadaDocente(idUsuario){
     return this.http.get<ConfiguracioncvPersonalizado[]>(this.URL_PERS_DOCENTE + idUsuario)
@@ -237,6 +201,8 @@ export class ConfiguracioncvService {
     return this.http.get<Bloque[]>(this.URL_BLOQUES);
   }
 
+
+  // Post de los Bloques
   postBloques(bloques) {
     const path = `${this.URL_BLOQUES}`;
 
@@ -245,31 +211,33 @@ export class ConfiguracioncvService {
     });
   }
 
-  recorreBloques() {
-    this.getJSON().subscribe((data) => {
-      // this.datos= data.components.
-      let lala = Object.keys(data.components.schemas);
-      let array = Object.assign({}, lala);
-      console.log(array);
 
-      let claves = Object.keys(lala);
+  // // Entra a esquema, recorre bloques y hace post
+  // recorreBloques() {
+  //   this.getJSON().subscribe((data) => {
+  //     // this.datos= data.components.
+  //     let lala = Object.keys(data.components.schemas);
+  //     let array = Object.assign({}, lala);
+  //     console.log(array);
 
-      this.esquemas = Object.entries(data.components.schemas);
+  //     // let claves = Object.keys(lala);
+
+  //     this.esquemas = Object.entries(data.components.schemas);
     
-      this.claves = Object.keys(lala);
-      let keys = Object.keys(lala);
-      console.log("claves", keys);
+  //     // this.claves = Object.keys(lala);
+  //     let keys = Object.keys(lala);
+  //     console.log("claves", keys);
 
-      for (let i = 0; i < keys.length; i++) {
-        let clave = keys[i];
-        // let myjson = JSON.stringify()
-        this.postBloques(lala[clave]).subscribe((res) => {
-          console.log("DATA", res);
-        });
-        console.log("DATA", lala[clave]);
-      }
-    });
-  }
+  //     for (let i = 0; i < keys.length; i++) {
+  //       let clave = keys[i];
+  //       // let myjson = JSON.stringify()
+  //       this.postBloques(lala[clave]).subscribe((res) => {
+  //         console.log("DATA", res);
+  //       });
+  //       console.log("DATA", lala[clave]);
+  //     }
+  //   });
+  // }
 
   putBloque(bloque: Bloque) {
     return this.http.put(this.URL_BLOQUES + bloque.id + "/", bloque);
@@ -277,32 +245,20 @@ export class ConfiguracioncvService {
 
   public createConfigracioncv(configuracioncv: Configuracioncv): Observable<Configuracioncv> {
     return this.http.post<Configuracioncv>(this.URL_CONF, configuracioncv);
-  }
-
-  URL_ARTICULOS = 'https://sica.utpl.edu.ec/ws/api/articulos/'
-
-  getArticulos() {
-    let token = '54fc0dc20849860f256622e78f6868d7a04fbd30'
-
-    const headers = new HttpHeaders({
-      'Content-Type':'application/json',
-      'Authorization':'token ' + token,
-      // 'responseType': 'blob' as 'json'
-    });
-    return this.http.get(this.URL_ARTICULOS + 5832 + '/', {headers:headers});
-  }
+  }  
 
 
+  // getServicios() {
+  //   return this.http.get<servicioBloques[]>(this.URL_SERVICIOS);
+  // }
 
-  URL_DOCENTE = 'https://sica.utpl.edu.ec/ws/api/docentes/'
-  getDocente(idUser){
-    let token = '54fc0dc20849860f256622e78f6868d7a04fbd30'
-    const headers = new HttpHeaders({
-      'Content-Type':'application/json',
-      'Authorization':'token ' + token,
-    });
-    return this.http.get(this.URL_DOCENTE + idUser + '/' , {headers:headers})
-    
-  }
+
+  // postServicios(servicio){
+  //   return this.http.post<servicioBloques>(this.URL_SERVICIOS, servicio);
+  // }
+
+  // putServicios(servicio: servicioBloques) {
+  //   return this.http.put(this.URL_SERVICIOS + servicio.id + "/", servicio);
+  // }
   
 }

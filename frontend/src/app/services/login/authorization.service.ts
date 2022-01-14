@@ -13,9 +13,11 @@ export class AuthorizationService {
 
   idUser;
   idUserStorage;
+  usuario;
+  rolUsuario;
 
-  URL_LOGIN = 'https://siacgenerador.herokuapp.com/api/login/'
-  URL_DOCENTE = 'https://siacgenerador.herokuapp.com/api/usuario/'; 
+  URL_LOGIN = 'http://localhost:8000/api/login/'
+  URL_DOCENTE = 'http://localhost:8000/api/usuario/'; 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -32,8 +34,13 @@ export class AuthorizationService {
   consultarUsuarioIngreso(usuario: Docente) {
     this.http.post<Docente>(this.URL_LOGIN, usuario, this.httpOptions).subscribe( res => {
       this.iniciarSesionDocente(res);
+      this.usuario = res;
+      this.rolUsuario = this.usuario.username.is_staff
+      localStorage.setItem('is_staff', this.rolUsuario)
+
+      console.log("STAFF",this.usuario.username.is_staff)
       // this.presentToast()
-      console.log("SR ICE", res.username)
+      // console.log("SR ICE", res.token)
       // this.idUser = res.id_user
       // console.log("ROLUSUARIO", res.username)
       let rol =localStorage.getItem('is_staff')

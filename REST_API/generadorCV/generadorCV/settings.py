@@ -77,15 +77,22 @@ WSGI_APPLICATION = 'generadorCV.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+
+     'default': {
         # MySQL engine. Powered by the mysqlclient module.
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'todos',
-    'USER': 'root',
-    'PASSWORD': '',
-    'HOST': 'localhost',
-    'PORT': '3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'generadorcv',
+        'USER': 'fernando',
+        'PASSWORD': '1234',
+        'HOST': '',
+        'PORT': '3306',
     }
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'bgihk3yzoak5mwbhydi3',
+    #     'USER': 'uttiqqtg12o2lrvu',
+    #     'PASSWORD': 'kYESn6Ykg30eDqDc8mc',
+    #     'HOST': 'bgihk3yzoak5mwbhydi3-mysql.services.clever-cloud.com',
+    #     'PORT': '20241',
 }
 
 

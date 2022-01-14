@@ -1,27 +1,28 @@
 
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { Angular2CsvModule } from 'angular2-csv';
+// import { CUSTOM_ELEMENTS_SCHEMA } from `@angular/core`;
 
 /*PIPE */
-import { ObjToArrayPipe } from 'app/objToArray.pipe';
+import { ObjToArrayPipe } from '../../objToArray.pipe';
 /* Components */
 
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
-import { PersonalizadoCvComponent } from 'app/components/personalizado-cv/personalizado-cv.component';
+import { PersonalizadoCvComponent } from '../../components/personalizado-cv/personalizado-cv.component';
 // import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
-import { GuardadosComponent } from 'app/components/guardados/guardados.component';
+import { GuardadosComponent } from '../../components/guardados/guardados.component';
 import { BloqueComponent } from '../../components/bloque/bloque.component';
-import { ResumidoCvComponent } from 'app/components/resumido-cv/resumido-cv.component';
+import { ResumidoCvComponent } from '../../components/resumido-cv/resumido-cv.component';
 import { BloqueResumidoComponent } from '../../components/bloque-resumido/bloque-resumido.component';
 import { EditaPersonalizadoComponent } from '../../components/edita-personalizado/edita-personalizado.component';
 import { CreacvPersonalizadoComponent } from '../../components/creacv-personalizado/creacv-personalizado.component';
-import { AdministradorComponent } from 'app/components/administrador/administrador.component';
-import { DescargaFormatosComponent } from 'app/components/descarga-formatos/descarga-formatos.component';
+import { AdministradorComponent } from '../../components/administrador/administrador.component';
+import { DescargaFormatosComponent } from '../../components/descarga-formatos/descarga-formatos.component';
 
 
 
@@ -45,7 +46,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { DescargaInformacionComponent } from 'app/components/descarga-informacion/descarga-informacion.component';
+import { DescargaInformacionComponent } from '../../components/descarga-informacion/descarga-informacion.component';
+import { IngresaServiciosComponent } from '../../components/ingresa-servicios/ingresa-servicios.component';
 
 // import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
@@ -97,9 +99,14 @@ import { DescargaInformacionComponent } from 'app/components/descarga-informacio
     EditaPersonalizadoComponent,
     CreacvPersonalizadoComponent,
     DescargaFormatosComponent,
-    DescargaInformacionComponent
+    DescargaInformacionComponent,
+    IngresaServiciosComponent
     // ProgressSpinnerComponent
     
+  ],
+
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 

@@ -1,0 +1,29 @@
+.btnActualizarInformacion{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-color: #003F72;
+}
+
+#btnGuardar{
+    color: white;
+    background-color: #003F72;
+    margin: 3%; 
+}
+
+
+#btnEditar{
+    background-color: #E0DED8;
+}
+
+#btnEliminar{
+    color: white;
+    background-color: red;
+}
+
+#btnLimpiar{
+    color: white;
+    background-color: red;
+}
+#tarjetaHeaderTabla{
+    background-color: #003F72 !important;
+}

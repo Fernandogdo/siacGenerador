@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ConfiguracioncvService } from 'app/services/configuracioncv.service';
+import { ConfiguracioncvService } from '../../services/configuracioncv.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
@@ -52,22 +52,6 @@ export class ResumidoCvComponent implements OnInit {
         );
       });
   }
-
-
-  // getBloques() {
-  //   this.configuracioncvService.getBloques()
-  //     .subscribe(res => {
-  //       this.arregloBloques = res
-  //       let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenCompleto', ], ['asc']);
-  //       this.arregloBloques = atributosOrdenados;
-  //       this.dataSource = new MatTableDataSource(this.arregloBloques);
-  //       // this.selection = new SelectionModel<Bloque>(true, []);
-  //       this.dataSource.paginator = this.paginator;
-  //       this.bloquesOriginal = JSON.parse(
-  //         JSON.stringify(this.arregloBloques)
-  //       );
-  //     });
-  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -154,29 +138,6 @@ export class ResumidoCvComponent implements OnInit {
         });
     });
   }
-
-  // guardar() {
-  //   // iterar cada uno de los bloques
-  //   this.arregloBloques.forEach((bloque) => {
-  //     // para eficiencia se puede comprobar si el registro actual (bloque)
-  //     // se ha modificado. Si sus campos son iguales al original entonces
-  //     // no es necesario guardarlo
-  //     // console.log(bloque)
-  //     let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
-  //     if(bloqueOriginal.ordenResumido == bloque.ordenResumido) return
-
-  //     // si el bloque se modificó proceder a guardarlo
-  //     this.configuracioncvService
-  //       .putBloque(bloque)
-  //       .subscribe((res) => {
-  //         console.log("editado", res);
-  //         this.getBloques();
-  //       });
-  //       this._snackBar.open("Se guardo correctamente", "Cerrar", {
-  //         duration: 2000,
-  //       });
-  //   });
-  // }
 
   openDialog() {
     this.dialog.open(ModalNotaComponent);

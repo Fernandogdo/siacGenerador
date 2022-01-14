@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Params, Router } from "@angular/router";
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ConfiguracioncvService } from "app/services/configuracioncv.service";
+import { ConfiguracioncvService } from "../../services/configuracioncv.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as _ from "lodash";
 import { PersonalizadoCvComponent } from '../personalizado-cv/personalizado-cv.component';
@@ -36,6 +36,8 @@ export class CreacvPersonalizadoComponent implements OnInit {
   cvHash;
   idUsuario;
   confPersoDocente;
+  alertaCambios: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -82,36 +84,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
     this.configuracioncvService.getConfiguraciones().subscribe(
       (res) => {
         this.configuracioncvService.configuraciones = res;
-        // const filteredCategories = [];
-        // res.forEach((configuracion) => {
-        //   if (!filteredCategories.find((cat) =>
-        //         cat.bloque == configuracion.bloque &&
-        //         cat.atributo == configuracion.atributo)
-        //   ) {
-        //     const {
-        //       id,
-        //       bloque,
-        //       atributo,
-        //       ordenCompleto,
-        //       mapeo,
-        //       visible_cv_completo,
-        //       visible_cv_resumido,
-        //       administrador,
-        //     } = configuracion;
-        //     filteredCategories.push({
-        //       id,
-        //       bloque,
-        //       atributo,
-        //       ordenCompleto,
-        //       mapeo,
-        //       visible_cv_completo,
-        //       visible_cv_resumido,
-        //       administrador,
-        //     });
-        //   }
-        // });
-
-        // this.configuracioncvService.configuraciones = filteredCategories;
+        
         this.arregloBloques = res.filter((user) => user.bloque === this.nombreBloque);
         this.atributosOrdenados = _.orderBy(this.arregloBloques, ["ordenCompleto", "atributo"],["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenados;
@@ -272,37 +245,56 @@ export class CreacvPersonalizadoComponent implements OnInit {
   guardar() {
     // iterar cada uno de los bloques
     let iduser =  localStorage.getItem("id_user");
-    console.log("arregloBloques",this.arregloAtributos)
     this.arregloAtributos.forEach((atributo) => {
       // para eficiencia se puede comprobar si el registro actual (atributo)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       // console.log("atributo", atributo)
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
-      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
-
-      // si el bloque se modificó proceder a guardarlo
-
-      
-      console.log("AASDAS SEGUARDA-->>>>>>>>>>>>>>>>>......")
+      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo 
+        && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;      
       this.configuracioncvService
         .putConfiguracionPersonalizada(atributo)
         .subscribe((res) => {
-          console.log("editado", res);
-          // this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-          //   duration: 2000,
-          // });
-          this.getConfiguracionPersonalizada();
+          console.log('res', res)
+         
         });
         this._snackBar.open("Se guardó  correctamente", "Cerrar", {
           duration: 2000,
         });
     });
 
+    this.getConfiguracionPersonalizada();
     
     console.log("ATRIBUTOSORIGINAL", this.arregloAtributos)
-    
+  }
+
+
+  alertaGuardarCambios() {
+    this.arregloAtributos.forEach((atributo) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
+      console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
+      if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo 
+        && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
+      // console.log("guardado", bloque)
+
+
+      this.alertaCambios = true;
+
+      if (this.alertaCambios === true) {
+        this.router.navigate(['/crea-personalizado/' + this.nombreBloque + '/' + this.nombre_cv + '/' + this.cvHash]);
+        this._snackBar.open("Asegurate de Guardar los cambios", "Cerrar", {
+          duration: 2000,
+        });
+      }
+
+
+    });
+    console.log("ALERTACAMBIOS", this.alertaCambios)
+
   }
 
  

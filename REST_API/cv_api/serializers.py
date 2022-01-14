@@ -11,11 +11,11 @@ class PatchModelSerializer(serializers.ModelSerializer):
 
 
 
-class AdministradorSerializer(serializers.ModelSerializer):
+# class AdministradorSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Administrador
-        fields = ('__all__')
+#     class Meta:
+#         model = Administrador
+#         fields = ('__all__')
 
 
 class ConfiguracionCvSerializer(serializers.ModelSerializer):
@@ -25,15 +25,15 @@ class ConfiguracionCvSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class DocenteSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Docente()
+        model = Usuario()
         fields = ('id_user', 'is_staff', 'username', 'first_name', 'last_name', 'password')
         # extra_kwargs = {'password' : {'write_only': True, 'required': True}}
 
     def save(self):
-        user = Docente(
+        user = Usuario(
                     id_user=self.validated_data['id_user'],
                     username=self.validated_data['username'],
                     first_name=self.validated_data['first_name'],
@@ -68,8 +68,9 @@ class LoginSerializer(serializers.Serializer):
 class ConfiguracionCv_PersonalizadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfiguracionCv_Personalizado
-        fields = ('__all__')
+        fields = '__all__'
         
+
 
 # class AppointmentSerializer(serializers.ModelSerializer):
 #     customer = ConfiguracionCv_PersonalizadoSerializer(required=False, allow_null=True)
@@ -86,4 +87,11 @@ class BloqueSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Bloque
+        fields = ('__all__')
+
+
+class ServicioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Servicio
         fields = ('__all__')

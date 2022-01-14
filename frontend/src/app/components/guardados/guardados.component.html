@@ -5,151 +5,63 @@
             <div class="col-md-12">
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="btnCreaPersonalizado" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button>
-                    </div>
-
-                    <!-- <button (click)="showSpinner(3000)">Show spinner for 5 seconds</button>
-
-                    <ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
-                    <!-- <button (click)="showSpinner()">Show spinner for unlimited time</button>
-<button (click)="showSpinner(3000)">Show spinner for 5 seconds</button>
-
-<ng4-loading-spinner [timeout]="3600000" [loadingText]=" loadingText || 'Please wait...'"></ng4-loading-spinner> -->
-
-                    <div class="col text-center">
-                        <button class="botones" id="btn-csv" mat-raised-button [matMenuTriggerFor]="menuexportacion">Exportación CSV</button>
-                        <mat-menu #menuexportacion="matMenu">
-                            <button mat-menu-item color="primary" (click)="generaCvInformacion()">CSV</button>
-                        </mat-menu>
-                        
-                        <button class="botones" mat-raised-button (click)="generaTxtInformacion()">Exportación TXT</button>
-
-                        <!-- <button class="botones" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
-                            <mat-menu #menuexportacionTXT="matMenu">
-                                <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
-                                <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
-
-                            </mat-menu> -->
-
-                        <button class="botones" id="btn-csv" mat-raised-button (click)="generaBibtex()">Exportación BibTex</button>
-
-                        <div *ngIf="valorDocumento">
-                            Generando documento
-                            <mat-progress-bar mode="query">
-    
-                            </mat-progress-bar>
-                            <!-- <mat-progress-bar
-                                class="example-margin"
-                                [color]="color"
-                                [mode]="mode"
-                                > Generando
-                            </mat-progress-bar> -->
-                        </div>
+                        <button mat-raised-button class="btnCreaPersonalizado" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">
+                            <span class="material-icons">
+                                add_circle_outline
+                            </span>  
+                            Crear CV Personalizado
+      
+                        </button>
                     </div>
                 </div>
-               
-                
-                <!-- <mat-card *ngFor="let item of confPersoDocenteClas | keyvalue" class="tarjeta-cv" id="tarjeta_cv">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image">
-                            <span class="material-icons" id="iconoPersonalizado"> 
-                                description
-                            </span>
-                        </div>
-                        <mat-card-title class="tituloPersonalizado"> NombreCV: {{item.key}}</mat-card-title>
-                        <div class="col text-center">
-                            <button class="btnPersonalizado" color="primary" mat-raised-button (click)="generaPdfPersonalizado()">Personalizado</button>
-                
-                            <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.key]" routerLinkActive="active">
-                                <i class=" material-icons ">edit</i>
-                            </button>
-                            <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada(item.key)" color="warn">
-                                <i class=" material-icons ">delete</i>
-                            </button>
-                        </div>
-                    </mat-card-header>
-                </mat-card> -->
             </div>
-
-            
-            <!-- <div *ngFor="let item of confPersoDocenteClas | keyvalue">
-                <h5 class="card-title">Índice: {{item.key}}</h5> {{item.value.fecha_registro}}
-                <div *ngFor="let contenido of item.value">
-                  <h5 class="card-title"> {{contenido.fecha_registro}} </h5>
-                </div>
-              </div> -->
             
             <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClasFormateadas">
                 <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
+                        <!-- <div class="card-icon">
                             <i class="material-icons">perm_contact_calendar</i><br>
-                            <!-- <div class="col text-center">
-                                cv
-                            </div> -->
+                        </div> -->
+                        <div class="tituloPersonalizado" >
+                            <h4 class="card-title">{{item.cv.split(',')[0]}}</h4>
                         </div>
-                        <h5 class="card-title">{{item.cv.split(',')[0]}}</h5>
-                        <p class="card-category">
-                            <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
-                        </p>
-                        <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button> -->
-                        <mat-menu #menuPersonalizado="matMenu">
-                            <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-                            <button mat-menu-item (click)="generaPdfPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">PDF</button>
-                            <button mat-menu-item (click)="generaDocPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">WORD</button>      
-                            <button mat-menu-item (click)="generaJsonPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">JSON</button>                                                  
-                        </mat-menu>
+                        <br><br>
+                       
+                        <div id="botonesPersonalizado">
+                            <button class="btnPersonalizadoPdf" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaPdfPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])" >
+                                pdf
+                            </button>
+                            <button class="btnPersonalizadoDocx" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaDocPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
+                                docx
+                            </button>
+                            <button class="btnPersonalizadoJson" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaJsonPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
+                                json
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <h6>{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6>  
-                        <!-- {{valueDate | date: 'dd/MM/yyyy'}} -->
-                        <!-- <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Personalizado</button>
-                        <mat-menu #menuPersonalizado="matMenu">
-                            <button mat-menu-item (click)="generaPdfPersonalizado(item.key)">PDF</button>
-                            <button mat-menu-item (click)="generaDocPersonalizado(item.key)">WORD</button>      
-                            <button mat-menu-item (click)="generaJsonPersonalizado(item.key)">JSON</button>                                                  
-                        </mat-menu> -->
+                   
+                    <div class="card-footer" id="infoPieTarjeta">
+                        <h6 id="btnPie">{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6> 
                       
-                        <button mat-raised-button class="btnEditar" color="accent" [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
+                        <button mat-raised-button class="btnEditar" id="btnPie" color="accent"   [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
                             <i class=" material-icons ">edit</i>
                         </button>
-                        <button mat-raised-button class="botones" (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
+                        <button mat-raised-button class="btnEliminar" id="btnPie" (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
                             <i class=" material-icons ">delete</i>
                         </button>
+                        <!-- <button mat-raised-button class="btnEliminar" id="btnPie" (click)="editaobjetoConfPersonalizada(item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
+                            <i class=" material-icons ">edit</i>
+                        </button> -->
                     </div> 
                     
-                    
-                    
-                    <div *ngIf="valor">
-                        Generando documento
+                    <div *ngIf="valor && valorNombre == item.cv.split(',')[0] && hashCv == item.cv.split(',')[1]">
+                        Generando archivo {{tipoDocumento}} {{item.cv.split(',')[0]}} 
                         <mat-progress-bar mode="query">
 
                         </mat-progress-bar>
-                        <!-- <mat-progress-bar
-                            class="example-margin"
-                            [color]="color"
-                            [mode]="mode"
-                            > Generando
-                        </mat-progress-bar> -->
-                    </div>
-
-                  
-                   
+                    </div> 
                 </div>
-
-                
-
-
             </div>
         </div>
     </div>
 </div>
-
-<!-- <div *ngFor="let item of confPersoDocenteClas | keyvalue">  
-    <div>
-          <h5 class="card-title">{{item.key}}</h5>
-    </div>
- </div> -->

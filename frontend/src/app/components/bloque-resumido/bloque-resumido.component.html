@@ -1,71 +1,3 @@
-<!-- <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="container" id="formulario">
-                    <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-resumido" routerLinkActive="active">Regresar a Bloques</button>
-                    </div>
-                </div>
-
-                <mat-card class="tarjeta">
-                    <mat-card-header>
-                        <h3>
-                            <b>Configuración de Bloque {{nombreBloque}} </b>
-                        </h3>
-                    </mat-card-header>
-                    <div class="col text-center">
-                        <table class="table" id="tabla">
-                            <thead>
-                                <tr class="d-flex">
-                                    <th class="col-3">  <h4><b>Atributo</b></h4>  </th>
-                                    <th class="col-2">  <h4> <b>OrdenResumido</b> </h4> </th>
-                                    <th class="col-3"> <h4> <b>Mapeo</b> </h4> </th>
-                                    <th class="col-2"> <h4> <b>Visualización</b> </h4> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="d-flex" *ngFor="let bloque of arregloBloques">
-                                    <input type="hidden" [value]="bloque.administrador">
-                                    <td class="col-sm-3">{{bloque.atributo}}</td>
-                                    <td class="col-sm-2">
-                                        <div>
-                                            <mat-form-field>
-                                                <mat-label>OrdenResumido</mat-label>
-                                                <input matInput type="number" placeholder="Name" [value]="bloque.ordenResumido" [(ngModel)]="bloque.ordenResumido">
-                                            </mat-form-field>
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <mat-form-field>
-                                            <mat-label>Mapeo</mat-label>
-                                            <input matInput placeholder="Name" [value]="bloque.mapeo" [(ngModel)]="bloque.mapeo">
-                                        </mat-form-field>
-                                    </td>
-                                    <td class="col-sm-2">
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="bloque.visible_cv_resumido">
-                                                <mat-option [value]="true" class="visualizacion">Visible</mat-option>
-                                                <mat-option [value]="false" class="visualizacion">No Visible</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col text-center">
-                        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
-                    </div>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-
 <div class="main-content">
     <div class="col text-center">
         <button mat-raised-button class="btnRegresar" color="primary" routerLink="/cv-resumido" routerLinkActive="active"> Configuración Bloques Resumidos</button>
@@ -94,7 +26,7 @@
                         <b>Buscador:</b>
                         <mat-form-field>
                             <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ej. titulo" #filter>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. titulo" #filter>
                             <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
                         <mat-icon>close</mat-icon>
                       </button>
@@ -161,7 +93,7 @@
                 
                         <!-- Name Column -->
                         <ng-container matColumnDef="ordenResumido">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>OrdenResumido</b></h4>  </mat-header-cell>
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <mat-form-field floatLabel="never">
                                     <input matInput placeholder="OrdenResumido" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenResumido" [(ngModel)]="element.ordenResumido">
@@ -184,10 +116,14 @@
                     <mat-paginator id="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
                     
                     <div class="col text-center">
-                        <button mat-raised-button color="primary" class="btnGuardar" (click)="guardar()">Guardar</button>
+                        <button mat-raised-button color="primary" class="btnGuardar" (click)="guardar()">
+                            Guardar
+                            <span class="material-icons">
+                                save
+                              </span>
+                        </button>
                     </div>
                 </mat-card>
-            
             </div>
         </div>        
     </div>

@@ -55,7 +55,7 @@ export class AuthGuard implements CanActivate {
 
     if (!this.token) {
       this.isTrueSet = false
-      console.log("NOEXISTETOKEN", this.isTrueSet)
+      console.log("NOEXISTETOKENAUTH", this.isTrueSet)
     }
     
     // else{

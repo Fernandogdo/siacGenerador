@@ -9,15 +9,6 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './comun/components.module';
 
 import { AppComponent } from './app.component';
-
-// import { DashboardComponent } from './dashboard/dashboard.component';
-// import { UserProfileComponent } from './user-profile/user-profile.component';
-
-
-
-import {
-  AgmCoreModule
-} from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 // import { AdministradorComponent } from './components/administrador/administrador.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,7 +16,6 @@ import { LoginComponent } from './components/login/login.component';
 
 
 
-// import { ResumidoCvComponent } from './components/resumido-cv/resumido-cv.component';
 //import { PersonalizadoCvComponent } from './components/personalizado-cv/personalizado-cv.component';
 // import { CompletoCvComponent } from './components/completo-cv/completo-cv.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +24,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card'; 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+// import {MatFormFieldModule} from '@angular/material/form-field';
 
 // import { MatMenuModule } from '@angular/material/menu';
 
@@ -46,6 +39,7 @@ import { ModalNotaComponent } from './components/modal-nota/modal-nota.component
 // import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NetworkInterceptor } from './interceptors/interceptor.spinner';
+import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor/auth-interceptor.interceptor';
 
 
 @NgModule({
@@ -65,11 +59,13 @@ import { NetworkInterceptor } from './interceptors/interceptor.spinner';
     MatSnackBarModule,
     Angular2CsvModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
     // Ng4LoadingSpinnerModule.forRoot()
     // ProgressSpinnerModule
     // MatPaginatorModule
     // MatMenuModule
+    MatToolbarModule,
+    MatIconModule
 
   ],
   declarations: [
@@ -89,7 +85,13 @@ import { NetworkInterceptor } from './interceptors/interceptor.spinner';
     provide: HTTP_INTERCEPTORS,
     useClass: NetworkInterceptor,
     multi: true
-  }],
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorInterceptor,
+    multi: true
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

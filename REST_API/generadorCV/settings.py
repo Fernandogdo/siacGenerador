@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+import rest_framework
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'cv_api',
-    'rest_framework'
+    'rest_framework',
 ]
 
 # DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
@@ -75,7 +77,7 @@ REST_FRAMEWORK = {
 }
 
 
-AUTH_USER_MODEL = "cv_api.Docente"
+AUTH_USER_MODEL = "cv_api.Usuario"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,11 +140,17 @@ DATABASES = {
     'default': {
         # MySQL engine. Powered by the mysqlclient module.
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bgihk3yzoak5mwbhydi3',
-        'USER': 'uttiqqtg12o2lrvu',
-        'PASSWORD': 'kYESn6Ykg30eDqDc8mc',
-        'HOST': 'bgihk3yzoak5mwbhydi3-mysql.services.clever-cloud.com',
-        'PORT': '20241',
+        'NAME': 'generadorcv',
+        'USER': 'fernando',
+        'PASSWORD': '1234',
+        'HOST': '',
+        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'bgihk3yzoak5mwbhydi3',
+        # 'USER': 'uttiqqtg12o2lrvu',
+        # 'PASSWORD': 'kYESn6Ykg30eDqDc8mc',
+        # 'HOST': 'bgihk3yzoak5mwbhydi3-mysql.services.clever-cloud.com',
+        # 'PORT': '20241',
     }
 }
 

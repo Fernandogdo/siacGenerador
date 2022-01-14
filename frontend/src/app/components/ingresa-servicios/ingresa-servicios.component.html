@@ -1,0 +1,136 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="col text-center">
+            <button mat-raised-button color="primary" class="btnActualizarInformacion" (click)="configuracion()">
+                <span class="material-icons">
+                    update
+                </span>
+                Actualizar Información
+               
+            </button>
+
+            <!-- <button >
+                Prueba
+            </button> -->
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="./assets/img/ajustes.png" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">SIAC</h6>
+                        <h4 class="card-title">Registrar Servicios</h4>
+                        <!-- <p class="card-description">
+                            Don't be scared of the truth because we need to restart the human foundation in truth And I
+                            love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                        </p> -->
+
+                        <form #serviciosForm="ngForm" (ngSubmit)="postServicios(serviciosForm)">
+                            <input type="hidden" name="id" #id="ngModel"
+                                [(ngModel)]="configuracioncvService.selectedServicio.id">
+
+                            <p>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Nombre Bloque</mat-label>
+                                    <input matInput name="bloqueNombre" class="form-control" placeholder="Ejp. Tésis"
+                                        [(ngModel)]="configuracioncvService.selectedServicio.bloqueNombre">
+                                    <mat-icon matSuffix>textsms</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>URL</mat-label>
+                                    <input matInput name="url" class="form-control"
+                                        placeholder="Ejp. https://siac.utpl.edu.ec... "
+                                        [(ngModel)]="configuracioncvService.selectedServicio.url" type="url"
+                                        pattern="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$">
+
+                                    <mat-icon matSuffix>link</mat-icon>
+                                </mat-form-field>
+                            </p>
+
+                            <div class="col text-center">
+                                <button mat-raised-button id="btnGuardar">
+                                    <span class="material-icons">
+                                        save
+                                    </span>
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <!-- <div class="card-header card-header-danger" id="tarjetaHeaderTabla">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div> -->
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <th>Bloque</th>
+                                <th>URL</th>
+                                <th>Operaciones</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let servicio of arregloServicios">
+                                    <td>{{ servicio.bloqueNombre }}</td>
+                                    <td>{{ servicio.url }}</td>
+                                    <td>
+                                        <a (click)="editServicio(servicio)" class="btn btn-secondary btn-sm" id="btnEditar">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <a (click)="deleteServicio(servicio.id)" class="btn btn-secondary btn-sm" id="btnEliminar">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- <button mat-raised-button id="btnGuardar" [disabled]="!nombreBloque">
+    Guardars
+</button> -->
+
+
+<!-- <form [formGroup]="loginForm" novalidate (ngSubmit)="signIn()">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput placeholder="usuario@utpl.edu.ec" 
+        formControlName="bloqueNombre"
+
+        >
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input matInput name="url" class="form-control"
+            placeholder="Ejp. https://siac.utpl.edu.ec... "
+            formControlName="url"
+          
+            type="url"
+            >
+        
+        <mat-icon matSuffix>link</mat-icon>
+    </mat-form-field>
+
+
+    <button type="submit" mat-raised-button color="primary">
+        Iniciar Sesión
+    </button>
+  
+</form> -->

@@ -37,8 +37,7 @@ export class DescargaFormatosComponent implements OnInit {
     // this.authorizationService.enviarIdUsuario(this.idUser)
     console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idParamsUrl)
     // this.generaInformacion();
-    this.docente();
-    this
+   
   }
 
   comprobarId(){
@@ -143,20 +142,5 @@ export class DescargaFormatosComponent implements OnInit {
   }
 
 
-  // generaInformacion(){
-  //   console.log("ARITUCLOSINFO")
-  //   this.configuracion.getArticulos().subscribe((res=>{
-  //     console.log("INFOARTICULOS", res)
-  //   }))
-  // }
-
-  docente(){
-    // let idUsuario =   parseInt(localStorage.getItem('id_user'));
-
-    console.log("DOCENRE");
-    this.configuracion.getDocente(this.idUserStorage).subscribe((res=>{
-      console.log("DOCENTE", res)
-    }))
-  }
 
 }

@@ -19,7 +19,7 @@
                      
           <mat-form-field>
            <mat-label>Nombre CV</mat-label>
-           <input matInput #filter placeholder="Nombre Cv Personalizado" [(ngModel)]="nombre_cvNuevo">
+           <input matInput #filter placeholder="Nombre Cv Personalizado" maxlength="15" [(ngModel)]="nombre_cvNuevo">
           </mat-form-field>
                            
           <br>
@@ -126,7 +126,7 @@
               <span class="material-icons">
                 save
               </span>
-            </button>
+          </button>
               <!-- <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button> -->
           </div>
         </mat-card>      

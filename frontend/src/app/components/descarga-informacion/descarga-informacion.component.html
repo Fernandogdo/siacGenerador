@@ -22,13 +22,23 @@
                             <div class="col text-center">  
                                 <!-- <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button> -->
                                   
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button>
+                                <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionCSV">Exportación CSV</button>
+                                <mat-menu #menuexportacionCSV="matMenu">
+                                    <button mat-menu-item color="primary" (click)="generaCsvArticulos()">Articulos CSV </button> 
+                                    <button mat-menu-item color="primary" (click)="generaCsvLibros()">Libros CSV </button>
+                                    <button mat-menu-item color="primary" (click)="generaCsvProyectos()">Proyectos CSV </button> 
+                                    <button mat-menu-item color="primary" (click)="generaCsvCapacitacion()">Capacitación CSV </button> 
+                                    <button mat-menu-item color="primary" (click)="generaCsvGradoAcademico()">Grado Academico CSV </button> 
+    
+                                </mat-menu>
+
+                                <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                     PDF Completo
                                 </button>
 
                                 <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                     PDF Resumido
-                                </button>
+                                </button> -->
                                     <!-- <mat-menu #menupdf="matMenu">
                                       <button mat-menu-item (click)="generaPdfCompleto()">Completo</button>
                                       <button mat-menu-item (click)="generaPdfResumido()">Resumido</button>                            
@@ -117,14 +127,13 @@
                             <button class="botones_crear" id="btn-documento" mat-stroked-button>
                                 JSON Resumido
                             </button>                                    -->
-                             <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación BibTex</button>
-                            <mat-menu #menuexportacionTXT="matMenu">
-                                <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
-                                <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
-                                <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
-
+                             <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionBib">Exportación BibTex</button>
+                            <mat-menu #menuexportacionBib="matMenu">
+                                <button mat-menu-item color="primary" (click)="generaBibArticulos()">Articulos BibTex </button> 
+                                <button mat-menu-item color="primary" (click)="generaBibLibros()">Libros BibTex </button>
+                                <button mat-menu-item color="primary" (click)="generaBibProyectos()">Proyectos BibTex </button> 
+                                <button mat-menu-item color="primary" (click)="generaBibCapacitacion()">Capacitación BibTex </button> 
+                                <button mat-menu-item color="primary" (click)="generaBibGradoAcademico()">Grado Academico BibTex </button> 
                             </mat-menu>
                             <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button color="accent" [matMenuTriggerFor]="menupdf">Crear JSON
                             </button>

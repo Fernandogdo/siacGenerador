@@ -7,9 +7,9 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class PdfService {
-  URL_PDF_COMPLETO = "https://siacgenerador.herokuapp.com/api/pdf-completo/";
-  URL_PDF_RESUMIDO = "https://siacgenerador.herokuapp.com/api/pdf-resumido/"; 
-  URL_PDF_PERSONALIZADO = "https://siacgenerador.herokuapp.com/api/pdf-personalizado/";  
+  URL_PDF_COMPLETO = "http://localhost:8000/api/pdf-completo/";
+  URL_PDF_RESUMIDO = "http://localhost:8000/api/pdf-resumido/"; 
+  URL_PDF_PERSONALIZADO = "http://localhost:8000/api/pdf-personalizado/";  
 
   constructor(private http: HttpClient) {}
 

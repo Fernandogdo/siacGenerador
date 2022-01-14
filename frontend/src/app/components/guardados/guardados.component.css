@@ -1,21 +1,11 @@
-.tarjeta-cv {
-    margin: 25px;
-}
-
-#informacion {
-    margin: 5px;
-    padding: 5px;
-    /* border: 2px solid #ccc; */
-    /* IMPORTANTE */
-    text-align: center;
-}
-
 #iconoPersonalizado{
     color: #003F72;
 }
 
 .tituloPersonalizado{
+    margin: 10px;
     color: #003F72;
+    float: left;
 }
 
 #iconoPersonalizadoPdf{
@@ -26,10 +16,55 @@
     margin-top: 15px;
     background-color: #003F72;
 }
-.btnPersonalizado{
-    margin-top: 15px;
-    background-color: #003F72;
+
+#botonesPersonalizado{
+    width: 100%;
+    display: flex;
+    margin: auto;
+}
+
+#btnPersonalizado{
+    display: inline;
+    margin: auto;
+}
+
+.btnPersonalizadoPdf{
+    /* margin: 6px; */
+    /* margin-right: 10px; */
+    background-color: red;
     color: white;
+}
+
+.btnPersonalizadoDocx{
+    /* margin: 6px; */
+    /* margin-right: 10px; */
+    background-color:  #003F72;
+    color: white;
+}
+
+.btnPersonalizadoJson{
+    /* margin: 6px; */
+    /* margin-right: 10px; */
+    background-color: black;
+    color: white;
+}
+
+#infoPieTarjeta{
+    /* margin: 50px;
+    margin: auto; */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btnPie{
+    /* display: inline; */
+    margin: 5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* margin: auto;
+    display: inline-flex; */
 }
 
 .btnEditar{
@@ -37,9 +72,14 @@
     color: #003F72;
 }
 
-.botones {
-    margin: 15px;
+.btnEliminar{
+    background-color: red;
+    color: white;
 }
+/* .botones {
+    display: inline;
+    margin: auto;
+} */
 
 #btn-documento{
     background-color: white;

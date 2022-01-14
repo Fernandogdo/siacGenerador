@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthorizationService } from "app/services/login/authorization.service";
+import { AuthorizationService } from "../../services/login/authorization.service";
 
 @Component({
   selector: "app-login",
@@ -9,6 +9,7 @@ import { AuthorizationService } from "app/services/login/authorization.service";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -37,4 +38,6 @@ export class LoginComponent implements OnInit {
   resetForm(){
     this.loginForm.reset();
   }
+
+
 }

@@ -5,9 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './components/login/login.component';
+import { NotFoundComponent } from './comun/not-found/not-found.component';
 
 const routes: Routes =[
   { path: 'login', component: LoginComponent },
+  // {path: '**', component: LoginComponent},
+  
   {
     path: '',
     redirectTo: 'login',
@@ -18,8 +21,12 @@ const routes: Routes =[
     children: [{
       path: '',
       loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
-    }]
-  }
+    },
+    // {path: '**', component: NotFoundComponent, pathMatch: 'full',},
+    // {path: '/**', component: LoginComponent, pathMatch: 'full',},
+    ]
+  },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
