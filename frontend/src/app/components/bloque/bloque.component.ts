@@ -33,6 +33,8 @@ export class BloqueComponent implements OnInit {
   parentSelector: boolean = false;
   alertaCambios: boolean = false;
 
+  visibilidad: boolean = false
+  textoVisibilidad: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +57,8 @@ export class BloqueComponent implements OnInit {
 
 
   getConfiguracion() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'Todo'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
@@ -84,6 +88,8 @@ export class BloqueComponent implements OnInit {
 
 
   FiltroNoVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'No Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
@@ -111,6 +117,8 @@ export class BloqueComponent implements OnInit {
 
 
   FiltroVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;

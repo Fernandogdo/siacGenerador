@@ -1,62 +1,47 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-
-
-
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header " id="cabeceraTarjeta">
-                        <div class="ct-chart" > 
-                            <!-- <h5 id="titulo_tarjeta">CREAR PDF</h5>  -->
+                        <div class="ct-chart">
                             <img class="logo" src="/assets/img/csv.png" />
                         </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">Generación CSV</h4>
-                        <!-- <p class="card-category">Se genera pdf en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
-                        <!-- <div class="stats"> -->
-                            <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
-                            <div class="col text-center">  
-                                <!-- <button mat-raised-button class="botones" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">Crear CV Personalizado</button> -->
-                                  
-                                <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionCSV">Exportación CSV</button>
-                                <mat-menu #menuexportacionCSV="matMenu">
-                                    <button mat-menu-item color="primary" (click)="generaCsvArticulos()">Articulos CSV </button> 
-                                    <button mat-menu-item color="primary" (click)="generaCsvLibros()">Libros CSV </button>
-                                    <button mat-menu-item color="primary" (click)="generaCsvProyectos()">Proyectos CSV </button> 
-                                    <button mat-menu-item color="primary" (click)="generaCsvCapacitacion()">Capacitación CSV </button> 
-                                    <button mat-menu-item color="primary" (click)="generaCsvGradoAcademico()">Grado Academico CSV </button> 
-    
-                                </mat-menu>
 
-                                <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button>
-                                    PDF Completo
+                        <div class="col text-center">
+
+                            <button class="botones_crear" id="btn-txt" mat-raised-button
+                                [matMenuTriggerFor]="menuexportacionCSV">
+                                Exportación CSV
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </button>
+                            <mat-menu #menuexportacionCSV="matMenu">
+                                <button mat-menu-item color="primary"
+                                    (click)="generaCsvArticulos('Artículos')">Articulos CSV </button>
+                                <button mat-menu-item color="primary" (click)="generaCsvLibros('Libros')">Libros CSV
                                 </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaCsvProyectos('Proyectos')">Proyectos CSV </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaCsvCapacitacion('Capacitacion')">Capacitación CSV </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaCsvGradoAcademico('Grado Academico')">Grado Academico CSV </button>
 
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button>
-                                    PDF Resumido
-                                </button> -->
-                                    <!-- <mat-menu #menupdf="matMenu">
-                                      <button mat-menu-item (click)="generaPdfCompleto()">Completo</button>
-                                      <button mat-menu-item (click)="generaPdfResumido()">Resumido</button>                            
-                                    </mat-menu> -->
-<!--             
-                                <button class="botones" id="btn-documento" mat-stroked-button color="primary" [matMenuTriggerFor]="menudocx">Crear Word</button>
-                                    <mat-menu #menudocx="matMenu">
-                                      <button mat-menu-item (click)="generaDocCompleto()">Completo</button>
-                                      <button mat-menu-item (click)="generaDocResumido()">Resumido</button>                            
-                                    </mat-menu>
-        
-                                <button class="botones" id="btn-documento" mat-raised-button [matMenuTriggerFor]="menujson">Crear Json</button>
-                                    <mat-menu #menujson="matMenu">
-                                      <button mat-menu-item (click)="generaJsonCompleto()">Completo</button>
-                                      <button mat-menu-item (click)="generaJsonResumido()">Resumido</button>                            
-                                    </mat-menu> -->
-                            </div>
-                        <!-- </div> -->
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div *ngIf="valor && tipoDocumento == 'CSV'">
+                        Generando {{tipoDocumento}} {{valorNombre}}
+                        <mat-progress-bar mode="query">
+
+                        </mat-progress-bar>
                     </div>
                 </div>
             </div>
@@ -64,83 +49,90 @@
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header " id="cabeceraTarjeta">
-                        <div class="ct-chart" > 
-                            <!-- <h5 id="titulo_tarjeta">CREAR WORD</h5> -->
+                        <div class="ct-chart">
                             <img class="logo" src="/assets/img/txt.png" />
                         </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">Generación TXT</h4>
-                        <!-- <p class="card-category">Se genera Word en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
-                        <!-- <div class="stats"> -->
-                            <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
-                            <div class="col text-center">                              
-            
-                                <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button >
-                                    WORD Completo
-                                </button>
-                                <button class="botones_crear" id="btn-documento" mat-stroked-button >
-                                    WORD Resumido
-                                </button> -->
-                                <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionTXT">Exportación TXT</button>
-                                <mat-menu #menuexportacionTXT="matMenu">
-                                    <button mat-menu-item color="primary" (click)="generaTxtArticulos()">Articulos TXT </button> 
-                                    <button mat-menu-item color="primary" (click)="generaTxtLibros()">Libros TXT </button>
-                                    <button mat-menu-item color="primary" (click)="generaTxtProyectos()">Proyectos TXT </button> 
-                                    <button mat-menu-item color="primary" (click)="generaTxtCapacitacion()">Capacitación TXT </button> 
-                                    <button mat-menu-item color="primary" (click)="generaTxtGradoAcademico()">Grado Academico TXT </button> 
-    
-                                </mat-menu>
+                        <div class="col text-center">
 
-                                <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button color="primary" [matMenuTriggerFor]="menudocx">Crear Word</button>
-                                    <mat-menu #menudocx="matMenu">
-                                      <button mat-menu-item >Completo</button>
-                                      <button mat-menu-item >Resumido</button>                            
-                                    </mat-menu> -->
-                            </div>
-                        <!-- </div> -->
+                            <button class="botones_crear" id="btn-txt" mat-raised-button
+                                [matMenuTriggerFor]="menuexportacionTXT">
+                                Exportación TXT
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </button>
+                            <mat-menu #menuexportacionTXT="matMenu">
+                                <button mat-menu-item color="primary"
+                                    (click)="generaTxtArticulos('Artículos')">Articulos TXT </button>
+                                <button mat-menu-item color="primary" (click)="generaTxtLibros('Libros')">Libros TXT
+                                </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaTxtProyectos('Proyectos')">Proyectos TXT </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaTxtCapacitacion('Capacitación')">Capacitación TXT </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaTxtGradoAcademico('Grado Academico')">Grado Academico TXT </button>
+
+                            </mat-menu>
+
+                        </div>
+                    </div>
+                    <div *ngIf="valor && tipoDocumento == 'TXT'">
+                        Generando {{tipoDocumento}} {{valorNombre}}
+                        <mat-progress-bar mode="query">
+
+                        </mat-progress-bar>
                     </div>
                 </div>
+
             </div>
 
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header " id="cabeceraTarjeta">
-                        <div class="ct-chart"> 
-                            <!-- <h5 id="titulo_tarjeta">CREAR JSON</h5> -->
+                        <div class="ct-chart">
                             <img class="logo" src="/assets/img/bibtex.png" />
                         </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">Generación BibTex</h4>
-                        <!-- <p class="card-category">Se genera Json en un formato establecido por los administrdores de SIAC</p> -->
                     </div>
                     <div class="card-footer">
-                        <!-- <div class="stats"> -->
-                            <!-- <i class="material-icons">access_time</i> campaign sent 2 days ago -->
-                        <div class="col text-center"> 
-                            <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button >
-                                JSON Completo
+                        <div class="col text-center">
+
+                            <button class="botones_crear" id="btn-txt" mat-raised-button
+                                [matMenuTriggerFor]="menuexportacionBib">Exportación BibTex
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
                             </button>
-                            <button class="botones_crear" id="btn-documento" mat-stroked-button>
-                                JSON Resumido
-                            </button>                                    -->
-                             <button class="botones_crear" id="btn-txt" mat-raised-button [matMenuTriggerFor]="menuexportacionBib">Exportación BibTex</button>
                             <mat-menu #menuexportacionBib="matMenu">
-                                <button mat-menu-item color="primary" (click)="generaBibArticulos()">Articulos BibTex </button> 
-                                <button mat-menu-item color="primary" (click)="generaBibLibros()">Libros BibTex </button>
-                                <button mat-menu-item color="primary" (click)="generaBibProyectos()">Proyectos BibTex </button> 
-                                <button mat-menu-item color="primary" (click)="generaBibCapacitacion()">Capacitación BibTex </button> 
-                                <button mat-menu-item color="primary" (click)="generaBibGradoAcademico()">Grado Academico BibTex </button> 
+                                <button mat-menu-item color="primary"
+                                    (click)="generaBibArticulos('Articulos')">Articulos BibTex </button>
+                                <button mat-menu-item color="primary" (click)="generaBibLibros('Libros')">Libros BibTex
+                                </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaBibProyectos('Proyectos')">Proyectos BibTex </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaBibCapacitacion('Capacitacion')">Capacitación BibTex </button>
+                                <button mat-menu-item color="primary"
+                                    (click)="generaBibGradoAcademico('Grado Academico')">Grado Academico BibTex
+                                </button>
                             </mat-menu>
-                            <!-- <button class="botones_crear" id="btn-documento" mat-stroked-button color="accent" [matMenuTriggerFor]="menupdf">Crear JSON
-                            </button>
-                                <mat-menu #menupdf="matMenu">
-                                  <button mat-menu-item >Completo</button>
-                                  <button mat-menu-item >Resumido</button>                            
-                                </mat-menu> -->
+
+                        </div>
+
+                    </div>
+                    <div *ngIf="valor && tipoDocumento == 'BibTex'">
+                        Generando {{tipoDocumento}} {{valorNombre}}
+                        <mat-progress-bar mode="query">
+
+                        </mat-progress-bar>
                     </div>
                 </div>
             </div>

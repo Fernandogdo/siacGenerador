@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-// import { Configuracioncv } from '../../models/configuracioncv.model';
 import { ConfiguracioncvService } from '../../services/configuracioncv.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as _ from "lodash";
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
 
@@ -30,6 +29,8 @@ export class BloqueResumidoComponent implements OnInit {
   parentSelector: boolean = false;
   alertaCambios: boolean = false;
 
+  visibilidad: boolean = false
+  textoVisibilidad: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,19 +45,21 @@ export class BloqueResumidoComponent implements OnInit {
     this.getConfiguracion()
   }
 
-  
+
   getConfiguracion() {
+    this.visibilidad = true
+    this.textoVisibilidad = 'Todo'
     this.configuracioncvService.getConfiguraciones().subscribe(
       res => {
         this.configuracioncvService.configuraciones = res;
         this.arregloBloques = res.filter((user) => user.bloque === this.nombreBloque);
 
         // this.arregloBloques = filteredCategories.filter(user => user.bloque === this.nombreBloque)
-        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenResumido'], ['asc'])
-        
+        let atributosOrdenados = _.orderBy(this.arregloBloques, ['ordenResumido'], ['asc'])
+
         this.arregloBloques = atributosOrdenados
 
-        
+
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
@@ -78,14 +81,16 @@ export class BloqueResumidoComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  
+
   FiltroNoVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad = 'No Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
-      
+
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
-        let filtro = _.filter(this.arregloBloques,['visible_cv_resumido', false ]);
+        let filtro = _.filter(this.arregloBloques, ['visible_cv_resumido', false]);
         console.log("ARREGLOBLOQUEVISIBLES", filtro)
         this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
         this.arregloBloques = this.atributosOrdenados;
@@ -100,38 +105,21 @@ export class BloqueResumidoComponent implements OnInit {
       },
       (err) => console.log(err)
     );
-    
-  }
-  // FiltroNoVisibles() {
-  //   //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
-  //   // if (event.checked) {
-  //     console.log('asdsa')
-  //     this.configuracioncvService.getBloques()
-  //     .subscribe(res => {
-  //       this.arregloBloques = res
-  //       let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_completo', false ]);
-  //       this.arregloBloques = atributosOrdenados;
-  //       this.dataSource = new MatTableDataSource(this.arregloBloques);
-  //       this.atributosOriginal = JSON.parse(
-  //         JSON.stringify(this.arregloBloques)
-  //       );
-  //     });
-  //   // } 
-  //   // else {
-  //   //   this.getBloques()
-  //   // }
-  // }
 
+  }
+  
 
   FiltroVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad = 'Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
-        let filtro= _.filter(this.arregloBloques,['visible_cv_resumido', true ]);
+        let filtro = _.filter(this.arregloBloques, ['visible_cv_resumido', true]);
         console.log("ARREGLOBLOQUEVISIBLES", filtro)
         this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
-        
+
         this.arregloBloques = this.atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
@@ -145,7 +133,7 @@ export class BloqueResumidoComponent implements OnInit {
     );
   }
 
-  valor(id){
+  valor(id) {
     this.id = id
     console.log('id', this.id)
   }
@@ -179,8 +167,8 @@ export class BloqueResumidoComponent implements OnInit {
       // no es necesario guardarlo
       // console.log(bloque)
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo && 
-        atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido ) return;
+      if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo &&
+        atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido) return;
 
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService
@@ -189,9 +177,9 @@ export class BloqueResumidoComponent implements OnInit {
           console.log("editado", res);
           this.getConfiguracion();
         });
-        this._snackBar.open("Se guardó correctamente", "Cerrar", {
-          duration: 2000,
-        });
+      this._snackBar.open("Se guardó correctamente", "Cerrar", {
+        duration: 2000,
+      });
     });
   }
 
@@ -202,8 +190,8 @@ export class BloqueResumidoComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo && 
-        atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido ) return;
+      if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo &&
+        atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido) return;
 
 
       // si el bloque se modificó proceder y no se guardo proceder a mostrar alerta

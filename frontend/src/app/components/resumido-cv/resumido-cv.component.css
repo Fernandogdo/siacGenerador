@@ -40,6 +40,16 @@
     margin-left: 20px;
 }
 
+.visible{
+    margin-bottom: 8px;
+}
+
+#visibilidad{
+    float: left;
+    margin: auto;
+    /* margin-top: auto; */
+}
+
 .tarjeta_filtros1 {
     background-color: #F9F9F9;
     color: #003F72;

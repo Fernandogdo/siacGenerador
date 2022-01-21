@@ -4,7 +4,6 @@ export class Usuario {
       public bio:string,
       public canton: string,
       public categoria: string,
-      public cedula: string,
       public ciudad: string,
       public departamento:string,
       public direccion: string,
@@ -30,6 +29,7 @@ export class Usuario {
       public telefono_institucion: string,
       public tipo_docente: string,
       public titular_id: string,
+      public cedula?: string,
       public id?: number,
       
     ) {

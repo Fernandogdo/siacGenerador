@@ -38,7 +38,7 @@ urlpatterns = [
   path('doc-personalizado/<int:id>/<slug:nombre_cv>/<slug:cvHash>', views.DocPersonalizado),
   path('json-personalizado/<int:id>/<slug:nombre_cv>/<slug:cvHash>', views.JsonPersonalizado),
   path('elimina-personalizados/<slug:nombre_cv>/<slug:cv>', views.eliminaPersonalizados), 
-  path('elimina-objeto/<slug:bloque>/<slug:atributo>', views.eliminaObjeto), 
+  path('elimina-objeto/<slug:bloque>/<slug:atributo>', views.eliminaObjetoConfiguracion), 
   path('elimina-objetobloque/<slug:bloque>', views.eliminaObjetoBloque),
   path('elimina-objetoconfpersonalizada/<int:id_user>/<slug:nombre_cv>/<slug:cv>/<slug:bloque>/<slug:atributo>', views.eliminaObjetoConfiguracionPersonalizada),
   # path('personalizados/<int:id_user>/<slug:bloque>/<slug:nombre_cv>/<slug:cv>', views.getConfPersonalizada),
@@ -54,5 +54,6 @@ urlpatterns = [
   path('informacion_bib_proyectos/<int:id>', views.InformacionBibTexProyectos),
   path('informacion_bib_capacitaciones/<int:id>', views.InformacionBibTexCapacitaciones),
   path('informacion_bib_grado-academico/<int:id>', views.InformacionBibTexGradoAcademico),
+  path('personalizacion-usuario/<int:id_user>', views.personalizacionUsuario),
   re_path('^personalizacion_usuario/(?P<id_user>.+)/$', views.PersonalizacionUsuario.as_view()),
 ]

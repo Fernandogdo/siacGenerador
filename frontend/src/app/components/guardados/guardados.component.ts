@@ -6,7 +6,7 @@ import { Usuario } from '../../models/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreaJsonService } from '../../services/creador-json/crea-json.service';
 import { CreaDocxService } from '../../services/creador-docx/crea-docx.service';
-import { Angular2CsvModule } from 'angular2-csv';
+// import { Angular2CsvModule } from 'angular2-csv';
 import { CreaCsvService } from '../../services/creador-csv/crea-csv.service';
 import { CreaTxtService } from '../../services/creador-txt/crea-txt.service';
 import { AuthorizationService } from '../../services/login/authorization.service';
@@ -32,7 +32,7 @@ export class GuardadosComponent implements OnInit {
   confPersoDocenteClas = [];
   confPersoDocenteClasFormateadas = []
   dataDocente;
-  docente: Usuario[];
+  docente;
   idParamsUrl;
   idUserStorage;
   configuraciones = []
@@ -58,593 +58,7 @@ export class GuardadosComponent implements OnInit {
   arregloBloques = [];
   miDataInterior = []
 
-
-
-
-  esquema = [
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "id"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "id_docente"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "fecha_emision"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "lugar_emision"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "lugar_u_reconocedora"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "denominacion_titulo"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "fecha_senescyt"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "registro_senescyt"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "fecha_inicio"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "fecha_fin"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "tipo_titulo"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "universidad_emisora"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "pais_emision"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "universidad_reconocedora"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "pais_u_reconocedora"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "area_conocimiento"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "sub_area_conocimiento"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "area_conocimiento_especifica"
-    },
-    {
-      "bloque": "GradoAcademico",
-      "atributo": "linea_investigacion"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "id"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "id_docente"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "nombre"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "tematica"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "fecha_inicio"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "fecha_fin"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "duracion_horas"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "pais"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "ciudad"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "link"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "cobertura"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "tipo_curso"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "tipo_formacion"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "tipo_participacion"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "fecha_publicacion"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "comite_organizador"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "institucion_organizadora"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "area_conocimiento"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "sub_area_conocimiento"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "area_conocimiento_especifica"
-    },
-    {
-      "bloque": "Capacitacion",
-      "atributo": "subtipo_formacion"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "id"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "anio"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "editorial"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "isbn"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "titulo"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "revision_pares"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "paginas"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "primer_tiraje"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "link_descarga_1"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "link_descarga_2"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "incluye_estudiantes"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "ambito_editorial"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "validate_evidencia"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "libro_fisico"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "evidencia"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "eisbn"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "afiliacion_utpl"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "reedicion"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "item"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "editor"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "nombre_evento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "edicion_evento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "organizador_evento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "comite_organizador"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "ciudad_evento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "fecha_evento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "tipo_libro"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "area_conocimiento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "sub_area_conocimiento"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "area_conocimiento_especifica"
-    },
-    {
-      "bloque": "Libros",
-      "atributo": "pais_evento"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "id"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fecha_inicio"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fecha_cierre"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "codigo_proyecto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "nombre_proyecto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "descripcion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "tipo_proyecto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "incluye_estudiantes"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "incluye_financ_externo"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "cobertura_proyecto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "reprogramado"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "porcentaje_avance"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fondo_utpl"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fondo_externo"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "total_general"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "estado"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "programa"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "objetivos"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "moneda"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "presupuesto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "clase_proyecto"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "tipo_investigacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "area_unesco"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "participacion_extranjera"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "smartland"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fecha_reprogramacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "observaciones"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fondo_externo_especie"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fondo_externo_efectivo"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "alumnos"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fecha_suspension"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "fecha_activacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "porcentaje_esperado"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "especie"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "linea_investigacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "tipo_convocatoria"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "area_conocimiento"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "sub_area_conocimiento"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "area_conocimiento_especifica"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "titulacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "observatorio"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "ods"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "organizacion"
-    },
-    {
-      "bloque": "Proyectos",
-      "atributo": "programa_investigacion"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "id"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "authors"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "titulo"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "abstract"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "keywords"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "link_articulo"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "fecha_envio"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "fecha_aceptacion"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "fecha_publicacion"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "fecha_indexacion"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "pais"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "ciudad"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "doi"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "indice"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "year"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "issn"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "isbn"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "tipo_documento"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "nombre_conferencia"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "link_revista"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "quartil_revista"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "sjr"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "volume"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "pages"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "issue"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "revista"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "eissn"
-    },
-    {
-      "bloque": "Articulos",
-      "atributo": "idioma"
-    },
-    // {
-    //     "bloque": "Articulos",
-    //     "atributo": "estado"
-    // },
-    // {
-    //     "bloque": "Articulos",
-    //     "atributo": "afiliacion_utpl"
-    // }
-  ]
-
-
+  // docente;
 
   constructor(
     public configuracioncvService: ConfiguracioncvService,
@@ -669,20 +83,18 @@ export class GuardadosComponent implements OnInit {
 
     this.idParamsUrl = this.activatedRoute.snapshot.paramMap.get("id_user");
     this.idUserStorage = localStorage.getItem("id_user");
+    localStorage.setItem('id_user', this.idParamsUrl);
     this.comprobarId()
-    // console.log('IDUDOCENTEIDDOCENTE-------------_>>>>>>>>>>>>>>>>>>>>>>>>', this.idParamsUrl)
     this.getConfigurcionPersonalizadaDocente()
-    // this.configuracioncvService.getJSON().subscribe(res => {
-    //   console.log(res)
-    // })
+    this.informacionDocente();
     this.compararArregloAtributos()
     this.configuracioncvService.getConfiguraciones().subscribe((res) => {
-      // console.log("CONFIGURACIONES", res)
       this.configuraciones = res
     })
 
     this.getBloques();
 
+    // this.in
   }
 
 
@@ -714,7 +126,7 @@ export class GuardadosComponent implements OnInit {
             this.arregloEsquema.push(datos)
 
           }
-          console.log("guardadosmamaARREGLOESQUEMA", this.arregloEsquema)
+          // console.log("guardadosmamaARREGLOESQUEMA", this.arregloEsquema)
           // console.log("ADATOSUSUARIO")
           // this.comparaEsquemaBaseDatosEliminarAtributo(this.arregloEsquema)
         });
@@ -728,9 +140,9 @@ export class GuardadosComponent implements OnInit {
 
   getConfigurcionPersonalizadaDocente() {
     let iduser = localStorage.getItem("id_user");
-    console.log("🚀 ~ file: guardados.component.ts ~ line 55 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ iduser", Number(iduser))
+    console.log("🚀 ~ file: guardados.component.ts ~ line 55 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ iduser", this.idParamsUrl)
 
-    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
+    this.configuracioncvService.listaConfiguracionPersonalizadaDocente(this.idParamsUrl)
       .subscribe(confPersoDocente => {
         this.confPersoDocente = confPersoDocente;
         // this.datos(this.confPersoDocente)
@@ -781,15 +193,29 @@ export class GuardadosComponent implements OnInit {
 
   deleteConfiguracionPersonalizada(nombreCv, cvHash) {
     console.log("AELIMINAR", nombreCv)
+    // console.log("AELIMINAR", nombreCv)
     // console.log("🚀 ~ file: guardados.component.ts ~ line 108 ~ GuardadosComponent ~ getConfiguracionPersonalizada ~ arreglo", this.confPersoDocente)
 
     let datos = _.filter(this.confPersoDocente, { 'nombre_cv': nombreCv, 'cv': cvHash });
     console.log(datos)
 
     this.configuracioncvService.deleteConfiguracionesPersonalizadas(nombreCv, cvHash).subscribe((res => {
-      console.log(res);
-      this.getConfigurcionPersonalizadaDocente()
+        console.log(res);
+        this.getConfigurcionPersonalizadaDocente()
     }))
+
+    // let datos = _.filter(this.confPersoDocente, { 'nombre_cv': nombreCv, 'cv': cvHash });
+    // console.log("DATOS", datos)
+
+    // datos.forEach(element => {
+    //   console.log("ELEMENTELIMIARPERSONALIZADO", element.id, element.nombre_cv)
+    //   this.configuracioncvService.deleteConfiguracionPersonalizada(element.id).subscribe((res => {
+    //     console.log(res);
+    //     this.getConfigurcionPersonalizadaDocente()
+    //   }))
+    // });
+
+   
     this._snackBar.open("Se eliminó " + nombreCv, "Cerrar", {
       duration: 2000,
     });
@@ -804,6 +230,10 @@ export class GuardadosComponent implements OnInit {
 
     this.eliminaObjetoConPersonalizada(nombre_cv, cvHash)
     this.guardaObjetoConfPersonalizada(nombre_cv, cvHash);
+    this.editaobjetoConfPersonalizada(nombre_cv, cvHash);
+
+    console.log("DOCENTE", this.docente.cedula)
+
     // this.guardarBloquesConfPersonalizada(nombre_cv, cvHash)
     // this.generaPdfPersonalizado(nombre_cv, cvHash)
 
@@ -829,14 +259,13 @@ export class GuardadosComponent implements OnInit {
   //Elimina objetos que no coinciden con esquema de informacion de SIAC
   eliminaObjetoConPersonalizada(nombre_cv, cvHash) {
     let iduser = localStorage.getItem("id_user");
+    
     this.confPersoDocenteCopia = this.confPersoDocente.filter(data =>
       data.nombre_cv === nombre_cv && data.cv === cvHash
     )
 
     console.log("PERSONALIZADOS", this.confPersoDocenteCopia)
-    // console.log("PERSONALIZADOS", this.personalizado)
     console.log("lalamamaARREGLOESQUEMA", this.arregloEsquema)
-    // console.log("nanalalamamaARREGLOESQUEMA", this.esquema)
 
 
     const aux = this.confPersoDocenteCopia.reduce((prev, curr) => {
@@ -855,23 +284,20 @@ export class GuardadosComponent implements OnInit {
 
 
     aux.forEach(objeto => {
-      console.log('tributoelementoaborrarBloqueA', iduser, objeto.nombre_cv, objeto.cv, objeto.bloque, objeto.atributo);
-      this.bloqueServicioService.eliminaObjetoNoSimilarConfPersonalizada(iduser, objeto.nombre_cv, objeto.cv, objeto.bloque, objeto.atributo)
+      console.log('tributoelementoaborrarobjetoConfiguracion', objeto.id, iduser, objeto.nombre_cv, objeto.cv, objeto.bloque, objeto.atributo);
+      this.bloqueServicioService.deleteConfiguracionPersonalizada(objeto.id)
         .subscribe((res) => {
           console.log("RESELIMNAR", res)
-          // this.confPersoDocenteCopia = this.confPersoDocente.filter(data =>
-          //     data.nombre_cv === nombre_cv && data.cv === cvHash
-          // )
-          // console.log("confPersoDocenteCopia", this.confPersoDocenteCopia)
-          // this.getConfigurcionPersonalizadaDocente()
         })
     });
 
     console.log("GENERAPDF")
-    // this.generaPdfPersonalizado(nombre_cv, cvHash)
   }
 
 
+
+
+  // Guarda Objeto de configuraciones en configuraciones Personalozadas
   guardaObjetoConfPersonalizada(nombre_cv, cvHash) {
     let iduser = localStorage.getItem("id_user");
 
@@ -915,19 +341,12 @@ export class GuardadosComponent implements OnInit {
     auxiliar.forEach(objeto => {
       console.log("BLOQUELALALA", objeto)
       this.infoDocente = this.confPersoDocenteCopia
-      // .filter((data) =>
-      //     data.bloque === objeto.bloque 
-      //     // &&  data.atributo === objeto.atributo
-      // )
+
 
       console.log("objetoinfoDocente", objeto)
       console.log("lalainfoDocente", this.infoDocente.length)
 
-      // const orden =+ 1
-
-
-
-      console.log("ORDEN", orden++)
+      // console.log("ORDEN", orden++)
 
       const arreglo: any = []
       this.infoDocente.forEach(element => {
@@ -973,7 +392,7 @@ export class GuardadosComponent implements OnInit {
           cv: cvHash,
           nombre_cv: nombre_cv,
           fecha_registro: element.fecha_registro,
-          cedula: iduser,
+          cedula: this.docente.cedula,
           nombreBloque: objeto.bloque,
           ordenPersonalizable: element.ordenPersonalizable,
           visible_cv_bloque: element.visible_cv_bloque
@@ -1054,7 +473,7 @@ export class GuardadosComponent implements OnInit {
               cv: cvHash,
               nombre_cv: nombre_cv,
               fecha_registro: fecha,
-              cedula: iduser,
+              cedula: this.docente.cedula,
               nombreBloque: bloque.nombre,
               ordenPersonalizable: bloque.ordenCompleto,
               visible_cv_bloque: bloque.visible_cv_bloqueCompleto
@@ -1081,109 +500,111 @@ export class GuardadosComponent implements OnInit {
 
   }
 
-  guardarBloquesConfPersonalizada(configuracionPersonalizada, iduser, nombre_cv, cvHash, fecha) {
-    // let iduser = localStorage.getItem("id_user");
 
 
-    console.log('nanaconfiguracionPersonalizada', configuracionPersonalizada, iduser, nombre_cv, cvHash, fecha)
-    console.log("CONFIGURACIONESGUARDAR", this.configuraciones)
-
-    let datosConfiguraciones
-    configuracionPersonalizada.forEach(element => {
-      datosConfiguraciones = this.configuraciones.filter(data => data.bloque === element.bloque && data.atributo === element.atributo)
-      console.log("datosConfiguraciones", datosConfiguraciones)
-      datosConfiguraciones.forEach(atributo => {
-        console.log("ATRIBUTO", atributo)
-        this.arregloBloques.forEach(bloque => {
-          console.log("BLOQUEGUARDR", bloque)
-          if (atributo.bloque === bloque.nombre) {
-            console.log("SON IGUALES", atributo.bloque, bloque.nombre, atributo.orden)
-            const data = {
-              id_user: Number(iduser),
-              bloque: atributo.bloque,
-              atributo: atributo.atributo,
-              orden: atributo.ordenCompleto,
-              visible_cv_personalizado: atributo.visible_cv_completo,
-              mapeo: atributo.mapeo,
-              cv: cvHash,
-              nombre_cv: nombre_cv,
-              fecha_registro: fecha,
-              cedula: iduser,
-              nombreBloque: bloque.nombre,
-              ordenPersonalizable: bloque.ordenCompleto,
-              visible_cv_bloque: bloque.visible_cv_bloqueCompleto
-            }
-
-            // console.log("guardardata", data)
-            // this.miDataInterior.push(data);
-          }
-
-        });
-      });
-
-    });
+  // guardarBloquesConfPersonalizada(configuracionPersonalizada, iduser, nombre_cv, cvHash, fecha) {
+  //   // let iduser = localStorage.getItem("id_user");
 
 
+  //   console.log('nanaconfiguracionPersonalizada', configuracionPersonalizada, iduser, nombre_cv, cvHash, fecha)
+  //   console.log("CONFIGURACIONESGUARDAR", this.configuraciones)
 
-    console.log("DATOSLALA", datosConfiguraciones)
+  //   let datosConfiguraciones
+  //   configuracionPersonalizada.forEach(element => {
+  //     datosConfiguraciones = this.configuraciones.filter(data => data.bloque === element.bloque && data.atributo === element.atributo)
+  //     console.log("datosConfiguraciones", datosConfiguraciones)
+  //     datosConfiguraciones.forEach(atributo => {
+  //       console.log("ATRIBUTO", atributo)
+  //       this.arregloBloques.forEach(bloque => {
+  //         console.log("BLOQUEGUARDR", bloque)
+  //         if (atributo.bloque === bloque.nombre) {
+  //           console.log("SON IGUALES", atributo.bloque, bloque.nombre, atributo.orden)
+  //           const data = {
+  //             id_user: Number(iduser),
+  //             bloque: atributo.bloque,
+  //             atributo: atributo.atributo,
+  //             orden: atributo.ordenCompleto,
+  //             visible_cv_personalizado: atributo.visible_cv_completo,
+  //             mapeo: atributo.mapeo,
+  //             cv: cvHash,
+  //             nombre_cv: nombre_cv,
+  //             fecha_registro: fecha,
+  //             cedula: iduser,
+  //             nombreBloque: bloque.nombre,
+  //             ordenPersonalizable: bloque.ordenCompleto,
+  //             visible_cv_bloque: bloque.visible_cv_bloqueCompleto
+  //           }
 
+  //           // console.log("guardardata", data)
+  //           // this.miDataInterior.push(data);
+  //         }
 
-    if (!configuracionPersonalizada) return throwError("null data");
+  //       });
+  //     });
 
-
-    configuracionPersonalizada.forEach(element => {
-      console.log("configuracionPersguardar", element)
-    });
+  //   });
 
 
 
+  //   console.log("DATOSLALA", datosConfiguraciones)
 
-    datosConfiguraciones.forEach(atributo => {
-      console.log("ATRIBUTO", atributo)
-      this.arregloBloques.forEach(bloque => {
-        console.log("BLOQUEGUARDR", bloque)
-        if (atributo.bloque === bloque.nombre) {
-          console.log("SON IGUALES", atributo.bloque, bloque.nombre, atributo.orden)
-          const data = {
-            id_user: Number(iduser),
-            bloque: atributo.bloque,
-            atributo: atributo.atributo,
-            orden: atributo.ordenCompleto,
-            visible_cv_personalizado: atributo.visible_cv_completo,
-            mapeo: atributo.mapeo,
-            cv: cvHash,
-            nombre_cv: nombre_cv,
-            fecha_registro: fecha,
-            cedula: iduser,
-            nombreBloque: bloque.nombre,
-            ordenPersonalizable: bloque.ordenCompleto,
-            visible_cv_bloque: bloque.visible_cv_bloqueCompleto
-          }
-          this.miDataInterior.push(data);
-        }
 
-      });
-    });
+  //   if (!configuracionPersonalizada) return throwError("null data");
+
+
+  //   configuracionPersonalizada.forEach(element => {
+  //     console.log("configuracionPersguardar", element)
+  //   });
 
 
 
-    console.log("sasaconfigurac", this.miDataInterior);
 
-    this.miDataInterior.forEach(element => {
-      console.log('configuracionPersonalizadaELEMENT', element)
-      // this.bloqueServicioService.postObjetoNosimilarConfPersonalizada(element)
-      //   .subscribe((res) => {
-      //     console.log("atributoguardadopersonalizada", element)
-      //   }, (error) => {
-      //     console.log(error)
-      //   })
+  //   datosConfiguraciones.forEach(atributo => {
+  //     console.log("ATRIBUTO", atributo)
+  //     this.arregloBloques.forEach(bloque => {
+  //       console.log("BLOQUEGUARDR", bloque)
+  //       if (atributo.bloque === bloque.nombre) {
+  //         console.log("SON IGUALES", atributo.bloque, bloque.nombre, atributo.orden)
+  //         const data = {
+  //           id_user: Number(iduser),
+  //           bloque: atributo.bloque,
+  //           atributo: atributo.atributo,
+  //           orden: atributo.ordenCompleto,
+  //           visible_cv_personalizado: atributo.visible_cv_completo,
+  //           mapeo: atributo.mapeo,
+  //           cv: cvHash,
+  //           nombre_cv: nombre_cv,
+  //           fecha_registro: fecha,
+  //           cedula: iduser,
+  //           nombreBloque: bloque.nombre,
+  //           ordenPersonalizable: bloque.ordenCompleto,
+  //           visible_cv_bloque: bloque.visible_cv_bloqueCompleto
+  //         }
+  //         this.miDataInterior.push(data);
+  //       }
 
-    });
+  //     });
+  //   });
 
-    this.miDataInterior = []
 
 
-  }
+  //   console.log("sasaconfigurac", this.miDataInterior);
+
+  //   this.miDataInterior.forEach(element => {
+  //     console.log('configuracionPersonalizadaELEMENT', element)
+  //     // this.bloqueServicioService.postObjetoNosimilarConfPersonalizada(element)
+  //     //   .subscribe((res) => {
+  //     //     console.log("atributoguardadopersonalizada", element)
+  //     //   }, (error) => {
+  //     //     console.log(error)
+  //     //   })
+
+  //   });
+
+  //   this.miDataInterior = []
+
+
+  // }
 
 
   editaobjetoConfPersonalizada(nombre_cv, cvHash) {
@@ -1227,7 +648,7 @@ export class GuardadosComponent implements OnInit {
             cv: atribtutoOriginal.cv,
             nombre_cv: atribtutoOriginal.nombre_cv,
             fecha_registro: atribtutoOriginal.fecha_registro,
-            cedula: iduser,
+            cedula: this.docente.cedula,
             nombreBloque: atribtutoOriginal.nombreBloque,
             ordenPersonalizable: atribtutoOriginal.ordenPersonalizable,
             visible_cv_bloque: atribtutoOriginal.visible_cv_bloque,
@@ -1251,7 +672,7 @@ export class GuardadosComponent implements OnInit {
   generaPdfPersonalizado(nombre_cv, cvHash) {
 
     this.metodosBtnEditar(nombre_cv, cvHash)
-    this.editaobjetoConfPersonalizada(nombre_cv, cvHash);
+    // this.editaobjetoConfPersonalizada(nombre_cv, cvHash);
 
     console.log("NOMBRECV", nombre_cv, Number(this.idUserStorage), this.valor, cvHash)
     this.valor = true;
@@ -1262,7 +683,7 @@ export class GuardadosComponent implements OnInit {
 
     console.log("GENERANDO PDF")
 
-    this.pdfService.generaPdfPersonalizado(Number(this.idUserStorage), nombre_cv, cvHash).subscribe((data) => {
+    this.pdfService.generaPdfPersonalizado(this.idUserStorage, nombre_cv, cvHash).subscribe((data) => {
       this.blob = new Blob([data as BlobPart], { type: 'application/pdf' });
       var downloadURL = window.URL.createObjectURL(data);
       console.log(downloadURL);
@@ -1277,7 +698,7 @@ export class GuardadosComponent implements OnInit {
 
   generaDocPersonalizado(nombre_cv, cvHash) {
     this.metodosBtnEditar(nombre_cv, cvHash)
-    this.editaobjetoConfPersonalizada(nombre_cv, cvHash);
+    // this.editaobjetoConfPersonalizada(nombre_cv, cvHash);
 
     console.log("DOCPERSO", nombre_cv);
     this.valor = true;
@@ -1299,6 +720,8 @@ export class GuardadosComponent implements OnInit {
 
 
   generaJsonPersonalizado(nombre_cv, cvHash) {
+    this.metodosBtnEditar(nombre_cv, cvHash)
+
     this.valor = true;
     this.valorNombre = nombre_cv;
     this.tipoDocumento = "JSON"
@@ -1318,121 +741,17 @@ export class GuardadosComponent implements OnInit {
   }
 
 
-  generaCvInformacion() {
-    this.creacvService.generaCsv(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/csv' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "indormacion_csv.csv";
-      link.click();
-    });
-  }
-
-
-  generaTxtInformacion() {
-    this.creatxtService.generaTxtInformacion(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "informacion_txt.txt";
-      link.click();
-    });
-  }
-
-
-  generaTxtArticulos() {
-    this.valorDocumento = true;
-
-    this.creatxtService.generaTxtArticulos(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "articulos_informacion_txt.txt";
-      link.click();
-      this.valorDocumento = false;
-
+  informacionDocente() {
+    let iduser = localStorage.getItem("id_user");
+    
+    this.infoDocenteService.getInfoDocente(this.idParamsUrl).subscribe((res) => {
+      console.log("INFODOCENTE", res)
+      this.docente = res;
     })
+
+    
+
   }
 
-
-  generaTxtLibros() {
-    this.valorDocumento = true;
-    this.creatxtService.generaTxtLibros(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "libros_informacion_txt.txt";
-      link.click();
-      this.valorDocumento = false;
-
-    });
-  }
-
-  generaTxtProyectos() {
-    this.valorDocumento = true;
-    this.creatxtService.generaTxtProyectos(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "proyectos_informacion_txt.txt";
-      link.click();
-      this.valorDocumento = false;
-
-    });
-  }
-
-  generaTxtCapacitacion() {
-    this.valorDocumento = true;
-    this.creatxtService.generaTxtCapacitacion(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "capacitaciones_informacion_txt.txt";
-      link.click();
-      this.valorDocumento = false;
-
-    });
-  }
-
-
-  generaTxtGradoAcademico() {
-    this.valorDocumento = true;
-    this.creatxtService.generaTxtGradoAcademico(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "gradoAcademico_informacion_txt.txt";
-      link.click();
-      this.valorDocumento = false;
-
-    });
-  }
-
-
-  generaBibtex() {
-    this.creabibtexService.generaBibtex(this.idUserStorage).subscribe((data) => {
-      this.blob = new Blob([data as BlobPart], { type: 'text/plain' });
-      var downloadURL = window.URL.createObjectURL(data);
-      // console.log(downloadURL)
-      var link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "informacion.bib";
-      link.click();
-    });
-  }
 
 }

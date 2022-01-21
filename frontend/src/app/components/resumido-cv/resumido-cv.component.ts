@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfiguracioncvService } from '../../services/configuracioncv.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
 
@@ -27,11 +27,16 @@ export class ResumidoCvComponent implements OnInit {
 
   arregloBloques = [];
   bloquesOriginal;
+  alertaCambios: boolean = false;
+
+  visibilidad: boolean = false
+  textoVisibilidad: string;
 
   constructor(
     private dialog: MatDialog,
     public configuracioncvService: ConfiguracioncvService,
     private _snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -39,10 +44,12 @@ export class ResumidoCvComponent implements OnInit {
   }
 
   getBloques() {
+    this.visibilidad = true
+    this.textoVisibilidad = 'Todo'
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res = res;
-        let atributosOrdenados = _.orderBy(this.arregloBloques,['ordenResumido'], ['asc'])
+        let atributosOrdenados = _.orderBy(this.arregloBloques, ['ordenResumido'], ['asc'])
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
@@ -62,12 +69,14 @@ export class ResumidoCvComponent implements OnInit {
   FiltroNoVisibles() {
     //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
     // if (event.checked) {
-      console.log('asdsa')
-      this.configuracioncvService.getBloques()
+    this.visibilidad = true
+    this.textoVisibilidad = 'No Visibles'
+    console.log('asdsa')
+    this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
-        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', false ]);
-        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenResumido'], ['asc']);
+        let atributosOrdenados = _.filter(this.arregloBloques, ['visible_cv_bloqueResumido', false]);
+        this.arregloBloques = _.orderBy(atributosOrdenados, ['ordenResumido'], ['asc']);
         // this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
@@ -80,11 +89,13 @@ export class ResumidoCvComponent implements OnInit {
     //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
     // console.log(event.checked)
     // if (event.checked) {
-      this.configuracioncvService.getBloques()
+    this.visibilidad = true
+    this.textoVisibilidad = 'Visibles'
+    this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res;
-        let atributosOrdenados = _.filter(this.arregloBloques,['visible_cv_bloqueResumido', true ]);
-        this.arregloBloques = _.orderBy(atributosOrdenados,['ordenResumido'], ['asc']);
+        let atributosOrdenados = _.filter(this.arregloBloques, ['visible_cv_bloqueResumido', true]);
+        this.arregloBloques = _.orderBy(atributosOrdenados, ['ordenResumido'], ['asc']);
         // this.arregloBloques = atributosOrdenados
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.bloquesOriginal = JSON.parse(
@@ -93,7 +104,7 @@ export class ResumidoCvComponent implements OnInit {
       });
   }
 
-  valor(id){
+  valor(id) {
     this.id = id
     console.log('id', this.id)
   }
@@ -125,21 +136,44 @@ export class ResumidoCvComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
-      if(bloqueOriginal.ordenResumido == bloque.ordenResumido && 
+      if (bloqueOriginal.ordenResumido == bloque.ordenResumido &&
         bloqueOriginal.visible_cv_bloqueResumido == bloque.visible_cv_bloqueResumido) return
-        console.log("guardado", bloque)
+      console.log("guardado", bloque)
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService.putBloque(bloque).subscribe((res) => {
-          console.log("editado", res);
-          this.getBloques();
-        });
-        this._snackBar.open("Se guardó configuración CV resumido", "Cerrar", {
-          duration: 3000,
-        });
+        console.log("editado", res);
+        this.getBloques();
+      });
+      this._snackBar.open("Se guardó configuración CV resumido", "Cerrar", {
+        duration: 3000,
+      });
     });
   }
 
   openDialog() {
     this.dialog.open(ModalNotaComponent);
+  }
+
+
+  alertaGuardarCambios() {
+    // iterar cada uno de los bloques
+    this.arregloBloques.forEach((bloque) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+      if (bloqueOriginal.ordenResumido == bloque.ordenResumido &&
+        bloqueOriginal.visible_cv_bloqueResumido == bloque.visible_cv_bloqueResumido) return
+
+      // si el bloque se modificó proceder a mostrar alerta
+      this.alertaCambios = true;
+
+      if (this.alertaCambios === true) {
+        this.router.navigate(['/cv-resumido']);
+        this._snackBar.open("Asegurate de Guardar los cambios", "Cerrar", {
+          duration: 2000,
+        });
+      }
+    });
   }
 }

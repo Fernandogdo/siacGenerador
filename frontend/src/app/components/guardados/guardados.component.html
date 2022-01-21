@@ -43,7 +43,7 @@
                     <div class="card-footer" id="infoPieTarjeta">
                         <h6 id="btnPie">{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6> 
                       
-                        <button mat-raised-button class="btnEditar" id="btnPie" color="accent"   [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
+                        <button mat-raised-button class="btnEditar" id="btnPie" color="accent" (click)="metodosBtnEditar(item.cv.split(',')[0], item.cv.split(',')[1])"  [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
                             <i class=" material-icons ">edit</i>
                         </button>
                         <button mat-raised-button class="btnEliminar" id="btnPie" (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">

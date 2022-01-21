@@ -6,24 +6,25 @@ import { servicioBloques } from '../../models/servicioBloque.model';
 import { Bloque } from '../../models/bloque.model';
 import { ConfiguracioncvService } from '../configuracioncv.service';
 import { ConfiguracioncvPersonalizado } from '../../models/configuracioncvPersonalizado.model';
-
+import { Global } from '../global/global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BloqueServicioService {
+  public url: string;
 
   urlSiac;
   arreglosUrl = [];
   urlEsquema;
   token = '54fc0dc20849860f256622e78f6868d7a04fbd30';
-  URL_BLOQUES = "http://localhost:8000/api/bloque/";
-  URL_CONF = 'http://localhost:8000/api/configuracioncv/';
-  URL_SERVICIOS = 'http://localhost:8000/api/servicio/'
-  URL_ELIMINA_OBJ = 'http://localhost:8000/api/elimina-objeto/';
-  URL_ELIMINA_OBJ_BLOQUE = 'http://localhost:8000/api/elimina-objetobloque/';
-  URL_ELIMINA_OBJE_CONFPERSONALIZADA = 'http://localhost:8000/api/elimina-objetoconfpersonalizada/';
-  URL_PERS = "http://localhost:8000/api/configuracioncv_personalizado/";
+  // URL_BLOQUES = "http://localhost:8000/api/bloque/";
+  // URL_CONF = 'http://localhost:8000/api/configuracioncv/';
+  // URL_SERVICIOS = 'http://localhost:8000/api/servicio/'
+  // URL_ELIMINA_OBJ = 'http://localhost:8000/api/elimina-objeto/';
+  // URL_ELIMINA_OBJ_BLOQUE = 'http://localhost:8000/api/elimina-objetobloque/';
+  // URL_ELIMINA_OBJE_CONFPERSONALIZADA = 'http://localhost:8000/api/elimina-objetoconfpersonalizada/';
+  // URL_PERS = "http://localhost:8000/api/configuracioncv_personalizado/";
 
   // bloquesservicio: any = [];
   bloquesservicio: servicioBloques[];
@@ -41,14 +42,22 @@ export class BloqueServicioService {
   nosimilitudBloques: any = [];
   similitudBloques: any = [];
 
+  longitudBloques;
 
   constructor(
     private http: HttpClient,
-    private configuracioncvService:ConfiguracioncvService
+    private configuracioncvService: ConfiguracioncvService
 
-  ) { 
-    this.getConfiguraciones().subscribe((res)=>{
-      console.log("configuracionesBaseService", res)
+  ) {
+    // this.getConfiguraciones().subscribe((res)=>{
+    //   console.log("configuracionesBaseService", res)
+    // })
+    this.url = Global.url;
+
+    this.getBloques().subscribe((res)=>{
+      console.log("RESBLOQUES", res.length)
+      // longitud = res.length
+      this.longitudBloques = res.length
     })
 
   }
@@ -56,23 +65,25 @@ export class BloqueServicioService {
 
 
   getServicios() {
-    return this.http.get<servicioBloques[]>(this.URL_SERVICIOS);
+    console.log("SERVICIOS", this.url)
+    return this.http.get<servicioBloques[]>(this.url + 'servicio/');
   }
 
   // Configuraciones Generales
   getConfiguraciones() {
-    return this.http.get<Configuracioncv[]>(this.URL_CONF);
+    return this.http.get<Configuracioncv[]>(this.url + "configuracioncv/");
   }
 
   /* Bloque */
   getBloques() {
-    return this.http.get<Bloque[]>(this.URL_BLOQUES);
+    return this.http.get<Bloque[]>(this.url + "bloque/");
   }
 
   postConfiguraciones(bloque, atributo) {
     console.log("GUARDADO", bloque, atributo)
-    const path = `${this.URL_CONF}`;
-    let idUser = parseInt(localStorage.getItem('id_user')) 
+    const path = `${this.url + 'configuracioncv/'}`;
+    let idUser = parseInt(localStorage.getItem('id_user'))
+    console.log("IDUSER", idUser)
 
     return this.http.post<Configuracioncv>(path, {
       bloque: bloque,
@@ -82,9 +93,10 @@ export class BloqueServicioService {
       visible_cv_completo: false,
       mapeo: atributo,
       usuario: idUser,
-    }).subscribe((res => {
-      console.log("resres", res)
-    }));
+    })
+    // .subscribe((res => {
+    //   console.log("resres", res)
+    // }));
   }
 
 
@@ -112,7 +124,7 @@ export class BloqueServicioService {
           // console.log('BLOQUE', atributo.bloqueNombre);
           for (let i = 0; i < keys.length; i++) {
             let clave = keys[i];
-            console.log('Bloque - atributo',atributo.bloqueNombre, clave);
+            console.log('Bloque - atributo', atributo.bloqueNombre, clave);
             // this.postConfiguraciones(atributo.bloqueNombre, clave);
             const datos = {
               bloque: atributo.bloqueNombre,
@@ -121,7 +133,7 @@ export class BloqueServicioService {
             // console.log("DATOSCOPIAESQUEMA", datos)
             this.arregloEsquema.push(datos)
           }
-          console.log("ARREGLOESQUEMA", this.arregloEsquema)
+          // console.log("ARREGLOESQUEMA", this.arregloEsquema)
 
           // this.comparaEsquemaBaseDatosEliminarAtributo(this.arregloEsquema)
           this.compararEsquemaBaseDatosGuardarAtributo(this.arregloEsquema)
@@ -143,9 +155,19 @@ export class BloqueServicioService {
 
   // Hace post en bloques
   postBloques(bloques) {
-    const path = `${this.URL_BLOQUES}`;
+    const path = `${this.url + 'bloque/'}`;
+
+   
+
+    console.log("longBLOQUES", this.longitudBloques)
+
+
+    console.log("pPATH", path)
     return this.http.post<Bloque>(path, {
       nombre: bloques,
+      ordenCompleto: this.longitudBloques + 1,
+      ordenResumido: this.longitudBloques + 1,
+      ordenPersonalizable: this.longitudBloques + 1,
     });
   }
 
@@ -153,19 +175,19 @@ export class BloqueServicioService {
   copiaEsquemaBloques() {
     this.getServicios().subscribe((dataBase) => {
       this.bloquesDataBase = dataBase
-      console.log('BLOQUESERVICIO', this.bloquesDataBase);
+      // console.log('BLOQUESERVICIO', this.bloquesDataBase);
       this.bloquesDataBase.forEach((bloque) => {
         this.urlSiac = bloque.url;
         this.arreglosUrl.push(this.urlSiac);
         this.bloques(this.urlSiac).subscribe((data) => {
           // let keys = Object.keys(data.results[0]);
-          console.log('BLOQUECOPIA', bloque.bloqueNombre);
+          // console.log('BLOQUECOPIA', bloque.bloqueNombre);
           const datos = {
             nombre: bloque.bloqueNombre,
           }
           this.arregloBloquesEsquema.push(datos)
           // }
-          console.log("BLOQUESARREGLOESERVICIOS", this.arregloBloquesEsquema)
+          // console.log("BLOQUESARREGLOESERVICIOS", this.arregloBloquesEsquema)
 
           // this.comparaEsquemaBaseDatosBloqueEliminar(this.arregloBloquesEsquema)
           this.compararEsquemaBaseDatosGuardarBloque(this.arregloBloquesEsquema)
@@ -179,9 +201,9 @@ export class BloqueServicioService {
 
   compararEsquemaBaseDatosGuardarAtributo(arregloEsquema) {
 
-    console.log("ARREGLOA", arregloEsquema)
+    // console.log("ARREGLOA", arregloEsquema)
     this.getConfiguraciones().subscribe((arregloBaseDatos) => {
-      console.log("ARREGLOBASEDEDATOS", arregloBaseDatos)
+      // console.log("ARREGLOBASEDEDATOS", arregloBaseDatos)
 
       const aux = arregloEsquema.reduce((prev, curr) => {
         const item = arregloBaseDatos.find(x => x.atributo === curr.atributo && x.bloque === curr.bloque);
@@ -190,11 +212,15 @@ export class BloqueServicioService {
 
         return prev;
       }, []);
-      console.log("AGUARDAR", aux)
+      console.log("arrayAGUARDAR", aux)
 
       aux.forEach(objeto => {
         console.log('elementoaguardarBloqueAtributo', objeto.bloque, objeto.atributo);
-        this.postConfiguraciones(objeto.bloque, objeto.atributo);
+        this.postConfiguraciones(objeto.bloque, objeto.atributo).subscribe((res) => {
+          console.log("guardado", res)
+        }, (error) => {
+          console.log("ERRORREPETIDO", error)
+        })
 
       });
 
@@ -205,6 +231,8 @@ export class BloqueServicioService {
 
 
   compararEsquemaBaseDatosGuardarBloque(arregloEsquemaBloques) {
+
+    
 
     console.log("ARREGLOABLOQUES", arregloEsquemaBloques)
     this.getBloques().subscribe((arregloBaseDatosBloques) => {
@@ -221,7 +249,8 @@ export class BloqueServicioService {
 
       aux.forEach(objeto => {
         console.log('elementoaguardarBloqueBloque', objeto.nombre);
-        this.postBloques(objeto.nombre).subscribe((
+        this.postBloques(objeto.nombre)
+        .subscribe((
           res => {
             console.log("RESBLOQUES", res)
           }
@@ -237,12 +266,25 @@ export class BloqueServicioService {
 
   //Elimina servicio
   deleteServicio(id: string) {
-    return this.http.delete(this.URL_SERVICIOS + id)
+    return this.http.delete(this.url + 'servicio/' + id)
+  }
+
+  deleteConfiguracion(id: string) {
+    return this.http.delete(this.url + 'configuracioncv/' + id)
+  }
+
+  deleteBloque(id: string) {
+    return this.http.delete(this.url + 'bloque/' + id)
+  }
+
+  deleteConfiguracionPersonalizada(id: string){
+    return this.http.delete(this.url + 'configuracioncv_personalizado/' + id)
+
   }
 
   //Elimina objeto de configuracion que no coincide con servicios de siac
   eliminaObjetoNoSimilarConfiguracion(bloque, atributo) {
-    return this.http.get(this.URL_ELIMINA_OBJ + bloque + "/" + atributo)
+    return this.http.get(this.url + 'elimina-objeto/' + bloque + "/" + atributo)
   }
 
 
@@ -250,21 +292,20 @@ export class BloqueServicioService {
   //Elimina objeto de bloque que no coincide con servicios de siac
   eliminaObjetoNoSimilarBloque(bloque) {
     console.log("BLOQUEELMINAOBJETO", bloque)
-    return this.http.get(this.URL_ELIMINA_OBJ_BLOQUE + bloque)
+    return this.http.get(this.url + 'elimina-objetobloque/' + bloque)
   }
 
-  // http://localhost:8000/api/elimina-objetoconfpersonalizada/127/nuevocv/7t7bxkhiw4y/Articulos/area_conocimiento_especifica
 
   eliminaObjetoNoSimilarConfPersonalizada(iduser, nombre_cv, cv, bloque, atributo) {
     console.log("ATRIBUTOELMINAOBJETOPERSONALIZADOSERVICE", iduser, nombre_cv, cv, bloque, atributo)
-    return this.http.get(this.URL_ELIMINA_OBJE_CONFPERSONALIZADA + iduser + '/' + nombre_cv + '/' + cv + '/' + bloque + '/' + atributo)
+    return this.http.get(this.url + 'elimina-objetoconfpersonalizada/' + iduser + '/' + nombre_cv + '/' + cv + '/' + bloque + '/' + atributo)
   }
 
   postObjetoNosimilarConfPersonalizada(configuracionPersonalizada) {
-  
+
     console.log("DATAGUARDAR", configuracionPersonalizada)
 
-    const path = `${this.URL_PERS}`;
+    const path = `${this.url + 'configuracioncv_personalizado/'}`;
     return this.http.post<ConfiguracioncvPersonalizado>(
       path,
       configuracionPersonalizada
@@ -275,11 +316,11 @@ export class BloqueServicioService {
 
 
   postServicios(servicio) {
-    return this.http.post<servicioBloques>(this.URL_SERVICIOS, servicio);
+    return this.http.post<servicioBloques>(this.url + 'servicio/', servicio);
   }
 
   putServicios(servicio: servicioBloques) {
-    return this.http.put(this.URL_SERVICIOS + servicio.id + "/", servicio);
+    return this.http.put(this.url + 'servicio/' + servicio.id + "/", servicio);
   }
 
 

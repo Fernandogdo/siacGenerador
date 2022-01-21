@@ -61,7 +61,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
     // console.log("NOMBRECVAAA->>>>", localStorage.getItem('nombre_cv'));
     // this.nombre_cv =  localStorage.getItem('nombre_cv');
     this.idUsuario =   parseInt(localStorage.getItem('id_user'));
-    // console.log("IDUSUARIO", parseInt(localStorage.getItem('id_user')));
+    console.log("IDUSUARIO", parseInt(localStorage.getItem('id_user')));
   }
 
   // ngAfterViewInit() {

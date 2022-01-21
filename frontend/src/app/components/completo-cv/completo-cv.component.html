@@ -39,13 +39,19 @@
                         Filtrar por Visibilidad:
                         <button class="btnPersonalizado" mat-stroked-button [matMenuTriggerFor]="menuPersonalizado">
                             Filtro Bloques Completos
+                            <span class="material-icons">
+                                expand_more
+                            </span>
                         </button>
+                        <div class="visible" *ngIf="visibilidad">
+                            <h6 id="visibilidad">Visivilizando {{textoVisibilidad}} </h6>
+                        </div>
+
                         <mat-menu #menuPersonalizado="matMenu">
                             <button mat-menu-item (click)="getBloques()">Todo</button>
                             <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>
                             <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>
                         </mat-menu>
-
 
                     </mat-card>
                     <mat-table id="tabla" #table [dataSource]="dataSource">
@@ -90,8 +96,8 @@
                                 <h4><b>Ingresar a Bloque</b></h4>
                             </mat-header-cell>
                             <mat-cell *matCellDef="let element">
-                                <button class="btnIngresoBloque" mat-raised-button color="primary"
-                                    [routerLink]="['/bloque-completo/', element.nombre]">
+                                <button class="btnIngresoBloque" (click)="alertaGuardarCambios()" mat-raised-button
+                                    color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
                                     <i class="material-icons">east</i>
                                 </button>
                             </mat-cell>

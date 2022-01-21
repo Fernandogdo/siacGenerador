@@ -58,6 +58,15 @@
     margin-left: 20px;
 }
 
+.visible{
+    margin-bottom: 8px;
+}
+#visibilidad{
+    float: left;
+    margin: auto;
+    /* margin-top: auto; */
+}
+
 /* .filtro{
     background-color: #B2AFAF;
 } */

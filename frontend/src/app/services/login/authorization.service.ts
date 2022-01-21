@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';import { Router } from '@angular/router';
 import { Docente } from 'app/models/docente';
 import { BehaviorSubject } from 'rxjs';
+import { Global } from '../global/global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
+
+  public url: string;
 
   authenticationState = new BehaviorSubject(false);
 
@@ -16,8 +19,8 @@ export class AuthorizationService {
   usuario;
   rolUsuario;
 
-  URL_LOGIN = 'http://localhost:8000/api/login/'
-  URL_DOCENTE = 'http://localhost:8000/api/usuario/'; 
+  // URL_LOGIN = 'http://localhost:8000/api/login/'
+  // URL_DOCENTE = 'http://localhost:8000/api/usuario/'; 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -29,10 +32,13 @@ export class AuthorizationService {
     private http: HttpClient,
     private router: Router,
     private _snackBar: MatSnackBar
-  ) { }
+  ) { 
+    this.url = Global.url;
+
+  }
 
   consultarUsuarioIngreso(usuario: Docente) {
-    this.http.post<Docente>(this.URL_LOGIN, usuario, this.httpOptions).subscribe( res => {
+    this.http.post<Docente>(this.url + 'login/', usuario, this.httpOptions).subscribe( res => {
       this.iniciarSesionDocente(res);
       this.usuario = res;
       this.rolUsuario = this.usuario.username.is_staff
@@ -55,7 +61,8 @@ export class AuthorizationService {
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
           duration: 2000,
         });
-      } else {
+      } 
+      else {
         console.log("noESADMIN")
         this.router.navigate(['/dashboard']);
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
@@ -71,6 +78,7 @@ export class AuthorizationService {
       // this.router.navigate(['/dashboard']);
       
     }, error => {
+      console.log("ERROR AL LOGUEAR")
       this.errorLogueo();
     });
   }
@@ -78,7 +86,7 @@ export class AuthorizationService {
   comprobarId(idParamsUrl){
     console.log("IDUSERGUARDADO", idParamsUrl, localStorage.getItem("id_user"))
     this.idUserStorage = localStorage.getItem("id_user");
-    if ( idParamsUrl != this.idUserStorage) {
+    if ( !idParamsUrl) {
       console.log("NOSONIGUALES", this.idUserStorage, this.idUser)
       this.cerrarSesionDocente();
     } else{
@@ -141,7 +149,7 @@ export class AuthorizationService {
   }
 
   getOneUser(id: string) {
-    return this.http.get(this.URL_DOCENTE + `${id}`);
+    return this.http.get(this.url + 'usuario/' + `${id}`);
   }
 
 

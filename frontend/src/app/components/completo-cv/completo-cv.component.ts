@@ -37,6 +37,8 @@ export class CompletoCvComponent implements OnInit {
   configuracioncv: any;
   alertaCambios: boolean = false;
 
+  visibilidad: boolean = false
+  textoVisibilidad: string;
 
   checked: boolean = true;
 
@@ -50,7 +52,7 @@ export class CompletoCvComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public configuracioncvService: ConfiguracioncvService,
-    private bloqueServicioService :BloqueServicioService,
+    private bloqueServicioService: BloqueServicioService,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {
@@ -61,14 +63,10 @@ export class CompletoCvComponent implements OnInit {
     this.getBloques()
   }
 
- 
-
-  configuracion() {
-    // this.configuracioncvService.copiaEsquema()
-    // this.configuracioncvService.recorreConfiguracion();
-  }
 
   getBloques() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'Todo'
     this.bloqueServicioService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
@@ -96,6 +94,8 @@ export class CompletoCvComponent implements OnInit {
   FiltroNoVisibles() {
     //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
     // if (event.checked) {
+    this.visibilidad = true
+    this.textoVisibilidad = 'No Visibles'
     console.log('asdsa')
     this.configuracioncvService.getBloques()
       .subscribe(res => {
@@ -112,6 +112,10 @@ export class CompletoCvComponent implements OnInit {
 
 
   FiltroVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad = 'Visibles'
+
+    console.log("VISIBILI", this.textoVisibilidad, this.visibilidad)
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res;
@@ -203,22 +207,6 @@ export class CompletoCvComponent implements OnInit {
 
   }
 
-  // openSnackBar(message: string, action: string, className: string) {
-  //   this._snackBar.open(message, action, {
-  //     duration: 2000,
-  //     panelClass: [className]
-  //   });
-  // }
-
-  // showSnackbarCssStyles(content, action, duration) {
-  //   let sb = this._snackBar.open(content, action, {
-  //     duration: duration,
-  //     panelClass: ["red-snackbar"]
-  //   });
-  //   sb.onAction().subscribe(() => {
-  //     sb.dismiss();
-  //   });
-  // }
 
 }
 

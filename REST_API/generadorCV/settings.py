@@ -140,7 +140,7 @@ DATABASES = {
     'default': {
         # MySQL engine. Powered by the mysqlclient module.
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'generadorcv',
+        'NAME': 'generadorcvsiacutpl',
         'USER': 'fernando',
         'PASSWORD': '1234',
         'HOST': '',

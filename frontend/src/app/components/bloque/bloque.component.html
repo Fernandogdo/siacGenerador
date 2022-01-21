@@ -1,85 +1,17 @@
-<!-- <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="container" id="formulario">
-                    <div class="col text-center">
-                        <button mat-raised-button class="botones" color="primary" routerLink="/cv-completo" routerLinkActive="active"> Regresar a Configuración Bloques</button>
-                    </div>
-                </div>
-
-                <mat-card class="tarjeta">
-                    <mat-card-header>
-                        <h3>
-                            <b>Configuración de Bloque {{nombreBloque}} </b>
-                        </h3>
-                    </mat-card-header>
-                    <div class="col text-center">
-                        <table class="table" id="tabla" >
-                            <thead>
-                                <tr class="d-flex">
-                                    <th class="col-3">  <h4><b>Atributo</b></h4>  </th>
-                                    <th class="col-2">  <h4> <b>OrdenCompleto</b> </h4> </th>
-                                    <th class="col-3"> <h4> <b>Mapeo</b> </h4> </th>
-                                    <th class="col-3"> <h4> <b>Visualización</b> </h4> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="d-flex" *ngFor="let bloque of arregloBloques">
-                                    <input type="hidden" [value]="bloque.administrador">
-                                    <td class="col-sm-3">{{bloque.atributo}}</td>
-                                    <td class="col-sm-2">
-                                        <div>
-                                            <mat-form-field>
-                                                <mat-label>OrdenCompleto</mat-label>
-                                                <input matInput type="number" placeholder="Name" [value]="bloque.ordenCompleto" [(ngModel)]="bloque.ordenCompleto">
-                                            </mat-form-field>
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <mat-form-field>
-                                            <mat-label>Mapeo</mat-label>
-                                            <input matInput placeholder="Name" [value]="bloque.mapeo" [(ngModel)]="bloque.mapeo">
-                                        </mat-form-field>
-                                    </td>
-                                    <td class="col-sm-3">
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="bloque.visible_cv_completo">
-                                                <mat-option [value]="true">Visible</mat-option>
-                                                <mat-option [value]="false">No Visible</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col text-center">
-                        <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
-                    </div>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 <div class="main-content">
-
     <div class="col text-center">
         <button mat-raised-button class="btnRegresar" color="primary" routerLink="/cv-completo"
-            routerLinkActive="active"> Configuración Bloques Completos</button>
+            (click)="alertaGuardarCambios()" routerLinkActive="active">
+            <span class="material-icons">
+                west
+            </span>
+            Configuración Bloques Completos
+        </button>
     </div>
 
     <div class="container-fluid">
-
         <div class="row">
-
-
             <div class="col-md-12">
-
-
                 <mat-card class="tarjeta">
                     <mat-card-header>
                         <h3>
@@ -87,18 +19,9 @@
                         </h3>
                     </mat-card-header>
 
-                    <!-- <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1" color="primary" (click)="getConfiguracion()">Todo</mat-radio-button> <br> 
-                    <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br> 
-                    <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-                </mat-radio-group> -->
-
-
-
                     <div class="example-header">
                         <b>Buscador:</b>
                         <mat-form-field>
-                            <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ej. titulo" #filter>
                             <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value"
                                 (click)="filter.value=''; applyFilter('');">
@@ -108,57 +31,41 @@
                     </div>
 
                     <mat-card class="tarjeta_filtros">
+                        Filtrar por Visibilidad:
+                        <button class="btnPersonalizado" mat-stroked-button
+                            [matMenuTriggerFor]="menuPersonalizado">Filtro Atributos
+                            <span class="material-icons">
+                                expand_more
+                            </span>
+                        </button>
 
-                        Filtrar por Visibilidad: <button class="btnPersonalizado" mat-stroked-button
-                            [matMenuTriggerFor]="menuPersonalizado">Filtro Atributos</button>
+                        <div class="visible" *ngIf="visibilidad">
+                            <h6 id="visibilidad">Visivilizando {{textoVisibilidad}} </h6>
+                        </div>
+
                         <mat-menu #menuPersonalizado="matMenu">
-                            <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-
                             <button mat-menu-item (click)="getConfiguracion()">Todo</button>
                             <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>
                             <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>
                         </mat-menu>
-
-                        <!-- <mat-radio-group aria-label="Select an option" >
-                        <mat-radio-button value="1" color="primary" (click)="getConfiguracion()"> Todo </mat-radio-button> <br>
-                        <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
-                        <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-                    </mat-radio-group> -->
                     </mat-card>
 
                     <mat-table id="tabla" #table [dataSource]="dataSource">
                         <ng-container matColumnDef="visible_cv_completo">
                             <mat-header-cell *matHeaderCellDef>
-                                <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                                        [checked]="selection.hasValue() && isAllSelected()"
-                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
-                          </mat-checkbox> -->
+
                                 <input type="checkbox" [(ngModel)]="parentSelector" [value]="-1"
                                     (change)="onChangeAtributo($event)">
 
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                          [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
-                                        (change)="$event ? selection.toggle(row) : null"
-                                        [checked]="selection.isSelected(row)">
-                          </mat-checkbox> -->
+
                                 <input type="checkbox" [value]="row.id" [checked]="row.visible_cv_completo"
                                     (change)="onChangeAtributo($event)" (click)=valor(row.id)>
                             </mat-cell>
                         </ng-container>
 
-                        <!-- <ng-container matColumnDef="visible_cv_bloque">
-                        <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
-                        <mat-cell *matCellDef="let element">
-                            <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
-                            <mat-form-field floatLabel="never">
-                                <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
-                            </mat-form-field>
-                        </mat-cell>
-                    </ng-container> -->
-
-                        <!-- Position Column -->
+                        <!-- Atributo Column -->
                         <ng-container matColumnDef="atributo">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>
                                 <h4><b>Atributo</b></h4>
@@ -168,7 +75,7 @@
                             </mat-cell>
                         </ng-container>
 
-                        <!-- Name Column -->
+                        <!-- ordenCompleto Column -->
                         <ng-container matColumnDef="ordenCompleto">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>
                                 <h4><b>OrdenCompleto</b></h4>
@@ -183,6 +90,7 @@
                             </mat-cell>
                         </ng-container>
 
+                        <!-- Mapeo Column -->
                         <ng-container matColumnDef="mapeo">
                             <mat-header-cell class="tituloTabla" *matHeaderCellDef>
                                 <h4><b>Mapeo</b></h4>
@@ -206,20 +114,9 @@
                                 save
                             </span>
                         </button>
-                        <!-- <button mat-raised-button color="primary" class="btnGuardar" (click)="guardar()">Guardar</button> -->
                     </div>
                 </mat-card>
-                <!-- <button class="btnScroll" (click)="scrollToTop()">
-                <span class="material-icons">
-                    arrow_upward
-                </span>
-            </button> -->
-
-
             </div>
-
-
-
         </div>
     </div>
 </div>
