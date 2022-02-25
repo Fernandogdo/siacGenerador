@@ -860,7 +860,7 @@ def InformacionBibTex(request, bloque, idDocente):
 
     diccionario = dict()
     lines = []
-    listaAnios = ['Año', 'anio', 'year', 'fecha_senescyt', 'fecha_emision']
+    listaAnios = ['Año', 'anio', 'year', 'fecha_emision', 'Fecha Emisión', 'Fecha de Emisión']
     for articulo in listaVacia:
         try:
             variables  = articulo.items()
@@ -876,10 +876,13 @@ def InformacionBibTex(request, bloque, idDocente):
                 if k in listaAnios:
                     diccionario['ID'] = docente['primer_apellido'] + str(v)
 
-                if k == 'fecha_fin' :
+                if k == 'fecha_fin' or k == 'Fecha de Finalizacion' or k == 'Fecha Finalización':
                     diccionario['ID'] = docente['primer_apellido'] + str(v)
 
-                if k == 'fecha_cierre' :
+                if k == 'fecha_cierre' or k == 'Fecha Cierre' or k == 'Fecha de Cierre' :
+                    diccionario['ID'] = docente['primer_apellido'] + str(v)
+                
+                if k == 'fecha_senescyt' or k == 'Fecha Senescyt':
                     diccionario['ID'] = docente['primer_apellido'] + str(v)
 
             if bloque == 'libros':
@@ -905,6 +908,7 @@ def InformacionBibTex(request, bloque, idDocente):
 
         lines.append(diccionario)
         diccionario = {}
+    print("lines", lines)
 
     for k in lines:
         for v, a in k.items():
