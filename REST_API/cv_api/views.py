@@ -908,7 +908,6 @@ def InformacionBibTex(request, bloque, idDocente):
 
         lines.append(diccionario)
         diccionario = {}
-    print("lines", lines)
 
     for k in lines:
         for v, a in k.items():
