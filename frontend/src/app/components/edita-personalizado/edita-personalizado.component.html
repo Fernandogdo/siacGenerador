@@ -1,216 +1,101 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12" >
-
-        <!-- ALERTA -->
-        <!-- <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
-          <i class="material-icons" data-notify="icon">add_alert</i>
-          <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="material-icons">close</i>
-          </button>
-          <span data-notify="message"> Edicion CV: {{nombre_cvNuevo}} <br> <br>
-             Permite realizar la edicion de un cv que ha sido guardado anteriormente. <br> <br>
-              Permite la edicion de los bloques de informacion y de sus atributos. 
-          </span>
-        </div> -->
+      <div class="col-md-12">
 
         <mat-card class="tarjeta">
-                     
+
           <mat-form-field>
-           <mat-label>Nombre CV</mat-label>
-           <input matInput #filter placeholder="Nombre Cv Personalizado" maxlength="15" [(ngModel)]="nombre_cvNuevo">
+            <mat-label>Nombre CV</mat-label>
+            <input matInput #filter placeholder="Nombre Cv Personalizado" maxlength="20" [(ngModel)]="nombre_cvNuevo">
           </mat-form-field>
-                           
+
           <br>
           <div class="example-header">
-              <b>Buscador:</b> 
-              <mat-form-field>
-                  <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-                  <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
-                    <mat-icon>close</mat-icon>
-                  </button>
-              </mat-form-field>
+            <b>Buscador:</b>
+            <mat-form-field>
+              <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+              <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value"
+                (click)="filter.value=''; applyFilter('');">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
           </div>
 
-          <!-- <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1" color="primary" (click)="getConfiguracionesPersonalizadas()">Todo</mat-radio-button> <br>
-            <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
-            <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-        </mat-radio-group> -->
+          <mat-card class="tarjeta_filtros">
 
-
-           <mat-card class="tarjeta_filtros">
-
-              Filtrar por Visibilidad: <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Filtro Bloques </button>
-              <mat-menu #menuPersonalizado="matMenu">
-                  <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-
-                  <button mat-menu-item (click)="getConfiguracionesPersonalizadas()">Todo</button>
-                  <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>      
-                  <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>                                                  
-              </mat-menu>
-
-              <!-- <mat-radio-group aria-label="Select an option" >
-                  <mat-radio-button value="1" color="primary" (click)="getConfiguracion()"> Todo </mat-radio-button> <br>
-                  <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
-                  <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-              </mat-radio-group> -->
+            Filtrar por Visibilidad: <button class="btnPersonalizado" mat-stroked-button
+              [matMenuTriggerFor]="menuPersonalizado">Filtro Bloques </button>
+            <mat-menu #menuPersonalizado="matMenu">
+              <button mat-menu-item (click)="getConfiguracionesPersonalizadas()">Todo</button>
+              <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>
+              <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>
+            </mat-menu>
           </mat-card>
-                      
+
           <mat-table id="tabla" #table [dataSource]="dataSource">
-              <ng-container matColumnDef="visible_cv_bloque">
-                  <mat-header-cell *matHeaderCellDef>
-                    <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox> -->
-                    <input
-                          type="checkbox"
-                          [(ngModel)]="parentSelector"
-                          [value]="-1"
-                          (change)="onChangeBloque($event)">
+            <ng-container matColumnDef="visible_cv_bloque">
+              <mat-header-cell *matHeaderCellDef>
+                <input type="checkbox" [(ngModel)]="parentSelector" [value]="-1" (change)="onChangeBloque($event)">
 
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                    [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
-                                  (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox> -->
-                    <input
-                          type="checkbox"
-                          [value]="row.id"
-                          [checked]="row.visible_cv_bloque"
-                          (change)="onChangeBloque($event)"
-                          (click)= valor(row.id)
-                      >
-                  </mat-cell>
-              </ng-container>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <input type="checkbox" [value]="row.id" [checked]="row.visible_cv_bloque"
+                  (change)="onChangeBloque($event)" (click)=valor(row.id)>
+              </mat-cell>
+            </ng-container>
 
-              <!-- Bloque Column -->
-              <ng-container matColumnDef="bloque">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Bloque</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.bloque}} </mat-cell>
-              </ng-container>
-      
-              <!-- Orden Column -->
-              <ng-container matColumnDef="ordenPersonalizable">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                      <mat-form-field floatLabel="never">
-                          <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
-                      </mat-form-field>
-                  </mat-cell>
-              </ng-container>
-                  
-              <!-- INgresar Column -->
-              <ng-container matColumnDef="ingreso">
-                  <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                      <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()" [routerLink]="['/crea-personalizado/', element.bloque, nombre_cv, cvHash]">
-                          <i class="material-icons">east</i>
-                  </button>
-                  </mat-cell>
-              </ng-container>
-                  
-                  
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            <!-- Bloque Column -->
+            <ng-container matColumnDef="bloque">
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Bloque</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.bloque}} </mat-cell>
+            </ng-container>
+
+            <!-- Orden Column -->
+            <ng-container matColumnDef="ordenPersonalizable">
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Orden</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+"
+                    [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+            <!-- INgresar Column -->
+            <ng-container matColumnDef="ingreso">
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Ingresar a Bloque</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()"
+                  [routerLink]="['/crea-personalizado/', element.bloque, nombre_cv, cvHash]">
+                  <i class="material-icons">east</i>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          
+
           <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                          
+
           <div class="col text-center">
-            <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardarBloquesAtributos()">Guardar
+            <button mat-raised-button color="primary" class="botones" [disabled]="!nombre_cv"
+              (click)="guardarBloquesAtributos()">Guardar
               <span class="material-icons">
                 save
               </span>
-          </button>
-              <!-- <button mat-raised-button color="primary" class="botones" (click)="guardarBloquesAtributos()">Guardar</button> -->
+            </button>
           </div>
-        </mat-card>      
-      </div>
-    </div>        
-  </div>
-</div>
-
-
-
-<!-- 
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <mat-card>
-          <form [formGroup]="formPersonalizado">
-            <mat-form-field class="example-full-width">
-              <mat-label>Nombre CV</mat-label>
-              <input
-                matInput
-                formControlName="nombre_cv"
-                placeholder="Ingrese el nombre de su cv para realizar la configuración"
-                value="Personalizado"
-              />
-            </mat-form-field>
-    
-            <mat-accordion>
-              <mat-expansion-panel
-                class="expansion"
-                hideToggle
-                *ngFor="let bloque of configuracionesClas | keyvalue"
-              >
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Bloque: {{ bloque.key }} </mat-panel-title>
-                  <mat-panel-description>
-                    Despliegue para obtener mayor información
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-card class="tarjeta-informacion">
-                  <div
-                    class="informacion"
-                    *ngFor="let propiedad of configuracionesClas[bloque.key]"
-                  >
-                    <div [formGroupName]="propiedad.id">
-                  
-                      <mat-checkbox
-                        class="example-margin"
-                        formControlName="valor"
-                      >
-                        <b>Bloque:</b> {{ propiedad.bloque }}
-
-                        <b>Atributo:</b> {{ propiedad.atributo }}</mat-checkbox
-                      >
-                      <mat-form-field appearance="outline">
-                        <mat-label>Orden</mat-label>
-                        <input
-                          type="number"
-                          matInput
-                          placeholder="Placeholder"
-                          formControlName="orden"
-                        />
-            
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </mat-card>
-              </mat-expansion-panel>
-            </mat-accordion>
-
-            <div class="col text-center">
-              <button
-                mat-raised-button
-                class="botones"
-                color="primary"
-                [disabled]="formPersonalizado.invalid"
-                (click)="guardar()"
-              >
-                Guardar
-              </button>
-            </div>
-          </form>
         </mat-card>
       </div>
     </div>
   </div>
-</div> -->
+</div>

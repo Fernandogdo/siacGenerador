@@ -43,7 +43,7 @@
                         </button>
 
                         <div class="visible" *ngIf="visibilidad">
-                            <h6 id="visibilidad">Visivilizando {{textoVisibilidad}} </h6>
+                            <h6 id="visibilidad">Visibilizando {{textoVisibilidad}} </h6>
                         </div>
 
                         <mat-menu #menuPersonalizado="matMenu">
@@ -102,7 +102,7 @@
                             </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="OrdenResumido" type="text" [value]="element.mapeo"
+                                    <input matInput placeholder="Mapeo" type="text" [value]="element.mapeo"
                                         [(ngModel)]="element.mapeo">
                                 </mat-form-field>
                             </mat-cell>
@@ -114,10 +114,10 @@
 
                     <div class="col text-center">
                         <button mat-raised-button color="primary" class="btnGuardar" (click)="guardar()">
-                            Guardar
                             <span class="material-icons">
                                 save
                             </span>
+                            Guardar
                         </button>
                     </div>
                 </mat-card>

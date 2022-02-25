@@ -7,8 +7,6 @@ import * as _ from "lodash";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
-
-
 @Component({
   selector: 'app-bloque-resumido',
   templateUrl: './bloque-resumido.component.html',
@@ -41,7 +39,6 @@ export class BloqueResumidoComponent implements OnInit {
 
   ngOnInit(): void {
     this.nombreBloque = this.route.snapshot.params['nombre']
-    console.log('NOMBREBLOQUE', this.nombreBloque);
     this.getConfiguracion()
   }
 
@@ -53,22 +50,13 @@ export class BloqueResumidoComponent implements OnInit {
       res => {
         this.configuracioncvService.configuraciones = res;
         this.arregloBloques = res.filter((user) => user.bloque === this.nombreBloque);
-
-        // this.arregloBloques = filteredCategories.filter(user => user.bloque === this.nombreBloque)
         let atributosOrdenados = _.orderBy(this.arregloBloques, ['ordenResumido'], ['asc'])
-
         this.arregloBloques = atributosOrdenados
-
-
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
-
-        console.log("FILTRADOBLOQUE", this.arregloBloques);
-
         this.atributosOriginal = JSON.parse(
           JSON.stringify(res)
         );
-        console.log("ATRIBUTOSIRIGINAL", this.atributosOriginal)
       },
       err => console.log(err)
     )
@@ -81,7 +69,6 @@ export class BloqueResumidoComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-
   FiltroNoVisibles() {
     this.visibilidad = true
     this.textoVisibilidad = 'No Visibles'
@@ -91,14 +78,12 @@ export class BloqueResumidoComponent implements OnInit {
 
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
         let filtro = _.filter(this.arregloBloques, ['visible_cv_resumido', false]);
-        console.log("ARREGLOBLOQUEVISIBLES", filtro)
         this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
         this.arregloBloques = this.atributosOrdenados;
 
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
-        // console.log("FILTRADOBLOQUE", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
@@ -108,7 +93,6 @@ export class BloqueResumidoComponent implements OnInit {
 
   }
   
-
   FiltroVisibles() {
     this.visibilidad = true
     this.textoVisibilidad = 'Visibles'
@@ -117,7 +101,6 @@ export class BloqueResumidoComponent implements OnInit {
         this.configuracioncvService.configuraciones = configuracion;
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
         let filtro = _.filter(this.arregloBloques, ['visible_cv_resumido', true]);
-        console.log("ARREGLOBLOQUEVISIBLES", filtro)
         this.atributosOrdenados = _.orderBy(filtro, ["ordenResumido"], ["asc"])
 
         this.arregloBloques = this.atributosOrdenados;
@@ -135,9 +118,7 @@ export class BloqueResumidoComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
-
 
   onChangeAtributo($event) {
     const id = $event.target.value;
@@ -155,9 +136,7 @@ export class BloqueResumidoComponent implements OnInit {
       }
       return d;
     });
-    console.log("food", this.arregloBloques);
   }
-
 
   guardar() {
     // iterar cada uno de los bloques
@@ -169,12 +148,10 @@ export class BloqueResumidoComponent implements OnInit {
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
       if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo &&
         atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido) return;
-
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService
         .putConfiguracion(atributo)
         .subscribe((res) => {
-          console.log("editado", res);
           this.getConfiguracion();
         });
       this._snackBar.open("Se guardó correctamente", "Cerrar", {
@@ -193,17 +170,14 @@ export class BloqueResumidoComponent implements OnInit {
       if (atribtutoOriginal.ordenResumido == atributo.ordenResumido && atribtutoOriginal.mapeo == atributo.mapeo &&
         atribtutoOriginal.visible_cv_resumido == atributo.visible_cv_resumido) return;
 
-
       // si el bloque se modificó proceder y no se guardo proceder a mostrar alerta
       this.alertaCambios = true;
-
       if (this.alertaCambios === true) {
         this.router.navigate(['/bloque-resumido/' + this.nombreBloque]);
         this._snackBar.open("Asegurate de Guardar los cambios", "Cerrar", {
           duration: 2000,
         });
       }
-
     });
   }
 

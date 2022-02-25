@@ -12,9 +12,7 @@
                         <h4 class="card-title">Generación CSV</h4>
                     </div>
                     <div class="card-footer">
-
                         <div class="col text-center">
-
                             <button class="botones_crear" id="btn-txt" mat-raised-button
                                 [matMenuTriggerFor]="menuexportacionCSV">
                                 Exportación CSV
@@ -22,20 +20,13 @@
                                     expand_more
                                 </span>
                             </button>
-                            <mat-menu #menuexportacionCSV="matMenu">
-                                <button mat-menu-item color="primary"
-                                    (click)="generaCsvArticulos('Artículos')">Articulos CSV </button>
-                                <button mat-menu-item color="primary" (click)="generaCsvLibros('Libros')">Libros CSV
-                                </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaCsvProyectos('Proyectos')">Proyectos CSV </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaCsvCapacitacion('Capacitacion')">Capacitación CSV </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaCsvGradoAcademico('Grado Academico')">Grado Academico CSV </button>
-
-                            </mat-menu>
                         </div>
+                        <mat-menu #menuexportacionCSV="matMenu">
+                            <button mat-menu-item color="primary" *ngFor="let item of bloquesServicio"
+                                (click)="generaCsvInformacion(item.bloqueNombre, item.url)">
+                                {{item.bloqueNombre}} CSV
+                            </button>
+                        </mat-menu>
                     </div>
                     <div *ngIf="valor && tipoDocumento == 'CSV'">
                         Generando {{tipoDocumento}} {{valorNombre}}
@@ -58,7 +49,6 @@
                     </div>
                     <div class="card-footer">
                         <div class="col text-center">
-
                             <button class="botones_crear" id="btn-txt" mat-raised-button
                                 [matMenuTriggerFor]="menuexportacionTXT">
                                 Exportación TXT
@@ -66,21 +56,13 @@
                                     expand_more
                                 </span>
                             </button>
-                            <mat-menu #menuexportacionTXT="matMenu">
-                                <button mat-menu-item color="primary"
-                                    (click)="generaTxtArticulos('Artículos')">Articulos TXT </button>
-                                <button mat-menu-item color="primary" (click)="generaTxtLibros('Libros')">Libros TXT
-                                </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaTxtProyectos('Proyectos')">Proyectos TXT </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaTxtCapacitacion('Capacitación')">Capacitación TXT </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaTxtGradoAcademico('Grado Academico')">Grado Academico TXT </button>
-
-                            </mat-menu>
-
                         </div>
+                        <mat-menu #menuexportacionTXT="matMenu">
+                            <button mat-menu-item color="primary" *ngFor="let item of bloquesServicio"
+                                (click)="generaTxtInformacion(item.bloqueNombre, item.url)">
+                                {{item.bloqueNombre}} TXT
+                            </button>
+                        </mat-menu>
                     </div>
                     <div *ngIf="valor && tipoDocumento == 'TXT'">
                         Generando {{tipoDocumento}} {{valorNombre}}
@@ -96,7 +78,7 @@
                 <div class="card card-chart">
                     <div class="card-header " id="cabeceraTarjeta">
                         <div class="ct-chart">
-                            <img class="logo" src="/assets/img/bibtex.png" />
+                            <img class="logoBibTex" src="/assets/img/bibtex.png" />
                         </div>
                     </div>
                     <div class="card-body">
@@ -111,21 +93,13 @@
                                     expand_more
                                 </span>
                             </button>
-                            <mat-menu #menuexportacionBib="matMenu">
-                                <button mat-menu-item color="primary"
-                                    (click)="generaBibArticulos('Articulos')">Articulos BibTex </button>
-                                <button mat-menu-item color="primary" (click)="generaBibLibros('Libros')">Libros BibTex
-                                </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaBibProyectos('Proyectos')">Proyectos BibTex </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaBibCapacitacion('Capacitacion')">Capacitación BibTex </button>
-                                <button mat-menu-item color="primary"
-                                    (click)="generaBibGradoAcademico('Grado Academico')">Grado Academico BibTex
-                                </button>
-                            </mat-menu>
-
                         </div>
+                        <mat-menu #menuexportacionBib="matMenu">
+                            <button mat-menu-item color="primary" *ngFor="let item of bloquesServicio"
+                                (click)="generaBibInformacion(item.bloqueNombre, item.url)">{{item.bloqueNombre}}
+                                BibTex
+                            </button>
+                        </mat-menu>
 
                     </div>
                     <div *ngIf="valor && tipoDocumento == 'BibTex'">

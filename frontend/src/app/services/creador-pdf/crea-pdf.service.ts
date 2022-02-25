@@ -11,10 +11,6 @@ export class PdfService {
 
   public url:string;
 
-  // URL_PDF_COMPLETO = "http://localhost:8000/api/pdf-completo/";
-  // URL_PDF_RESUMIDO = "http://localhost:8000/api/pdf-resumido/"; 
-  // URL_PDF_PERSONALIZADO = "http://localhost:8000/api/pdf-personalizado/";  
-
   constructor(private http: HttpClient) {
     this.url = Global.url;
 

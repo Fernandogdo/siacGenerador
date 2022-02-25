@@ -6,30 +6,21 @@
 .container {
     margin-top: 30px;
     margin-bottom: 30px;
-    /* margin: auto; */
 }
 
 .example-card {
     max-width: 100%;
-    /* margin-top: 25px; */
     margin: auto;
 }
 
-/* #tabla {
-    margin-left: 40px;
-    color: #003F72;
-} */
 
 #tabla {
-    /* margin-top: 20px; */
     margin-left: 20px;
     margin-right: 20px;
     color: #003F72;
-    /* background-color: #AAA4A4; */
 }
 
 #paginator{
-    /* margin: 20px; */
     margin-left: 20px;
     margin-right: 20px;
     color: #003F72;
@@ -37,10 +28,6 @@
 }
 
 
-/* .tarjeta {
-    background-color: #E0DED8;
-    color: #003F72;
-} */
 .tarjeta {
     background-color: #E0DED8;
     color: #003F72;
@@ -60,11 +47,9 @@
 #visibilidad{
     float: left;
     margin: auto;
-    /* margin-top: auto; */
 }
 
 .botones{
-    /* margin-top: 20px; */
     background-color: #003F72;
     color: white;
 }
@@ -98,9 +83,3 @@
 
     margin-left: 50px;
 }
-
-
-/* #formulario {
-    min-width: 150px;
-    max-width: 550px;
-} */

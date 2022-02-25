@@ -1,4 +1,3 @@
-import { Administrador } from './administrador.model';
 
 
 export class ConfiguracioncvPersonalizado {

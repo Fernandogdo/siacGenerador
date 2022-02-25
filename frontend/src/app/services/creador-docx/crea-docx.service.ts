@@ -9,16 +9,11 @@ export class CreaDocxService {
 
   public url:string;
 
-  // URL_DOC_COMPLETO = 'http://localhost:8000/api/doc-completo/';
-  // URL_DOC_RESUMIDO = 'http://localhost:8000/api/doc-resumido/';
-  // URL_DOC_PERSONALIZA = 'http://localhost:8000/api/doc-personalizado/';
   constructor(private http: HttpClient) { 
     this.url = Global.url;
-
   }
 
-
-
+  // Servicio para generar DOCX Completo
   generaDocCompleto(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
@@ -26,6 +21,7 @@ export class CreaDocxService {
     return this.http.get(this.url + 'doc-completo/' + id_user, httpOptions);
   }
 
+  // Servicio para generar DOCX Resumido
   generaDocResumido(id_user) {
     const httpOptions = {
       responseType: 'blob' as 'json',
@@ -33,6 +29,7 @@ export class CreaDocxService {
     return this.http.get(this.url + 'doc-resumido/' + id_user, httpOptions);
   }
 
+  // Servicio para generar DOCX Personalizado
   generaDocPersonalizado(id_user, nombre_cv, cv){
     const httpOptions = {
       responseType: 'blob' as 'json',

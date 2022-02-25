@@ -6,7 +6,7 @@ import {
   PathLocationStrategy,
 } from "@angular/common";
 import { Router } from "@angular/router";
-import { AuthorizationService } from "app/services/login/authorization.service";
+import { AuthorizationService } from "../../services/login/authorization.service";
 import { title } from "process";
 
 @Component({
@@ -64,16 +64,21 @@ export class NavbarComponent implements OnInit {
     body.classList.add("nav-open");
 
     this.sidebarVisible = true;
+    // console.log("sidebarOpen")
   }
   sidebarClose() {
     const body = document.getElementsByTagName("body")[0];
     this.toggleButton.classList.remove("toggled");
     this.sidebarVisible = false;
     body.classList.remove("nav-open");
+    // console.log("SIDEBARCLOSE")
   }
+
   sidebarToggle() {
     // const toggleButton = this.toggleButton;
     // const body = document.getElementsByTagName('body')[0];
+    // console.log("sidebarToggle")
+
     var $toggle = document.getElementsByClassName("navbar-toggler")[0];
 
     if (this.sidebarVisible === false) {
@@ -82,9 +87,11 @@ export class NavbarComponent implements OnInit {
       this.sidebarClose();
     }
     const body = document.getElementsByTagName("body")[0];
+    // console.log("BODY", body)
 
     if (this.mobile_menu_visible == 1) {
       // $('html').removeClass('nav-open');
+      console.log("MOBILE = 1")
       body.classList.remove("nav-open");
       if ($layer) {
         $layer.remove();
@@ -95,6 +102,7 @@ export class NavbarComponent implements OnInit {
 
       this.mobile_menu_visible = 0;
     } else {
+      // console.log("ELSE")
       setTimeout(function () {
         $toggle.classList.add("toggled");
       }, 430);

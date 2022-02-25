@@ -19,7 +19,7 @@ declare interface RouteInfo {
   acceso: string;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', acceso: 'docente' },
+  // { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', acceso: 'docente' },
   { path: '/administrador', title: 'Administrador', icon: 'person', class: '', acceso: 'admin' },
   { path: '/cv-completo', title: 'Configuración CV Completo', icon: 'account_box', class: '', acceso: 'admin' },
   { path: '/cv-resumido', title: 'Configuración CV Resumido', icon: 'contact_page', class: '', acceso: 'admin' },
@@ -96,7 +96,7 @@ export class SidebarComponent implements OnInit {
 
   idUsuario() {
     this.idUser = localStorage.getItem("id_user");
-    console.log("ISUSUARIO", this.idUser)
+    // console.log("ISUSUARIO", this.idUser)
   }
 
   isMobileMenu() {

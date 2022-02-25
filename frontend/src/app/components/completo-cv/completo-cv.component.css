@@ -1,28 +1,8 @@
-/* .logo {
-    width: 210px;
-    height: 225px;
-    display: block;
-    margin: auto;
-}
-
-.tarjeta {
-    margin: 10px;
-} */
-
-
-/* .titulos {
-   width: 10px;
-} */
-
 #tabla {
     color: #003F72;
-    /* background-color: #AAA4A4; */
 }
 
 #paginator{
-    /* margin: 20px; */
-    /* margin-left: 20px;
-    margin-right: 20px; */
     color: #003F72;
     background-color: #AAA4A4;;
 }
@@ -48,8 +28,6 @@
 .tarjeta_filtros{
     background-color: #003F72;
     color: #cec7b1;
-    /* margin-left: 20px;
-    margin-right: 20px; */
 }
 
 .btnPersonalizado{
@@ -64,12 +42,9 @@
 #visibilidad{
     float: left;
     margin: auto;
-    /* margin-top: auto; */
 }
 
-/* .filtro{
-    background-color: #B2AFAF;
-} */
+
 .rd-btn{
     color: #003F72;
 }

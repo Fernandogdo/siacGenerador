@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { ResumidoCvComponent } from './../../components/resumido-cv/resumido-cv.component';
 import { PersonalizadoCvComponent } from './../../components/personalizado-cv/personalizado-cv.component';
@@ -27,7 +26,6 @@ import { IngresaServiciosComponent } from '../../components/ingresa-servicios/in
 
 export const AdminLayoutRoutes: Routes = [
 
-    { path: 'dashboard', component: DashboardComponent,  },
     { path: 'cv-completo', component: CompletoCvComponent, canActivate: [AuthGuard] },
     { path: 'cv-resumido', component: ResumidoCvComponent, canActivate: [AuthGuard] },
     { path: 'cv-personalizado', component: PersonalizadoCvComponent,},

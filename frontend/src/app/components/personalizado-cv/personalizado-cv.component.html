@@ -1,259 +1,108 @@
-<!-- <div class="main-content">
+<div class="main-content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <mat-card class="tarjeta">
-          <mat-card-header>
-            <h3> <b>Configuración de Bloques Personalizables</b> </h3>
-          </mat-card-header>
-          <div class="col text-center">
-            <table class="table" id="tabla">
-              <thead>
-                <tr class="d-flex">
-                  <th class="col-4">Bloque</th>
-                  <th class="col-4">Orden</th>
-                  <th class="col-3">Ingresar a Bloque</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  class="d-flex"
-                  *ngFor="let bloque of arregloBloques"
-                >
-                  <td class="col-md-4">{{ bloque.nombre }}</td>
-                  <td class="col-md-4">
-                    <mat-form-field>
-                      <input
-                        type="number"
-                        matInput
-                        placeholder="Orden"
-                        [value]="bloque.ordenPersonalizable"
-                        [(ngModel)]="bloque.ordenPersonalizable"
-                      />
-                    </mat-form-field>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="col text-center">
-            <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button>
-          </div>
-        </mat-card>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<div class="main-content">
-    <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12" >
-
         <div class="alert alert-info alert-with-icon" data-notify="container" id="alerta">
           <i class="material-icons" data-notify="icon">add_alert</i>
           <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="material-icons">close</i>
+            <i class="material-icons">close</i>
           </button>
           <span data-notify="message"> CREACIÓN CV PERSONALIZADO <br> <br>
-              Para crer un cv personalizado es necesario seguis los siguientes pasos: <br> <br>
-              <ul>
-                <li>Ingresa el nombre que deseas poner a tu cv</li> <br>
-                <li>Selecciona en la casilla la informacion que deseas que sea visible en tu cv: por ejemplo si se marca la casilla Artículos, esta información será visible en tu cv, caso contrario se la deselecciona</li> <br>
-                <li>Presiona el botón guardar</li> <br>
-                <li>Ingresa a la información de cada bloque</li>
-              </ul>
+            Para crer un cv personalizado es necesario seguis los siguientes pasos: <br> <br>
+            <ul>
+              <li>Ingresa el nombre que deseas poner a tu cv</li> <br>
+              <li>Selecciona en la casilla la información que deseas que sea visible en tu cv: por ejemplo si se marca
+                la casilla Artículos, esta información será visible en tu cv, caso contrario se la deselecciona</li>
+              <br>
+              <li>Presiona el botón guardar</li> <br>
+              <li>Ingresa a la información de cada bloque</li>
+            </ul>
           </span>
         </div>
-      
+
         <mat-card class="tarjeta">
-
-
-          <!-- <form [formGroup]="formNombre" #categoryForm="ngForm">
-            
+          <form #formNombre>
             <mat-form-field>
               <mat-label>Nombre CV</mat-label>
-              <input matInput #filter placeholder="Nombre Cv Personalizado" name="nombre_cv" formControlName="nombre_cv" [(ngModel)]="nombre_cv" >
-             </mat-form-field>
-          </form> -->
-          
-          <form #formNombre> 
-            <mat-form-field >
-              <mat-label>Nombre CV</mat-label>
-              <input matInput #filter placeholder="Nombre Cv Personalizado" [(ngModel)]="nombre_cv" [ngModelOptions]="{standalone: true}">
-             </mat-form-field>
+              <input matInput #filter placeholder="Nombre Cv Personalizado" maxlength="20" [(ngModel)]="nombre_cv"
+                [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
           </form>
-          
-         
-                           
+
           <br>
+
           <div class="example-header">
-            <b>Buscador:</b> 
+            <b>Buscador:</b>
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
-                <button mat-icon-button matSuffix 
-                  aria-label="clear" 
-                  *ngIf="filter.value" 
-                  (click)="filter.value=''; applyFilter('');">
-                  <mat-icon>close</mat-icon>
-                </button>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
+              <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value"
+                (click)="filter.value=''; applyFilter('');">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
-                      
+
           <mat-table id="tabla" #table [dataSource]="dataSource">
             <ng-container matColumnDef="visible_cv_bloqueCompleto">
               <mat-header-cell *matHeaderCellDef>
-                <input
-                  type="checkbox"
-                  [(ngModel)]="parentSelector"
-                  [value]="-1"
-                  (change)="onChangeBloque($event)">
+                <input type="checkbox" [(ngModel)]="parentSelector" [value]="-1" (change)="onChangeBloque($event)">
               </mat-header-cell>
               <mat-cell *matCellDef="let row">
-                <input
-                      type="checkbox"
-                      [value]="row.id"
-                      [checked]="row.visible_cv_bloqueCompleto"
-                      (change)="onChangeBloque($event)"
-                      (click)= valor(row.id)
-                  >
+                <input type="checkbox" [value]="row.id" [checked]="row.visible_cv_bloqueCompleto"
+                  (change)="onChangeBloque($event)" (click)=valor(row.id)>
               </mat-cell>
             </ng-container>
 
-              <!-- Bloque Column -->
+            <!-- Bloque Column -->
             <ng-container matColumnDef="nombre">
-                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Bloque</b></h4>  </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Bloque</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
             </ng-container>
-    
+
             <!-- Orden Column -->
             <ng-container matColumnDef="ordenPersonalizable">
-                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
-                    </mat-form-field>
-                </mat-cell>
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Orden</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+"
+                    [value]="element.ordenPersonalizable" [(ngModel)]="element.ordenPersonalizable">
+                </mat-form-field>
+              </mat-cell>
             </ng-container>
-                  
-            <!-- INgresar Column -->
+
+            <!-- Ingresar Column -->
             <ng-container matColumnDef="ingreso">
-                <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()"  [disabled]="isDisabled" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv, cvHash]">
-                        <i class="material-icons">east</i>
+              <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                <h4><b>Ingresar a Bloque</b></h4>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button class="btnIngresoBloque" mat-raised-button color="primary" (click)="nombrecvLocalStorage()"
+                  [disabled]="isDisabled" [routerLink]="['/crea-personalizado/', element.nombre, nombre_cv, cvHash]">
+                  <i class="material-icons">east</i>
                 </button>
-                </mat-cell>
-            </ng-container>                  
+              </mat-cell>
+            </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          
+
           <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                          
+
           <div class="col text-center">
-              <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardarBloquesAtributos()">Guardar
-                  <span class="material-icons">
-                    save
-                  </span>
-              </button>
+            <button mat-raised-button color="primary" class="botones" [disabled]="!nombre_cv"
+              (click)="guardarBloquesAtributos()">Guardar
+              <span class="material-icons">
+                save
+              </span>
+            </button>
           </div>
-        </mat-card>      
-      </div>
-    </div>        
-  </div>
-</div>
-
-
-
-
-
-      <!-- DESDE AQUI FORM DINAMICO-->
-      <!-- <div class="main-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12" >
-        <mat-card>
-          <form [formGroup]="form" #categoryForm="ngForm">
-            <mat-form-field class="example-full-width">
-              <mat-label>Nombre CV</mat-label>
-              <input
-                matInput
-                formControlName="nombrecv"
-                placeholder="Ingrese el nombre de su cv para realizar la configuración"
-                value="Personalizado"
-              />
-            </mat-form-field>
-            <mat-accordion *ngIf="showDiv()">
-              <mat-expansion-panel
-                class="expansion"
-                hideToggle
-                *ngFor="let bloque of arregloBloquesConfiguracion | keyvalue"
-              >
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Bloque: {{ bloque.key }} </mat-panel-title>
-                  <mat-panel-description>
-                    Despliegue para obtener mayor información
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-card class="tarjeta-informacion">
-                  <div
-                    class="informacion"
-                    *ngFor="let propiedad of arregloBloquesConfiguracion[bloque.key]"
-                  >
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="miDataInterior"
-                      [(ngModel)]="propiedad.isSelected"
-                      [ngModelOptions]="{ standalone: true }"
-                      (change)="
-                        $event.target.checked
-                          ? agregar(
-                              propiedad.isSelected,
-                              propiedad.id,
-                              propiedad.bloque,
-                              propiedad.atributo,
-                              propiedad.mapeo
-                            )
-                          : quitar(
-                              propiedad.isSelected,
-                              propiedad.bloque,
-                              propiedad.atributo,
-                              propiedad.mapeo
-                            )
-                      "
-                    />
-                    <p class="nombre">
-                      <b>Bloque:</b> {{ propiedad.bloque }} <b>Atributo:</b>
-                      {{ propiedad.atributo }}
-                    </p>
-                    <mat-form-field appearance="outline">
-                      <mat-label>Orden</mat-label>
-                      <input
-                        type="number"
-                        matInput
-                        placeholder="Placeholder"
-                        formControlName="orden"
-                        value="{{ propiedad.orden }}"
-                      />
-                    </mat-form-field>
-                  </div>
-                </mat-card>
-              </mat-expansion-panel>
-            </mat-accordion>
-            <div class="col text-center">
-              <button mat-raised-button class="botones" color="primary" (click)="PostConfiguracionPersonalizada()">
-                Guardar
-              </button>
-            </div>
-          </form>
         </mat-card>
       </div>
     </div>
   </div>
-</div> -->
-
-
+</div>

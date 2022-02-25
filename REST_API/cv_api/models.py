@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser
-# Create your models here.
-# from django_mysql.models import ListCharField
 
 
 class Usuario(AbstractUser):
@@ -23,6 +21,7 @@ class ConfiguracionCv(models.Model):
     usuario = models.ForeignKey(
         Usuario, related_name='Usuario', on_delete=models.CASCADE)
     bloque = models.CharField(max_length=150)
+    bloqueService = models.CharField(max_length=150, default="articulos")
     atributo = models.CharField(max_length=100)
     ordenCompleto = models.IntegerField(default=1)
     ordenResumido = models.IntegerField(default=1)
@@ -50,7 +49,6 @@ class ConfiguracionCv_Personalizado(models.Model):
     nombre_cv = models.CharField(max_length=100, default="personalizado_cv")
     fecha_registro = models.DateTimeField(null=True, blank=True)
     cedula = models.CharField(max_length=11)
-    nombreBloque = models.CharField(max_length=20, default="Articulos")
     ordenPersonalizable = models.IntegerField(default=1)
     visible_cv_bloque = models.BooleanField(default=True)
     class Meta:
@@ -61,6 +59,7 @@ class ConfiguracionCv_Personalizado(models.Model):
                 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
+    nombreService = models.CharField(max_length=100, default="")
     ordenCompleto = models.IntegerField(default=1 )
     ordenResumido = models.IntegerField(default=0)
     ordenPersonalizable = models.IntegerField(default=0)

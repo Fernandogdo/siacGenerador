@@ -1,12 +1,8 @@
 #tabla {
     color: #003F72;
-    /* background-color: #AAA4A4; */
 }
 
 #paginator{
-    /* margin: 20px; */
-    /* margin-left: 20px;
-    margin-right: 20px; */
     color: #003F72;
     background-color: #AAA4A4;;
 }
@@ -30,8 +26,6 @@
 .tarjeta_filtros{
     background-color: #003F72;
     color: #cec7b1;
-    /* margin-left: 20px;
-    margin-right: 20px; */
 }
 
 .btnPersonalizado{
@@ -47,7 +41,6 @@
 #visibilidad{
     float: left;
     margin: auto;
-    /* margin-top: auto; */
 }
 
 .tarjeta_filtros1 {

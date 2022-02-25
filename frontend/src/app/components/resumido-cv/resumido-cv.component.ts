@@ -3,11 +3,8 @@ import { ConfiguracioncvService } from '../../services/configuracioncv.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
-
 import * as _ from "lodash";
 
 @Component({
@@ -53,7 +50,6 @@ export class ResumidoCvComponent implements OnInit {
         this.arregloBloques = atributosOrdenados;
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
-        console.log("ARREGLOBLOQUESRESUMIDOS", this.arregloBloques)
         this.bloquesOriginal = JSON.parse(
           JSON.stringify(this.arregloBloques)
         );
@@ -68,10 +64,8 @@ export class ResumidoCvComponent implements OnInit {
 
   FiltroNoVisibles() {
     //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
-    // if (event.checked) {
     this.visibilidad = true
     this.textoVisibilidad = 'No Visibles'
-    console.log('asdsa')
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
@@ -87,8 +81,6 @@ export class ResumidoCvComponent implements OnInit {
 
   FiltroVisibles() {
     //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
-    // console.log(event.checked)
-    // if (event.checked) {
     this.visibilidad = true
     this.textoVisibilidad = 'Visibles'
     this.configuracioncvService.getBloques()
@@ -125,7 +117,6 @@ export class ResumidoCvComponent implements OnInit {
       }
       return d;
     });
-    console.log("ARREGLOBLOQUESONcHANGE", this.arregloBloques);
   }
 
 
@@ -138,20 +129,14 @@ export class ResumidoCvComponent implements OnInit {
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if (bloqueOriginal.ordenResumido == bloque.ordenResumido &&
         bloqueOriginal.visible_cv_bloqueResumido == bloque.visible_cv_bloqueResumido) return
-      console.log("guardado", bloque)
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService.putBloque(bloque).subscribe((res) => {
-        console.log("editado", res);
         this.getBloques();
       });
       this._snackBar.open("Se guardó configuración CV resumido", "Cerrar", {
         duration: 3000,
       });
     });
-  }
-
-  openDialog() {
-    this.dialog.open(ModalNotaComponent);
   }
 
 

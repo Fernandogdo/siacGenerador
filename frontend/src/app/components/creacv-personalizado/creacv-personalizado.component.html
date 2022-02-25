@@ -1,31 +1,25 @@
-
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-
-
-            <div class="col-md-12" >
-
-                
-      
+            <div class="col-md-12">
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="btnRegresar" color="primary" [routerLink]="['/edita-personalizado/', nombre_cv, cvHash]" routerLinkActive="active">
+                        <button mat-raised-button class="btnRegresar" color="primary"
+                            [routerLink]="['/edita-personalizado/', nombre_cv, cvHash]" (click)="alertaGuardarCambios()"
+                            routerLinkActive="active">
                             <span class="material-icons">
                                 west
                             </span>
                             Configuración Bloques
-                            
                         </button>
 
-
-
-                        <button mat-raised-button class="btnRegresar" color="primary" [routerLink]="['/cv-guardado', idUsuario]" routerLinkActive="active">
-                            <!-- <span class="material-icons">
-                                west
-                            </span> -->
-                            CVs Personalizado
-                            
+                        <button mat-raised-button class="btnRegresar" color="primary"
+                            [routerLink]="['/cv-guardado', idUsuario]" routerLinkActive="active"
+                            (click)="alertaGuardarCambios()">
+                            <span class="material-icons">
+                                description
+                            </span>
+                            CVs Personalizados
                         </button>
                     </div>
                 </div>
@@ -36,156 +30,96 @@
                             <b>Configuración de Atributos de Bloque : </b> {{nombreBloque}}
                         </h3>
                     </mat-card-header>
-                    
-                    <!-- <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1" color="primary" (click)="getConfiguracionPersonalizada()">Todo</mat-radio-button> <br>
-                        <mat-radio-button value="2" color="primary" (click)="FiltroVisibles()">Visibles</mat-radio-button> <br>
-                        <mat-radio-button value="3" color="primary" (click)="FiltroNoVisibles()">No Visibles</mat-radio-button> <br>
-                    </mat-radio-group> -->
-                                
-                <br>
+
+                    <br>
                     <div class="example-header">
-                        <!-- <mat-form-field class="filtro">
-                            <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
-                            <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');">
+                        <b>Buscador:</b>
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos"
+                                #filter>
+                            <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value"
+                                (click)="filter.value=''; applyFilter('');">
                                 <mat-icon>close</mat-icon>
                             </button>
-                        </mat-form-field> -->
-
-                        <b>Buscador:</b> 
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex. Artículos" #filter>
-                            <button mat-icon-button matSuffix 
-                              aria-label="clear" 
-                              *ngIf="filter.value" 
-                              (click)="filter.value=''; applyFilter('');">
-                              <mat-icon>close</mat-icon>
-                            </button>
                         </mat-form-field>
-                        
                     </div>
 
 
                     <mat-card class="tarjeta_filtros">
-                        Filtrar por Visibilidad: <button class="btnPersonalizado" mat-stroked-button  [matMenuTriggerFor]="menuPersonalizado">Filtro Bloques</button>
+                        Filtrar por Visibilidad: 
+                        
+                        <button class="btnPersonalizado" mat-stroked-button
+                            [matMenuTriggerFor]="menuPersonalizado">Filtro Bloques
+                            <span class="material-icons">
+                                expand_more
+                            </span>
+                        </button>
+                        <div class="visible" *ngIf="visibilidad">
+                            <h6 id="visibilidad">Visibilizando {{textoVisibilidad}} </h6>
+                        </div>
                         <mat-menu #menuPersonalizado="matMenu">
-                            <!-- <progress-bar-button [options]="barButtonOptions" (click)="someFunc2()"></progress-bar-button> -->
-
                             <button mat-menu-item (click)="getConfiguracionPersonalizada()">Todo</button>
-                            <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>      
-                            <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>                                                  
+                            <button mat-menu-item (click)="FiltroVisibles()">Visibles</button>
+                            <button mat-menu-item (click)="FiltroNoVisibles()">No Visibles</button>
                         </mat-menu>
                     </mat-card>
-                    
-                 
+
+
                     <mat-table id="tabla" #table [dataSource]="dataSource">
+
+                        <!-- Visibilidad Column -->
                         <ng-container matColumnDef="visible_cv_personalizado">
                             <mat-header-cell *matHeaderCellDef>
-                              <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                                            [checked]="selection.hasValue() && isAllSelected()"
-                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
-                              </mat-checkbox> -->
-                              <input
-                                    type="checkbox"
-                                    [(ngModel)]="parentSelector"
-                                    [value]="-1"
+                                <input type="checkbox" [(ngModel)]="parentSelector" [value]="-1"
                                     (change)="onChangeAtributo($event)">
 
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                              <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                              [value]="row.visible_cv_bloque" [(ngModel)]="row.visible_cv_bloque"
-                                            (change)="$event ? selection.toggle(row) : null"
-                                            [checked]="selection.isSelected(row)">
-                              </mat-checkbox> -->
-                              <input
-                                    type="checkbox"
-                                    [value]="row.id"
-                                    [checked]="row.visible_cv_personalizado"
-                                    (change)="onChangeAtributo($event)"
-                                    (click)= valor(row.id)
-                                >
-                            </mat-cell>
-                          </ng-container>
-
-                           <!-- <ng-container matColumnDef="visible_cv_bloque">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
-                                <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
-                                </mat-form-field>
-                            </mat-cell>
-                        </ng-container> -->
-                
-                        <!-- Position Column -->
-                        <!-- <ng-container matColumnDef="atributo">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributo</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.atributo}} 
-                                
-                            </mat-cell>
-                        </ng-container> -->
-                
-                        <!-- Name Column -->
-                        <ng-container matColumnDef="mapeo">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Atributo</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                {{ element.mapeo!='' ? element.mapeo : element.atributo }}
-                                <!-- {{element.mapeo}} -->
-
+                                <input type="checkbox" [value]="row.id" [checked]="row.visible_cv_personalizado"
+                                    (change)="onChangeAtributo($event)" (click)=valor(row.id)>
                             </mat-cell>
                         </ng-container>
-                        
+
+                        <!-- Mapeo Column -->
+                        <ng-container matColumnDef="mapeo">
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                                <h4><b>Atributo</b></h4>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.mapeo!='' ? element.mapeo : element.atributo }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Orden Column -->
                         <ng-container matColumnDef="orden">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Orden</b></h4>  </mat-header-cell>
+                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>
+                                <h4><b>Orden</b></h4>
+                            </mat-header-cell>
                             <mat-cell *matCellDef="let element">
                                 <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Orden" type="number" min="1" max="9999" pattern="^[0-9]+" [value]="element.orden" [(ngModel)]="element.orden">
+                                    <input matInput placeholder="Orden" type="number" min="1" max="9999"
+                                        pattern="^[0-9]+" [value]="element.orden" [(ngModel)]="element.orden">
                                     <input type="hidden" [value]="element.administrador">
                                 </mat-form-field>
                             </mat-cell>
                         </ng-container>
 
-                        
-                
-                        <!-- <ng-container matColumnDef="visible_cv_bloque">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Visibilidad</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <mat-checkbox  color="primary" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque"></mat-checkbox>
-                                <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Visibilidad Bloque" [value]="element.visible_cv_bloque" [(ngModel)]="element.visible_cv_bloque">
-                                </mat-form-field>
-                            </mat-cell>
-                        </ng-container> -->
-                
-                        <!-- <ng-container matColumnDef="ingreso">
-                            <mat-header-cell class="tituloTabla" *matHeaderCellDef>  <h4><b>Ingresar a Bloque</b></h4>  </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button class="btnIngresoBloque" mat-raised-button color="primary" [routerLink]="['/bloque-completo/', element.nombre]">
-                                    <i class="material-icons">east</i>
-                            </button>
-                            </mat-cell>
-                        </ng-container> -->
-                
-                
+
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                     </mat-table>
                     <mat-paginator id="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
-                    
+
                     <div class="col text-center">
-                        <button mat-raised-button color="primary" class="botones"   [disabled]="!nombre_cv" (click)="guardar()">Guardar
+                        <button mat-raised-button color="primary" class="botones" [disabled]="!nombre_cv"
+                            (click)="guardar()">Guardar
                             <span class="material-icons">
-                              save
+                                save
                             </span>
-                          </button>
-                        <!-- <button mat-raised-button color="primary" class="botones" (click)="guardar()">Guardar</button> -->
+                        </button>
                     </div>
                 </mat-card>
-            
             </div>
-        </div>        
+        </div>
     </div>
 </div>
-
-

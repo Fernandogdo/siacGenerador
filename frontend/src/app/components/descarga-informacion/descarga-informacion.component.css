@@ -17,8 +17,15 @@
 }
 
 .logo {
-    width: 215px;
-    height: 230px;
+    width: 65%;
+    height: 50%;
+    display: block;
+    margin: auto;
+}
+
+.logoBibTex{
+    width: 50%;
+    height: 50%;
     display: block;
     margin: auto;
 }

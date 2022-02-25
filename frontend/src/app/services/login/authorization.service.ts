@@ -84,13 +84,13 @@ export class AuthorizationService {
   }
 
   comprobarId(idParamsUrl){
-    console.log("IDUSERGUARDADO", idParamsUrl, localStorage.getItem("id_user"))
+    // console.log("IDUSERGUARDADO", idParamsUrl, localStorage.getItem("id_user"))
     this.idUserStorage = localStorage.getItem("id_user");
     if ( !idParamsUrl) {
-      console.log("NOSONIGUALES", this.idUserStorage, this.idUser)
+      // console.log("NOSONIGUALES", this.idUserStorage, this.idUser)
       this.cerrarSesionDocente();
     } else{
-      console.log("SONIGUALES")
+      // console.log("SONIGUALES")
     }
   }
 

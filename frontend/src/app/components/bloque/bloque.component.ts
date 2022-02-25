@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-// import { Bloque } from "../../models/bloque.model";
-// import { Configuracioncv } from "../../models/configuracioncv.model";
 import { ConfiguracioncvService } from "../../services/configuracioncv.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-// import { Router } from "@angular/router";
 import * as _ from "lodash";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -48,7 +45,6 @@ export class BloqueComponent implements OnInit {
     this.nombreBloque = this.route.snapshot.params["nombre"];
     this.getConfiguracion();
     this.completo = true
-
   }
 
   scrollToTop(): void {
@@ -58,7 +54,7 @@ export class BloqueComponent implements OnInit {
 
   getConfiguracion() {
     this.visibilidad = true
-    this.textoVisibilidad  = 'Todo'
+    this.textoVisibilidad = 'Todo'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
@@ -66,11 +62,9 @@ export class BloqueComponent implements OnInit {
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
         this.atributosOrdenCompletoados = _.orderBy(this.arregloBloques, ["ordenCompleto", "atributo"], ["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenCompletoados;
-        console.log("ARREGLOBLOQUES", this.arregloBloques)
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOBLOQUE", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(configuracion)
         );
@@ -89,7 +83,7 @@ export class BloqueComponent implements OnInit {
 
   FiltroNoVisibles() {
     this.visibilidad = true
-    this.textoVisibilidad  = 'No Visibles'
+    this.textoVisibilidad = 'No Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
@@ -97,15 +91,12 @@ export class BloqueComponent implements OnInit {
         this.arregloBloques = configuracion.filter((user) => user.bloque === this.nombreBloque);
 
         let filtro = _.filter(this.arregloBloques, ['visible_cv_completo', false]);
-        // this.atributosOrdenCompletoados = filtro
-        console.log("ARREGLOBLOQUESNOVISIBLES", filtro)
         this.atributosOrdenCompletoados = _.orderBy(filtro, ["ordenCompleto", "atributo"], ["asc", "asc"]);
         this.arregloBloques = this.atributosOrdenCompletoados;
 
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOBLOQUENOVISIBLES", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(configuracion)
         );
@@ -118,7 +109,7 @@ export class BloqueComponent implements OnInit {
 
   FiltroVisibles() {
     this.visibilidad = true
-    this.textoVisibilidad  = 'Visibles'
+    this.textoVisibilidad = 'Visibles'
     this.configuracioncvService.getConfiguraciones().subscribe(
       (configuracion) => {
         this.configuracioncvService.configuraciones = configuracion;
@@ -130,9 +121,6 @@ export class BloqueComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
-        console.log("ARREGLOBLOQUEVISIBLES", this.arregloBloques)
-
-        // console.log("FILTRADOBLOQUE", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(configuracion)
         );
@@ -143,14 +131,12 @@ export class BloqueComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
 
 
   onChangeAtributo($event) {
     const id = $event.target.value;
     const isChecked = $event.target.checked;
-
     this.arregloBloques = this.arregloBloques.map((d) => {
       if (d.id == id) {
         d.visible_cv_completo = isChecked;
@@ -163,7 +149,6 @@ export class BloqueComponent implements OnInit {
       }
       return d;
     });
-    console.log("food", this.arregloBloques);
   }
 
   guardar() {
@@ -173,22 +158,15 @@ export class BloqueComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      console.log("BLOQUESORIGINAL", atribtutoOriginal.ordenCompleto, atributo.ordenCompleto)
       if (atribtutoOriginal.ordenCompleto == atributo.ordenCompleto && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
-
-      console.log("SEMODIFIOATIBUTO");
 
       // si el bloque se modificó proceder a guardarlo
       this.configuracioncvService
         .putConfiguracion(atributo)
         .subscribe((res) => {
-          console.log("editado", res);
-          // this._snackBar.open("Se guardó  correctamente", "Cerrar", {
-          //   duration: 2000,
-          // });
           this.getConfiguracion();
-        }, (error)=>{
-          console.log("ERROR", error)
+        }, (error) => {
+          // console.log("ERROR", error)
         });
       this._snackBar.open("Se guardó correctamente", "Cerrar", {
         duration: 2000,
@@ -202,9 +180,9 @@ export class BloqueComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      console.log("BLOQUESORIGINAL", atribtutoOriginal.ordenCompleto, atributo.ordenCompleto)
-      if (atribtutoOriginal.ordenCompleto == atributo.ordenCompleto && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
-
+      if (atribtutoOriginal.ordenCompleto == atributo.ordenCompleto 
+        && atribtutoOriginal.mapeo == atributo.mapeo 
+        && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
 
       // si el bloque se modificó proceder y no se guardo proceder a mostrar alerta
       this.alertaCambios = true;
@@ -215,7 +193,6 @@ export class BloqueComponent implements OnInit {
           duration: 2000,
         });
       }
-
     });
   }
 

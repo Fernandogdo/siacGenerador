@@ -19,17 +19,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
    
-    // this.ngAfterViewInit()
     this.loginForm = this.fb.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
     });
   }
 
-  // ngAfterViewInit() {
-  //   this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
-  //   "#003F72";
-  // }
 
   signIn() {
     this.authorizationService.consultarUsuarioIngreso(this.loginForm.value)

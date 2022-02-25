@@ -11,7 +11,6 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { ObjToArrayPipe } from '../../objToArray.pipe';
 /* Components */
 
-import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { CompletoCvComponent } from './../../components/completo-cv/completo-cv.component';
 import { PersonalizadoCvComponent } from '../../components/personalizado-cv/personalizado-cv.component';
 // import { ModalPersonalizacionComponent } from 'app/components/modal-personalizacion/modal-personalizacion.component';
@@ -87,7 +86,6 @@ import { IngresaServiciosComponent } from '../../components/ingresa-servicios/in
     
   ],
   declarations: [
-    DashboardComponent,
     AdministradorComponent,
     CompletoCvComponent,
     PersonalizadoCvComponent,

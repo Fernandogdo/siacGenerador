@@ -70,9 +70,6 @@ export class ConfiguracioncvService {
 
   }
 
- 
-
-
   // Configuraciones Generales
   getConfiguraciones() {
     return this.http.get<Configuracioncv[]>(this.url + 'configuracioncv/');
@@ -97,9 +94,7 @@ export class ConfiguracioncvService {
     console.log("SEDEBERIAEDITAR")
     return this.http.put(this.url + 'configuracioncv/' + configuracion.id + "/", configuracion);
   }
-  // putServicios(servicio: servicioBloques) {
-  //   return this.http.put(this.URL_SERVICIOS + servicio.id + "/", servicio);
-  // }
+  
 
   deleteConfiguracion(id: string) {
     const headers = new HttpHeaders({
@@ -131,7 +126,7 @@ export class ConfiguracioncvService {
   }
 
   putConfiguracionPersonalizada(configuracionPersonalizada: ConfiguracioncvPersonalizado) {
-    console.log("configuracionPersonalizada", configuracionPersonalizada)
+    // console.log("configuracionPersonalizada", configuracionPersonalizada)
     return this.http.put(this.url + 'configuracioncv_personalizado/' + configuracionPersonalizada.id + "/",configuracionPersonalizada);
   }
 
@@ -155,39 +150,10 @@ export class ConfiguracioncvService {
   }
 
 
-  // // Entra a esquema, recorre bloques y hace post
-  // recorreBloques() {
-  //   this.getJSON().subscribe((data) => {
-  //     // this.datos= data.components.
-  //     let lala = Object.keys(data.components.schemas);
-  //     let array = Object.assign({}, lala);
-  //     console.log(array);
-
-  //     // let claves = Object.keys(lala);
-
-  //     this.esquemas = Object.entries(data.components.schemas);
-    
-  //     // this.claves = Object.keys(lala);
-  //     let keys = Object.keys(lala);
-  //     console.log("claves", keys);
-
-  //     for (let i = 0; i < keys.length; i++) {
-  //       let clave = keys[i];
-  //       // let myjson = JSON.stringify()
-  //       this.postBloques(lala[clave]).subscribe((res) => {
-  //         console.log("DATA", res);
-  //       });
-  //       console.log("DATA", lala[clave]);
-  //     }
-  //   });
-  // }
-
   putBloque(bloque: Bloque) {
     return this.http.put(this.url + 'bloque/' + bloque.id + "/", bloque);
   }
 
-  // public createConfigracioncv(configuracioncv: Configuracioncv): Observable<Configuracioncv> {
-  //   return this.http.post<Configuracioncv>(this.url + 'configuracioncv/', configuracioncv);
-  // }  
+
   
 }

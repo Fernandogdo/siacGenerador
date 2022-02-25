@@ -3,13 +3,11 @@ import { ConfiguracioncvService } from './../../services/configuracioncv.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from "lodash";
-import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 import { Bloque } from '../../models/bloque.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { BloqueServicioService } from '../../services/servicios-bloque/bloque-servicio.service';
-// import { SelectionModel } from '@angular/cdk/collections';
 
 BloqueServicioService
 @Component({
@@ -20,7 +18,6 @@ BloqueServicioService
 export class CompletoCvComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   displayedColumns: string[] = ['visible_cv_bloqueCompleto', 'nombre', 'ordenCompleto', 'ingreso'];
   arregloBloques: Bloque[] = [];
@@ -36,16 +33,11 @@ export class CompletoCvComponent implements OnInit {
   componentes: string[] = [];
   configuracioncv: any;
   alertaCambios: boolean = false;
-
   visibilidad: boolean = false
   textoVisibilidad: string;
-
   checked: boolean = true;
-
-
   parentSelector: boolean = false;
   id;
-
   Object = Object;
 
 
@@ -61,6 +53,7 @@ export class CompletoCvComponent implements OnInit {
 
   ngOnInit() {
     this.getBloques()
+    this.setIntrvl()
   }
 
 
@@ -72,9 +65,7 @@ export class CompletoCvComponent implements OnInit {
         this.arregloBloques = res
         let atributosOrdenados = _.orderBy(this.arregloBloques, ['ordenCompleto'], ['asc']);
         this.arregloBloques = atributosOrdenados;
-        console.log("ARREGLOBLOQUES", this.arregloBloques)
         this.dataSource = new MatTableDataSource(this.arregloBloques);
-        // this.selection = new SelectionModel<Bloque>(true, []);
         this.paginator._intl.itemsPerPageLabel = 'Ítems por página';
         this.dataSource.paginator = this.paginator;
         this.bloquesOriginal = JSON.parse(
@@ -93,10 +84,8 @@ export class CompletoCvComponent implements OnInit {
 
   FiltroNoVisibles() {
     //Si checkbox es true muestra bloques No visibles caso contrario muestra todos los bloques 
-    // if (event.checked) {
     this.visibilidad = true
     this.textoVisibilidad = 'No Visibles'
-    console.log('asdsa')
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res
@@ -115,7 +104,6 @@ export class CompletoCvComponent implements OnInit {
     this.visibilidad = true
     this.textoVisibilidad = 'Visibles'
 
-    console.log("VISIBILI", this.textoVisibilidad, this.visibilidad)
     this.configuracioncvService.getBloques()
       .subscribe(res => {
         this.arregloBloques = res;
@@ -131,7 +119,6 @@ export class CompletoCvComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
 
   onChangeBloque($event) {
@@ -150,11 +137,16 @@ export class CompletoCvComponent implements OnInit {
       }
       return d;
     });
-    console.log("food", this.arregloBloques);
   }
 
 
-  guardar(className: string) {
+  setIntrvl() {
+    // setTimeout(() => this.compararArregloAtributos(), 6000);
+    setTimeout(() => this.actualizaOrdenPersonalizable(), 30000);
+  }
+
+
+  actualizaOrdenPersonalizable() {
     // iterar cada uno de los bloques
     this.arregloBloques.forEach((bloque) => {
       // para eficiencia se puede comprobar si el registro actual (bloque)
@@ -163,10 +155,18 @@ export class CompletoCvComponent implements OnInit {
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if (bloqueOriginal.ordenCompleto == bloque.ordenCompleto &&
         bloqueOriginal.visible_cv_bloqueCompleto == bloque.visible_cv_bloqueCompleto) return
-      console.log("guardado", bloque)
+      const objeto = {
+        id: bloque.id,
+        nombre: bloque.nombre,
+        nombreService:bloque.nombreService,
+        ordenCompleto: bloque.ordenCompleto,
+        ordenPersonalizable: bloque.ordenCompleto,
+        ordenResumido: bloque.ordenResumido,
+        visible_cv_bloqueCompleto: bloque.visible_cv_bloqueCompleto,
+        visible_cv_bloqueResumido: bloque.visible_cv_bloqueResumido
+      }
       // si el bloque se modificó proceder a guardarlo
-      this.configuracioncvService.putBloque(bloque).subscribe((res) => {
-        console.log("editado", res);
+      this.configuracioncvService.putBloque(objeto).subscribe((res) => {
         this.getBloques();
       });
       this._snackBar.open("Se guardó correctamente", "Cerrar", {
@@ -176,10 +176,30 @@ export class CompletoCvComponent implements OnInit {
   }
 
 
-  openDialog() {
-    this.dialog.open(ModalNotaComponent);
+  guardar() {
+    // iterar cada uno de los bloques
+    this.arregloBloques.forEach((bloque) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+      if (bloqueOriginal.ordenCompleto == bloque.ordenCompleto &&
+        bloqueOriginal.visible_cv_bloqueCompleto == bloque.visible_cv_bloqueCompleto) return
+      // si el bloque se modificó proceder a guardarlo
+      this.configuracioncvService.putBloque(bloque).subscribe((res) => {
+        this.getBloques();
+      });
+      this._snackBar.open("Se guardó correctamente", "Cerrar", {
+        duration: 2000,
+      });
+    });
+    this.actualizaOrdenPersonalizable()
   }
 
+
+  // openDialog() {
+  //   this.dialog.open(ModalNotaComponent);
+  // }
 
   alertaGuardarCambios() {
     this.arregloBloques.forEach((bloque) => {
@@ -189,9 +209,6 @@ export class CompletoCvComponent implements OnInit {
       let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
       if (bloqueOriginal.ordenCompleto == bloque.ordenCompleto &&
         bloqueOriginal.visible_cv_bloqueCompleto == bloque.visible_cv_bloqueCompleto) return
-      // console.log("guardado", bloque)
-
-
       this.alertaCambios = true;
 
       if (this.alertaCambios === true) {
@@ -200,13 +217,8 @@ export class CompletoCvComponent implements OnInit {
           duration: 2000,
         });
       }
-
-
     });
-    console.log("ALERTACAMBIOS", this.alertaCambios)
-
   }
-
 
 }
 

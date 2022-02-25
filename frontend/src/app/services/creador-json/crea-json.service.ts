@@ -10,10 +10,6 @@ export class CreaJsonService {
 
   public url:string;
 
-  // URL_JSON_COMPLETO = 'http://localhost:8000/api/json-completo/';
-  // URL_JSON_RESUMIDO = 'http://localhost:8000/api/json-resumido/';
-  // URL_JSON_PERSONALIZADO = 'http://localhost:8000/api/json-personalizado/';
-
   constructor(private http: HttpClient) { 
     this.url = Global.url;
 
@@ -36,7 +32,6 @@ export class CreaJsonService {
     return this.http.get(this.url + 'json-resumido/' + id_user, httpOptions);
   }
 
-
   generaJsonPersonalizado(id_user, nombre_cv, cv){
     console.log('JSONPERSONALIZADO', this.url + 'json-personalizado/' + id_user + "/" + nombre_cv + "/" + cv)
 
@@ -45,7 +40,5 @@ export class CreaJsonService {
     };
     return this.http.get(this.url + 'json-personalizado/' + id_user + "/" + nombre_cv + "/" + cv,  httpOptions);
   }
-
-
 
 }

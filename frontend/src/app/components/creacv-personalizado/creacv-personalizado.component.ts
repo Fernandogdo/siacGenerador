@@ -6,9 +6,7 @@ import { ConfiguracioncvService } from "../../services/configuracioncv.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as _ from "lodash";
 import { PersonalizadoCvComponent } from '../personalizado-cv/personalizado-cv.component';
-// import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
-// NavigationStart
 @Component({
   selector: 'app-creacv-personalizado',
   templateUrl: './creacv-personalizado.component.html',
@@ -20,12 +18,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
   @ViewChild(PersonalizadoCvComponent) child:PersonalizadoCvComponent;
   
 
+  visibilidad: boolean = false
+  textoVisibilidad: string;
   nombreBloque;
   arregloBloques = [];
   arregloAtributos = []
   atributosOrdenados;
   atributosOriginal;
-  // displayedColumns: string[] = ['visible_cv_bloque', 'nombre', 'ordenCompleto', 'ingreso'];
   displayedColumns: string[] = ['visible_cv_personalizado', 'mapeo', 'orden'];
 
   dataSource;
@@ -44,7 +43,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
     private router: Router,
     public configuracioncvService: ConfiguracioncvService,
     private _snackBar: MatSnackBar,
-    // private spinnerService: Ng4LoadingSpinnerService
   ) { 
     this.NoBackNavigator()
   }
@@ -53,26 +51,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
     this.cvHash = this.route.snapshot.params["cv"];
     this.nombreBloque = this.route.snapshot.params["nombre"];
     this.nombre_cv = this.route.snapshot.params["nombre_cv"];
-    // this.getConfiguracion();
     this.getConfiguracionPersonalizada();
-    // console.log("this.child.nombre_cv--->>>>>>>", this.child.nombre_cv)
-    // console.log(Math.random().toString(36).substring(2));
-    
-    // console.log("NOMBRECVAAA->>>>", localStorage.getItem('nombre_cv'));
-    // this.nombre_cv =  localStorage.getItem('nombre_cv');
     this.idUsuario =   parseInt(localStorage.getItem('id_user'));
-    console.log("IDUSUARIO", parseInt(localStorage.getItem('id_user')));
   }
 
-  // ngAfterViewInit() {
-  //   this.nombre_cv = this.child.nombre_cv
-  //   console.log(this.nombre_cv)
-  // }
 
   NoBackNavigator() {
-    // window.location.hash="no-back-button";
-    // window.location.hash="Again-No-back-button";//esta linea es necesaria para chrome
-    // window.onhashchange=function(){window.location.hash="no-back-button";}
+    
     history.pushState(null, document.title, location.href);
     window.addEventListener('popstate', function (event)
     {
@@ -103,20 +88,15 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
   getConfiguracionPersonalizada(){
+    this.visibilidad = true
+    this.textoVisibilidad  = 'Todo'
 
     let iduser =  localStorage.getItem("id_user");
-    // console.log("🚀 ~ file: guardados.component.ts ~ line 55 ~ GuardadosComponent ~ getConfigurcionPersonalizadaDocente ~ iduser", iduser)
     
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
-        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        // cvpersonalizado.bloque === this.nombreBloque 
-        // && cvpersonalizado.nombre_cv === this.nombre_cv
-        // && cvpersonalizado.cv === this.cvHash
-        // ));
-
+       
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
         && cvpersonalizado.nombre_cv === this.nombre_cv
@@ -125,7 +105,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
         this.atributosOrdenados = _.orderBy(this.arregloAtributos, ["orden", "atributo"],["asc", "asc"]);
         this.arregloAtributos = this.atributosOrdenados;
-        console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 155 ~ CreacvPersonalizadoComponent ~ getConfiguracionPersonalizada ~ this.arregloAtributos", this.arregloAtributos)
   
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
@@ -144,30 +123,27 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
 
   FiltroNoVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'No Visibles'
     let iduser =  localStorage.getItem("id_user");
 
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
         console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        // cvpersonalizado.bloque === this.nombreBloque 
-        // && cvpersonalizado.nombre_cv === this.nombre_cv
-        // && cvpersonalizado.cv === this.cvHash));
+       
 
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
         && cvpersonalizado.nombre_cv === this.nombre_cv
         && cvpersonalizado.cv === this.cvHash);
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', false ]);
-        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 165 ~ CreacvPersonalizadoComponent ~ FiltroNoVisibles ~ this.atributosOrdenados", this.atributosOrdenados)
         
         this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOBLOQUENOVISIBLEPERSONALIZADO", this.arregloAtributos);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(confPersoDocente)
         );
@@ -179,17 +155,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
   }
 
   FiltroVisibles() {
+    this.visibilidad = true
+    this.textoVisibilidad  = 'Visibles'
     let iduser =  localStorage.getItem("id_user");
-    console.log("CVHASHAEDITAR", this.cvHash)
     
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
-        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
-        // console.log("DATAPERSONALIZADA", this.confPersoDocente.filter((cvpersonalizado) => 
-        // cvpersonalizado.bloque === this.nombreBloque 
-        // && cvpersonalizado.nombre_cv === this.nombre_cv
-        // && cvpersonalizado.cv === this.cvHash));
 
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
@@ -197,15 +169,11 @@ export class CreacvPersonalizadoComponent implements OnInit {
         && cvpersonalizado.cv === this.cvHash
         );
         this.atributosOrdenados = _.filter(this.arregloAtributos,['visible_cv_personalizado', true ]);
-        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 196 ~ CreacvPersonalizadoComponent ~ FiltroVisibles ~ this.atributosOrdenados", this.atributosOrdenados)
-        
         this.arregloAtributos = _.orderBy(this.atributosOrdenados, ["orden", "atributo"],["asc", "asc"]);
-        // console.log("🚀 ~ file: creacv-personalizado.component.ts ~ line 229 ~ CreacvPersonalizadoComponent ~ FiltroVisibles ~ this.arregloAtributos", this.arregloAtributos)
 
         this.dataSource = new MatTableDataSource(this.arregloAtributos);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOBLOQUENOVISIBLEPERSONALIZADO", this.arregloAtributos);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(confPersoDocente)
         );
@@ -237,7 +205,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
       }
       return d;
     });
-    console.log("food", this.arregloAtributos);
+    // console.log("food", this.arregloAtributos);
   }
 
   
@@ -249,14 +217,13 @@ export class CreacvPersonalizadoComponent implements OnInit {
       // para eficiencia se puede comprobar si el registro actual (atributo)
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
-      // console.log("atributo", atributo)
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
       if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo 
         && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;      
       this.configuracioncvService
         .putConfiguracionPersonalizada(atributo)
         .subscribe((res) => {
-          console.log('res', res)
+          this.getConfiguracionPersonalizada();
          
         });
         this._snackBar.open("Se guardó  correctamente", "Cerrar", {
@@ -264,9 +231,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
         });
     });
 
-    this.getConfiguracionPersonalizada();
-    
-    console.log("ATRIBUTOSORIGINAL", this.arregloAtributos)
   }
 
 
@@ -276,7 +240,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
+      // console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
       if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo 
         && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
       // console.log("guardado", bloque)
@@ -293,7 +257,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
 
     });
-    console.log("ALERTACAMBIOS", this.alertaCambios)
 
   }
 
@@ -304,21 +267,5 @@ export class CreacvPersonalizadoComponent implements OnInit {
     window.onhashchange=function(){window.location.hash="no-back-button";}
   }
 
-  
-
-  // guardarAtr(){   
-  //   console.log("miDataInterior", this.miDataInterior)
-  //   console.log("ARREGLOSATRORIGINAL", this.arregloAtributos)
-  //   this.miDataInterior.forEach((atributo) => {
-  //     console.log("atributo", atributo.id_atributo);
-  //     let atribtutoOriginal = this.arregloAtributos.find((b) => b.id_atributo == atributo.id_atributo);
-  //     console.log("ATRORIGINAL--->>>>>>>>", atribtutoOriginal);
-  //     if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo && atribtutoOriginal.visible_cv_completo == atributo.visible_cv_completo) return;
-  //     console.log("SE GUARDA");
-  //   });
-
-  //   this.miDataInterior = [] 
-  //   console.log("miDataInterior", this.miDataInterior)
-  // }
 
 }

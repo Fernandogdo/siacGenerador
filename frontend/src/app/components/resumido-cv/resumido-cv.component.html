@@ -8,11 +8,11 @@
                         <i class="material-icons">close</i>
                     </button>
                     <span data-notify="message"> INFORMACIÓN IMPORTANTE! BLOQUES RESUMIDOS <br> <br>
-                        Cada bloque de la configuracion de CV resumido, puede ser visualizado o no segun se marque en la
+                        Cada bloque de la configuración de CV resumido, puede ser visualizado o no según se marque en la
                         casilla,
-                        esta configuracion permite que los bloques de informacion se muestren o no en el cv de todos los
+                        esta configuración permite que los bloques de información se muestren o no en el cv de todos los
                         docentes. <br> <br>
-                        Adicionalmente a cada bloque se le puede dar un orden, este orden de los bloques sera para todos
+                        Adicionalmente, a cada bloque se le puede dar un orden, este orden de los bloques será para todos
                         los docentes.
                     </span>
                 </div>
@@ -28,7 +28,6 @@
                     <div class="example-header">
                         <b>Buscador:</b>
                         <mat-form-field>
-                            <!-- <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Filtro"> -->
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ej. Artículos"
                                 #filter>
                             <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value"
@@ -48,7 +47,7 @@
                             </span>
                         </button>
                         <div class="visible" *ngIf="visibilidad">
-                            <h6 id="visibilidad">Visivilizando {{textoVisibilidad}} </h6>
+                            <h6 id="visibilidad">Visibilizando {{textoVisibilidad}} </h6>
                         </div>
                         <mat-menu #menuPersonalizado="matMenu">
                             <button mat-menu-item (click)="getBloques()">Todo</button>
@@ -117,10 +116,10 @@
                     <!-- Boton Guardar -->
                     <div class="col text-center">
                         <button mat-raised-button color="primary" class="botones" (click)="guardar()">
-                            Guardar
                             <span class="material-icons">
                                 save
                             </span>
+                            Guardar
                         </button>
                     </div>
                 </mat-card>

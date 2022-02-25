@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-import { ConfiguracioncvService } from "app/services/configuracioncv.service";
+import { ConfiguracioncvService } from "../../services/configuracioncv.service";
 import { Subject } from "rxjs";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _ from "lodash";
-import { Configuracioncv } from "app/models/configuracioncv.model";
-import { ConfiguracioncvPersonalizado } from "app/models/configuracioncvPersonalizado.model";
+import { Configuracioncv } from "../../models/configuracioncv.model";
+import { ConfiguracioncvPersonalizado } from "../../models/configuracioncvPersonalizado.model";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -42,12 +42,17 @@ export class EditaPersonalizadoComponent implements OnInit {
 
   arregloBloquesVisibles = [];
   arregloBloquesNoVisibles = []
+  bloquesOriginal;
+  alertaCambios: boolean = false;
+
 
   constructor(
     public fb: FormBuilder,
     public configuracioncvService: ConfiguracioncvService,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
+
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -56,43 +61,29 @@ export class EditaPersonalizadoComponent implements OnInit {
     this.cvHash = this.route.snapshot.params["cv"];
     this.nombre_cv = this.route.snapshot.params["nombre"];
     this.nombre_cvNuevo = this.nombre_cv;
-    console.log("NOMBRESCVSINIT", this.nombre_cv, this.nombre_cvNuevo)
     this.idUsuario = (localStorage.getItem('id_user'));
-    console.log("IDUSARIO", this.idUsuario)
 
-    // this.getConfiguracionesPersonalizadas()
     this.setIntrvl()
   }
 
-
   setIntrvl() {
-    // setTimeout(() => this.compararArregloAtributos(), 6000);
-    setTimeout(() => this.getConfiguracionesPersonalizadas(), 800);
+    setTimeout(() => this.getConfiguracionesPersonalizadas(), 100);
   }
 
   getConfiguracionesPersonalizadas() {
-    console.log("NOMBRECVGET", this.nombre_cvNuevo)
     this.nombre_cv = this.nombre_cvNuevo
     let iduser = localStorage.getItem("id_user");
 
-
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser).subscribe(configuracionesPersonalizadas => {
-      // console.log("configuracionesPersonalizadas", configuracionesPersonalizadas)
-      // this.filtradoBloques = configuracionesPersonalizadas;
-
+      
       this.filtradoBloques = configuracionesPersonalizadas.filter((cvpersonalizado) =>
         cvpersonalizado.nombre_cv === this.nombre_cvNuevo
         && cvpersonalizado.cv === this.cvHash);
-      // console.log("🚀 ~ file: edita-personalizado.component.ts ~ line 124 ~ EditaPersonalizadoComponent ~ this.configuracioncvService.listaConfiguracionPersonalizadaDocente ~ this.filtradoBloques", this.filtradoBloques)
 
       this.confPersonalizadaNombre = this.filtradoBloques;
-
-      console.log("ATRIBUTOSIRIGINALMETODOGUARDAR", this.confPersonalizadaNombre)
-
-      // console.log("confPersonalizadaNombre", this.confPersonalizadaNombre)
+     
       let i = 1;
       this.filtradoBloques.forEach((bloque) => {
-        // console.log("BLOQUE", bloque)
         const data = {
           id: i++,
           bloque: bloque.bloque,
@@ -112,10 +103,11 @@ export class EditaPersonalizadoComponent implements OnInit {
       this.atributosOriginal = JSON.parse(
         JSON.stringify(this.arregloBloques)
       );
-      console.log("ARREGLOBLOQUESSERVICE", this.arregloBloques)
+      this.bloquesOriginal = JSON.parse(
+        JSON.stringify(this.arregloBloques)
+      );
     });
   }
-
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -127,30 +119,24 @@ export class EditaPersonalizadoComponent implements OnInit {
 
   FiltroNoVisibles() {
     //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
-    // console.log(event.checked)
-    // if (event.checked) {
-    console.log("FILTRONOVISBLES", this.confPersonalizadaNombre);
     let atributosOrdenados = _.filter(this.arregloBloquesVisibles, ['visible_cv_bloque', false]);
     this.arregloBloques = atributosOrdenados;
     this.dataSource = new MatTableDataSource(this.arregloBloques);
     this.atributosOriginal = JSON.parse(
       JSON.stringify(this.arregloBloques)
     );
-    console.log("NOVISIBLESBLOQUESPERS-->>", this.atributosOriginal)
+    // console.log("NOVISIBLESBLOQUESPERS-->>", this.atributosOriginal)
   }
 
   FiltroVisibles() {
     //Si checkbox es true muestra bloques visibles caso contrario muestra todos los bloques
-    // console.log(event.checked)
-    // if (event.checked) {
-    console.log("FILTROVISBLES", this.confPersonalizadaNombre);
     let atributosOrdenados = _.filter(this.arregloBloquesNoVisibles, ['visible_cv_bloque', true]);
     this.arregloBloques = atributosOrdenados;
     this.dataSource = new MatTableDataSource(this.arregloBloques);
     this.atributosOriginal = JSON.parse(
       JSON.stringify(this.arregloBloques)
     );
-    console.log("VISIBLESBLOQUESPERS-->>", this.atributosOriginal)
+    // console.log("VISIBLESBLOQUESPERS-->>", this.atributosOriginal)
   }
 
   valor(id) {
@@ -174,34 +160,22 @@ export class EditaPersonalizadoComponent implements OnInit {
       }
       return d;
     });
-    console.log("food", this.arregloBloques);
   }
-
-
-
 
 
   guardarAtributos() {
     // iterar cada uno de los bloques
     let iduser = localStorage.getItem("id_user");
 
-    console.log("NOVISIBLESFILTER", this.arregloBloques)
-
-    console.log("NOMBRECV", this.nombre_cv)
-    console.log("NOMBRECVNUEVO", this.nombre_cvNuevo)
-    console.log("ARREGLOBLOQUESGUARDAR", this.arregloBloques)
-
     this.nombre_cvNuevo = this.nombre_cvNuevo.replace(/=|\?|\+|#|_| |\/|'|"|\(|\)|&|\*|\$|`|~|@|%|\||\\|<|>|{|}|\[|\]|\.|\,|\^|\;|\:|!|¡|º|ª/g, '')
 
-    console.log("nombre_cv", this.nombre_cvNuevo)
+    // console.log("nombre_cv", this.nombre_cvNuevo)
 
     const removeAccents = (str) => {
       return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     };
 
-    // let nombre_cv = 'campeón'
     var cadena = removeAccents(this.nombre_cvNuevo);
-    console.log(cadena); 
 
     this.nombre_cvNuevo = cadena
 
@@ -210,10 +184,8 @@ export class EditaPersonalizadoComponent implements OnInit {
 
       // Recorre configuracion personalizadas traidas desde el servicio
       this.arregloBloques.forEach((bloque) => {
-        // console.log("BLOQUE", bloque)
 
         if (atributo.bloque === bloque.bloque) {
-          // console.log("SON IGUALES")
           const data = {
             id: atributo.id,
             id_user: iduser,
@@ -225,7 +197,6 @@ export class EditaPersonalizadoComponent implements OnInit {
             cv: atributo.cv,
             nombre_cv: this.nombre_cvNuevo,
             cedula: atributo.id,
-            nombreBloque: bloque.bloque,
             ordenPersonalizable: bloque.ordenPersonalizable, //Orden de bloque Personalizable
             visible_cv_bloque: bloque.visible_cv_bloque
           }
@@ -236,24 +207,18 @@ export class EditaPersonalizadoComponent implements OnInit {
 
 
     this.configuracioncvService.getConfiguracionesPersonalizadas().subscribe((configuracionesPersonalizadas) => {
-      console.log("CONFPERSONALIZADAS", configuracionesPersonalizadas )
       this.filtradoBloques = configuracionesPersonalizadas.filter((user) => user.id_user === this.idUsuario
         && user.nombre_cv === this.nombre_cv);
 
       this.atributosOriginal = this.filtradoBloques;
-      console.log("DATAORIGINALNOMBRE", this.atributosOriginal)
-      console.log("GUARDARDATAINTERIOR", this.miDataInterior)
-
-      console.log("NOMBRECVNUEVO", this.nombre_cvNuevo)
+      
       // iterar cada uno de los bloques
       this.miDataInterior.forEach((confPersonalizada) => {
 
         // para eficiencia se puede comprobar si el registro actual (bloque)
         // se ha modificado. Si sus campos son iguales al original entonces
         // no es necesario guardarlo
-        // console.log("ATRORIGINAL",this.atributosOriginal)
         let confPersonalizadaOriginal = this.atributosOriginal.find(confOriginal => confOriginal.id == confPersonalizada.id)
-        console.log("NOMBRESCV", confPersonalizada.nombre_cv, this.nombre_cv)
         if (this.nombre_cvNuevo == confPersonalizadaOriginal.nombre_cv
           && confPersonalizadaOriginal.ordenPersonalizable
           == confPersonalizada.ordenPersonalizable
@@ -263,8 +228,12 @@ export class EditaPersonalizadoComponent implements OnInit {
 
         // si el bloque se modificó proceder a guardarlo
         this.configuracioncvService.putConfiguracionPersonalizada(confPersonalizada).subscribe((res) => {
-          console.log("editado", res);
-          this.getConfiguracionesPersonalizadas();
+
+        }, (error) => {
+          error
+          this._snackBar.open("Error al editar la configuración", "Cerrar", {
+            duration: 2000,
+          });
 
         });
         this._snackBar.open("Se editó la configuración correctamente", "Cerrar", {
@@ -272,10 +241,29 @@ export class EditaPersonalizadoComponent implements OnInit {
         });
       });
 
-      // console.log("ATRIBUTOSORIGONALGUARDADO", this.atributosOriginal)
-
+      this.getConfiguracionesPersonalizadas();
       this.miDataInterior = []
+    });
+  }
 
+
+  alertaGuardarCambios() {
+    this.arregloBloques.forEach((bloque) => {
+      // para eficiencia se puede comprobar si el registro actual (bloque)
+      // se ha modificado. Si sus campos son iguales al original entonces
+      // no es necesario guardarlo
+      let bloqueOriginal = this.bloquesOriginal.find(b => b.id == bloque.id)
+      if (bloqueOriginal.ordenPersonalizable == bloque.ordenPersonalizable &&
+        bloqueOriginal.visible_cv_bloque == bloque.visible_cv_bloque) return
+
+      this.alertaCambios = true;
+
+      if (this.alertaCambios === true) {
+        this.router.navigate(['/edita-personalizado/' + this.nombre_cv + '/' + this.cvHash]);
+        this._snackBar.open("Asegurate de Guardar los cambios", "Cerrar", {
+          duration: 2000,
+        });
+      }
     });
   }
 
@@ -287,6 +275,7 @@ export class EditaPersonalizadoComponent implements OnInit {
 
   nombrecvLocalStorage() {
     localStorage.setItem('nombre_cv', this.nombre_cv);
+    this.alertaGuardarCambios()
   }
 
 

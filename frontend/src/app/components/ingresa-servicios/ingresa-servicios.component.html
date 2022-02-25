@@ -6,12 +6,8 @@
                     update
                 </span>
                 Actualizar Información
-               
-            </button>
 
-            <!-- <button >
-                Prueba
-            </button> -->
+            </button>
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -24,10 +20,6 @@
                     <div class="card-body">
                         <h6 class="card-category text-gray">SIAC</h6>
                         <h4 class="card-title">Registrar Servicios</h4>
-                        <!-- <p class="card-description">
-                            Don't be scared of the truth because we need to restart the human foundation in truth And I
-                            love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                        </p> -->
 
                         <form #serviciosForm="ngForm" (ngSubmit)="postServicios(serviciosForm)">
                             <input type="hidden" name="id" #id="ngModel"
@@ -66,10 +58,7 @@
 
             <div class="col-md-8">
                 <div class="card">
-                    <!-- <div class="card-header card-header-danger" id="tarjetaHeaderTabla">
-                        <h4 class="card-title">Edit Profile</h4>
-                        <p class="card-category">Complete your profile</p>
-                    </div> -->
+
                     <div class="card-body">
                         <table class="table">
                             <thead>
@@ -82,10 +71,12 @@
                                     <td>{{ servicio.bloqueNombre }}</td>
                                     <td>{{ servicio.url }}</td>
                                     <td>
-                                        <a (click)="editServicio(servicio)" class="btn btn-secondary btn-sm" id="btnEditar">
+                                        <a (click)="editServicio(servicio)" class="btn btn-secondary btn-sm"
+                                            id="btnEditar">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a (click)="deleteServicio(servicio.id)" class="btn btn-secondary btn-sm" id="btnEliminar">
+                                        <a (click)="deleteServicio(servicio.id)" class="btn btn-secondary btn-sm"
+                                            id="btnEliminar">
                                             <i class="material-icons">delete</i>
                                         </a>
                                     </td>
@@ -99,38 +90,3 @@
         </div>
     </div>
 </div>
-
-<!-- <button mat-raised-button id="btnGuardar" [disabled]="!nombreBloque">
-    Guardars
-</button> -->
-
-
-<!-- <form [formGroup]="loginForm" novalidate (ngSubmit)="signIn()">
-
-    <mat-form-field appearance="outline">
-        <mat-label>Usuario</mat-label>
-        <input matInput placeholder="usuario@utpl.edu.ec" 
-        formControlName="bloqueNombre"
-
-        >
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>URL</mat-label>
-        <input matInput name="url" class="form-control"
-            placeholder="Ejp. https://siac.utpl.edu.ec... "
-            formControlName="url"
-          
-            type="url"
-            >
-        
-        <mat-icon matSuffix>link</mat-icon>
-    </mat-form-field>
-
-
-    <button type="submit" mat-raised-button color="primary">
-        Iniciar Sesión
-    </button>
-  
-</form> -->

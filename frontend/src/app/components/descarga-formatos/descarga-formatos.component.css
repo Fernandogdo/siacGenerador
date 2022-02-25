@@ -17,8 +17,15 @@
 }
 
 .logo {
-    width: 215px;
-    height: 230px;
+    width: 70%;
+    height: 50%;
+    display: block;
+    margin: auto;
+}
+
+.logoPdf{
+    width: 57%;
+    height: 50%;
     display: block;
     margin: auto;
 }

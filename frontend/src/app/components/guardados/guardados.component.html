@@ -1,65 +1,68 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="container" id="formulario">
                     <div class="col text-center">
-                        <button mat-raised-button class="btnCreaPersonalizado" color="primary" routerLink="/cv-personalizado" routerLinkActive="active">
+                        <button mat-raised-button class="btnCreaPersonalizado" color="primary"
+                            routerLink="/cv-personalizado" routerLinkActive="active">
                             <span class="material-icons">
                                 add_circle_outline
-                            </span>  
+                            </span>
                             Crear CV Personalizado
-      
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of confPersoDocenteClasFormateadas">
                 <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
-                        <!-- <div class="card-icon">
-                            <i class="material-icons">perm_contact_calendar</i><br>
-                        </div> -->
-                        <div class="tituloPersonalizado" >
+                        <div class="tituloPersonalizado">
                             <h4 class="card-title">{{item.cv.split(',')[0]}}</h4>
                         </div>
                         <br><br>
-                       
+
                         <div id="botonesPersonalizado">
-                            <button class="btnPersonalizadoPdf" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaPdfPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])" >
+                            <button class="btnPersonalizadoPdf" id="btnPersonalizado" mat-stroked-button color="primary"
+                                (click)="generaPdfPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
                                 pdf
                             </button>
-                            <button class="btnPersonalizadoDocx" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaDocPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
+                            <button class="btnPersonalizadoDocx" id="btnPersonalizado" mat-stroked-button
+                                color="primary"
+                                (click)="generaDocPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
                                 docx
                             </button>
-                            <button class="btnPersonalizadoJson" id="btnPersonalizado" mat-stroked-button color="primary" (click)="generaJsonPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
+                            <button class="btnPersonalizadoJson" id="btnPersonalizado" mat-stroked-button
+                                color="primary"
+                                (click)="generaJsonPersonalizado(item.cv.split(',')[0], item.cv.split(',')[1])">
                                 json
                             </button>
                         </div>
                     </div>
-                   
+
                     <div class="card-footer" id="infoPieTarjeta">
-                        <h6 id="btnPie">{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6> 
-                      
-                        <button mat-raised-button class="btnEditar" id="btnPie" color="accent" (click)="metodosBtnEditar(item.cv.split(',')[0], item.cv.split(',')[1])"  [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]" routerLinkActive="active">
+                        <h6 id="btnPie">{{item.cv.split(',')[2] | date: 'dd/MM/yyyy'}}</h6>
+
+                        <button mat-raised-button class="btnEditar" id="btnPie" color="accent"
+                            (click)="metodosBtnEditar(item.cv.split(',')[0], item.cv.split(',')[1])"
+                            [routerLink]="['/edita-personalizado/', item.cv.split(',')[0], item.cv.split(',')[1]]"
+                            routerLinkActive="active">
                             <i class=" material-icons ">edit</i>
                         </button>
-                        <button mat-raised-button class="btnEliminar" id="btnPie" (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
+                        <button mat-raised-button class="btnEliminar" id="btnPie"
+                            (click)="deleteConfiguracionPersonalizada( item.cv.split(',')[0], item.cv.split(',')[1])"
+                            color="warn">
                             <i class=" material-icons ">delete</i>
                         </button>
-                        <!-- <button mat-raised-button class="btnEliminar" id="btnPie" (click)="editaobjetoConfPersonalizada(item.cv.split(',')[0], item.cv.split(',')[1])" color="warn">
-                            <i class=" material-icons ">edit</i>
-                        </button> -->
-                    </div> 
-                    
+                    </div>
+
                     <div *ngIf="valor && valorNombre == item.cv.split(',')[0] && hashCv == item.cv.split(',')[1]">
-                        Generando archivo {{tipoDocumento}} {{item.cv.split(',')[0]}} 
+                        Generando archivo {{tipoDocumento}} {{item.cv.split(',')[0]}}
                         <mat-progress-bar mode="query">
 
                         </mat-progress-bar>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>

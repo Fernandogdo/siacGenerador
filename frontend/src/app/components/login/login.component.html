@@ -1,67 +1,35 @@
-<!-- <div class="pg-login">
-    <div class="container">
-        <div class="login">
-            <h4>Iniciar sesión</h4>
-            <form  [formGroup]="loginForm" (submit)="signIn()">
-                <div class="form-group">
+<div class="login-container">
+    <div class="login-content">
+        <mat-card>
+            <form [formGroup]="loginForm" novalidate (ngSubmit)="signIn()">
 
-                    <input type="text" name="username" formControlName="username" class="form-control" id="InputUser" placeholder="Username"
-                        required="required">
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput placeholder="usuario@utpl.edu.ec" formControlName="username">
+                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                </mat-form-field>
 
-                </div>
-                <div class="form-group">
-
-                    <input type="password" name="password" formControlName="password" class="form-control" id="InputPassword" placeholder="Password"
-                        required="required">
-                </div>
-               
-                <button type="submit" class="btn btn-primary btn-block btn-large font-weight-bold" id="btnIngresar" >Entrar</button>
-            </form>
-        </div>
-    </div>
-</div> -->
-
-
-<!-- <mat-card id="tarjetaGeneral"> -->
-    <div class="login-container">
-
-        <div class="login-content">
-            <!-- <mat-toolbar class="login-toolbar" color="primary">My App</mat-toolbar> -->
-            <mat-card>
-                <form [formGroup]="loginForm" novalidate (ngSubmit)="signIn()">
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Usuario</mat-label>
-                        <input matInput placeholder="usuario@utpl.edu.ec" formControlName="username">
-                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                        <!-- <mat-hint>Hint</mat-hint> -->
-                    </mat-form-field>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Contraseña</mat-label>
-                        <input matInput type="password" [type]="hide ? 'password' : 'text'"
-                            formControlName="password">
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                            [attr.aria-pressed]="hide">
-                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-    
-                    </mat-form-field>
-                    
-                   
-                    
-                    <button type="submit" mat-raised-button color="primary">
-                        Iniciar Sesión
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" [type]="hide ? 'password' : 'text'"
+                        formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                  
-                </form>
-                <div class="col text-center">
-                    <p>
-                        <a href="">¿Olvidaste tu contraseña?</a>
-                    </p>
-                </div>
-            </mat-card>
-        </div>
+
+                </mat-form-field>
+                
+                <button type="submit" mat-raised-button color="primary">
+                    Iniciar Sesión
+                </button>
+              
+            </form>
+            <div class="col text-center">
+                <p>
+                    <a href="">¿Olvidaste tu contraseña?</a>
+                </p>
+            </div>
+        </mat-card>
     </div>
-    
-    <!-- </mat-card> -->
+</div>

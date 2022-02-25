@@ -18,13 +18,6 @@ export class BloqueServicioService {
   arreglosUrl = [];
   urlEsquema;
   token = '54fc0dc20849860f256622e78f6868d7a04fbd30';
-  // URL_BLOQUES = "http://localhost:8000/api/bloque/";
-  // URL_CONF = 'http://localhost:8000/api/configuracioncv/';
-  // URL_SERVICIOS = 'http://localhost:8000/api/servicio/'
-  // URL_ELIMINA_OBJ = 'http://localhost:8000/api/elimina-objeto/';
-  // URL_ELIMINA_OBJ_BLOQUE = 'http://localhost:8000/api/elimina-objetobloque/';
-  // URL_ELIMINA_OBJE_CONFPERSONALIZADA = 'http://localhost:8000/api/elimina-objetoconfpersonalizada/';
-  // URL_PERS = "http://localhost:8000/api/configuracioncv_personalizado/";
 
   // bloquesservicio: any = [];
   bloquesservicio: servicioBloques[];
@@ -54,8 +47,8 @@ export class BloqueServicioService {
     // })
     this.url = Global.url;
 
-    this.getBloques().subscribe((res)=>{
-      console.log("RESBLOQUES", res.length)
+    this.getBloques().subscribe((res) => {
+      // console.log("RESBLOQUES", res.length)
       // longitud = res.length
       this.longitudBloques = res.length
     })
@@ -63,9 +56,7 @@ export class BloqueServicioService {
   }
 
 
-
   getServicios() {
-    console.log("SERVICIOS", this.url)
     return this.http.get<servicioBloques[]>(this.url + 'servicio/');
   }
 
@@ -79,16 +70,16 @@ export class BloqueServicioService {
     return this.http.get<Bloque[]>(this.url + "bloque/");
   }
 
-  postConfiguraciones(bloque, atributo) {
-    console.log("GUARDADO", bloque, atributo)
+  postConfiguraciones(bloque, bloqueService, atributo) {
     const path = `${this.url + 'configuracioncv/'}`;
     let idUser = parseInt(localStorage.getItem('id_user'))
-    console.log("IDUSER", idUser)
 
     return this.http.post<Configuracioncv>(path, {
       bloque: bloque,
+      bloqueService: bloqueService,
       atributo: atributo,
-      orden: 1,
+      ordenCompleto: 1,
+      ordenResumido: 1,
       visible_cv_resumido: false,
       visible_cv_completo: false,
       mapeo: atributo,
@@ -113,34 +104,48 @@ export class BloqueServicioService {
   copiaEsquemaAtributos() {
     this.getServicios().subscribe((dataBase) => {
       this.bloquesservicio = dataBase
-      console.log('BLOQUESERVICIO', this.bloquesservicio);
+      // console.log('BLOQUESERVICIO', this.bloquesservicio);
       this.bloquesservicio.forEach((atributo) => {
-        console.log("lalaatributo", atributo)
+        // console.log("lalaatributo", atributo)
         this.urlSiac = atributo.url;
-        this.arreglosUrl.push(this.urlSiac);
-        console.log("URLARREGLOURL", this.arreglosUrl)
+        // this.arreglosUrl.push(this.urlSiac);
+        // console.log("URLARREGLOURL", this.arreglosUrl)
+
+        let bloqueService = /^(\w+):\/\/([^\/]+)([^]+)$/.exec(this.urlSiac);
+        var [, protocolo, servidor, path] = bloqueService;
+
+        let bloqueUrl = []
+
+        bloqueUrl = path.split('/', 4)
+
+        bloqueUrl = bloqueUrl[3]
+
+        console.log("BLOQUENOMBRE", atributo.bloqueNombre, bloqueUrl)
         this.bloques(this.urlSiac).subscribe((data) => {
           let keys = Object.keys(data.results[0]);
           // console.log('BLOQUE', atributo.bloqueNombre);
           for (let i = 0; i < keys.length; i++) {
             let clave = keys[i];
-            console.log('Bloque - atributo', atributo.bloqueNombre, clave);
+            // console.log('Bloque - atributo', atributo.bloqueNombre, clave);
             // this.postConfiguraciones(atributo.bloqueNombre, clave);
+
             const datos = {
               bloque: atributo.bloqueNombre,
+              bloqueService: bloqueUrl,
               atributo: clave
             }
-            // console.log("DATOSCOPIAESQUEMA", datos)
             this.arregloEsquema.push(datos)
-          }
-          // console.log("ARREGLOESQUEMA", this.arregloEsquema)
 
-          // this.comparaEsquemaBaseDatosEliminarAtributo(this.arregloEsquema)
+          }
+
           this.compararEsquemaBaseDatosGuardarAtributo(this.arregloEsquema)
+
         });
+        // console.log("ARREGLOESQUEMAMETODOCOPIAESQUEMA", this.arregloEsquema)
+
       });
-      console.log("ARREGLOESQUEMA", this.arregloEsquema)
       this.arregloEsquema = []
+
 
 
     },
@@ -152,19 +157,16 @@ export class BloqueServicioService {
   }
 
 
-
   // Hace post en bloques
-  postBloques(bloques) {
+  postBloques(bloques, nombreService) {
     const path = `${this.url + 'bloque/'}`;
 
-   
+    // console.log("longBLOQUES", bloques, nombreService)
 
-    console.log("longBLOQUES", this.longitudBloques)
-
-
-    console.log("pPATH", path)
+    // console.log("pPATH", path)
     return this.http.post<Bloque>(path, {
       nombre: bloques,
+      nombreService: nombreService,
       ordenCompleto: this.longitudBloques + 1,
       ordenResumido: this.longitudBloques + 1,
       ordenPersonalizable: this.longitudBloques + 1,
@@ -178,12 +180,26 @@ export class BloqueServicioService {
       // console.log('BLOQUESERVICIO', this.bloquesDataBase);
       this.bloquesDataBase.forEach((bloque) => {
         this.urlSiac = bloque.url;
+        // console.log('BLOQUECOPIA', bloque.bloqueNombre, bloque.url);
+
+
+        let bloqueService = /^(\w+):\/\/([^\/]+)([^]+)$/.exec(bloque.url);
+        var [, protocolo, servidor, path] = bloqueService;
+
+        let bloqueUrl = []
+
+        bloqueUrl = path.split('/', 4)
+
+        bloqueUrl = bloqueUrl[3]
+
+        // console.log("BLOQUENOMBRE", bloque.bloqueNombre, bloqueUrl)
+
         this.arreglosUrl.push(this.urlSiac);
         this.bloques(this.urlSiac).subscribe((data) => {
-          // let keys = Object.keys(data.results[0]);
-          // console.log('BLOQUECOPIA', bloque.bloqueNombre);
+
           const datos = {
             nombre: bloque.bloqueNombre,
+            nombreService: bloqueUrl
           }
           this.arregloBloquesEsquema.push(datos)
           // }
@@ -200,11 +216,10 @@ export class BloqueServicioService {
 
 
   compararEsquemaBaseDatosGuardarAtributo(arregloEsquema) {
+    // console.log("ARREGLOESQUEMA", arregloEsquema)
 
-    // console.log("ARREGLOA", arregloEsquema)
     this.getConfiguraciones().subscribe((arregloBaseDatos) => {
-      // console.log("ARREGLOBASEDEDATOS", arregloBaseDatos)
-
+      // console.log("ARREGLOBASEDATOS", arregloBaseDatos)
       const aux = arregloEsquema.reduce((prev, curr) => {
         const item = arregloBaseDatos.find(x => x.atributo === curr.atributo && x.bloque === curr.bloque);
 
@@ -212,12 +227,11 @@ export class BloqueServicioService {
 
         return prev;
       }, []);
-      console.log("arrayAGUARDAR", aux)
 
       aux.forEach(objeto => {
-        console.log('elementoaguardarBloqueAtributo', objeto.bloque, objeto.atributo);
-        this.postConfiguraciones(objeto.bloque, objeto.atributo).subscribe((res) => {
-          console.log("guardado", res)
+        console.log('elementoaguardarBloqueAtributo', objeto.bloque, objeto.bloqueService, objeto.atributo, );
+        this.postConfiguraciones(objeto.bloque, objeto.bloqueService, objeto.atributo).subscribe((res) => {
+          // console.log("guardado", res)
         }, (error) => {
           console.log("ERRORREPETIDO", error)
         })
@@ -231,12 +245,7 @@ export class BloqueServicioService {
 
 
   compararEsquemaBaseDatosGuardarBloque(arregloEsquemaBloques) {
-
-    
-
-    console.log("ARREGLOABLOQUES", arregloEsquemaBloques)
     this.getBloques().subscribe((arregloBaseDatosBloques) => {
-      console.log("ARREGLOBASEDEDATOS", arregloBaseDatosBloques)
 
       const aux = arregloEsquemaBloques.reduce((prev, curr) => {
         const item = arregloBaseDatosBloques.find(x => x.nombre === curr.nombre);
@@ -245,16 +254,15 @@ export class BloqueServicioService {
 
         return prev;
       }, []);
-      console.log("AGUARDARBLOQUES", aux)
+      // console.log("AGUARDARBLOQUES", aux)
 
       aux.forEach(objeto => {
-        console.log('elementoaguardarBloqueBloque', objeto.nombre);
-        this.postBloques(objeto.nombre)
-        .subscribe((
-          res => {
-            console.log("RESBLOQUES", res)
-          }
-        ))
+        // console.log('elementoaguardarBloqueBloque', objeto.nombre, objeto.nombreService);
+        this.postBloques(objeto.nombre, objeto.nombreService)
+          .subscribe((
+            res => {
+            }
+          ))
 
       });
 
@@ -277,17 +285,15 @@ export class BloqueServicioService {
     return this.http.delete(this.url + 'bloque/' + id)
   }
 
-  deleteConfiguracionPersonalizada(id: string){
-    return this.http.delete(this.url + 'configuracioncv_personalizado/' + id)
+  // deleteConfiguracionPersonalizada(id: string) {
+  //   return this.http.delete(this.url + 'configuracioncv_personalizado/' + id)
 
-  }
+  // }
 
   //Elimina objeto de configuracion que no coincide con servicios de siac
   eliminaObjetoNoSimilarConfiguracion(bloque, atributo) {
     return this.http.get(this.url + 'elimina-objeto/' + bloque + "/" + atributo)
   }
-
-
 
   //Elimina objeto de bloque que no coincide con servicios de siac
   eliminaObjetoNoSimilarBloque(bloque) {
@@ -297,7 +303,7 @@ export class BloqueServicioService {
 
 
   eliminaObjetoNoSimilarConfPersonalizada(iduser, nombre_cv, cv, bloque, atributo) {
-    console.log("ATRIBUTOELMINAOBJETOPERSONALIZADOSERVICE", iduser, nombre_cv, cv, bloque, atributo)
+    // console.log("ATRIBUTOELMINAOBJETOPERSONALIZADOSERVICE", iduser, nombre_cv, cv, bloque, atributo)
     return this.http.get(this.url + 'elimina-objetoconfpersonalizada/' + iduser + '/' + nombre_cv + '/' + cv + '/' + bloque + '/' + atributo)
   }
 
@@ -311,9 +317,7 @@ export class BloqueServicioService {
       configuracionPersonalizada
     );
 
-    // return this.http.get(this.URL_ELIMINA_OBJE_CONFPERSONALIZADA + )
   }
-
 
   postServicios(servicio) {
     return this.http.post<servicioBloques>(this.url + 'servicio/', servicio);
@@ -322,7 +326,5 @@ export class BloqueServicioService {
   putServicios(servicio: servicioBloques) {
     return this.http.put(this.url + 'servicio/' + servicio.id + "/", servicio);
   }
-
-
 
 }
