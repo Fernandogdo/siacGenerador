@@ -259,7 +259,6 @@ export class PersonalizadoCvComponent implements OnInit {
         this.arregloBloques.forEach((bloque) => {
 
           if (atributo.bloque === bloque.nombre) {
-            console.log("SON IGUALES", atributo.bloque, bloque.nombre, atributo.ordenCompleto)
             const data = {
               id_user: iduser,
               bloque: atributo.bloque,
