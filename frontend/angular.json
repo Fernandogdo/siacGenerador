@@ -39,7 +39,8 @@
                             "rxjs/add/operator/filter",
                             "jquery",
                             "chartist",
-                            "lodash"
+                            "lodash",
+                            "hammerjs"
                         ]
                     },
                     "configurations": {

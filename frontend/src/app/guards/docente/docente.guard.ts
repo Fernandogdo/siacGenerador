@@ -28,10 +28,7 @@ export class DocenteGuard implements CanActivate {
 
 
   redirect(flag: boolean): any {
-    console.log("FLAG", !flag)
     if (!flag) {
-      console.log("FLAGADMINIF", !flag)
-      console.log("NO TIENES ACCESO")
       this.router.navigate(['/', 'login'])
     }
   }
@@ -47,15 +44,12 @@ export class DocenteGuard implements CanActivate {
     if (this.token) {
       
       this.isTrueSet = true
-      console.log("EXISTETOKEN", this.isTrueSet)
       // this.router.navigate(['/dashboard'])
     } else{
       this.isTrueSet = false
-      console.log("NOEXISTETOKEN", this.isTrueSet)
 
     }
 
-    console.log("SEMUESTRAVARADMINTRUE", isTrueSet)
     this.redirect(isTrueSet)
 
     return isTrueSet

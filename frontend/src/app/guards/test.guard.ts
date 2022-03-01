@@ -26,10 +26,7 @@ export class TestGuard implements CanActivate {
   }
 
   redirect(flag: boolean): any {
-    console.log("FLAG", !flag)
     if (!flag) {
-      console.log("FLAGTESTF", !flag)
-      console.log("NO TIENES ACCESO")
       this.router.navigate(['/', 'login'])
       this.authorizationService.cerrarSesionDocente()
     }
@@ -40,20 +37,16 @@ export class TestGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     this.staff = localStorage.getItem("is_staff")
-    console.log("STAFF", this.staff)
     var isTrueSet = (this.staff === 'true');
     
-    console.log("CANACTIVATEADMIN", isTrueSet)
 
     if (isTrueSet === false) {
       
       this.isTrueSet = true
-      console.log("EXISTETOKEN", this.isTrueSet)
     } 
 
     if (!this.token) {
       this.isTrueSet = false
-      console.log("NOEXISTETOKEN", this.isTrueSet)
     }
     
     // else{
@@ -62,7 +55,6 @@ export class TestGuard implements CanActivate {
 
     // }
 
-    console.log("SEMUESTRAVARTESTTRUE", this.isTrueSet)
     this.redirect(this.isTrueSet)
 
     return this.isTrueSet

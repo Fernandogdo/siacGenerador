@@ -229,11 +229,9 @@ export class BloqueServicioService {
       }, []);
 
       aux.forEach(objeto => {
-        console.log('elementoaguardarBloqueAtributo', objeto.bloque, objeto.bloqueService, objeto.atributo, );
         this.postConfiguraciones(objeto.bloque, objeto.bloqueService, objeto.atributo).subscribe((res) => {
           // console.log("guardado", res)
         }, (error) => {
-          console.log("ERRORREPETIDO", error)
         })
 
       });
@@ -297,19 +295,16 @@ export class BloqueServicioService {
 
   //Elimina objeto de bloque que no coincide con servicios de siac
   eliminaObjetoNoSimilarBloque(bloque) {
-    console.log("BLOQUEELMINAOBJETO", bloque)
     return this.http.get(this.url + 'elimina-objetobloque/' + bloque)
   }
 
 
   eliminaObjetoNoSimilarConfPersonalizada(iduser, nombre_cv, cv, bloque, atributo) {
-    // console.log("ATRIBUTOELMINAOBJETOPERSONALIZADOSERVICE", iduser, nombre_cv, cv, bloque, atributo)
     return this.http.get(this.url + 'elimina-objetoconfpersonalizada/' + iduser + '/' + nombre_cv + '/' + cv + '/' + bloque + '/' + atributo)
   }
 
   postObjetoNosimilarConfPersonalizada(configuracionPersonalizada) {
 
-    console.log("DATAGUARDAR", configuracionPersonalizada)
 
     const path = `${this.url + 'configuracioncv_personalizado/'}`;
     return this.http.post<ConfiguracioncvPersonalizado>(

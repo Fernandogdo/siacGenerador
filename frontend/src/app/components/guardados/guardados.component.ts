@@ -80,8 +80,6 @@ export class GuardadosComponent implements OnInit {
     this.idParamsUrl = this.activatedRoute.snapshot.paramMap.get("id_user");
     localStorage.setItem('id_user', this.idParamsUrl);
     this.idUserStorage = localStorage.getItem("id_user");
-    console.log("idUserStorage", this.idUserStorage)
-
 
     this.comprobarId()
     this.getConfigurcionPersonalizadaDocente()

@@ -77,11 +77,9 @@ export class CreacvPersonalizadoComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.arregloBloques);
         this.dataSource.paginator = this.paginator;
 
-        console.log("FILTRADOBLOQUE", this.arregloBloques);
         this.atributosOriginal = JSON.parse(
           JSON.stringify(res)
         );
-        console.log("ATRIBUTOSIRIGINAL", this.atributosOriginal)
       },
       (err) => console.log(err)
     );
@@ -130,9 +128,7 @@ export class CreacvPersonalizadoComponent implements OnInit {
     this.configuracioncvService.listaConfiguracionPersonalizadaDocente(iduser)
       .subscribe(confPersoDocente =>{
         this.confPersoDocente = confPersoDocente;
-        console.log("NOMBRECV", this.nombre_cv, this.idUsuario, this.nombreBloque)
        
-
         this.arregloAtributos = this.confPersoDocente.filter((cvpersonalizado) => 
         cvpersonalizado.bloque === this.nombreBloque 
         && cvpersonalizado.nombre_cv === this.nombre_cv
@@ -185,7 +181,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
 
   valor(id){
     this.id = id
-    console.log('id', this.id)
   }
 
 
@@ -205,7 +200,6 @@ export class CreacvPersonalizadoComponent implements OnInit {
       }
       return d;
     });
-    // console.log("food", this.arregloAtributos);
   }
 
   
@@ -240,10 +234,8 @@ export class CreacvPersonalizadoComponent implements OnInit {
       // se ha modificado. Si sus campos son iguales al original entonces
       // no es necesario guardarlo
       let atribtutoOriginal = this.atributosOriginal.find((b) => b.id == atributo.id);
-      // console.log("ATRIBUTOORIGINALORDEN", atribtutoOriginal.orden, atributo.orden)
       if (atribtutoOriginal.orden == atributo.orden && atribtutoOriginal.mapeo == atributo.mapeo 
         && atribtutoOriginal.visible_cv_personalizado == atributo.visible_cv_personalizado) return;
-      // console.log("guardado", bloque)
 
 
       this.alertaCambios = true;

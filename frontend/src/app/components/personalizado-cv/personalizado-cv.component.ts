@@ -161,7 +161,6 @@ export class PersonalizadoCvComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
 
   onChangeBloque($event) {
@@ -295,7 +294,6 @@ export class PersonalizadoCvComponent implements OnInit {
       this.isDisabled = false;
 
     } else {
-      console.log("NOMBRECVESTANULO", this.nombre_cv)
       this._snackBar.open('Por favor ingresa el nombre del cv personalizado', "Cerrar", {
         duration: 3000,
       });

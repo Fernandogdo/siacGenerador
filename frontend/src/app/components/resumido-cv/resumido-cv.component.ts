@@ -98,7 +98,6 @@ export class ResumidoCvComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
 
   onChangeBloque($event) {

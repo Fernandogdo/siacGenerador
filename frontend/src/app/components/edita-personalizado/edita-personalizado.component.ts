@@ -141,7 +141,6 @@ export class EditaPersonalizadoComponent implements OnInit {
 
   valor(id) {
     this.id = id
-    console.log('id', this.id)
   }
 
   onChangeBloque($event) {

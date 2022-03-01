@@ -44,7 +44,6 @@ export class AuthorizationService {
       this.rolUsuario = this.usuario.username.is_staff
       localStorage.setItem('is_staff', this.rolUsuario)
 
-      console.log("STAFF",this.usuario.username.is_staff)
       // this.presentToast()
       // console.log("SR ICE", res.token)
       // this.idUser = res.id_user
@@ -52,10 +51,8 @@ export class AuthorizationService {
       let rol =localStorage.getItem('is_staff')
 
       let rolUsuario = (rol === 'true');
-      console.log("ROLUSUARIOASDSA", rolUsuario)
 
       if (rolUsuario) {
-        console.log("ESADMIN")
         this.router.navigate(['/administrador']);
 
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
@@ -63,7 +60,6 @@ export class AuthorizationService {
         });
       } 
       else {
-        console.log("noESADMIN")
         this.router.navigate(['/dashboard']);
         this._snackBar.open('Ha iniciado Sesion', "Cerrar", {
           duration: 2000,
@@ -78,7 +74,6 @@ export class AuthorizationService {
       // this.router.navigate(['/dashboard']);
       
     }, error => {
-      console.log("ERROR AL LOGUEAR")
       this.errorLogueo();
     });
   }
