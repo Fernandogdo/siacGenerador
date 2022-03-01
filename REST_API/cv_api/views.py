@@ -861,6 +861,9 @@ def InformacionBibTex(request, bloque, idDocente):
     diccionario = dict()
     lines = []
     listaAnios = ['Año', 'anio', 'year', 'fecha_emision', 'Fecha Emisión', 'Fecha de Emisión']
+    # Para generar bibtex con bibtextparser es necesario agregar al arreglo la clave 'ID' y 'ENTRYTYPE'
+    # ID = apellido + año o fecha del artículo, libro, proyecto, etc
+    # ENTRYTYPE = tipo de documento, article, book, project, etc
     for articulo in listaVacia:
         try:
             variables  = articulo.items()
@@ -909,10 +912,17 @@ def InformacionBibTex(request, bloque, idDocente):
         lines.append(diccionario)
         diccionario = {}
 
+    # Elimina los articulos, libros, proyectos, etc que no existen
     for k in lines:
         for v, a in k.items():
           if a.startswith('['):
             lines.remove(k)
+
+    # En caso de que no se ha mandado un 'ID' lo agrega por defecto
+    k = 'ID'
+    for item in lines:
+        if k is not item.keys():
+            item[k] = docente['primer_apellido']
     
     response = BibDatabase()
     response.entries = lines 
