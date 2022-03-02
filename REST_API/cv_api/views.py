@@ -921,9 +921,11 @@ def InformacionBibTex(request, bloque, idDocente):
     # En caso de que no se ha mandado un 'ID' lo agrega por defecto
     k = 'ID'
     for item in lines:
-        if k is not item.keys():
-            item[k] = docente['primer_apellido']
-    
+        if k in item.keys():
+            print("")
+        else:
+            item['ID'] = docente['primer_apellido']
+
     response = BibDatabase()
     response.entries = lines 
     writer = BibTexWriter()
